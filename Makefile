@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/05 15:23:54 by hsaadaou         ###   ########.fr        #
+#    Updated: 2021/04/05 15:41:41 by hsaadaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ SRCS			=	main.c
 TEST_SRCS		=	simple.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
-TEST_OBJS		=	${addprefix tests/,${SRCS:.c=.o}}
-NO_MAIN			=	$(filter-out main.o,$(OBJS))
+TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
+NO_MAIN			=	$(filter-out srcs/main.o,$(OBJS))
 
 HEAD			=	-I includes
 
@@ -39,11 +39,12 @@ $(NAME)			:	${OBJS}
 all				:	${NAME}
 
 test			:	$(TEST_NAME)
-					@./$(TEST_NAME)
+					./${TEST_NAME}
+					@rm $(TEST_NAME)
 
-$(TEST_NAME)	:	${OBJS} ${TEST_OBJS}
+$(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS}
 					@${CC} $(NO_MAIN) ${CFLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME}
-					@ rm $(TEST_OBJS) $(TEST_OBJS) $(NO_MAIN)
+					@ rm $(TEST_OBJS) $(NO_MAIN)
 
 clean			:
 					@rm -rf ${OBJS}
