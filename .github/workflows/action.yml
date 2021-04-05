@@ -1,0 +1,5 @@
+name: 'Criterion unit test'
+description: 'Run your criterion test suite'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
