@@ -1,5 +1,5 @@
 name: criterion
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   criterion_job:
     runs-on: ubuntu-latest
