@@ -1,6 +1,8 @@
-name: 'Criterion unit test'
-description: 'Run your criterion test suite'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-on: [pull_request]
+name: criterion
+on: [push, pull_request]
+jobs:
+  criterion_job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Crysicia/criterion-action@master
