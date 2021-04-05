@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   simple.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 12:43:29 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/05 16:04:25 by hsaadaou         ###   ########.fr       */
+/*   Created: 2021/04/05 14:51:00 by hsaadaou          #+#    #+#             */
+/*   Updated: 2021/04/05 16:02:11 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <criterion/criterion.h>
 
-int		main(int argc, char **argv)
+static int		ft_addition(int a, int b)
 {
-	(void)argc;
-	(void)argv;
-	printf("hello world\n");
-	return (1);
+	return (a + b);
+}
+
+Test(misc, failing) {
+    cr_assert(ft_addition(1, 1) == 2);
+}
+
+Test(misc, passing) {
+    cr_assert(ft_addition(1, 1) == 2);
 }
