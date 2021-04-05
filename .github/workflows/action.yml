@@ -3,3 +3,4 @@ description: 'Run your criterion test suite'
 runs:
   using: 'docker'
   image: 'Dockerfile'
+on: [pull_request]
