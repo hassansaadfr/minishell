@@ -1,19 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axaidan <axaidan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/07 13:10:46 by user42           ###   ########.fr       */
+/*   Created: 2020/11/10 16:14:41 by axaidan           #+#    #+#             */
+/*   Updated: 2020/11/10 16:14:43 by axaidan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
+#include "libft.h"
 
-# define MINISHELL_H
-# include <stdio.h>
-# include "libft.h"
+void	ft_putnbr_fd(int x, int fd)
+{
+	long	n;
+	char	c;
 
-#endif
+	if (fd < 0)
+		return ;
+	n = x;
+	if (n < 0)
+	{
+		write(fd, "-", 1);
+		n = -n;
+	}
+	if (n >= 10)
+		ft_putnbr_fd(n / 10, fd);
+	c = n % 10 + '0';
+	write(fd, &c, 1);
+}
