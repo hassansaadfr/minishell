@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/07 13:39:32 by user42           ###   ########.fr        #
+#    Updated: 2021/04/07 15:09:14 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ TEST_NAME		=	minishell_test
 
 SRCS			=	main.c
 
-TEST_SRCS		=	simple.c
+TEST_SRCS		=	simple.c basic_input.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
@@ -45,7 +45,7 @@ test			:	$(TEST_NAME)
 					./${TEST_NAME}
 					@rm $(TEST_NAME)
 
-$(TEST_NAME)		:	$(NO_MAIN) ${TEST_OBJS}
+$(TEST_NAME)		:	$(NO_MAIN) ${TEST_OBJS} ${NAME}
 					@${CC} $(NO_MAIN) ${CFLAGS} ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
 						-lft 
 					@ rm $(TEST_OBJS) $(NO_MAIN)
