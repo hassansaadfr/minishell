@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/07 13:15:12 by user42           ###   ########.fr        #
+#    Updated: 2021/04/07 13:39:32 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CRITERIONFLAGS		=	-lcriterion
 
 $(NAME)			:	${OBJS} 
 					make -C libft
-					@${CC} ${CFLAGS} ${LD_FLAGS} ${OBJS} -o ${NAME}
+					@${CC} ${CFLAGS} ${LD_FLAGS} ${OBJS} -o ${NAME} -lft
 
 all			:	${NAME}
 
