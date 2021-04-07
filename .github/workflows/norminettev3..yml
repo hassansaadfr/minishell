@@ -7,6 +7,6 @@ jobs:
     name: norminette
     steps:
     - uses: actions/checkout@v2
-    - uses: alexandregv/norminette-action@v3
+    - uses: alexandregv/norminette-action@v2
       with:
         flags: 'includes/ srcs/'
