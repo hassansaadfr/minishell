@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:30:24 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 14:59:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/08 15:15:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,38 +80,38 @@ static int	search_bin(char **cmd, char **envp)
 	env_path = getenv("PATH");
 	bin_paths = ft_split(env_path, ':');
 	i = 0;
+	/*
+	. ==> $PWD
+	.. => $PWD - dernier '/' et ce qui suit
+	*/
 	if (ft_strncmp(cmd[0], "./", 2) == 0)
 	{
 		// CHEMIN RELATIF 
 		checked_path = create_full_path(getenv("PWD"), cmd[0]); 
 		ret = stat(checked_path, &stat_buff);
-		if (ret == 0)
-			exec_bin(checked_path, cmd, envp);
 	}
 	else if (ft_strncmp(cmd[0], "/", 1) == 0)
 	{
 		// CHEMIN ABSOLU
 		checked_path = cmd[0]; 
 		ret = stat(checked_path, &stat_buff);
-		if (ret == 0)
-			exec_bin(checked_path, cmd, envp);
 	}
 	else
 	{
-		// CHERCHER LE BINAIRE DANS $PATH
-		while (bin_paths[i] || ret != 0)
+	// CHERCHER LE BINAIRE DANS $PATH
+		while (bin_paths[i] && ret != 0)
 		{
 			checked_path = create_full_path(bin_paths[i], cmd[0]);
 			ret = stat(checked_path, &stat_buff);
 			//printf("checked_path[%d] : \"%s\"\n", i, checked_path);
 			//printf("ret = %d\n", ret);
 			//dbg_display_stat_buff(stat_buff);
-			if (ret == 0)
-				exec_bin(checked_path, cmd, envp);
 			i++;
 			// FREE (PATH)
 		}
 	}
+	if (ret == 0)
+		exec_bin(checked_path, cmd, envp);
 	return (1);
 }
 
