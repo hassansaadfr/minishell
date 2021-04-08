@@ -1,5 +1,7 @@
 minishell
 *.o
-*/**.o
+*/**/*.o
+*/*.o
 *.log
 .*.swp
+.vscode

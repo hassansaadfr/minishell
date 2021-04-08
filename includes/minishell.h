@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 14:29:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/08 16:18:45 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,10 @@ int		get_strarr_size(char **arr);
 // FILE - debug.c
 void	dbg_display_stat_buff(struct stat stat_buff);
 
+// FILE - prompt.c
+void	prompt(void);
+
+// BUILTINS - env
+int		env(char **envp);
 
 #endif
