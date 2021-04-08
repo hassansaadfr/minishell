@@ -1,46 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 12:43:29 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 12:56:56 by hsaadaou         ###   ########.fr       */
+/*   Created: 2021/04/08 11:34:20 by hsaadaou          #+#    #+#             */
+/*   Updated: 2021/04/08 12:26:37 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	prompt(void)
+static char		**parse_cmd(char *splitted)
 {
-	if (isatty(0))
-		ft_putstr_fd("minishell> ", 2);
+	char	**splitted_cmd;
+
+	splitted_cmd = ft_split(splitted, ' ');
+	return (splitted_cmd);
 }
 
-void	env(char **envp)
+char			***parse(char *cmd)
 {
-	while (*envp)
-		printf("%s\n", *envp++);
-}
+	int		i;
+	char	**splitted;
+	char	***cmd_list;
+	int		size;
 
-int		main(int argc, char **argv, char **envp)
-{
-	char	*line;
-	int		ret_gnl;
-
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	ret_gnl = 1;
-	line = NULL;
-	while (ret_gnl > 0)
+	i = 0;
+	splitted = ft_split(cmd, ';');
+	size = get_strarr_size(splitted);
+	cmd_list = malloc(sizeof(char*) * (size + 1));
+	cmd_list[size] = 0;
+	while (splitted[i])
 	{
-		prompt();
-		ret_gnl = get_next_line(0, &line);
-		if (ft_strncmp(line, "env", 4) == 0)
-			env(envp);
-		free(line);
+		cmd_list[i] = parse_cmd(splitted[i]);
+		i++;
 	}
-	return (1);
+	return (cmd_list);
 }

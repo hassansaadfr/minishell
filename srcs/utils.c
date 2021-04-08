@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 12:18:53 by hsaadaou         ###   ########.fr       */
+/*   Created: 2021/04/08 11:40:42 by hsaadaou          #+#    #+#             */
+/*   Updated: 2021/04/08 11:41:33 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include <stdio.h>
-# include <errno.h>
-# include <string.h>
-# include "libft.h"
+int		get_strarr_size(char **arr)
+{
+	int		i;
 
-char	***parse(char *cmd);
-
-int		get_strarr_size(char **arr);
-
-#endif
+	i = 0;
+	if (!arr)
+		return (0);
+	while (arr[i])
+		i++;
+	return (i);
+}
