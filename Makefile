@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/08 12:20:27 by hsaadaou         ###   ########.fr        #
+#    Updated: 2021/04/08 14:04:22 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME			=	minishell
 
 TEST_NAME		=	minishell_test
 
-SRCS			=	main.c parse.c utils.c
+SRCS			=	main.c parse.c utils.c exec.c debug.c
 
 TEST_SRCS		=	simple.c basic_input.c
 
