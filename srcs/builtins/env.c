@@ -1,36 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 12:43:29 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 16:18:25 by hsaadaou         ###   ########.fr       */
+/*   Created: 2021/04/08 16:18:27 by hsaadaou          #+#    #+#             */
+/*   Updated: 2021/04/08 16:19:14 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		main(int argc, char **argv, char **envp)
+int		env(char **envp)
 {
-	char	*line;
-	int		ret_gnl;
-
-
-	printf("MINISHELL LAUNCH\n");
-	(void)argc;
-	(void)argv;
-//	change_shlvl(envp);
-	ret_gnl = 1;
-	line = NULL;
-	while (ret_gnl > 0)
-	{
-		prompt();
-		ret_gnl = get_next_line(0, &line);
-		if (*line)
-			exec(parse(line), envp);
-		free(line);
-	}
+	while (*envp)
+		printf("%s\n", *envp++);
 	return (1);
 }

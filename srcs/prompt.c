@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 12:43:29 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 16:18:25 by hsaadaou         ###   ########.fr       */
+/*   Created: 2021/04/08 16:16:07 by hsaadaou          #+#    #+#             */
+/*   Updated: 2021/04/08 16:16:17 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		main(int argc, char **argv, char **envp)
+void	prompt(void)
 {
-	char	*line;
-	int		ret_gnl;
-
-
-	printf("MINISHELL LAUNCH\n");
-	(void)argc;
-	(void)argv;
-//	change_shlvl(envp);
-	ret_gnl = 1;
-	line = NULL;
-	while (ret_gnl > 0)
+	if (isatty(0))
 	{
-		prompt();
-		ret_gnl = get_next_line(0, &line);
-		if (*line)
-			exec(parse(line), envp);
-		free(line);
+		ft_putstr_fd(getenv("PWD"), 2);
+		ft_putstr_fd("$> ", 2);
 	}
-	return (1);
 }

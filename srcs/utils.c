@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 12:43:29 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 16:18:25 by hsaadaou         ###   ########.fr       */
+/*   Created: 2021/04/08 11:40:42 by hsaadaou          #+#    #+#             */
+/*   Updated: 2021/04/08 11:41:33 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		main(int argc, char **argv, char **envp)
+int		get_strarr_size(char **arr)
 {
-	char	*line;
-	int		ret_gnl;
+	int		i;
 
-
-	printf("MINISHELL LAUNCH\n");
-	(void)argc;
-	(void)argv;
-//	change_shlvl(envp);
-	ret_gnl = 1;
-	line = NULL;
-	while (ret_gnl > 0)
-	{
-		prompt();
-		ret_gnl = get_next_line(0, &line);
-		if (*line)
-			exec(parse(line), envp);
-		free(line);
-	}
-	return (1);
+	i = 0;
+	if (!arr)
+		return (0);
+	while (arr[i])
+		i++;
+	return (i);
 }
