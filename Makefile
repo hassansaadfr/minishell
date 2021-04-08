@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/08 16:19:00 by hsaadaou         ###   ########.fr        #
+#    Updated: 2021/04/08 16:54:04 by hsaadaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRCS			=	main.c \
 					exec.c \
 					debug.c \
 					prompt.c \
-					builtins/env.c
+					builtins/env.c \
+					builtins/cd.c
 
 TEST_SRCS		=	simple.c basic_input.c
 

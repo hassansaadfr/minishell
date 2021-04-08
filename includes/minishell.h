@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 16:18:45 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/08 16:52:57 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void	prompt(void);
 
 // BUILTINS - env
 int		env(char **envp);
+int		builtin_cd(char **argv, char **env);
 
 #endif

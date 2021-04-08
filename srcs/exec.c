@@ -6,30 +6,30 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:30:24 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 15:15:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/08 16:52:40 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		is_builtin(char *cmd, char **envp)
+int		is_builtin(char **argv, char **envp)
 {
 	// TODO ALL FUNCTIONS
 	/*
-	   if (ft_strncmp(cmd, "cd", 3) == 0)
-	   return (builtin_cd());
-	   if (ft_strncmp(cmd, "pwd", 4) == 0)
+	   if (ft_strncmp(argv[0], "pwd", 4) == 0)
 	   return (builtin_pwd());
-	   if (ft_strncmp(cmd, "echo", 5) == 0)
+	   if (ft_strncmp(argv[0], "echo", 5) == 0)
 	   return (builtin_echo());
-	   if (ft_strncmp(cmd, "unset", 6) == 0)
+	   if (ft_strncmp(argv[0], "unset", 6) == 0)
 	   return (builtin_unset());
-	   if (ft_strncmp(cmd, "export", 8) == 0)
+	   if (ft_strncmp(argv[0], "export", 8) == 0)
 	   return (builtin_export());
-	   if (ft_strncmp(cmd, "exit", 5) == 0)
+	   if (ft_strncmp(argv[0], "exit", 5) == 0)
 	   return (builtin_exit());
 	 */
-	if (ft_strncmp(cmd, "env", 4) == 0)
+	if (ft_strncmp(argv[0], "cd", 3) == 0)
+		return (builtin_cd(argv, envp));
+	if (ft_strncmp(argv[0], "env", 4) == 0)
 		return (env(envp));
 	return (0);
 }
@@ -56,7 +56,7 @@ static int	exec_bin(char *path, char **args, char **envp)
 	if (pid > 0)
 	{
 		// PARENT
-		ret = waitpid(0, &status, 0); 
+		ret = waitpid(0, &status, 0);
 	}
 	else if (pid == 0)
 	{
@@ -86,14 +86,14 @@ static int	search_bin(char **cmd, char **envp)
 	*/
 	if (ft_strncmp(cmd[0], "./", 2) == 0)
 	{
-		// CHEMIN RELATIF 
-		checked_path = create_full_path(getenv("PWD"), cmd[0]); 
+		// CHEMIN RELATIF
+		checked_path = create_full_path(getenv("PWD"), cmd[0]);
 		ret = stat(checked_path, &stat_buff);
 	}
 	else if (ft_strncmp(cmd[0], "/", 1) == 0)
 	{
 		// CHEMIN ABSOLU
-		checked_path = cmd[0]; 
+		checked_path = cmd[0];
 		ret = stat(checked_path, &stat_buff);
 	}
 	else
@@ -124,7 +124,7 @@ int		exec(char ***cmds, char **envp)
 	j = 0;
 	while (cmds[i])
 	{
-		if (!is_builtin(cmds[i][0], envp))
+		if (!is_builtin(cmds[i], envp))
 			search_bin(cmds[i], envp);
 		i++;
 	}
