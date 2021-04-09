@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 16:18:45 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/09 12:52:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,9 @@ void	prompt(void);
 
 // BUILTINS - env
 int		env(char **envp);
+
+// FILE - utils_mem.c
+void	free_split(char **tab);
+void	free_cmds(char ***cmds);
 
 #endif
