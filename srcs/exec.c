@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:30:24 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 16:52:40 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/09 16:54:19 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,17 @@ static int	exec_bin(char *path, char **args, char **envp)
 	if (pid > 0)
 	{
 		// PARENT
-		ret = waitpid(0, &status, 0);
+		ret = waitpid(0, &status, 0); 		//	-1 ON ERROR
 	}
 	else if (pid == 0)
 	{
 		// ENFANT
-		ret = execve(path, args, envp);
+		ret = execve(path, args, envp);		//	-1 ON ERROR
+		free_split(args);
 	}
 	else
 		printf("ERROR - fork\n");
-	return (12098);
+	return (0);
 }
 
 static int	search_bin(char **cmd, char **envp)
@@ -77,56 +78,52 @@ static int	search_bin(char **cmd, char **envp)
 	int				ret;
 	struct stat		stat_buff;
 
-	env_path = getenv("PATH");
-	bin_paths = ft_split(env_path, ':');
+	env_path = getenv("PATH");				//	NULL IF NO MATCH
+	bin_paths = ft_split(env_path, ':');	//	NULL IF ALLOC REFUSED
 	i = 0;
-	/*
-	. ==> $PWD
-	.. => $PWD - dernier '/' et ce qui suit
-	*/
+	ret = -1;
+	// CREATE int is_path() FUNCTION WRAPPING if / else if
 	if (ft_strncmp(cmd[0], "./", 2) == 0)
 	{
-		// CHEMIN RELATIF
 		checked_path = create_full_path(getenv("PWD"), cmd[0]);
 		ret = stat(checked_path, &stat_buff);
 	}
 	else if (ft_strncmp(cmd[0], "/", 1) == 0)
 	{
-		// CHEMIN ABSOLU
 		checked_path = cmd[0];
 		ret = stat(checked_path, &stat_buff);
 	}
 	else
 	{
-	// CHERCHER LE BINAIRE DANS $PATH
 		while (bin_paths[i] && ret != 0)
 		{
 			checked_path = create_full_path(bin_paths[i], cmd[0]);
 			ret = stat(checked_path, &stat_buff);
-			//printf("checked_path[%d] : \"%s\"\n", i, checked_path);
-			//printf("ret = %d\n", ret);
-			//dbg_display_stat_buff(stat_buff);
+			if (ret)
+				free(checked_path);
 			i++;
-			// FREE (PATH)
 		}
 	}
 	if (ret == 0)
+	{
 		exec_bin(checked_path, cmd, envp);
+		free(checked_path);
+	}
+	free_split(bin_paths);
 	return (1);
 }
 
 int		exec(char ***cmds, char **envp)
 {
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	while (cmds[i])
 	{
 		if (!is_builtin(cmds[i], envp))
 			search_bin(cmds[i], envp);
 		i++;
 	}
+	free_cmds(cmds);
 	return (0);
 }

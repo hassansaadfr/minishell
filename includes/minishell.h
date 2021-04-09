@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 16:52:57 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/09 16:56:05 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ char	***parse(char *cmd);
 // FILE - exec.c
 int		exec(char ***cmds, char **envp);
 
-// FILE - main.c
-int		env(char **envp);
-
 // FILE - utils.c
 int		get_strarr_size(char **arr);
 
@@ -43,5 +40,9 @@ void	prompt(void);
 // BUILTINS - env
 int		env(char **envp);
 int		builtin_cd(char **argv, char **env);
+
+// FILE - utils_mem.c
+void	free_split(char **tab);
+void	free_cmds(char ***cmds);
 
 #endif
