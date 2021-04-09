@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 16:48:17 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/09 14:07:47 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/09 14:59:16 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	update_pwd(char *path, char **envp)
 	return (1);
 }
 
-int		builtin_cd(char **argv, char **env)
+int			builtin_cd(char **argv, char **env)
 {
 	int		ret;
 
