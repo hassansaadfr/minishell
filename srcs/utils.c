@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 11:40:42 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/09 18:02:38 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/09 22:17:10 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ int		handle_errno(int err, char *binary, char *arg)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(binary, 2);
 		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": ", 2);
+		if (err != E2BIG)
+		{
+			ft_putstr_fd(arg, 2);
+			ft_putstr_fd(": ", 2);
+		}
 		ft_putstr_fd(strerror(errno), 2);
 		ft_putchar_fd('\n', 2);
 	}
