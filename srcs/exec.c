@@ -1,20 +1,29 @@
 #include "minishell.h"
 
+/*
+** TODO:
+** - Check strjoin returns
+*/
+
 char		*create_full_path(char *bin_path, char *cmd)
 {
-	char 	*tmp;
+	char	*tmp;
 	char	*s;
 
 	s = ft_strjoin(bin_path, "/");
-	// CHECK ft_strjoin() RETURN 
 	tmp = s;
 	s = ft_strjoin(s, cmd);
-	// CHECK ft_strjoin() RETURN 
 	free(tmp);
 	return (s);
 }
 
-int	exec_bin(char *path, char **args, char **envp)
+/*
+** waitpid() return -1 on error
+** pid > 0 = parent
+** pid == 0 = child
+*/
+
+int			exec_bin(char *path, char **args, char **envp)
 {
 	pid_t	pid;
 	int		ret;
@@ -23,13 +32,11 @@ int	exec_bin(char *path, char **args, char **envp)
 	pid = fork();
 	if (pid > 0)
 	{
-		// PARENT
-		ret = waitpid(0, &status, 0); 		//	-1 ON ERROR
+		ret = waitpid(0, &status, 0);
 	}
 	else if (pid == 0)
 	{
-		// ENFANT
-		ret = execve(path, args, envp);		//	-1 ON ERROR
+		ret = execve(path, args, envp);
 		free_split(args);
 	}
 	else
@@ -51,7 +58,7 @@ static int	search_bin(char **cmd, char **envp)
 	return (ret_exec);
 }
 
-int		exec(char ***cmds, char **envp)
+int			exec(char ***cmds, char **envp)
 {
 	int		i;
 

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		 is_path(char *cmd)
+int			is_path(char *cmd)
 {
 	char	*slash_pos;
 
@@ -10,7 +10,12 @@ int		 is_path(char *cmd)
 	return (0);
 }
 
-int		exec_from_path(char **cmd, char **envp)
+/*
+** TODO:
+** Should control return of checked_path in elseif
+*/
+
+int			exec_from_path(char **cmd, char **envp)
 {
 	int				ret_stat;
 	char			*checked_path;
@@ -22,16 +27,13 @@ int		exec_from_path(char **cmd, char **envp)
 		checked_path = create_full_path(getenv("PWD"), cmd[0] + 2);
 	else if (ft_strncmp(cmd[0], "/", 1) == 0)
 	{
-		// Should control return of this
 		checked_path = ft_strdup(cmd[0]);
 	}
 	else
 		checked_path = create_full_path(getenv("PWD"), cmd[0]);
 	ret_stat = stat(checked_path, &stat_buff);
-	//printf("EXECUTING\t=\t\"%s\"\nRET_STAT\t=\t%d\n", checked_path, ret_stat);
 	if (ret_stat == 0)
 		exec_bin(checked_path, cmd, envp);
-	//ELSE
 	free(checked_path);
 	return (0);
 }

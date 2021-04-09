@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/09 18:51:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/09 22:56:46 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,21 @@
 
 # include "libft.h"
 
-// FILE - parse.c
+/*
+** FILE - parse.c
+*/
 char	***parse(char *cmd);
 
-// FILE - exec.c
+/*
+** FILE - exec.c
+*/
 int		exec(char ***cmds, char **envp);
 int		exec_bin(char *path, char **args, char **envp);
 char	*create_full_path(char *bin_path, char *cmd);
 
-// FILE - utils.c
+/*
+** FILE - utils.c
+*/
 int		get_strarr_size(char **arr);
 int		handle_errno(int err, char *binary, char *arg);
 
@@ -45,10 +51,16 @@ void	dbg_display_stat_buff(struct stat stat_buff);
 void	prompt(void);
 
 /*
-**	FILE - builtins/env.c
+**	Builtins
 */
 int		env(char **envp);
+int		builtin_echo(char **argv, char **env);
 int		builtin_cd(char **argv, char **env);
+int		builtin_env(char **argv, char **env);
+int		builtin_exit(char **argv, char **env);
+int		builtin_export(char **argv, char **env);
+int		builtin_pwd(char **argv, char **env);
+int		builtin_unset(char **argv, char **env);
 
 /*
 **	FILE - utils_mem.c
