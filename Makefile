@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/08 16:54:04 by hsaadaou         ###   ########.fr        #
+#    Updated: 2021/04/09 12:15:59 by hsaadaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS			=	main.c \
 					builtins/env.c \
 					builtins/cd.c
 
-TEST_SRCS		=	simple.c basic_input.c
+TEST_SRCS		=	simple.c basic_input.c cd_test.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
@@ -35,7 +35,7 @@ HEAD			=	-I includes -I libft
 
 CC				=	clang
 
-CFLAGS			=	-Wall -Werror -Wextra
+CFLAGS			=	-Wall -Werror -Wextra -g
 
 CRITERIONFLAGS	=	-lcriterion
 
@@ -63,7 +63,7 @@ clean			:
 
 fclean			:	clean
 					make fclean -C libft
-					@rm -rf ${NAME}
+					@rm -rf ${NAME} $(TEST_NAME)
 
 re				:	fclean all
 

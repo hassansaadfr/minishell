@@ -6,28 +6,35 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 16:48:17 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 17:15:56 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/09 12:14:10 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <limits.h>
 
 static int	update_pwd(char *path, char **envp)
 {
 	int		i;
-	char	**splitted;
+	char	buff[PATH_MAX];
+	char	*final_path;
 
 	i = 0;
+	errno = 0;
 	path = ft_strjoin("/", path);
 	while (envp[i] && ft_strncmp(envp[i], "PWD", 3) != 0)
 		i++;
-	splitted = ft_split(envp[i], '=');
-	splitted[0] = ft_strjoin(splitted[0], "=");
-	splitted[1] = ft_strjoin(splitted[1], path);
-	envp[i] = ft_strjoin(splitted[0], splitted[1]);
-	free(splitted[0]);
-	free(splitted[1]);
-	free(splitted);
+	if (getcwd(buff, PATH_MAX) != NULL)
+	{
+		final_path = ft_strjoin("PWD=", buff);
+		envp[i] = ft_strdup(final_path);
+		free(final_path);
+	}
+	else
+	{
+		printf("minishell: %s\n", strerror(errno));
+		return (0);
+	}
 	free(path);
 	return (1);
 }
@@ -37,14 +44,15 @@ int		builtin_cd(char **argv, char **env)
 	int		ret;
 
 	(void)env;
-
+	errno = 0;
 	ret = chdir(argv[1]);
 	if (ret == 0)
 	{
-		update_pwd(argv[1], env);
-		return (1);
+		if (update_pwd(argv[1], env))
+			return (1);
+		return (0);
 	}
 	else
-		printf("minishell: cd: %s: No such file or directory\n", argv[1]);
+		printf("minishell: %s\n", strerror(errno));
 	return (ret);
 }
