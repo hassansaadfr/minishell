@@ -72,9 +72,10 @@ Test(cd, parent_tricky) {
 	char	*expected;
 	char	*file;
 
-	expected = "/";
+	expected = getenv("PWD");
 	path = "tests/outputs_m_sh/parent_tricky.log";
-	system("echo -n 'cd srcs/../.. ; pwd' | ./minishell > tests/outputs_m_sh/parent_tricky.log");
+	system("mkdir -p test1/test2/test3");
+	system("echo -n 'cd test1/test2/test3/../../.. ; pwd' | ./minishell > tests/outputs_m_sh/parent_tricky.log");
 	fd = open(path, O_RDONLY);
 	get_next_line(fd, &file);
 	diff = ft_strncmp(expected, file, 100);
