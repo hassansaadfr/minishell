@@ -21,7 +21,10 @@ int		exec_from_path(char **cmd, char **envp)
 	if (ft_strncmp(cmd[0], "./", 2) == 0)
 		checked_path = create_full_path(getenv("PWD"), cmd[0] + 2);
 	else if (ft_strncmp(cmd[0], "/", 1) == 0)
-		checked_path = cmd[0];
+	{
+		// Should control return of this
+		checked_path = ft_strdup(cmd[0]);
+	}
 	else
 		checked_path = create_full_path(getenv("PWD"), cmd[0]);
 	ret_stat = stat(checked_path, &stat_buff);
