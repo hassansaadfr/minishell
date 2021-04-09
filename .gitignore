@@ -6,3 +6,4 @@ minishell_test
 *.log
 .*.swp
 .vscode
+*.a
