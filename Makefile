@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/09 16:59:22 by hsaadaou         ###   ########.fr        #
+#    Updated: 2021/04/09 19:11:31 by hsaadaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,9 @@ SRCS			=	main.c \
 					exec.c \
 					debug.c \
 					prompt.c \
+					bin_builtins.c \
+					bin_paths.c \
+					bin_bins.c \
 					builtins/env.c \
 					builtins/cd.c \
 					utils_mem.c

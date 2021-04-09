@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/09 17:57:08 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/09 18:51:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,50 @@ char	***parse(char *cmd);
 
 // FILE - exec.c
 int		exec(char ***cmds, char **envp);
+int		exec_bin(char *path, char **args, char **envp);
+char	*create_full_path(char *bin_path, char *cmd);
 
 // FILE - utils.c
 int		get_strarr_size(char **arr);
 int		handle_errno(int err, char *binary, char *arg);
 
-// FILE - debug.c
+/*
+**	FILE - debug.c
+*/
 void	dbg_display_stat_buff(struct stat stat_buff);
 
-// FILE - prompt.c
+/*
+**	FILE - prompt.c
+*/
 void	prompt(void);
 
-// BUILTINS - env
+/*
+**	FILE - builtins/env.c
+*/
 int		env(char **envp);
 int		builtin_cd(char **argv, char **env);
 
-// FILE - utils_mem.c
+/*
+**	FILE - utils_mem.c
+*/
 void	free_split(char **tab);
 void	free_cmds(char ***cmds);
 
+/*
+**	FILE - bin_builtins.c
+*/
+int		is_builtin(char **cmd);
+int		exec_from_builtins(char **cmd, char **envp);
+
+/*
+**	FILE - bin_paths.c
+*/
+int		is_path(char *cmd);
+int		exec_from_path(char **cmd, char **envp);
+
+/*
+**	FILE - bin_bins.c
+*/
+int		exec_from_bins(char **cmd, char **envp);
 
 #endif
