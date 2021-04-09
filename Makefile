@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/09 19:11:31 by hsaadaou         ###   ########.fr        #
+#    Updated: 2021/04/09 23:05:28 by hsaadaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,11 +23,16 @@ SRCS			=	main.c \
 					bin_builtins.c \
 					bin_paths.c \
 					bin_bins.c \
-					builtins/env.c \
 					builtins/cd.c \
+					builtins/echo.c \
+					builtins/env.c \
+					builtins/exit.c \
+					builtins/export.c \
+					builtins/pwd.c \
+					builtins/unset.c \
 					utils_mem.c
 
-TEST_SRCS		=	simple.c basic_input.c cd_test.c
+TEST_SRCS		=	cd_test.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}

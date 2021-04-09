@@ -1,31 +1,42 @@
 #include "minishell.h"
 
-char 	*which_bin_fld(char *bin, char **bin_paths)
+/*
+** TODO:
+** check create_full_path return value
+** check stat return value
+** if ret_stat != 0 set errno
+*/
+
+char	*which_bin_fld(char *bin, char **bin_paths)
 {
-	char 			*path;
+	char			*path;
 	int				i;
 	struct stat		stat_buff;
 	int				ret_stat;
 
 	errno = 0;
-    i = 0;
-    ret_stat = -1;
-    while (bin_paths[i] && ret_stat != 0)
-    {
-        path = create_full_path(bin_paths[i], bin);
-		// CHECK create_full_path() RETURN 
-        ret_stat = stat(path, &stat_buff);
-        // CHECK stat() RETURN
-        if (ret_stat)
-            free(path);
-        i++;
-    }
+	i = 0;
+	ret_stat = -1;
+	while (bin_paths[i] && ret_stat != 0)
+	{
+		path = create_full_path(bin_paths[i], bin);
+		ret_stat = stat(path, &stat_buff);
+		if (ret_stat)
+			free(path);
+		i++;
+	}
 	if (ret_stat == 0)
 		return (path);
 	else
-		// NOT FOUND, errno set
 		return (NULL);
 }
+
+/*
+** TODO:
+** check getenv return value (if null no match)
+** check ft_split return value (if null bad malloc)
+** check which_bin_fld return value (if null not found)
+*/
 
 int		exec_from_bins(char **cmd, char **envp)
 {
@@ -33,12 +44,9 @@ int		exec_from_bins(char **cmd, char **envp)
 	char			**bin_paths;
 
 	errno = 0;
-	path = getenv("PATH");					// NULL IS NO MATCH
-	// CHECK getenv() RETURN
-	bin_paths = ft_split(path, ':');		// NULL IS ALLOC REFUSED
-	// CHECK ft_split() RETURN 
+	path = getenv("PATH");
+	bin_paths = ft_split(path, ':');
 	path = which_bin_fld(cmd[0], bin_paths);
-	// CHECK which_bin_fld() RETURN			// NULL IF NOT FOUND
 	free_split(bin_paths);
 	if (path)
 	{
