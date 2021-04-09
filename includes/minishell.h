@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/09 16:40:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/09 18:51:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,19 @@ char	*create_full_path(char *bin_path, char *cmd);
 int		get_strarr_size(char **arr);
 int		handle_errno(int err, char *binary, char *arg);
 
-// FILE - debug.c
+/*
+**	FILE - debug.c
+*/
 void	dbg_display_stat_buff(struct stat stat_buff);
 
-// FILE - prompt.c
+/*
+**	FILE - prompt.c
+*/
 void	prompt(void);
 
-// BUILTINS - env
+/*
+**	FILE - builtins/env.c
+*/
 int		env(char **envp);
 int		builtin_cd(char **argv, char **env);
 
@@ -53,7 +59,8 @@ void	free_cmds(char ***cmds);
 /*
 **	FILE - bin_builtins.c
 */
-int		is_builtin(char **cmd, char **envp);
+int		is_builtin(char **cmd);
+int		exec_from_builtins(char **cmd, char **envp);
 
 /*
 **	FILE - bin_paths.c
