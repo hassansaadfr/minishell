@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 11:34:20 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 12:26:37 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/09 12:59:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,21 @@ char			***parse(char *cmd)
 	int		size;
 
 	i = 0;
-	splitted = ft_split(cmd, ';');
-	size = get_strarr_size(splitted);
-	cmd_list = malloc(sizeof(char*) * (size + 1));
-	cmd_list[size] = 0;
-	while (splitted[i])
-	{
-		cmd_list[i] = parse_cmd(splitted[i]);
-		i++;
-	}
+	splitted = ft_split(cmd, ';');						// NEEDS PROTECTION
+//	if (splitted = ft_split(cmd, ';'))					
+//	{
+		size = get_strarr_size(splitted);
+		cmd_list = malloc(sizeof(char*) * (size + 1));	// NEEDS PROTECTION
+//		if (cmd_list)
+//		{
+			cmd_list[size] = NULL;
+			while (splitted[i])
+			{
+				cmd_list[i] = parse_cmd(splitted[i]);
+				i++;
+			}
+//		}
+//	}
+	free_split(splitted);
 	return (cmd_list);
 }

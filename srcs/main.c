@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:43:29 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/08 16:18:25 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/09 13:25:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int		main(int argc, char **argv, char **envp)
 	int		ret_gnl;
 
 
-	printf("MINISHELL LAUNCH\n");
 	(void)argc;
 	(void)argv;
 //	change_shlvl(envp);
