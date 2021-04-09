@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 16:48:17 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/09 14:59:16 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/09 17:59:27 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ static int	update_pwd(char *path, char **envp)
 		free(final_path);
 	}
 	else
-	{
-		printf("minishell: %s\n", strerror(errno));
 		return (0);
-	}
 	free(path);
 	return (1);
 }
@@ -46,13 +43,14 @@ int			builtin_cd(char **argv, char **env)
 	(void)env;
 	errno = 0;
 	ret = chdir(argv[1]);
+	if (get_strarr_size(argv) > 2)
+		errno = E2BIG;
 	if (ret == 0)
 	{
 		if (update_pwd(argv[1], env))
 			return (1);
 		return (0);
 	}
-	else
-		printf("minishell: %s\n", strerror(errno));
+	handle_errno(errno, "cd", argv[1]);
 	return (ret);
 }

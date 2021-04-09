@@ -11,7 +11,7 @@ Test(cd, directory_dont_exist) {
 
 	expected = "minishell: No such file or directory";
 	path = "tests/outputs_m_sh/directory_dont_exist.log";
-	system("echo -n 'cd toto ' | ./minishell > tests/outputs_m_sh/directory_dont_exist.log");
+	system("echo -n 'cd toto ' | ./minishell 2> tests/outputs_m_sh/directory_dont_exist.log");
 	fd = open(path, O_RDONLY);
 	get_next_line(fd, &file);
 	diff = ft_strncmp(expected, file, 100);
@@ -124,7 +124,7 @@ Test(cd, acces_denied) {
 	expected = "minishell: Permission denied";
 	path = "tests/outputs_m_sh/acces_denied.log";
 	system("mkdir /toto; chmod 000 /toto");
-	system("echo -n 'cd /toto' | sudo -u user1 ./minishell > tests/outputs_m_sh/acces_denied.log");
+	system("echo -n 'cd /toto' | sudo -u user1 ./minishell 2> tests/outputs_m_sh/acces_denied.log");
 	fd = open(path, O_RDONLY);
 	get_next_line(fd, &file);
 	diff = ft_strncmp(expected, file, 100);
