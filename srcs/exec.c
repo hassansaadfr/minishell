@@ -1,5 +1,27 @@
 #include "minishell.h"
 
+int		is_builtin(char **argv, char **envp)
+{
+	// TODO ALL FUNCTIONS
+	/*
+	   if (ft_strncmp(argv[0], "pwd", 4) == 0)
+	   return (builtin_pwd());
+	   if (ft_strncmp(argv[0], "echo", 5) == 0)
+	   return (builtin_echo());
+	   if (ft_strncmp(argv[0], "unset", 6) == 0)
+	   return (builtin_unset());
+	   if (ft_strncmp(argv[0], "export", 8) == 0)
+	   return (builtin_export());
+	   if (ft_strncmp(argv[0], "exit", 5) == 0)
+	   return (builtin_exit());
+	 */
+	if (ft_strncmp(argv[0], "cd", 3) == 0)
+		return (builtin_cd(argv, envp));
+	if (ft_strncmp(argv[0], "env", 4) == 0)
+		return (env(envp));
+	return (0);
+}
+
 char		*create_full_path(char *bin_path, char *cmd)
 {
 	char 	*tmp;
@@ -53,7 +75,7 @@ int		exec(char ***cmds, char **envp)
 	i = 0;
 	while (cmds[i])
 	{
-		if (!is_builtin(cmds[i][0], envp))
+		if (!is_builtin(cmds[i], envp))
 			search_bin(cmds[i], envp);
 		i++;
 	}

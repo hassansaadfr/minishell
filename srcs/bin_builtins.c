@@ -1,9 +1,10 @@
 #include "minishell.h"
 
+/*
 int		is_builtin(char *cmd, char **envp)
 {
 	// TODO ALL FUNCTIONS
-	/*
+
 	   if (ft_strncmp(cmd, "cd", 3) == 0)
 	   return (builtin_cd());
 	   if (ft_strncmp(cmd, "pwd", 4) == 0)
@@ -16,8 +17,9 @@ int		is_builtin(char *cmd, char **envp)
 	   return (builtin_export());
 	   if (ft_strncmp(cmd, "exit", 5) == 0)
 	   return (builtin_exit());
-	 */
+	 
 	if (ft_strncmp(cmd, "env", 4) == 0)
 		return (env(envp));
 	return (0);
 }
+*/

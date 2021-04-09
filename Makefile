@@ -20,13 +20,14 @@ SRCS			=	main.c \
 					exec.c \
 					debug.c \
 					prompt.c \
-					utils_mem.c \
 					bin_builtins.c \
 					bin_paths.c \
 					bin_bins.c \
-					builtins/env.c
+					builtins/env.c \
+					builtins/cd.c \
+					utils_mem.c
 
-TEST_SRCS		=	simple.c basic_input.c
+TEST_SRCS		=	simple.c basic_input.c cd_test.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
@@ -38,7 +39,7 @@ HEAD			=	-I includes -I libft
 
 CC				=	clang
 
-CFLAGS			=	-Wall -Werror -Wextra
+CFLAGS			=	-Wall -Werror -Wextra -g
 
 CRITERIONFLAGS	=	-lcriterion
 
@@ -66,7 +67,7 @@ clean			:
 
 fclean			:	clean
 					make fclean -C libft
-					@rm -rf ${NAME}
+					@rm -rf ${NAME} $(TEST_NAME)
 
 re				:	fclean all
 
