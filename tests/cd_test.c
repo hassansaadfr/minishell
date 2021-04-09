@@ -9,7 +9,7 @@ Test(cd, directory_dont_exist) {
 	char	*expected;
 	char	*file;
 
-	expected = "minishell: No such file or directory";
+	expected = "minishell: cd: toto: No such file or directory";
 	path = "tests/outputs_m_sh/directory_dont_exist.log";
 	system("echo -n 'cd toto ' | ./minishell 2> tests/outputs_m_sh/directory_dont_exist.log");
 	fd = open(path, O_RDONLY);
@@ -121,7 +121,7 @@ Test(cd, acces_denied) {
 	char	*expected;
 	char	*file;
 
-	expected = "minishell: Permission denied";
+	expected = "minishell: cd: /toto: Permission denied";
 	path = "tests/outputs_m_sh/acces_denied.log";
 	system("mkdir /toto; chmod 000 /toto");
 	system("echo -n 'cd /toto' | sudo -u user1 ./minishell 2> tests/outputs_m_sh/acces_denied.log");
@@ -131,6 +131,27 @@ Test(cd, acces_denied) {
 	close(fd);
 	if (diff == 0)
 		system("rm -f tests/outputs_m_sh/acces_denied.log");
+	else
+		printf("+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
+	cr_assert(diff == 0);
+}
+
+Test(cd, too_many_args) {
+	int		fd;
+	char	*path;
+	int		diff;
+	char	*expected;
+	char	*file;
+
+	expected = "minishell: cd: Argument list too long";
+	path = "tests/outputs_m_sh/too_many_args.log";
+	system("echo -n 'cd toto titi' | ./minishell 2> tests/outputs_m_sh/too_many_args.log");
+	fd = open(path, O_RDONLY);
+	get_next_line(fd, &file);
+	diff = ft_strncmp(expected, file, 100);
+	close(fd);
+	if (diff == 0)
+		system("rm -f tests/outputs_m_sh/too_many_args.log");
 	else
 		printf("+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
 	cr_assert(diff == 0);
