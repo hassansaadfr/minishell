@@ -5,6 +5,7 @@ t_list		*init_env(char **envp)
 	t_list	*env_list;
 	int		envp_size;
 
+	env_list = NULL;
 	envp_size = get_strarr_size(envp);
 	if (envp_size > 0)
 	{
