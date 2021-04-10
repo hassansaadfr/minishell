@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/09 22:56:46 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/10 16:20:50 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <sys/wait.h>
 
 # include "libft.h"
-
 /*
 ** FILE - parse.c
 */
@@ -67,6 +66,15 @@ int		builtin_unset(char **argv, char **env);
 */
 void	free_split(char **tab);
 void	free_cmds(char ***cmds);
+
+/*
+**	FILE - utils_env.c
+*/
+t_list	*init_env(char **envp);
+void	print_env_list(t_list *env_list);
+t_list	*get_env(t_list *env_list, char *name);
+int		edit_env(t_list *env_list, char *env);
+void	free_env(t_list **env_list);
 
 /*
 **	FILE - bin_builtins.c
