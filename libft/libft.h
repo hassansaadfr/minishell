@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 19:28:50 by axaidan           #+#    #+#             */
-/*   Updated: 2021/04/10 11:49:39 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/10 11:51:24 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void			ft_putnbr_fd(int n, int fd);
 typedef struct	s_list
 {
 	void			*content;
+	struct s_list	*previous;
 	struct s_list	*next;
 }				t_list;
 
