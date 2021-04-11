@@ -273,3 +273,20 @@ Test(new_env_suite, new_empty_value)
 	free_env(&env_list);
 	free(new_env_value);
 }
+
+Test(new_env_suite, new_null)
+{
+	t_list	*env_list;
+	char	*new_env_value;
+	int		created;
+	int		size;
+
+	new_env_value = NULL;
+	env_list = test_init_env();
+	size = ft_lstsize(env_list);
+	created = new_env(env_list, new_env_value);
+	cr_assert(created == 0, "Expected: %d | Return %d\n", 0, created);
+	cr_assert(size == ft_lstsize(env_list), "Expected: %d | Return %d\n", ft_lstsize(env_list), size);
+	free_env(&env_list);
+	free(new_env_value);
+}
