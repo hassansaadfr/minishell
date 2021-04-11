@@ -79,20 +79,17 @@ int			edit_env(t_list *env_list, char *env)
 	t_list	*tmp;
 	int		size;
 
-	if (!env)
+	if (!env || !ft_strchr(env, '='))
 		return (0);
 	splitted = ft_split(env, '=');
-	size = get_strarr_size(splitted);
-	if (size != 2)
-	{
-		free_split(splitted);
+	if (!splitted)
 		return (0);
-	}
+	size = get_strarr_size(splitted);
 	tmp = get_env(env_list, splitted[0]);
 	if (tmp)
 	{
 		free(tmp->content);
-		tmp->content = ft_strdup(env);
+		tmp->content = ft_strjoin(splitted[0], ft_strchr(env, '='));
 		free_split(splitted);
 		return (1);
 	}

@@ -417,3 +417,20 @@ Test(edit_env_suite, edit_empty_value)
 	free_env(&env_list);
 	free(new_env_value);
 }
+
+Test(edit_env_suite, edit_no_separator)
+{
+	t_list	*env_list;
+	char	*new_env_value;
+	int		edited;
+	int		size;
+
+	new_env_value = ft_strdup("FOO");
+	env_list = test_init_env();
+	size = ft_lstsize(env_list);
+	edited = edit_env(env_list, new_env_value);
+	cr_assert(edited == 0);
+	cr_assert(size == ft_lstsize(env_list));
+	free_env(&env_list);
+	free(new_env_value);
+}
