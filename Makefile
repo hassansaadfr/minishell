@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/11 12:29:25 by hsaadaou         ###   ########.fr        #
+#    Updated: 2021/04/11 14:16:18 by hsaadaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ $(NAME)			:	${OBJS}
 all				:	${NAME}
 
 test			:	$(TEST_NAME)
-					./${TEST_NAME}
+					valgrind ./${TEST_NAME}
 					@rm $(TEST_NAME)
 
 $(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS} ${NAME}

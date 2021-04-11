@@ -23,18 +23,6 @@ t_list		*init_env(char **envp)
 	return (env_list);
 }
 
-void		print_env_list(t_list *env_list)
-{
-	t_list	*tmp;
-
-	tmp = env_list;
-	while (tmp)
-	{
-		ft_putendl_fd(tmp->content, 1);
-		tmp = tmp->next;
-	}
-}
-
 t_list		*get_env(t_list *env_list, char *name)
 {
 	t_list	*tmp;
@@ -53,6 +41,31 @@ t_list		*get_env(t_list *env_list, char *name)
 		free_split(splitted);
 	}
 	return (NULL);
+}
+
+/*
+** TODO
+** check ft_split return with errno
+*/
+
+int			new_env(t_list *env_list, char *new_env)
+{
+	t_list	*tmp;
+	char	**splitted;
+	int		out;
+
+	out = 0;
+	splitted = ft_split(new_env, '=');
+	if (!splitted)
+		return (0);
+	tmp = get_env(env_list, splitted[0]);
+	if (!tmp)
+	{
+		ft_lstadd_back(&env_list, ft_lstnew(new_env));
+		out = 1;
+	}
+	free_split(splitted);
+	return (out);
 }
 
 /*
@@ -85,8 +98,19 @@ int			edit_env(t_list *env_list, char *env)
 	return (1);
 }
 
-void		free_env(t_list **env_list)
+int			delete_env(t_list *env_list, char *name)
 {
-	ft_lstclear(env_list, free);
-	env_list = NULL;
+	t_list	*tmp;
+	int		out;
+
+	tmp = NULL;
+	out = 0;
+	if (name)
+		tmp = get_env(env_list, name);
+	if (tmp)
+	{
+		ft_lstdelone(tmp, free);
+		out = 1;
+	}
+	return (out);
 }

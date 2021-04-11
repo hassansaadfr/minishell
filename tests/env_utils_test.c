@@ -17,7 +17,7 @@ static char		**init_dummy_arrstr(void)
 	return (out);
 }
 
-Test(init_env, init_env_basic)
+Test(init_env_suite, init_env_basic)
 {
 	char	**env;
 	t_list	*env_list;
@@ -45,7 +45,7 @@ Test(init_env, init_env_basic)
 	cr_assert(1);
 }
 
-Test(init_env, init_env_empty)
+Test(init_env_suite, init_env_empty)
 {
 	char	**env;
 	t_list	*env_list;
@@ -66,7 +66,7 @@ static t_list	*test_init_env(void)
 	return (env_list);
 }
 
-Test(get_env, get_env_exist)
+Test(get_env_suite, get_env_exist)
 {
 	t_list	*env_list;
 	char	*returned;
@@ -87,7 +87,7 @@ Test(get_env, get_env_exist)
 	cr_assert(diff == 0);
 }
 
-Test(get_env, get_env_undefined)
+Test(get_env_suite, get_env_undefined)
 {
 	t_list	*env_list;
 	char	*returned;
@@ -104,7 +104,7 @@ Test(get_env, get_env_undefined)
 	cr_assert(expected == returned);
 }
 
-Test(get_env, get_env_exist_malformed)
+Test(get_env_suite, get_env_exist_malformed)
 {
 	t_list	*env_list;
 	char	*returned;
@@ -121,7 +121,7 @@ Test(get_env, get_env_exist_malformed)
 	cr_assert(expected == returned);
 }
 
-Test(get_env, get_env_exist_malformed2)
+Test(get_env_suite, get_env_exist_malformed2)
 {
 	t_list	*env_list;
 	char	*returned;
@@ -138,7 +138,7 @@ Test(get_env, get_env_exist_malformed2)
 	cr_assert(expected == returned);
 }
 
-Test(get_env, get_env_NULL)
+Test(get_env_suite, get_env_NULL)
 {
 	t_list	*env_list;
 	char	*returned;
@@ -153,4 +153,123 @@ Test(get_env, get_env_NULL)
 		returned = tmp->content;
 	free_env(&env_list);
 	cr_assert(expected == returned);
+}
+
+Test(delete_env_suite, delete_exist)
+{
+	t_list	*env_list;
+	t_list	*tmp;
+	int		expected;
+	int		returned;
+
+	expected = 1;
+	returned = -1;
+	env_list = test_init_env();
+	returned = delete_env(env_list, "KIND");
+	tmp = get_env(env_list, "KIND");
+	cr_expect(tmp == NULL);
+	free_env(&env_list);
+	free_env(&tmp);
+	cr_assert(expected == returned);
+}
+
+Test(delete_env_suite, delete_undefined)
+{
+	t_list	*env_list;
+	int		expected;
+	int		returned;
+
+	expected = 0;
+	returned = -1;
+	env_list = test_init_env();
+	returned = delete_env(env_list, "UNDEFINED");
+	free_env(&env_list);
+	cr_assert(expected == returned);
+}
+
+Test(delete_env_suite, delete_null)
+{
+	t_list	*env_list;
+	int		expected;
+	int		returned;
+
+	expected = 0;
+	returned = -1;
+	env_list = test_init_env();
+	returned = delete_env(env_list, NULL);
+	free_env(&env_list);
+	cr_assert(expected == returned);
+}
+
+Test(delete_env_suite, delete_malformed)
+{
+	t_list	*env_list;
+	int		expected;
+	int		returned;
+
+	expected = 0;
+	returned = -1;
+	env_list = test_init_env();
+	returned = delete_env(env_list, "FOO=");
+	free_env(&env_list);
+	cr_assert(expected == returned);
+}
+
+Test(new_env_suite, new_valid)
+{
+	t_list	*env_list;
+	t_list	*tmp;
+	char	*new_env_value;
+	int		created;
+	int		diff;
+	int		size;
+
+	diff = -1;
+	new_env_value = ft_strdup("NEW=NEWONE");
+	env_list = test_init_env();
+	size = ft_lstsize(env_list);
+	created = new_env(env_list, new_env_value);
+	cr_assert(created == 1);
+	tmp = get_env(env_list, "NEW");
+	cr_assert(tmp != NULL);
+	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
+	if (size + 1 == ft_lstsize(env_list))
+	cr_assert(size + 1 == ft_lstsize(env_list));
+	free_env(&env_list);
+	free(new_env_value);
+	cr_assert(diff == 0);
+}
+
+Test(new_env_suite, new_already_exist)
+{
+	t_list	*env_list;
+	char	*new_env_value;
+	int		created;
+	int		size;
+
+	new_env_value = ft_strdup("FOO=FOOTU");
+	env_list = test_init_env();
+	size = ft_lstsize(env_list);
+	created = new_env(env_list, new_env_value);
+	cr_assert(created == 0);
+	cr_assert(size == ft_lstsize(env_list));
+	free_env(&env_list);
+	free(new_env_value);
+}
+
+Test(new_env_suite, new_empty_value)
+{
+	t_list	*env_list;
+	char	*new_env_value;
+	int		created;
+	int		size;
+
+	new_env_value = ft_strdup("FOO=r");
+	env_list = test_init_env();
+	size = ft_lstsize(env_list);
+	created = new_env(env_list, new_env_value);
+	cr_assert(created == 0, "Expected: %d | Return %d\n", 0, created);
+	cr_assert(size == ft_lstsize(env_list), "Expected: %d | Return %d\n", ft_lstsize(env_list), size);
+	free_env(&env_list);
+	free(new_env_value);
 }
