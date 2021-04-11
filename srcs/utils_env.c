@@ -79,6 +79,8 @@ int			edit_env(t_list *env_list, char *env)
 	t_list	*tmp;
 	int		size;
 
+	if (!env)
+		return (0);
 	splitted = ft_split(env, '=');
 	size = get_strarr_size(splitted);
 	if (size != 2)
@@ -91,11 +93,11 @@ int			edit_env(t_list *env_list, char *env)
 	{
 		free(tmp->content);
 		tmp->content = ft_strdup(env);
+		free_split(splitted);
+		return (1);
 	}
-	else
-		ft_lstadd_back(&env_list, ft_lstnew(env));
 	free_split(splitted);
-	return (1);
+	return (0);
 }
 
 int			delete_env(t_list *env_list, char *name)
