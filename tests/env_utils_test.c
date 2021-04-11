@@ -362,6 +362,29 @@ Test(edit_env_suite, edit_tricky)
 	free(new_env_value);
 }
 
+Test(edit_env_suite, edit_tricky_bis)
+{
+	t_list	*env_list;
+	t_list	*tmp;
+	char	*new_env_value;
+	int		edited;
+	int		size;
+	int		diff;
+
+	new_env_value = ft_strdup("FOO=BRUUUUUH=BRAHHHHH=BROOOOOOOOOOH");
+	env_list = test_init_env();
+	size = ft_lstsize(env_list);
+	edited = edit_env(env_list, new_env_value);
+	cr_assert(edited == 1);
+	cr_assert(size == ft_lstsize(env_list));
+	tmp = get_env(env_list, "FOO");
+	cr_assert(tmp != NULL);
+	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
+	cr_assert(diff == 0);
+	free_env(&env_list);
+	free(new_env_value);
+}
+
 Test(edit_env_suite, edit_undefined)
 {
 	t_list	*env_list;
