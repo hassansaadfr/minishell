@@ -38,13 +38,19 @@ void		print_env_list(t_list *env_list)
 t_list		*get_env(t_list *env_list, char *name)
 {
 	t_list	*tmp;
+	char	**splitted;
 
 	tmp = env_list;
-	while (tmp)
+	while (tmp && name)
 	{
-		if (ft_strncmp(tmp->content, name, ft_strlen(name) + 1))
+		splitted = ft_split(tmp->content, '=');
+		if (ft_strncmp(splitted[0], name, ft_strlen(name) + 1) == 0)
+		{
+			free_split(splitted);
 			return (tmp);
+		}
 		tmp = tmp->next;
+		free_split(splitted);
 	}
 	return (NULL);
 }

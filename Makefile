@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/10 16:01:03 by hsaadaou         ###   ########.fr        #
+#    Updated: 2021/04/11 12:29:25 by hsaadaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS			=	main.c \
 					utils_mem.c \
 					utils_env.c
 
-TEST_SRCS		=	cd_test.c
+TEST_SRCS		=	cd_test.c env_utils_test.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
