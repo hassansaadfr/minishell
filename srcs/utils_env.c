@@ -26,19 +26,27 @@ t_list		*init_env(char **envp)
 t_list		*get_env(t_list *env_list, char *name)
 {
 	t_list	*tmp;
-	char	**splitted;
+	int		i;
+	int		len;
 
+	i = 0;
 	tmp = env_list;
+	if (!name)
+		return (NULL);
+	while (name[i])
+	{
+		if (ft_isalnum(name[i]))
+			i++;
+		else
+			return (NULL);
+
+	}
 	while (tmp && name)
 	{
-		splitted = ft_split(tmp->content, '=');
-		if (ft_strncmp(splitted[0], name, ft_strlen(name) + 1) == 0)
-		{
-			free_split(splitted);
+		len = ft_strchr(tmp->content, '=') - (char*)tmp->content;
+		if (ft_strncmp(tmp->content, name, len) == 0)
 			return (tmp);
-		}
 		tmp = tmp->next;
-		free_split(splitted);
 	}
 	return (NULL);
 }
@@ -51,20 +59,29 @@ t_list		*get_env(t_list *env_list, char *name)
 int			new_env(t_list *env_list, char *new_env)
 {
 	t_list	*tmp;
-	char	**splitted;
+	// char	**splitted;
+	char	*str;
 	int		out;
+	int		len;
 
 	out = 0;
-	splitted = ft_split(new_env, '=');
-	if (!splitted)
+	if (!new_env)
 		return (0);
-	tmp = get_env(env_list, splitted[0]);
+	len = ft_strchr(new_env, '=') - (char*)new_env;
+	str = malloc(sizeof(char) * (len + 1));
+	str[len] = 0;
+	ft_strlcpy(str, new_env, (size_t)len);
+	// splitted = ft_split(new_env, '=');
+	// if (!splitted)
+	// 	return (0);
+	tmp = NULL;
+	tmp = get_env(env_list, str);
 	if (!tmp)
 	{
 		ft_lstadd_back(&env_list, ft_lstnew(new_env));
 		out = 1;
 	}
-	free_split(splitted);
+	// free_split(splitted);
 	return (out);
 }
 
