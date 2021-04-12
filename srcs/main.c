@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:43:29 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/10 17:03:41 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:41:37 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int		main(int argc, char **argv, char **envp)
 	env_list = init_env(envp);
 	while (ret_gnl > 0)
 	{
-		prompt();
+		prompt(env_list);
 		ret_gnl = get_next_line(0, &line);
 		if (*line)
-			exec(parse(line), envp);
+			exec(parse(line), env_list);
 		free(line);
 	}
 	free_env(&env_list);

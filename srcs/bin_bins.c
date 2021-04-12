@@ -38,19 +38,19 @@ char	*which_bin_fld(char *bin, char **bin_paths)
 ** check which_bin_fld return value (if null not found)
 */
 
-int		exec_from_bins(char **cmd, char **envp)
+int		exec_from_bins(char **cmd, t_list *env_list)
 {
 	char			*path;
 	char			**bin_paths;
 
 	errno = 0;
-	path = getenv("PATH");
+	path = get_env(env_list, "PATH")->content;
 	bin_paths = ft_split(path, ':');
 	path = which_bin_fld(cmd[0], bin_paths);
 	free_split(bin_paths);
 	if (path)
 	{
-		exec_bin(path, cmd, envp);
+		exec_bin(path, cmd, env_list);
 		free(path);
 	}
 	return (0);
