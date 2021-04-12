@@ -92,6 +92,7 @@ int			edit_env(t_list *env_list, char *env)
 		if (tmp)
 		{
 			*equals_pos = '=';
+			free(tmp->content);
 			tmp->content = env;
 			return (1);
 		}
