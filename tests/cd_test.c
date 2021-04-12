@@ -2,7 +2,7 @@
 #include "minishell.h"
 #include <fcntl.h>
 
-Test(cd, directory_dont_exist) {
+Test(cd_suite, directory_dont_exist) {
 	int		fd;
 	char	*path;
 	int		diff;
@@ -23,7 +23,7 @@ Test(cd, directory_dont_exist) {
 	cr_assert(diff == 0);
 }
 
-Test(cd, root_dir) {
+Test(cd_suite, root_dir) {
 	int		fd;
 	char	*path;
 	int		diff;
@@ -44,7 +44,7 @@ Test(cd, root_dir) {
 	cr_assert(diff == 0);
 }
 
-Test(cd, parent_dir) {
+Test(cd_suite, parent_dir) {
 	int		fd;
 	char	*path;
 	int		diff;
@@ -65,7 +65,7 @@ Test(cd, parent_dir) {
 	cr_assert(diff == 0);
 }
 
-Test(cd, parent_tricky) {
+Test(cd_suite, parent_tricky) {
 	int		fd;
 	char	*path;
 	int		diff;
@@ -90,7 +90,7 @@ Test(cd, parent_tricky) {
 	cr_assert(diff == 0);
 }
 
-Test(cd, the_root_parent) {
+Test(cd_suite, the_root_parent) {
 	int		fd;
 	char	*path;
 	int		diff;
@@ -114,7 +114,7 @@ Test(cd, the_root_parent) {
 	cr_assert(diff == 0);
 }
 
-Test(cd, acces_denied) {
+Test(cd_suite, acces_denied) {
 	int		fd;
 	char	*path;
 	int		diff;
@@ -136,7 +136,7 @@ Test(cd, acces_denied) {
 	cr_assert(diff == 0);
 }
 
-Test(cd, too_many_args) {
+Test(cd_suite, too_many_args) {
 	int		fd;
 	char	*path;
 	int		diff;

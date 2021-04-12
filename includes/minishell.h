@@ -12,6 +12,12 @@
 # include "libft.h"
 
 /*
+** FILE - entry.c
+*/
+
+int		minishell(int argc, char **argv, char **envp);
+
+/*
 ** FILE - parse.c
 */
 char	***parse(char *cmd);
