@@ -69,10 +69,10 @@ Test(cd, parent_tricky) {
 	int		fd;
 	char	*path;
 	int		diff;
-	char	*expected;
+	char	expected[PATH_MAX];
 	char	*file;
 
-	expected = getenv("PWD");
+	getcwd(expected, PATH_MAX);
 	path = "tests/outputs_m_sh/parent_tricky.log";
 	system("mkdir -p test1/test2/test3");
 	system("echo -n 'cd test1/test2/test3/../../.. ; pwd' | ./minishell > tests/outputs_m_sh/parent_tricky.log");
