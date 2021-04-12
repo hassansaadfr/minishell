@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axaidan <axaidan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 19:28:50 by axaidan           #+#    #+#             */
-/*   Updated: 2021/04/07 13:02:38 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/10 11:51:24 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void			ft_putnbr_fd(int n, int fd);
 typedef struct	s_list
 {
 	void			*content;
+	struct s_list	*previous;
 	struct s_list	*next;
 }				t_list;
 
@@ -68,22 +69,6 @@ void			ft_lstdelone(t_list *elem, void (*del)(void*));
 void			ft_lstclear(t_list **lst, void(*del)(void *));
 void			ft_lstiter(t_list *lst, void(*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void*));
-
-typedef struct	s_conv
-{
-	int				i;
-	unsigned int	u;
-	unsigned char	c;
-	char			*str;
-	void			*ptr;
-	double			d;
-	int				width;
-	int				preci;
-	int				f_zero;
-	int				f_zero_f;
-	int				f_minus;
-	char			*sub;
-}				t_conv;
 
 int				get_next_line(int fd, char **line);
 

@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 12:42:27 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/09 22:56:46 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/11 16:19:51 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,16 @@ int		builtin_unset(char **argv, char **env);
 */
 void	free_split(char **tab);
 void	free_cmds(char ***cmds);
+void	free_env(t_list **env_list);
+
+/*
+**	FILE - utils_env.c
+*/
+t_list	*init_env(char **envp);
+t_list	*get_env(t_list *env_list, char *name);
+int		edit_env(t_list *env_list, char *env);
+int		delete_env(t_list *env_list, char *name);
+int		new_env(t_list *env_list, char *new_env);
 
 /*
 **	FILE - bin_builtins.c

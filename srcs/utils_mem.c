@@ -22,3 +22,9 @@ void	free_cmds(char ***cmds)
 		free_split(cmds[i++]);
 	free(cmds);
 }
+
+void	free_env(t_list **env_list)
+{
+	ft_lstclear(env_list, free);
+	env_list = NULL;
+}

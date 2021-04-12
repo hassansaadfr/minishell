@@ -6,7 +6,7 @@
 #    By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/05 12:45:43 by hsaadaou          #+#    #+#              #
-#    Updated: 2021/04/09 23:05:28 by hsaadaou         ###   ########.fr        #
+#    Updated: 2021/04/11 14:16:18 by hsaadaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,10 @@ SRCS			=	main.c \
 					builtins/export.c \
 					builtins/pwd.c \
 					builtins/unset.c \
-					utils_mem.c
+					utils_mem.c \
+					utils_env.c
 
-TEST_SRCS		=	cd_test.c
+TEST_SRCS		=	cd_test.c env_utils_test.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
@@ -58,7 +59,7 @@ $(NAME)			:	${OBJS}
 all				:	${NAME}
 
 test			:	$(TEST_NAME)
-					./${TEST_NAME}
+					valgrind ./${TEST_NAME}
 					@rm $(TEST_NAME)
 
 $(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS} ${NAME}
