@@ -87,6 +87,17 @@ Test(get_env_suite, get_env_exist)
 	cr_assert(diff == 0);
 }
 
+Test(get_env_suite, get_env_invalid_name)
+{
+	t_list	*env_list;
+	t_list	*tmp;
+
+	env_list = test_init_env();
+	tmp = get_env(env_list, "=");
+	cr_assert(tmp == NULL);
+	free_env(&env_list);
+}
+
 Test(get_env_suite, get_env_undefined)
 {
 	t_list	*env_list;
@@ -201,6 +212,20 @@ Test(delete_env_suite, delete_null)
 	cr_assert(expected == returned);
 }
 
+Test(delete_env_suite, delete_invalid_name)
+{
+	t_list	*env_list;
+	int		expected;
+	int		returned;
+
+	expected = 0;
+	returned = -1;
+	env_list = test_init_env();
+	returned = delete_env(env_list, "FOO=");
+	free_env(&env_list);
+	cr_assert(expected == returned);
+}
+
 Test(delete_env_suite, delete_malformed)
 {
 	t_list	*env_list;
@@ -289,7 +314,7 @@ Test(new_env_suite, new_empty_value)
 	int		created;
 	int		size;
 
-	new_env_value = ft_strdup("FOO=r");
+	new_env_value = ft_strdup("FOO=");
 	env_list = test_init_env();
 	size = ft_lstsize(env_list);
 	created = new_env(env_list, new_env_value);
@@ -449,6 +474,23 @@ Test(edit_env_suite, edit_no_separator)
 	int		size;
 
 	new_env_value = ft_strdup("FOO");
+	env_list = test_init_env();
+	size = ft_lstsize(env_list);
+	edited = edit_env(env_list, new_env_value);
+	cr_assert(edited == 0);
+	cr_assert(size == ft_lstsize(env_list));
+	free_env(&env_list);
+	free(new_env_value);
+}
+
+Test(edit_env_suite, edit_no_name)
+{
+	t_list	*env_list;
+	char	*new_env_value;
+	int		edited;
+	int		size;
+
+	new_env_value = ft_strdup("=FOO");
 	env_list = test_init_env();
 	size = ft_lstsize(env_list);
 	edited = edit_env(env_list, new_env_value);

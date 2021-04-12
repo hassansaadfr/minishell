@@ -79,7 +79,9 @@ int			edit_env(t_list *env_list, char *env)
 	t_list	*tmp;
 	int		size;
 
-	if (!env || !ft_strchr(env, '='))
+	if ((!env || !ft_strchr(env, '=')))
+		return (0);
+	if (env[0] == '=')
 		return (0);
 	splitted = ft_split(env, '=');
 	if (!splitted)
