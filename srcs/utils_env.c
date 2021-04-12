@@ -3,22 +3,22 @@
 t_list		*init_env(char **envp)
 {
 	t_list	*env_list;
-	int		envp_size;
+	t_list	*new_node;
+	char	*dupped;
 
 	env_list = NULL;
-	envp_size = get_strarr_size(envp);
-	if (envp_size > 0)
+	new_node = NULL;
+	while (envp != NULL && *envp != NULL)
 	{
-		env_list = ft_lstnew(ft_strdup(*envp));
-		if (!env_list)
-			return (NULL);
-		if (envp_size > 1)
+		dupped = ft_strdup(*envp);
+		new_node = ft_lstnew(dupped);
+		if (!new_node || !dupped)
 		{
-			envp++;
-			while (*envp)
-				ft_lstadd_back(&env_list, ft_lstnew(ft_strdup(*envp++)));
-			return (env_list);
+			ft_lstclear(&env_list, free);
+			return (NULL);
 		}
+		ft_lstadd_back(&env_list, new_node);
+		envp++;
 	}
 	return (env_list);
 }
@@ -39,7 +39,6 @@ t_list		*get_env(t_list *env_list, char *name)
 			i++;
 		else
 			return (NULL);
-
 	}
 	while (tmp && name)
 	{
@@ -51,68 +50,52 @@ t_list		*get_env(t_list *env_list, char *name)
 	return (NULL);
 }
 
-/*
-** TODO
-** check ft_split return with errno
-*/
-
 int			new_env(t_list *env_list, char *new_env)
 {
 	t_list	*tmp;
-	// char	**splitted;
-	char	*str;
 	int		out;
-	int		len;
+	char	*equals_pos;
 
 	out = 0;
 	if (!new_env)
 		return (0);
-	len = ft_strchr(new_env, '=') - (char*)new_env;
-	str = malloc(sizeof(char) * (len + 1));
-	str[len] = 0;
-	ft_strlcpy(str, new_env, (size_t)len);
-	// splitted = ft_split(new_env, '=');
-	// if (!splitted)
-	// 	return (0);
-	tmp = NULL;
-	tmp = get_env(env_list, str);
-	if (!tmp)
+	equals_pos = ft_strchr(new_env, '=');
+	if (equals_pos)
 	{
-		ft_lstadd_back(&env_list, ft_lstnew(new_env));
-		out = 1;
+		*equals_pos = '\0';
+		tmp = NULL;
+		tmp = get_env(env_list, new_env);
+		if (!tmp)
+		{
+			*equals_pos = '=';
+			ft_lstadd_back(&env_list, ft_lstnew(new_env));
+			out = 1;
+		}
 	}
-	// free_split(splitted);
 	return (out);
 }
 
-/*
-** TODO
-** check ft_split return with errno
-*/
-
 int			edit_env(t_list *env_list, char *env)
 {
-	char	**splitted;
 	t_list	*tmp;
-	int		size;
+	char	*equals_pos;
 
 	if ((!env || !ft_strchr(env, '=')))
 		return (0);
 	if (env[0] == '=')
 		return (0);
-	splitted = ft_split(env, '=');
-	if (!splitted)
-		return (0);
-	size = get_strarr_size(splitted);
-	tmp = get_env(env_list, splitted[0]);
-	if (tmp)
+	equals_pos = ft_strchr(env, '=');
+	if (equals_pos)
 	{
-		free(tmp->content);
-		tmp->content = ft_strjoin(splitted[0], ft_strchr(env, '='));
-		free_split(splitted);
-		return (1);
+		*equals_pos = '\0';
+		tmp = get_env(env_list, env);
+		if (tmp)
+		{
+			*equals_pos = '=';
+			tmp->content = env;
+			return (1);
+		}
 	}
-	free_split(splitted);
 	return (0);
 }
 

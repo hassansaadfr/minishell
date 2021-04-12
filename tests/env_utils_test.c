@@ -261,7 +261,7 @@ Test(new_env_suite, new_valid)
 	if (size + 1 == ft_lstsize(env_list))
 	cr_assert(size + 1 == ft_lstsize(env_list));
 	free_env(&env_list);
-	free(new_env_value);
+//	free(new_env_value);
 	cr_assert(diff == 0);
 }
 
@@ -286,7 +286,7 @@ Test(new_env_suite, new_valid_tricky)
 	if (size + 1 == ft_lstsize(env_list))
 	cr_assert(size + 1 == ft_lstsize(env_list));
 	free_env(&env_list);
-	free(new_env_value);
+//	free(new_env_value);
 	cr_assert(diff == 0);
 }
 
@@ -304,7 +304,7 @@ Test(new_env_suite, new_already_exist)
 	cr_assert(created == 0);
 	cr_assert(size == ft_lstsize(env_list));
 	free_env(&env_list);
-	free(new_env_value);
+//	free(new_env_value);
 }
 
 Test(new_env_suite, new_empty_value)
@@ -361,7 +361,7 @@ Test(edit_env_suite, edit_basic)
 	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
 	cr_assert(diff == 0);
 	free_env(&env_list);
-	free(new_env_value);
+//	free(new_env_value);
 }
 
 Test(edit_env_suite, edit_tricky)
@@ -384,7 +384,7 @@ Test(edit_env_suite, edit_tricky)
 	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
 	cr_assert(diff == 0);
 	free_env(&env_list);
-	free(new_env_value);
+//	free(new_env_value);
 }
 
 Test(edit_env_suite, edit_tricky_bis)
@@ -407,7 +407,7 @@ Test(edit_env_suite, edit_tricky_bis)
 	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
 	cr_assert(diff == 0);
 	free_env(&env_list);
-	free(new_env_value);
+//	free(new_env_value);
 }
 
 Test(edit_env_suite, edit_undefined)
@@ -463,7 +463,7 @@ Test(edit_env_suite, edit_empty_value)
 	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
 	cr_assert(diff == 0);
 	free_env(&env_list);
-	free(new_env_value);
+//	free(new_env_value);
 }
 
 Test(edit_env_suite, edit_no_separator)
