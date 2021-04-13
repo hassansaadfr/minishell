@@ -5,10 +5,8 @@ t_list		*init_env(char **envp)
 	t_list	*env_list;
 	t_list	*new_node;
 	char	*dupped;
-	char	old_pwd[PATH_MAX];
 
 	errno = 0;
-	getcwd(old_pwd, PATH_MAX);
 	env_list = NULL;
 	new_node = NULL;
 	while (errno == 0 && (envp != NULL && *envp != NULL))
@@ -23,8 +21,6 @@ t_list		*init_env(char **envp)
 		ft_lstadd_back(&env_list, new_node);
 		envp++;
 	}
-	if (errno == 0)
-		edit_env(env_list, ft_strjoin("OLDPWD=", old_pwd));
 	return (env_list);
 }
 
