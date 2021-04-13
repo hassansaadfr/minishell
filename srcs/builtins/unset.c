@@ -1,9 +1,17 @@
 #include "minishell.h"
 
+int			unset(char *argv, t_list *env_list)
+{
+	return (delete_env(env_list, argv));
+}
+
 int			builtin_unset(char **argv, t_list *env_list)
 {
-	(void)argv;
-	(void)env_list;
-	printf("TODO unset\n");
-	return (1);
+	int		out;
+	int		i;
+
+	i = 1;
+	while (argv[i])
+		out = unset(argv[i++], env_list);
+	return (out);
 }
