@@ -12,6 +12,6 @@ int			builtin_unset(char **argv, t_list *env_list)
 
 	i = 1;
 	while (argv[i])
-		unset(argv[i++], env_list);
+		out = unset(argv[i++], env_list);
 	return (out);
 }
