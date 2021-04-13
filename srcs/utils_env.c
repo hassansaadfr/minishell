@@ -66,9 +66,9 @@ int			new_env(t_list *env_list, char *new_env)
 		*equals_pos = '\0';
 		tmp = NULL;
 		tmp = get_env(env_list, new_env);
+		*equals_pos = '=';
 		if (!tmp)
 		{
-			*equals_pos = '=';
 			ft_lstadd_back(&env_list, ft_lstnew(new_env));
 			out = 1;
 		}

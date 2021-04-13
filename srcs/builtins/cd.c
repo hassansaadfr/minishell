@@ -4,13 +4,16 @@ static int	update_pwd(t_list *env_list)
 {
 	char	buff[PATH_MAX];
 	char	*final_path;
+	int		done;
 
+	done = -1;
 	if (getcwd(buff, PATH_MAX) != NULL)
 	{
 		final_path = ft_strjoin("PWD=", buff);
-		if (!new_env(env_list, final_path))
-			edit_env(env_list, final_path);
-		return (1);
+		done = new_env(env_list, final_path);
+		if (!done)
+			done = edit_env(env_list, final_path);
+		return (done);
 	}
 	return (0);
 }
