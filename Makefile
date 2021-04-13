@@ -22,7 +22,7 @@ SRCS			=	main.c \
 					utils_mem.c \
 					utils_env.c
 
-TEST_SRCS		=	cd_test.c env_utils_test.c
+TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
