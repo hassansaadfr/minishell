@@ -14,6 +14,11 @@ int			ft_unset_error(char **argv)
 	return (1);
 }
 
+int			unset(char *argv, t_list *env_list)
+{
+	return (delete_env(env_list, argv));
+}
+
 int			builtin_unset(char **argv, t_list *env_list)
 {
 	int		out;
@@ -24,7 +29,7 @@ int			builtin_unset(char **argv, t_list *env_list)
 	{
 		i = 1;
 		while (argv[i])
-			delete_env(env_list, argv[i++]);
+			unset(argv[i++], env_list);
 	}
 	return (out);
 }
