@@ -43,6 +43,7 @@ void	prompt(t_list *env_list);
 **	Builtins
 */
 int		env(t_list *env_list);
+void	print_env_list(t_list *env_list);
 int		builtin_echo(char **argv, t_list *env_list);
 int		builtin_cd(char **argv, t_list *env_list);
 int		builtin_env(char **argv, t_list *env_list);
