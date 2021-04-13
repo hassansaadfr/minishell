@@ -8,7 +8,8 @@ static int	update_pwd(t_list *env_list)
 	if (getcwd(buff, PATH_MAX) != NULL)
 	{
 		final_path = ft_strjoin("PWD=", buff);
-		edit_env(env_list, final_path);
+		if (!new_env(env_list, final_path))
+			edit_env(env_list, final_path);
 		return (1);
 	}
 	return (0);
