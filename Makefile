@@ -3,6 +3,7 @@ NAME			=	minishell
 TEST_NAME		=	minishell_test
 
 SRCS			=	main.c \
+					entry.c \
 					parse.c \
 					utils.c \
 					exec.c \
@@ -47,11 +48,11 @@ $(NAME)			:	${OBJS}
 all				:	${NAME}
 
 test			:	$(TEST_NAME)
-					valgrind ./${TEST_NAME}
+					./${TEST_NAME}
 					@rm $(TEST_NAME)
 
 $(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS} ${NAME}
-					@${CC} $(NO_MAIN) ${CFLAGS} ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
+					@${CC} -g $(NO_MAIN) ${CFLAGS} ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
 						-lft
 					@ rm $(TEST_OBJS) $(NO_MAIN)
 
