@@ -6,9 +6,10 @@ t_list		*init_env(char **envp)
 	t_list	*new_node;
 	char	*dupped;
 
+	errno = 0;
 	env_list = NULL;
 	new_node = NULL;
-	while (envp != NULL && *envp != NULL)
+	while (errno == 0 && (envp != NULL && *envp != NULL))
 	{
 		dupped = ft_strdup(*envp);
 		new_node = ft_lstnew(dupped);
@@ -65,9 +66,9 @@ int			new_env(t_list *env_list, char *new_env)
 		*equals_pos = '\0';
 		tmp = NULL;
 		tmp = get_env(env_list, new_env);
+		*equals_pos = '=';
 		if (!tmp)
 		{
-			*equals_pos = '=';
 			ft_lstadd_back(&env_list, ft_lstnew(new_env));
 			out = 1;
 		}
