@@ -20,6 +20,7 @@ SRCS			=	main.c \
 					builtins/pwd.c \
 					builtins/unset.c \
 					utils_mem.c \
+					signals.c \
 					utils_env.c
 
 TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c
