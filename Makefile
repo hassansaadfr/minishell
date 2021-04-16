@@ -3,7 +3,6 @@ NAME			=	minishell
 TEST_NAME		=	minishell_test
 
 SRCS			=	main.c \
-					entry.c \
 					parse.c \
 					utils.c \
 					exec.c \
