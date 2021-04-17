@@ -12,6 +12,12 @@
 # include "libft.h"
 
 /*
+**	FILE - main.c
+*/
+int		minishell(t_list *env);
+
+
+/*
 ** FILE - parse.c
 */
 char	***parse(char *cmd);
@@ -44,6 +50,7 @@ void	prompt(t_list *env_list);
 */
 int		env(t_list *env_list);
 void	print_env_list(t_list *env_list);
+int		unset(char *argv, t_list *env_list);
 int		builtin_echo(char **argv, t_list *env_list);
 int		builtin_cd(char **argv, t_list *env_list);
 int		builtin_env(char **argv, t_list *env_list);
@@ -84,5 +91,20 @@ int		exec_from_path(char **cmd, t_list *env_list);
 **	FILE - bin_bins.c
 */
 int		exec_from_bins(char **cmd, t_list *env_list);
+
+/*
+**	FILE - signals.c
+*/
+void	signal_handler(int signal_value);
+
+typedef struct		s_global
+{
+	t_list	*env_list;
+	t_list	*history;
+	pid_t	pid;
+	int		last_return;
+}					t_global;
+
+t_global	global;
 
 #endif

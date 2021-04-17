@@ -19,9 +19,10 @@ SRCS			=	main.c \
 					builtins/pwd.c \
 					builtins/unset.c \
 					utils_mem.c \
+					signals.c \
 					utils_env.c
 
-TEST_SRCS		=	cd_test.c env_utils_test.c
+TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
@@ -47,11 +48,11 @@ $(NAME)			:	${OBJS}
 all				:	${NAME}
 
 test			:	$(TEST_NAME)
-					valgrind ./${TEST_NAME}
+					./${TEST_NAME}
 					@rm $(TEST_NAME)
 
 $(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS} ${NAME}
-					@${CC} $(NO_MAIN) ${CFLAGS} ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
+					@${CC} -g $(NO_MAIN) ${CFLAGS} ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
 						-lft
 					@ rm $(TEST_OBJS) $(NO_MAIN)
 

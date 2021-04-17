@@ -51,18 +51,18 @@ char		*create_full_path(char *bin_path, char *cmd)
 
 int			exec_bin(char *path, char **args, t_list *env_list)
 {
-	pid_t	pid;
 	int		ret;
 	int		status;
 	char	**env;
 
-	pid = fork();
+	global.pid = fork();
 	env = NULL;
-	if (pid > 0)
+	if (global.pid > 0)
 	{
 		ret = waitpid(0, &status, 0);
+		global.pid = 0;
 	}
-	else if (pid == 0)
+	else if (global.pid == 0)
 	{
 		env = list_to_array(env_list);
 		if (!env)
