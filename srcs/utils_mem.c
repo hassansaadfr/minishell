@@ -28,3 +28,4 @@ void	free_env(t_list **env_list)
 	ft_lstclear(env_list, free);
 	env_list = NULL;
 }
+

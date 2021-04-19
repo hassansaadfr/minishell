@@ -107,4 +107,10 @@ typedef struct		s_global
 
 t_global	global;
 
+typedef struct		s_env
+{
+	char	*name;
+	char	*value;
+}					t_env;
+
 #endif

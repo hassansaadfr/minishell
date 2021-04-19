@@ -1,19 +1,70 @@
 #include "minishell.h"
 
+char		*parse_env_name(char *env)
+{
+	char	*name;
+	char	*equal_pos;
+
+	name = NULL;
+	equal_pos = NULL;
+	if (!env)
+		return (NULL);
+	equal_pos = ft_strchr(env, '=');
+	if (equal_pos)
+	{
+		*equal_pos = '\0';
+		name = ft_strdup(env);
+		*equal_pos = '=';
+	}
+	return (name);
+}
+
+char		*parse_env_value(char *env)
+{
+	char	*value;
+	char	*equal_pos;
+
+	value = NULL;
+	equal_pos = NULL;
+	if (!env)
+		return (NULL);
+	equal_pos = ft_strchr(env, '=') + 1;
+	if (equal_pos)
+		value = ft_strdup(equal_pos);
+	return (value);
+}
+
+t_list		*init_env_node(char *env)
+{
+	t_list	*list_node;
+	t_env	*env_node;
+
+	if (!env)
+		return (NULL);
+	list_node = malloc(sizeof(t_list));
+	if (!list_node)
+		return (NULL);
+	env_node = malloc(sizeof(t_env));
+	if (!env_node)
+		return (NULL);
+	env_node->name = parse_env_name(env);
+	env_node->value = parse_env_value(env);
+	list_node->content = env_node;
+	return (list_node);
+}
+
 t_list		*init_env(char **envp)
 {
 	t_list	*env_list;
 	t_list	*new_node;
-	char	*dupped;
 
 	errno = 0;
 	env_list = NULL;
 	new_node = NULL;
 	while (errno == 0 && (envp != NULL && *envp != NULL))
 	{
-		dupped = ft_strdup(*envp);
-		new_node = ft_lstnew(dupped);
-		if (!new_node || !dupped)
+		new_node = init_env_node(*envp);
+		if (!new_node)
 		{
 			ft_lstclear(&env_list, free);
 			return (NULL);
@@ -43,8 +94,8 @@ t_list		*get_env(t_list *env_list, char *name)
 	}
 	while (tmp && name)
 	{
-		len = ft_strchr(tmp->content, '=') - (char*)tmp->content;
-		if (ft_strncmp(tmp->content, name, len) == 0)
+		len = ft_strlen(name) + 1;
+		if (ft_strncmp(((t_env*)tmp->content)->name, name, len + 1) == 0)
 			return (tmp);
 		tmp = tmp->next;
 	}
@@ -55,23 +106,20 @@ int			new_env(t_list *env_list, char *new_env)
 {
 	t_list	*tmp;
 	int		out;
-	char	*equals_pos;
+	t_list	*env_node;
 
 	out = 0;
 	if (!new_env)
 		return (0);
-	equals_pos = ft_strchr(new_env, '=');
-	if (equals_pos)
+	tmp = NULL;
+	tmp = get_env(env_list, parse_env_name(new_env));
+	if (!tmp)
 	{
-		*equals_pos = '\0';
-		tmp = NULL;
-		tmp = get_env(env_list, new_env);
-		*equals_pos = '=';
-		if (!tmp)
-		{
-			ft_lstadd_back(&env_list, ft_lstnew(new_env));
-			out = 1;
-		}
+		env_node = init_env_node(new_env);
+		if (!env_node)
+			return (0);
+		ft_lstadd_back(&env_list, env_node);
+		out = 1;
 	}
 	return (out);
 }
@@ -79,22 +127,24 @@ int			new_env(t_list *env_list, char *new_env)
 int			edit_env(t_list *env_list, char *env)
 {
 	t_list	*tmp;
-	char	*equals_pos;
+	t_env	*new_node;
 
-	if ((!env || !ft_strchr(env, '=')))
+	if (!env)
 		return (0);
 	if (env[0] == '=')
 		return (0);
-	equals_pos = ft_strchr(env, '=');
-	if (equals_pos)
+	tmp = get_env(env_list, env);
+	if (tmp)
 	{
-		*equals_pos = '\0';
-		tmp = get_env(env_list, env);
-		if (tmp)
+		if (((t_env*)tmp->content)->name)
+			free(((t_env*)tmp->content)->name);
+		if (((t_env*)tmp->content)->value)
+			free(((t_env*)tmp->content)->value);
+		free(tmp->content);
+		new_node = ((t_env*)init_env_node(env)->content);
+		if (!new_node)
 		{
-			*equals_pos = '=';
-			free(tmp->content);
-			tmp->content = env;
+			tmp->content = new_node;
 			return (1);
 		}
 	}
@@ -105,13 +155,19 @@ int			delete_env(t_list *env_list, char *name)
 {
 	t_list	*tmp;
 	int		out;
+	char	*env_name;
 
+	env_name = NULL;
+	if (name)
+		env_name =  parse_env_name(name);
 	tmp = NULL;
 	out = 0;
-	if (name)
-		tmp = get_env(env_list, name);
+	if (env_name)
+		tmp = get_env(env_list, env_name);
 	if (tmp)
 	{
+		free(((t_env*)tmp->content)->name);
+		free(((t_env*)tmp->content)->value);
 		ft_lstdelone(tmp, free);
 		out = 1;
 	}
