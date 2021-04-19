@@ -14,7 +14,7 @@
 /*
 **	FILE - main.c
 */
-int		minishell(t_list *env);
+int		minishell(void);
 
 
 /*

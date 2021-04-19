@@ -5,10 +5,10 @@ char		*parse_env_name(char *env)
 	char	*name;
 	char	*equal_pos;
 
-	name = NULL;
 	equal_pos = NULL;
 	if (!env)
 		return (NULL);
+	name = env;
 	equal_pos = ft_strchr(env, '=');
 	if (equal_pos)
 	{
@@ -28,9 +28,11 @@ char		*parse_env_value(char *env)
 	equal_pos = NULL;
 	if (!env)
 		return (NULL);
-	equal_pos = ft_strchr(env, '=') + 1;
+	equal_pos = ft_strchr(env, '=');
 	if (equal_pos)
-		value = ft_strdup(equal_pos);
+	{
+		value = ft_strdup(equal_pos + 1);
+	}
 	return (value);
 }
 
@@ -38,6 +40,8 @@ t_list		*init_env_node(char *env)
 {
 	t_list	*list_node;
 	t_env	*env_node;
+	char	*name;
+	char	*value;
 
 	if (!env)
 		return (NULL);
@@ -47,8 +51,10 @@ t_list		*init_env_node(char *env)
 	env_node = malloc(sizeof(t_env));
 	if (!env_node)
 		return (NULL);
-	env_node->name = parse_env_name(env);
-	env_node->value = parse_env_value(env);
+	name = parse_env_name(env);
+	value = parse_env_value(env);
+	env_node->name = name;
+	env_node->value = value;
 	list_node->content = env_node;
 	return (list_node);
 }
@@ -57,6 +63,8 @@ t_list		*init_env(char **envp)
 {
 	t_list	*env_list;
 	t_list	*new_node;
+	char	*name;
+	char	*value;
 
 	errno = 0;
 	env_list = NULL;
@@ -64,6 +72,8 @@ t_list		*init_env(char **envp)
 	while (errno == 0 && (envp != NULL && *envp != NULL))
 	{
 		new_node = init_env_node(*envp);
+		name = ((t_env*)new_node->content)->name;
+		value = ((t_env*)new_node->content)->value;
 		if (!new_node)
 		{
 			ft_lstclear(&env_list, free);
@@ -80,22 +90,24 @@ t_list		*get_env(t_list *env_list, char *name)
 	t_list	*tmp;
 	int		i;
 	int		len;
+	char	*parsed_name;
 
 	i = 0;
 	tmp = env_list;
 	if (!name)
 		return (NULL);
-	while (name[i])
+	parsed_name = parse_env_name(name);
+	while (parsed_name[i])
 	{
-		if (ft_isalnum(name[i]))
+		if (ft_isalnum(parsed_name[i]))
 			i++;
 		else
 			return (NULL);
 	}
-	while (tmp && name)
+	while (tmp && parsed_name)
 	{
-		len = ft_strlen(name) + 1;
-		if (ft_strncmp(((t_env*)tmp->content)->name, name, len + 1) == 0)
+		len = ft_strlen(parsed_name) + 1;
+		if (ft_strncmp(((t_env*)tmp->content)->name, parsed_name, len + 1) == 0)
 			return (tmp);
 		tmp = tmp->next;
 	}
@@ -142,7 +154,7 @@ int			edit_env(t_list *env_list, char *env)
 			free(((t_env*)tmp->content)->value);
 		free(tmp->content);
 		new_node = ((t_env*)init_env_node(env)->content);
-		if (!new_node)
+		if (new_node)
 		{
 			tmp->content = new_node;
 			return (1);
@@ -158,6 +170,8 @@ int			delete_env(t_list *env_list, char *name)
 	char	*env_name;
 
 	env_name = NULL;
+	if (name == NULL || ft_strchr(name, '='))
+		return (0);
 	if (name)
 		env_name =  parse_env_name(name);
 	tmp = NULL;

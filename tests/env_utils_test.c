@@ -33,6 +33,7 @@ static char		**init_dummy_arrstr(void)
 Test(init_env_suite, init_env_basic)
 {
 	char	**env;
+	char	*full_env;
 	t_list	*env_list;
 	int		arr_size;
 	int		i;
@@ -43,7 +44,8 @@ Test(init_env_suite, init_env_basic)
 	env_list = init_env(env);
 	while (i < arr_size)
 	{
-		if ((ft_strncmp(env_list->content, env[i], ft_strlen(env[i]) + 1)) == 0)
+		full_env = concat_name_value_env(env_list);
+		if ((ft_strncmp(full_env, env[i], ft_strlen(env[i]))) == 0)
 			env_list = env_list->next;
 		else
 		{
@@ -106,7 +108,7 @@ Test(get_env_suite, get_env_invalid_name)
 	t_list	*tmp;
 
 	env_list = test_init_env();
-	tmp = get_env(env_list, "=");
+	tmp = get_env(env_list, ft_strdup("="));
 	cr_assert(tmp == NULL);
 	free_env(&env_list);
 }
@@ -148,18 +150,12 @@ Test(get_env_suite, get_env_exist_malformed)
 Test(get_env_suite, get_env_exist_malformed2)
 {
 	t_list	*env_list;
-	char	*returned;
 	t_list	*tmp;
-	char	*expected;
 
-	expected = NULL;
-	returned = NULL;
 	env_list = test_init_env();
-	tmp = get_env(env_list, "FOO=");
-	if (tmp)
-		returned = tmp->content;
+	tmp = get_env(env_list, ft_strdup("FOO="));
+	cr_assert(tmp != NULL);
 	free_env(&env_list);
-	cr_assert(expected == returned);
 }
 
 Test(get_env_suite, get_env_NULL)
@@ -191,7 +187,7 @@ Test(delete_env_suite, delete_exist)
 	env_list = test_init_env();
 	returned = delete_env(env_list, "KIND");
 	tmp = get_env(env_list, "KIND");
-	// cr_expect(tmp == NULL);
+	cr_expect(tmp == NULL);
 	free_env(&env_list);
 	cr_assert(expected == returned, "delete_exist returned %d expected %d\n", returned, expected);
 }
@@ -207,7 +203,7 @@ Test(delete_env_suite, delete_undefined)
 	env_list = test_init_env();
 	returned = delete_env(env_list, "UNDEFINED");
 	free_env(&env_list);
-	cr_assert(expected == returned);
+	cr_assert(expected == returned, "delete_exist returned %d expected %d\n", returned, expected);
 }
 
 Test(delete_env_suite, delete_null)
@@ -221,7 +217,7 @@ Test(delete_env_suite, delete_null)
 	env_list = test_init_env();
 	returned = delete_env(env_list, NULL);
 	free_env(&env_list);
-	cr_assert(expected == returned);
+	cr_assert(expected == returned, "delete_exist returned %d expected %d\n", returned, expected);
 }
 
 Test(delete_env_suite, delete_invalid_name)
@@ -233,9 +229,9 @@ Test(delete_env_suite, delete_invalid_name)
 	expected = 0;
 	returned = -1;
 	env_list = test_init_env();
-	returned = delete_env(env_list, "FOO=");
+	returned = delete_env(env_list, ft_strdup("FOO="));
 	free_env(&env_list);
-	cr_assert(expected == returned);
+	cr_assert(expected == returned, "expected %d returned %d\n", expected, returned);
 }
 
 Test(delete_env_suite, delete_malformed)
@@ -247,7 +243,7 @@ Test(delete_env_suite, delete_malformed)
 	expected = 0;
 	returned = -1;
 	env_list = test_init_env();
-	returned = delete_env(env_list, "FOO=");
+	returned = delete_env(env_list, ft_strdup("FOO="));
 	free_env(&env_list);
 	cr_assert(expected == returned);
 }
@@ -283,6 +279,7 @@ Test(new_env_suite, new_valid_tricky)
 	t_list	*env_list;
 	t_list	*tmp;
 	char	*new_env_value;
+	char	*full_env;
 	int		created;
 	int		diff;
 	int		size;
@@ -295,11 +292,12 @@ Test(new_env_suite, new_valid_tricky)
 	cr_assert(created == 1);
 	tmp = get_env(env_list, "NEW");
 	cr_assert(tmp != NULL);
-	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
+	full_env = concat_name_value_env(tmp);
+	diff = ft_strncmp(full_env, new_env_value, ft_strlen(new_env_value) + 1);
 	if (size + 1 == ft_lstsize(env_list))
 	cr_assert(size + 1 == ft_lstsize(env_list));
 	free_env(&env_list);
-//	free(new_env_value);
+	free(full_env);
 	cr_assert(diff == 0);
 }
 
@@ -359,6 +357,7 @@ Test(edit_env_suite, edit_basic)
 	t_list	*env_list;
 	t_list	*tmp;
 	char	*new_env_value;
+	char	*full_value;
 	int		edited;
 	int		size;
 	int		diff;
@@ -371,8 +370,10 @@ Test(edit_env_suite, edit_basic)
 	cr_assert(size == ft_lstsize(env_list));
 	tmp = get_env(env_list, "FOO");
 	cr_assert(tmp != NULL);
-	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
+	full_value = concat_name_value_env(tmp);
+	diff = ft_strncmp(full_value, new_env_value, ft_strlen(new_env_value) + 1);
 	cr_assert(diff == 0);
+	free(full_value);
 	free_env(&env_list);
 //	free(new_env_value);
 }
@@ -382,6 +383,7 @@ Test(edit_env_suite, edit_tricky)
 	t_list	*env_list;
 	t_list	*tmp;
 	char	*new_env_value;
+	char	*full_env;
 	int		edited;
 	int		size;
 	int		diff;
@@ -390,12 +392,12 @@ Test(edit_env_suite, edit_tricky)
 	env_list = test_init_env();
 	size = ft_lstsize(env_list);
 	edited = edit_env(env_list, new_env_value);
-	printf("++++++++++++++++++++\nenv: %s\n++++++++++++++++++++\n", concat_name_value_env(get_env(env_list, "FOO")));
+	full_env = concat_name_value_env(get_env(env_list, "FOO"));
 	cr_assert(edited == 1);
 	cr_assert(size == ft_lstsize(env_list));
 	tmp = get_env(env_list, "FOO");
 	cr_assert(tmp != NULL);
-	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
+	diff = ft_strncmp(full_env, new_env_value, ft_strlen(new_env_value) + 1);
 	cr_assert(diff == 0);
 	free_env(&env_list);
 //	free(new_env_value);
@@ -406,6 +408,7 @@ Test(edit_env_suite, edit_tricky_bis)
 	t_list	*env_list;
 	t_list	*tmp;
 	char	*new_env_value;
+	char	*full_env;
 	int		edited;
 	int		size;
 	int		diff;
@@ -414,11 +417,12 @@ Test(edit_env_suite, edit_tricky_bis)
 	env_list = test_init_env();
 	size = ft_lstsize(env_list);
 	edited = edit_env(env_list, new_env_value);
+	full_env = concat_name_value_env(get_env(env_list, "FOO"));
 	cr_assert(edited == 1);
 	cr_assert(size == ft_lstsize(env_list));
 	tmp = get_env(env_list, "FOO");
 	cr_assert(tmp != NULL);
-	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
+	diff = ft_strncmp(full_env, new_env_value, ft_strlen(new_env_value) + 1);
 	cr_assert(diff == 0);
 	free_env(&env_list);
 //	free(new_env_value);
@@ -462,6 +466,7 @@ Test(edit_env_suite, edit_empty_value)
 	t_list	*env_list;
 	t_list	*tmp;
 	char	*new_env_value;
+	char	*full_env;
 	int		edited;
 	int		size;
 	int		diff;
@@ -470,11 +475,12 @@ Test(edit_env_suite, edit_empty_value)
 	env_list = test_init_env();
 	size = ft_lstsize(env_list);
 	edited = edit_env(env_list, new_env_value);
+	full_env = concat_name_value_env(get_env(env_list, "FOO"));
 	cr_assert(edited == 1);
 	cr_assert(size == ft_lstsize(env_list));
 	tmp = get_env(env_list, "FOO");
 	cr_assert(tmp != NULL);
-	diff = ft_strncmp(tmp->content, new_env_value, ft_strlen(new_env_value) + 1);
+	diff = ft_strncmp(full_env, new_env_value, ft_strlen(new_env_value) + 1);
 	cr_assert(diff == 0);
 	free_env(&env_list);
 //	free(new_env_value);
@@ -491,7 +497,7 @@ Test(edit_env_suite, edit_no_separator)
 	env_list = test_init_env();
 	size = ft_lstsize(env_list);
 	edited = edit_env(env_list, new_env_value);
-	cr_assert(edited == 0);
+	cr_assert(edited == 1);
 	cr_assert(size == ft_lstsize(env_list));
 	free_env(&env_list);
 	free(new_env_value);
@@ -509,6 +515,47 @@ Test(edit_env_suite, edit_no_name)
 	size = ft_lstsize(env_list);
 	edited = edit_env(env_list, new_env_value);
 	cr_assert(edited == 0);
+	cr_assert(size == ft_lstsize(env_list));
+	free_env(&env_list);
+	free(new_env_value);
+}
+
+Test(edit_env_suite, edit_value_should_be_null)
+{
+	t_list	*env_list;
+	char	*new_env_value;
+	int		edited;
+	int		size;
+	t_env	*t;
+
+	new_env_value = ft_strdup("FOO");
+	env_list = test_init_env();
+	size = ft_lstsize(env_list);
+	edited = edit_env(env_list, new_env_value);
+	t = get_env(env_list, "FOO")->content;
+	cr_assert(t->value == NULL);
+	cr_assert(edited == 1);
+	cr_assert(size == ft_lstsize(env_list));
+	free_env(&env_list);
+	free(new_env_value);
+}
+
+Test(edit_env_suite, edit_value_should_be_empty)
+{
+	t_list	*env_list;
+	char	*new_env_value;
+	int		edited;
+	int		size;
+	t_env	*t;
+
+	new_env_value = ft_strdup("FOO=");
+	env_list = test_init_env();
+	size = ft_lstsize(env_list);
+	edited = edit_env(env_list, new_env_value);
+	t = get_env(env_list, "FOO")->content;
+	cr_assert(t->value != NULL);
+	cr_assert(ft_strlen(t->value) == 0);
+	cr_assert(edited == 1);
 	cr_assert(size == ft_lstsize(env_list));
 	free_env(&env_list);
 	free(new_env_value);
