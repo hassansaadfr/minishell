@@ -49,7 +49,6 @@ void	prompt(t_list *env_list);
 **	Builtins
 */
 int		env(t_list *env_list);
-void	print_env_list(t_list *env_list);
 int		unset(char *argv, t_list *env_list);
 int		builtin_echo(char **argv, t_list *env_list);
 int		builtin_cd(char **argv, t_list *env_list);
@@ -74,6 +73,9 @@ t_list	*get_env(t_list *env_list, char *name);
 int		edit_env(t_list *env_list, char *env);
 int		delete_env(t_list *env_list, char *name);
 int		new_env(t_list *env_list, char *new_env);
+t_list	*init_env_node(char *env);
+char	*parse_env_value(char *env);
+char	*parse_env_name(char *env);
 
 /*
 **	FILE - bin_builtins.c

@@ -1,6 +1,21 @@
 #include "minishell.h"
 
-char		*standardize_env(char *env)
+static void	print_env_list(t_list *env_list)
+{
+	t_list	*tmp;
+
+	tmp = env_list;
+	while (tmp)
+	{
+		ft_putstr_fd((((t_env*)tmp->content)->name), STDOUT_FILENO);
+		ft_putstr_fd("=\"", STDOUT_FILENO);
+		ft_putstr_fd((((t_env*)tmp->content)->value), STDOUT_FILENO);
+		ft_putstr_fd("\"\n", STDOUT_FILENO);
+		tmp = tmp->next;
+	}
+}
+
+static char	*standardize_env(char *env)
 {
 	char	*str;
 
@@ -28,9 +43,9 @@ int			builtin_export(char **argv, t_list *env_list)
 		while (argv[i])
 		{
 			env = standardize_env(argv[i]);
-			done = new_env(env_list, ft_strdup(env));
+			done = new_env(env_list, env);
 			if (!done)
-				done = edit_env(env_list, ft_strdup(env));
+				done = edit_env(env_list, env);
 			free(env);
 			i++;
 		}

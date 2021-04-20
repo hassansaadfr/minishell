@@ -32,10 +32,9 @@ void	free_env(t_list **env_list)
 	{
 		free(((t_env*)tmp->content)->name);
 		free(((t_env*)tmp->content)->value);
-		free(tmp->content);
 		tmp = tmp->next;
 	}
-	free(*env_list);
+	ft_lstclear(env_list, free);
 	env_list = NULL;
 }
 
