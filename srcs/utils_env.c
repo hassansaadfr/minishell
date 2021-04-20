@@ -78,7 +78,7 @@ int			new_env(t_list *env_list, char *new_env)
 		ft_lstadd_back(&env_list, env_node);
 		out = 1;
 	}
-		free(parsed_name);
+	free(parsed_name);
 	return (out);
 }
 
@@ -119,7 +119,7 @@ int			delete_env(t_list *env_list, char *name)
 	if (name == NULL || ft_strchr(name, '='))
 		return (0);
 	if (name)
-		env_name =  parse_env_name(name);
+		env_name = parse_env_name(name);
 	tmp = NULL;
 	out = 0;
 	if (env_name)

@@ -16,7 +16,6 @@
 */
 int		minishell(void);
 
-
 /*
 ** FILE - parse.c
 */
