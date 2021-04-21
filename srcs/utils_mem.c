@@ -25,6 +25,15 @@ void	free_cmds(char ***cmds)
 
 void	free_env(t_list **env_list)
 {
+	t_list	*tmp;
+
+	tmp = *env_list;
+	while (tmp)
+	{
+		free(((t_env*)tmp->content)->name);
+		free(((t_env*)tmp->content)->value);
+		tmp = tmp->next;
+	}
 	ft_lstclear(env_list, free);
 	env_list = NULL;
 }

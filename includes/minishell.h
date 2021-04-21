@@ -14,8 +14,7 @@
 /*
 **	FILE - main.c
 */
-int		minishell(t_list *env);
-
+int		minishell(void);
 
 /*
 ** FILE - parse.c
@@ -73,6 +72,10 @@ t_list	*get_env(t_list *env_list, char *name);
 int		edit_env(t_list *env_list, char *env);
 int		delete_env(t_list *env_list, char *name);
 int		new_env(t_list *env_list, char *new_env);
+t_list	*init_env_node(char *env);
+char	*parse_env_value(char *env);
+char	*parse_env_name(char *env);
+char	**list_to_array(t_list *env_list);
 
 /*
 **	FILE - bin_builtins.c
@@ -105,5 +108,11 @@ typedef struct		s_global
 }					t_global;
 
 t_global	global;
+
+typedef struct		s_env
+{
+	char	*name;
+	char	*value;
+}					t_env;
 
 #endif

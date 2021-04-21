@@ -44,7 +44,7 @@ int		exec_from_bins(char **cmd, t_list *env_list)
 	char			**bin_paths;
 
 	errno = 0;
-	path = get_env(env_list, "PATH")->content;
+	path = ((t_env*)get_env(env_list, "PATH")->content)->value;
 	bin_paths = ft_split(path, ':');
 	path = which_bin_fld(cmd[0], bin_paths);
 	free_split(bin_paths);
