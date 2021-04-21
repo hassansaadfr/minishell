@@ -7,11 +7,16 @@ static char	*concat_name_value_env(t_list *list)
 	char	*out;
 	char	*tmp;
 
+	errno = 0;
 	name = ((t_env*)list->content)->name;
 	value = ((t_env*)list->content)->value;
 	tmp = ft_strjoin(name, "=");
+	if (!tmp)
+		return (NULL);
 	out = ft_strjoin(tmp, value);
 	free(tmp);
+	if (!out)
+		return (NULL);
 	return (out);
 }
 
@@ -35,6 +40,11 @@ char		**list_to_array(t_list *env_list)
 	while (env_list)
 	{
 		out[i] = concat_name_value_env(env_list);
+		if (!out[i])
+		{
+			free_split(out);
+			return (NULL);
+		}
 		env_list = env_list->next;
 		i++;
 	}
