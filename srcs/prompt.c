@@ -11,7 +11,7 @@ void	prompt(t_list *env_list)
 		env_val = ((t_env*)tmp->content)->value;
 	if (isatty(0))
 	{
-		ft_putstr_fd(env_val, 2);
-		ft_putstr_fd("$> ", 2);
+		ft_putstr_fd(env_val, STDERR_FILENO);
+		ft_putstr_fd("$> ", STDERR_FILENO);
 	}
 }
