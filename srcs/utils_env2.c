@@ -5,11 +5,13 @@ static char	*concat_name_value_env(t_list *list)
 	char	*name;
 	char	*value;
 	char	*out;
+	char	*tmp;
 
 	name = ((t_env*)list->content)->name;
 	value = ((t_env*)list->content)->value;
-	out = ft_strjoin(name, "=");
-	out = ft_strjoin(out, value);
+	tmp = ft_strjoin(name, "=");
+	out = ft_strjoin(tmp, value);
+	free(tmp);
 	return (out);
 }
 
