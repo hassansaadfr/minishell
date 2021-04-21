@@ -75,6 +75,7 @@ int		new_env(t_list *env_list, char *new_env);
 t_list	*init_env_node(char *env);
 char	*parse_env_value(char *env);
 char	*parse_env_name(char *env);
+char	**list_to_array(t_list *env_list);
 
 /*
 **	FILE - bin_builtins.c

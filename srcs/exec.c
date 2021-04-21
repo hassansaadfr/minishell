@@ -1,31 +1,5 @@
 #include "minishell.h"
 
-char		**list_to_array(t_list *env_list)
-{
-	t_list	*tmp;
-	char	**out;
-	int		size;
-	int		i;
-
-	i = 0;
-	size = 0;
-	tmp = env_list;
-	if (!env_list)
-		return (NULL);
-	size = ft_lstsize(env_list);
-	out = malloc(sizeof(char*) * (size + 1));
-	if (!out)
-		return (NULL);
-	out[size] = 0;
-	while (env_list)
-	{
-		out[i] = env_list->content;
-		env_list = env_list->next;
-		i++;
-	}
-	return (out);
-}
-
 /*
 ** TODO:
 ** - Check strjoin returns

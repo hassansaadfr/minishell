@@ -1,5 +1,44 @@
 #include "minishell.h"
 
+static char	*concat_name_value_env(t_list *list)
+{
+	char	*name;
+	char	*value;
+	char	*out;
+
+	name = ((t_env*)list->content)->name;
+	value = ((t_env*)list->content)->value;
+	out = ft_strjoin(name, "=");
+	out = ft_strjoin(out, value);
+	return (out);
+}
+
+char		**list_to_array(t_list *env_list)
+{
+	t_list	*tmp;
+	char	**out;
+	int		size;
+	int		i;
+
+	i = 0;
+	size = 0;
+	tmp = env_list;
+	if (!env_list)
+		return (NULL);
+	size = ft_lstsize(env_list);
+	out = malloc(sizeof(char*) * (size + 1));
+	if (!out)
+		return (NULL);
+	out[size] = 0;
+	while (env_list)
+	{
+		out[i] = concat_name_value_env(env_list);
+		env_list = env_list->next;
+		i++;
+	}
+	return (out);
+}
+
 char		*parse_env_name(char *env)
 {
 	char	*name;
