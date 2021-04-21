@@ -13,13 +13,13 @@ t_list		*init_env(char **envp)
 	while (errno == 0 && (envp != NULL && *envp != NULL))
 	{
 		new_node = init_env_node(*envp);
-		name = ((t_env*)new_node->content)->name;
-		value = ((t_env*)new_node->content)->value;
 		if (!new_node)
 		{
 			ft_lstclear(&env_list, free);
 			return (NULL);
 		}
+		name = ((t_env*)new_node->content)->name;
+		value = ((t_env*)new_node->content)->value;
 		ft_lstadd_back(&env_list, new_node);
 		envp++;
 	}
