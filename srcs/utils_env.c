@@ -85,7 +85,7 @@ int			new_env(t_list *env_list, char *new_env)
 int			edit_env(t_list *env_list, char *env)
 {
 	t_list	*tmp;
-	t_env	*new_node;
+	t_env	*env_node;
 
 	if (!env)
 		return (0);
@@ -94,17 +94,11 @@ int			edit_env(t_list *env_list, char *env)
 	tmp = get_env(env_list, env);
 	if (tmp)
 	{
-		if (((t_env*)tmp->content)->name)
-			free(((t_env*)tmp->content)->name);
-		if (((t_env*)tmp->content)->value)
-			free(((t_env*)tmp->content)->value);
-		free(tmp->content);
-		new_node = ((t_env*)init_env_node(env)->content);
-		if (new_node)
-		{
-			tmp->content = new_node;
-			return (1);
-		}
+		env_node = tmp->content;
+		if (env_node->value)
+			free(env_node->value);
+		env_node->value = parse_env_value(env);
+		return (1);
 	}
 	return (0);
 }
