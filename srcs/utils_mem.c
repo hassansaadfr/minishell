@@ -1,16 +1,16 @@
 #include "minishell.h"
 
-void	free_split(char **tab)
+void	free_split(char **splitted)
 {
 	int i;
 
 	i = 0;
-	while (tab[i] != NULL)
+	while (splitted[i] != NULL)
 	{
-		free(tab[i]);
+		free(splitted[i]);
 		i++;
 	}
-	free(tab);
+	free(splitted);
 }
 
 void	free_cmds(char ***cmds)

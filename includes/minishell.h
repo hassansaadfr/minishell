@@ -8,6 +8,9 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <limits.h>
+# include <term.h>
+# include <termios.h>
+# include <curses.h>  
 
 # include "libft.h"
 
@@ -60,7 +63,7 @@ int		builtin_unset(char **argv, t_list *env_list);
 /*
 **	FILE - utils_mem.c
 */
-void	free_split(char **tab);
+void	free_split(char **splitted);
 void	free_cmds(char ***cmds);
 void	free_env(t_list **env_list);
 
@@ -99,20 +102,27 @@ int		exec_from_bins(char **cmd, t_list *env_list);
 */
 void	signal_handler(int signal_value);
 
-typedef struct		s_global
+/*
+**	FILE - termios.c
+*/
+typedef struct termios	t_termios;
+t_termios	enable_raw_mode(void);
+void		disable_raw_mode(t_termios orig_termios);
+
+typedef struct			s_global
 {
 	t_list	*env_list;
 	t_list	*history;
 	pid_t	pid;
 	int		last_return;
-}					t_global;
+}						t_global;
 
 t_global	global;
 
-typedef struct		s_env
+typedef struct			s_env
 {
 	char	*name;
 	char	*value;
-}					t_env;
+}						t_env;
 
 #endif
