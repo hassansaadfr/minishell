@@ -1,24 +1,17 @@
 #include "minishell.h"
 
-//void	signals(t_buff *buff)
-void	signals(void)
+void	signal_handling_register(void)
 {
-//	sighandler_t	ret_signal;
-
-//	ret_signal = signal(SIGINT, signal_handler);
 	signal(SIGINT, signal_handler);
-
-	//if (ret_signal == 0)
-	//	prompt(global.env_list, buff);
 }
 
-int		minishell(void)
+int		minishell(t_termios orig_termios)
 {
 	int		stop;
 	t_list	*history;
 	t_buff	buff;
 
-	signals();
+	signal_handling_register();
 	init_buff_and_history(&buff, &history);
 	stop = 0;
 	while (stop == 0)
@@ -29,7 +22,7 @@ int		minishell(void)
 		{
 			stop = add_to_history(&buff, &history);
 			if (stop == 0)
-				exec(parse(buff.buffer), global.env_list);
+				exec(parse(buff.buffer), global.env_list, orig_termios);
 		}
 	}
 	ft_lstclear(&history, free);
@@ -52,7 +45,7 @@ int		main(int argc, char **argv, char **envp)
 	}
 
 	global.env_list = init_env(envp);
-	minishell();
+	minishell(orig_termios);
 	free_env(&global.env_list);
 
 	disable_raw_mode(orig_termios);

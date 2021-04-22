@@ -22,10 +22,11 @@ typedef struct termios	t_termios;
 typedef struct			s_global
 {
 	t_list	*env_list;
-	t_list	*history;
+//	t_list	*history;
 	pid_t	pid;
-	int		last_return;
-	t_termios	orig_termios;
+	int		reset_buffer;
+//	int		last_return;
+//	t_termios	orig_termios;
 }						t_global;
 
 t_global	global;
@@ -60,7 +61,7 @@ typedef struct			s_buff
 /*
 **	FILE - main.c
 */
-int			minishell(void);
+int			minishell(t_termios orig_termios);
 
 /*
 ** FILE - parse.c
@@ -70,8 +71,8 @@ char		***parse(char *cmd);
 /*
 ** FILE - exec.c
 */
-int			exec(char ***cmds, t_list *env_list);
-int			exec_bin(char *path, char **args, t_list *env_list);
+int			exec(char ***cmds, t_list *env_list, t_termios orig_termios);
+int			exec_bin(char *path, char **args, t_list *env_list, t_termios orig_termios);
 char		*create_full_path(char *bin_path, char *cmd);
 
 /*
@@ -88,6 +89,7 @@ void		dbg_display_stat_buff(struct stat stat_buff);
 /*
 **	FILE - prompt.c
 */
+//void		prompt(t_list *env_list, t_buff *buff);
 void		prompt(t_list *env_list, t_buff *buff);
 
 /*
@@ -134,18 +136,17 @@ int			exec_from_builtins(char **cmd, t_list *env_list);
 **	FILE - bin_paths.c
 */
 int			is_path(char *cmd);
-int			exec_from_path(char **cmd, t_list *env_list);
+int			exec_from_path(char **cmd, t_list *env_list, t_termios orig_termios);
 
 /*
 **	FILE - bin_bins.c
 */
-int			exec_from_bins(char **cmd, t_list *env_list);
+int			exec_from_bins(char **cmd, t_list *env_list, t_termios orig_termios);
 
 /*
 **	FILE - signals.c
 */
 void		signal_handler(int signal_value);
-//sighandler_t	signal_handler(int signal_value)
 
 
 /*

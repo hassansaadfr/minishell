@@ -12,7 +12,8 @@ t_termios		enable_raw_mode(void)
 
 	tcgetattr(STDIN_FILENO, &orig_termios);
 	new_termios = orig_termios;
-	new_termios.c_lflag &= ~(ICANON | ECHO | ISIG);
+//	new_termios.c_lflag &= ~(ICANON | ECHO | ISIG);
+	new_termios.c_lflag &= ~(ICANON | ECHO);
 //	new_termios.c_iflag &= ~(ICRNL | IXON);
 	new_termios.c_iflag &= ~(IXON);
 //	new_termios.c_oflag &= ~(OPOST);

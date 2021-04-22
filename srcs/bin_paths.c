@@ -15,7 +15,7 @@ int			is_path(char *cmd)
 ** Should control return of checked_path in elseif
 */
 
-int			exec_from_path(char **cmd, t_list *env_list)
+int			exec_from_path(char **cmd, t_list *env_list, t_termios orig_termios)
 {
 	int				ret_stat;
 	char			*checked_path;
@@ -33,7 +33,7 @@ int			exec_from_path(char **cmd, t_list *env_list)
 		checked_path = create_full_path(getenv("PWD"), cmd[0]);
 	ret_stat = stat(checked_path, &stat_buff);
 	if (ret_stat == 0)
-		exec_bin(checked_path, cmd, env_list);
+		exec_bin(checked_path, cmd, env_list, orig_termios);
 	free(checked_path);
 	return (0);
 }
