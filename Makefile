@@ -22,7 +22,12 @@ SRCS			=	main.c \
 					signals.c \
 					utils_env.c \
 					utils_env2.c \
-					termios.c
+					termios.c \
+					initializations.c \
+					utils_input.c \
+					termcaps.c \
+					buffer.c \
+					history.c
 
 TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c signal_tests.c
 
@@ -45,7 +50,7 @@ CRITERIONFLAGS	=	-lcriterion
 
 $(NAME)			:	${OBJS}
 					make -C libft
-					@${CC} ${CFLAGS} ${LD_FLAGS} ${OBJS} -o ${NAME} -lft
+					@${CC} ${CFLAGS} ${LD_FLAGS} ${OBJS} -o ${NAME} -lft -lncurses
 
 all				:	${NAME}
 

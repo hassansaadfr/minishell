@@ -29,6 +29,7 @@ int			exec_bin(char *path, char **args, t_list *env_list)
 	int		status;
 	char	**env;
 
+	errno = 0;
 	global.pid = fork();
 	env = NULL;
 	if (global.pid > 0)
@@ -46,7 +47,7 @@ int			exec_bin(char *path, char **args, t_list *env_list)
 		free_split(env);
 	}
 	else
-		printf("ERROR - fork\n");
+		printf("ERROR - fork\r\n");
 	return (0);
 }
 
