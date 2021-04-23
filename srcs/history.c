@@ -81,6 +81,7 @@ void	change_input_str(int arrow, t_buff *buff, t_list *history)
 	exec_termcap("dl");
 	ft_putstr_fd(pwd_val, STDERR_FILENO);
 	write(STDERR_FILENO, "$> ", 3);
+
 	if (arrow == UP_ARROW && history)
 		exec_up_arrow(buff, history);
 	else if (arrow == DN_ARROW && buff->pos != NULL)

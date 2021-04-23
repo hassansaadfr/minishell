@@ -17,8 +17,8 @@ t_termios		enable_raw_mode(void)
 //	new_termios.c_iflag &= ~(ICRNL | IXON);
 	new_termios.c_iflag &= ~(IXON);
 //	new_termios.c_oflag &= ~(OPOST);
-	new_termios.c_cc[VMIN] = 0;
-	new_termios.c_cc[VTIME] = 1;
+//	new_termios.c_cc[VMIN] = 0;
+//	new_termios.c_cc[VTIME] = 1;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &new_termios);
 	return (orig_termios);
 }
