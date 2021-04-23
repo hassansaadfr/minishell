@@ -1,14 +1,15 @@
 #include "minishell.h"
 
-void	prompt(t_list *env_list, t_buff *buff)
+void	prompt(void)
 {
-	t_list	*tmp;
 	char	*env_val;
+	t_list	*tmp;
 
-	buff->pos = NULL;	
-	(*buff->buffer) = '\0';
+	global.buff->pos = NULL;	
+	*(global.buff->buffer) = '\0';
+	global.buff->i = 0;
 	env_val = NULL;
-	tmp = get_env(env_list, "PWD");
+	tmp = get_env(global.env_list, "PWD");
 	if (tmp)
 		env_val = ((t_env*)tmp->content)->value;
 	if (isatty(0))

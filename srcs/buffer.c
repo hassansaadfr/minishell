@@ -50,7 +50,6 @@ int		write_buffer(int *stop, t_buff *buff, t_list *history)
 {
     int		c;
 
-    buff->i = 0;
     c = '\0';
     while (c != ENTER && *stop == 0)
     {
@@ -73,14 +72,3 @@ int		write_buffer(int *stop, t_buff *buff, t_list *history)
     write(STDIN_FILENO, "\r\n", 2);
 	return (*stop);
 }
-
-/*
-void    print_buffer(t_buff *buff)
-{
-    if (buff->buffer[0] != '\0')
-    {
-        ft_putstr_fd(buff->buffer, STDIN_FILENO);
-        write(STDIN_FILENO, "\r\n", 2);
-    }
-}
-*/

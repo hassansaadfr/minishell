@@ -19,18 +19,6 @@
 */
 typedef struct termios	t_termios;
 
-typedef struct			s_global
-{
-	t_list	*env_list;
-//	t_list	*history;
-	pid_t	pid;
-	int		reset_buffer;
-//	int		last_return;
-//	t_termios	orig_termios;
-}						t_global;
-
-t_global	global;
-
 typedef struct			s_env
 {
 	char	*name;
@@ -45,6 +33,18 @@ typedef struct			s_buff
     int		i;  
     int		factor;
 }						t_buff;
+
+typedef struct			s_global
+{
+	t_list	*env_list;
+//	t_list	*history;
+	pid_t	pid;
+	int		reset_buffer;
+	t_buff	*buff;
+//	int		last_return;
+}						t_global;
+
+t_global	global;
 
 /*
 **	DEFINES
@@ -90,7 +90,7 @@ void		dbg_display_stat_buff(struct stat stat_buff);
 **	FILE - prompt.c
 */
 //void		prompt(t_list *env_list, t_buff *buff);
-void		prompt(t_list *env_list, t_buff *buff);
+void		prompt(void);
 
 /*
 **	BUILTINS
@@ -146,7 +146,7 @@ int			exec_from_bins(char **cmd, t_list *env_list, t_termios orig_termios);
 /*
 **	FILE - signals.c
 */
-void		signal_handler(int signal_value);
+void		sigint_handler(int signal_value);
 
 
 /*

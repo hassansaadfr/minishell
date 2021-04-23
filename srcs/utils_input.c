@@ -9,13 +9,15 @@ int		is_ctrl_keys(char c, int *stop, t_buff *buff, t_list *history)
 	else if (c == ctrl_value('h'))
 	{
 		display_history(history);
-		prompt(global.env_list, buff);
+		prompt();
 	}
 	else if (c == ctrl_value('s'))
 	{
 		printf("history size = %d\r\n", ft_lstsize(history));
-		prompt(global.env_list, buff);
+		prompt();
 	}
+	else if (c == ctrl_value('c'))
+		ft_putstr_fd("^C\n", STDERR_FILENO);
 	else
 		return (0);
 	return (1);

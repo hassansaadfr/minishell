@@ -2,7 +2,8 @@
 
 void	signal_handling_register(void)
 {
-	signal(SIGINT, signal_handler);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 int		minishell(t_termios orig_termios)
@@ -16,8 +17,10 @@ int		minishell(t_termios orig_termios)
 	stop = 0;
 	while (stop == 0)
 	{
-		prompt(global.env_list, &buff);
+		// ENABLE RAW_MODE ICI
+		prompt();
 		stop = write_buffer(&stop, &buff, history);
+		// DISBLE RAW_MODE ICI
 		if (stop == 0)
 		{
 			stop = add_to_history(&buff, &history);
