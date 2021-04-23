@@ -57,7 +57,6 @@ t_global	global;
 # define UP_ARROW 12938712
 # define DN_ARROW 1290837
 
-
 /*
 **	FILE - main.c
 */
