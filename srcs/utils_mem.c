@@ -1,16 +1,16 @@
 #include "minishell.h"
 
-void	free_split(char **tab)
+void	free_split(char **splitted)
 {
 	int i;
 
 	i = 0;
-	while (tab[i] != NULL)
+	while (splitted[i] != NULL)
 	{
-		free(tab[i]);
+		free(splitted[i]);
 		i++;
 	}
-	free(tab);
+	free(splitted);
 }
 
 void	free_cmds(char ***cmds)
@@ -36,4 +36,20 @@ void	free_env(t_list **env_list)
 	}
 	ft_lstclear(env_list, free);
 	env_list = NULL;
+}
+
+void	*ft_realloc(void *old_ptr, size_t old_size, size_t new_size)
+{
+	void	*new_ptr;
+
+	new_ptr = malloc(new_size);
+	if (new_ptr == NULL)
+	{
+		free(old_ptr);
+		return (NULL);
+	}
+	ft_bzero(new_ptr, new_size);
+	ft_memcpy(new_ptr, old_ptr, old_size);
+	free(old_ptr);
+	return (new_ptr);
 }

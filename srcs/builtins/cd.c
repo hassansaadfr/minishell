@@ -19,15 +19,27 @@ static int	update_pwd(t_list *env_list)
 	return (0);
 }
 
+static int	set_old_pwd(char *old_pwd, t_list *env_list)
+{
+	char	*joined;
+
+	errno = 0;
+	joined = NULL;
+	joined = ft_strjoin("OLDPWD=", old_pwd);
+	if (!joined || errno != 0)
+		return (1);
+	edit_env(env_list, joined);
+	free(joined);
+	return (0);
+}
+
 int			builtin_cd(char **argv, t_list *env_list)
 {
 	int		ret;
 	char	old_pwd[PATH_MAX];
-	char	*joined;
 
 	errno = 0;
 	ret = 0;
-	joined = NULL;
 	if (argv[1] && ft_strlen(argv[1]) > 0)
 	{
 		getcwd(old_pwd, PATH_MAX);
@@ -37,12 +49,7 @@ int			builtin_cd(char **argv, t_list *env_list)
 		if (ret == 0 && errno == 0)
 		{
 			if (update_pwd(env_list))
-			{
-				joined = ft_strjoin("OLDPWD=", old_pwd);
-				edit_env(env_list, joined);
-				free(joined);
-				return (1);
-			}
+				return (!set_old_pwd(old_pwd, env_list));
 			return (0);
 		}
 		handle_errno(errno, "cd", argv[1]);

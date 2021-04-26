@@ -1,13 +1,16 @@
 #include "minishell.h"
 
-void	signal_handler(int signal_value)
+void	sigint_handler(int signal_value)
 {
-	if (signal_value == SIGINT)
+	(void)signal_value;
+	if (g_global.pid)
 	{
-		write(1, "\n", 1);
-		if (global.pid)
-			kill(global.pid, SIGINT);
-		else
-			prompt(global.env_list);
+		kill(g_global.pid, SIGINT);
+		write(STDERR_FILENO, "\n", 1);
+	}
+	else
+	{
+		ft_putchar_fd('\n', STDERR_FILENO);
+		prompt();
 	}
 }

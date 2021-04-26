@@ -38,7 +38,7 @@ char	*which_bin_fld(char *bin, char **bin_paths)
 ** check which_bin_fld return value (if null not found)
 */
 
-int		exec_from_bins(char **cmd, t_list *env_list)
+int		exec_from_bins(char **cmd, t_list *env_list, t_termios orig_termios)
 {
 	char			*path;
 	char			**bin_paths;
@@ -50,7 +50,7 @@ int		exec_from_bins(char **cmd, t_list *env_list)
 	free_split(bin_paths);
 	if (path)
 	{
-		exec_bin(path, cmd, env_list);
+		exec_bin(path, cmd, env_list, orig_termios);
 		free(path);
 	}
 	return (0);

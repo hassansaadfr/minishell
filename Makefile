@@ -21,9 +21,15 @@ SRCS			=	main.c \
 					utils_mem.c \
 					signals.c \
 					utils_env.c \
-					utils_env2.c
+					utils_env2.c \
+					termios.c \
+					initializations.c \
+					utils_input.c \
+					termcaps.c \
+					buffer.c \
+					history.c
 
-TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c signal_tests.c
+TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c #signal_tests.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
@@ -44,7 +50,7 @@ CRITERIONFLAGS	=	-lcriterion
 
 $(NAME)			:	${OBJS}
 					make -C libft
-					@${CC} ${CFLAGS} ${LD_FLAGS} ${OBJS} -o ${NAME} -lft
+					@${CC} ${CFLAGS} ${LD_FLAGS} ${OBJS} -o ${NAME} -lft -lncurses
 
 all				:	${NAME}
 
@@ -54,7 +60,7 @@ test			:	$(TEST_NAME)
 
 $(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS} ${NAME}
 					@${CC} -g $(NO_MAIN) ${CFLAGS} ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
-						-lft
+						-lft -lncurses
 					@ rm $(TEST_OBJS) $(NO_MAIN)
 
 clean			:

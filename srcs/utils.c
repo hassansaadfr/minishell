@@ -16,16 +16,16 @@ int		handle_errno(int err, char *binary, char *arg)
 {
 	if (err != 0)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(binary, 2);
-		ft_putstr_fd(": ", 2);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(binary, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 		if (err != E2BIG)
 		{
-			ft_putstr_fd(arg, 2);
-			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(arg, STDERR_FILENO);
+			ft_putstr_fd(": ", STDERR_FILENO);
 		}
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putchar_fd('\n', 2);
+		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
 	}
 	return (errno);
 }
