@@ -13,7 +13,7 @@ int		is_ctrl_keys(char c, int *stop, t_buff *buff, t_list *history)
 	}
 	else if (c == ctrl_value('s'))
 	{
-		printf("history size = %d\r\n", ft_lstsize(history));
+		printf("history size = %d\n", ft_lstsize(history));
 		prompt();
 	}
 	else if (c == ctrl_value('c'))

@@ -9,7 +9,7 @@ char    read_key(void)
     {
         if (bytes_read == -1 && errno != EAGAIN)
         {
-            ft_putstr_fd("error -- read(2)\r\n", STDERR_FILENO);
+            ft_putstr_fd("error -- read(2)\n", STDERR_FILENO);
             exit(1);
         }
     }
@@ -69,6 +69,6 @@ int		write_buffer(int *stop, t_buff *buff, t_list *history)
 		else if (is_ctrl_keys(c, stop, buff, history))
 			;
     }
-    write(STDIN_FILENO, "\r\n", 2);
+    write(STDIN_FILENO, "\n", 2);
 	return (*stop);
 }

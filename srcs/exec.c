@@ -47,7 +47,7 @@ int			exec_bin(char *path, char **args, t_list *env_list, t_termios orig_termios
 		ret = execve(path, args, env);
 	}
 	else
-		printf("ERROR - fork\r\n");
+		printf("ERROR - fork\n");
 	return (0);
 }
 

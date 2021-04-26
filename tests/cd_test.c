@@ -19,7 +19,7 @@ Test(cd_suite, directory_dont_exist) {
 	if (diff == 0)
 		system("rm -f tests/outputs_m_sh/cd_directory_dont_exist.log");
 	else
-		printf("+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
+		printf("+++++\nYour return:\t\"%s\"\nExpected:\t\"%s\"\n+++++\n", file, expected);
 	cr_assert(diff == 0);
 }
 

@@ -11,21 +11,39 @@ int		minishell(t_termios orig_termios)
 	int		stop;
 	t_list	*history;
 	t_buff	buff;
+	int		ret_gnl;
+	char	*line;
 
 	signal_handling_register();
 	init_buff_and_history(&buff, &history);
 	stop = 0;
-	while (stop == 0)
+	line = NULL;
+	ret_gnl = 1;
+	if (isatty(STDIN_FILENO))
 	{
-		// ENABLE RAW_MODE ICI
-		prompt();
-		stop = write_buffer(&stop, &buff, history);
-		// DISBLE RAW_MODE ICI
-		if (stop == 0)
+		while (stop == 0)
 		{
-			stop = add_to_history(&buff, &history);
+			// ENABLE RAW_MODE ICI
+			prompt();
+			stop = write_buffer(&stop, &buff, history);
+			// DISBLE RAW_MODE ICI
 			if (stop == 0)
-				exec(parse(buff.buffer), global.env_list, orig_termios);
+			{
+				stop = add_to_history(&buff, &history);
+				if (stop == 0)
+					exec(parse(buff.buffer), global.env_list, orig_termios);
+			}
+		}
+	}
+	else
+	{
+		while (ret_gnl > 0)
+		{
+			prompt();
+			ret_gnl = get_next_line(0, &line);
+			if (*line)
+				exec(parse(line), global.env_list, orig_termios);
+			free(line);
 		}
 	}
 	ft_lstclear(&history, free);

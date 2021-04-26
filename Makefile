@@ -60,7 +60,7 @@ test			:	$(TEST_NAME)
 
 $(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS} ${NAME}
 					@${CC} -g $(NO_MAIN) ${CFLAGS} ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
-						-lft
+						-lft -lncurses
 					@ rm $(TEST_OBJS) $(NO_MAIN)
 
 clean			:

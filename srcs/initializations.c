@@ -29,20 +29,20 @@ int     init_termcaps(void)
     term_type = getenv("TERM");
     if (term_type == NULL)
     {
-        ft_putstr_fd("ERROR - \"TERM\" not set in env\r\n", STDERR_FILENO);
+        ft_putstr_fd("ERROR - \"TERM\" not set in env\n", STDERR_FILENO);
         return (0);
     }
     ret_tgetent = tgetent(NULL, term_type);
     if (ret_tgetent == -1)
     {
-        ft_putstr_fd("ERROR - Could not access Termcaps DB\r\n", STDERR_FILENO);
+        ft_putstr_fd("ERROR - Could not access Termcaps DB\n", STDERR_FILENO);
         return (0);
     }
     if (ret_tgetent == 0)
     {
         ft_putstr_fd("ERROR - Termcap type \"", STDERR_FILENO);
         ft_putstr_fd(term_type, STDERR_FILENO);
-        ft_putstr_fd("\" is not in Termcap DB\r\n", STDERR_FILENO);
+        ft_putstr_fd("\" is not in Termcap DB\n", STDERR_FILENO);
         return (0);
     }
     return (1);

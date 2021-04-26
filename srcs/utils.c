@@ -25,7 +25,7 @@ int		handle_errno(int err, char *binary, char *arg)
 			ft_putstr_fd(": ", STDERR_FILENO);
 		}
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
-		ft_putstr_fd("\r\n", STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
 	}
 	return (errno);
 }
