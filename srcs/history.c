@@ -74,14 +74,13 @@ void	change_input_str(int arrow, t_buff *buff, t_list *history)
 	t_list	*tmp;
 	char	*pwd_val;
 
-    pwd_val = NULL;
-    tmp = get_env(global.env_list, "PWD");
-    if (tmp)
-        pwd_val = ((t_env*)tmp->content)->value;
+	pwd_val = NULL;
+	tmp = get_env(global.env_list, "PWD");
+	if (tmp)
+		pwd_val = ((t_env*)tmp->content)->value;
 	exec_termcap("dl");
 	ft_putstr_fd(pwd_val, STDERR_FILENO);
 	write(STDERR_FILENO, "$> ", 3);
-
 	if (arrow == UP_ARROW && history)
 		exec_up_arrow(buff, history);
 	else if (arrow == DN_ARROW && buff->pos != NULL)

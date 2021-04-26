@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void sigint_handler(int signal_value)
+void	sigint_handler(int signal_value)
 {
 	(void)signal_value;
 	if (global.pid)

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	signal_handling_register(void)
+void		signal_handling_register(void)
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -15,9 +15,9 @@ void	signal_handling_register(void)
 
 static int	minishell_tty(t_termios orig_termios)
 {
-	int     stop;
-	t_list  *history;
-	t_buff  buff;
+	int		stop;
+	t_list	*history;
+	t_buff	buff;
 
 	signal_handling_register();
 	init_buff_and_history(&buff, &history);
@@ -33,21 +33,21 @@ static int	minishell_tty(t_termios orig_termios)
 				exec(parse(buff.buffer), global.env_list, orig_termios);
 		}
 	}
-    ft_lstclear(&history, free);
-    free(buff.buffer);
-    free(buff.backup);
+	ft_lstclear(&history, free);
+	free(buff.buffer);
+	free(buff.backup);
 	return (stop);
 }
 
 static int	minishell_non_tty(t_termios orig_termios)
 {
-	int     ret_gnl;
-	char    *line;
+	int		ret_gnl;
+	char	*line;
 	char	***cmds;
 
 	line = NULL;
 	ret_gnl = 1;
-    signal_handling_register();
+	signal_handling_register();
 	while (ret_gnl > 0)
 	{
 		ret_gnl = get_next_line(STDIN_FILENO, &line);
@@ -61,7 +61,7 @@ static int	minishell_non_tty(t_termios orig_termios)
 	return (0);
 }
 
-int		minishell(t_termios orig_termios)
+int			minishell(t_termios orig_termios)
 {
 	int		ret;
 
@@ -72,23 +72,21 @@ int		minishell(t_termios orig_termios)
 	return (0);
 }
 
-int		main(int argc, char **argv, char **envp)
+int			main(int argc, char **argv, char **envp)
 {
 	t_termios	orig_termios;
+
 	(void)argc;
 	(void)argv;
-
 	orig_termios = enable_raw_mode();
 	if (init_termcaps() == 0)
 	{
 		disable_raw_mode(orig_termios);
 		return (-1);
 	}
-
 	global.env_list = init_env(envp);
 	minishell(orig_termios);
 	free_env(&global.env_list);
-
 	disable_raw_mode(orig_termios);
 	return (0);
 }

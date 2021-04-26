@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 static void	print_env_list(t_list *env_list)
 {
 	t_list	*tmp;

@@ -5,7 +5,7 @@ void	prompt(void)
 	char	*env_val;
 	t_list	*tmp;
 
-	global.buff->pos = NULL;	
+	global.buff->pos = NULL;
 	*(global.buff->buffer) = '\0';
 	global.buff->i = 0;
 	env_val = NULL;

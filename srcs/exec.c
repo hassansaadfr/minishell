@@ -23,7 +23,8 @@ char		*create_full_path(char *bin_path, char *cmd)
 ** pid == 0 = child
 */
 
-int			exec_bin(char *path, char **args, t_list *env_list, t_termios orig_termios)
+int			exec_bin(char *path, char **args, t_list *env_list,
+			t_termios orig_termios)
 {
 	int		ret;
 	int		status;

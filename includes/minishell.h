@@ -10,7 +10,7 @@
 # include <limits.h>
 # include <term.h>
 # include <termios.h>
-# include <curses.h>  
+# include <curses.h>
 
 # include "libft.h"
 
@@ -27,24 +27,22 @@ typedef struct			s_env
 
 typedef struct			s_buff
 {
-    char	*buffer;
-    char	*backup;
-    t_list	*pos;
-    int		i;  
-    int		factor;
+	char	*buffer;
+	char	*backup;
+	t_list	*pos;
+	int		i;
+	int		factor;
 }						t_buff;
 
 typedef struct			s_global
 {
 	t_list	*env_list;
-//	t_list	*history;
 	pid_t	pid;
 	int		reset_buffer;
 	t_buff	*buff;
-//	int		last_return;
 }						t_global;
 
-t_global	global;
+t_global	g_global;
 
 /*
 **	DEFINES
@@ -88,7 +86,6 @@ void		dbg_display_stat_buff(struct stat stat_buff);
 /*
 **	FILE - prompt.c
 */
-//void		prompt(t_list *env_list, t_buff *buff);
 void		prompt(void);
 
 /*
@@ -147,7 +144,6 @@ int			exec_from_bins(char **cmd, t_list *env_list, t_termios orig_termios);
 */
 void		sigint_handler(int signal_value);
 
-
 /*
 **	FILE - termios.c
 */
@@ -175,22 +171,21 @@ void	exec_termcap(char *termcap_name);
 void	delete_char(t_buff *buff);
 void	clear_line(t_buff *buff);
 
-
 /*
 **	FILE - buffer.c
 */
 char	read_key(void);
 int		process_key(t_buff *buff);
-int     expand_buffers(t_buff *buff);
-int     write_buffer(int *stop, t_buff *buff, t_list *history);
+int		expand_buffers(t_buff *buff);
+int		write_buffer(int *stop, t_buff *buff, t_list *history);
 
 /*
 **	FILE - history.c
 */
-void    display_history(t_list *hist);
-int     add_to_history(t_buff *buff, t_list **history);
-void    exec_up_arrow(t_buff *buff, t_list *history);
-void    exec_down_arrow(t_buff *buff);
-void    change_input_str(int arrow, t_buff *buff, t_list *history);
+void	display_history(t_list *hist);
+int		add_to_history(t_buff *buff, t_list **history);
+void	exec_up_arrow(t_buff *buff, t_list *history);
+void	exec_down_arrow(t_buff *buff);
+void	change_input_str(int arrow, t_buff *buff, t_list *history);
 
 #endif
