@@ -30,7 +30,7 @@ static int	minishell_tty(t_termios orig_termios)
 		{
 			stop = add_to_history(&buff, &history);
 			if (stop == 0)
-				exec(parse(buff.buffer), global.env_list, orig_termios);
+				exec(parse(buff.buffer), g_global.env_list, orig_termios);
 		}
 	}
 	ft_lstclear(&history, free);
@@ -54,7 +54,7 @@ static int	minishell_non_tty(t_termios orig_termios)
 		if (*line)
 		{
 			cmds = parse(line);
-			exec(cmds, global.env_list, orig_termios);
+			exec(cmds, g_global.env_list, orig_termios);
 		}
 		free(line);
 	}
@@ -84,9 +84,9 @@ int			main(int argc, char **argv, char **envp)
 		disable_raw_mode(orig_termios);
 		return (-1);
 	}
-	global.env_list = init_env(envp);
+	g_global.env_list = init_env(envp);
 	minishell(orig_termios);
-	free_env(&global.env_list);
+	free_env(&g_global.env_list);
 	disable_raw_mode(orig_termios);
 	return (0);
 }

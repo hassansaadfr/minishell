@@ -75,7 +75,7 @@ void	change_input_str(int arrow, t_buff *buff, t_list *history)
 	char	*pwd_val;
 
 	pwd_val = NULL;
-	tmp = get_env(global.env_list, "PWD");
+	tmp = get_env(g_global.env_list, "PWD");
 	if (tmp)
 		pwd_val = ((t_env*)tmp->content)->value;
 	exec_termcap("dl");

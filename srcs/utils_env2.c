@@ -22,14 +22,12 @@ static char	*concat_name_value_env(t_list *list)
 
 char		**list_to_array(t_list *env_list)
 {
-	t_list	*tmp;
 	char	**out;
 	int		size;
 	int		i;
 
 	i = 0;
 	size = 0;
-	tmp = env_list;
 	if (!env_list)
 		return (NULL);
 	size = ft_lstsize(env_list);

@@ -32,15 +32,15 @@ int			exec_bin(char *path, char **args, t_list *env_list,
 
 	disable_raw_mode(orig_termios);
 	errno = 0;
-	global.pid = fork();
+	g_global.pid = fork();
 	env = NULL;
-	if (global.pid > 0)
+	if (g_global.pid > 0)
 	{
 		ret = waitpid(0, &status, 0);
 		enable_raw_mode();
-		global.pid = 0;
+		g_global.pid = 0;
 	}
-	else if (global.pid == 0)
+	else if (g_global.pid == 0)
 	{
 		env = list_to_array(env_list);
 		if (!env)

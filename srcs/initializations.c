@@ -17,7 +17,7 @@ int		init_buff_and_history(t_buff *buff, t_list **history)
 	buff->i = 0;
 	buff->factor = 1;
 	*history = NULL;
-	global.buff = buff;
+	g_global.buff = buff;
 	return (0);
 }
 
