@@ -36,7 +36,6 @@ static int	minishell_tty(t_termios orig_termios)
     ft_lstclear(&history, free);
     free(buff.buffer);
     free(buff.backup);
-
 	return (stop);
 }
 
