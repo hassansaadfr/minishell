@@ -63,13 +63,10 @@ static int	minishell_non_tty(t_termios orig_termios)
 
 int			minishell(t_termios orig_termios)
 {
-	int		ret;
-
 	if (isatty(STDIN_FILENO))
-		ret = minishell_tty(orig_termios);
+		return (minishell_tty(orig_termios));
 	else
-		ret = minishell_non_tty(orig_termios);
-	return (0);
+		return (minishell_non_tty(orig_termios));
 }
 
 int			main(int argc, char **argv, char **envp)
