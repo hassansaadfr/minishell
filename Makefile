@@ -27,7 +27,8 @@ SRCS			=	main.c \
 					utils_input.c \
 					termcaps.c \
 					buffer.c \
-					history.c
+					history.c \
+					parsing_test.c
 
 TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c #signal_tests.c
 
@@ -41,7 +42,7 @@ HEAD			=	-I includes -I libft
 
 CC				=	clang
 
-CFLAGS			=	-Wall -Werror -Wextra -g
+CFLAGS			=	-Wall -Werror -Wextra -g -fsanitize=address
 
 CRITERIONFLAGS	=	-lcriterion
 

@@ -152,4 +152,11 @@ void		exec_up_arrow(t_buff *buff, t_list *history);
 void		exec_down_arrow(t_buff *buff);
 void		change_input_str(int arrow, t_buff *buff, t_list *history);
 
+/*
+**	FILE - parsing_test.c
+*/
+t_list		*parsing(char *buffer);
+void		display_args(t_list *args);
+void		free_token(void *token);
+
 #endif
