@@ -30,15 +30,7 @@ typedef struct			s_global
 
 t_global				g_global;
 
-typedef struct			s_parse
-{
-	t_list	*args;
-	char	*buffer;
-	char	*tmp;
-	char	*line_start;
-}						t_parse;
-
-enum	types
+enum					e_types
 {
 	ARG,
 	REDIR_INF,
@@ -49,7 +41,7 @@ enum	types
 	S_COLON
 };
 
-enum	state
+enum					e_state
 {
 	NORMAL,
 	S_QUOTE,
@@ -57,10 +49,20 @@ enum	state
 	B_SLASH
 };
 
-typedef struct	s_token
+typedef struct			s_parse
+{
+	t_list			*tokens;
+	char			*buffer_start;
+	char			*buffer;
+	char			*line_start;
+	size_t			line_len;
+	enum e_state	state;
+}						t_parse;
+
+typedef struct			s_token
 {
 	int		type;
 	char	*arg;
-}				t_token;
+}						t_token;
 
 #endif

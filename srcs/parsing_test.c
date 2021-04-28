@@ -29,19 +29,19 @@ char    *enum_to_str(int type)
 	return ("ERR STATE");
 }
 
-size_t		init_args_and_buffer(t_list **args, char **buffer, char **tmp, char *line)
+size_t		init_list_and_buffer(t_list **tokens, char **buffer_start, char **buffer, char *line)
 {
 	size_t	line_len;
 
-	*args = NULL;
+	*tokens = NULL;
 	line_len = ft_strlen(line) + 1;
-	*buffer = malloc(sizeof(char) * line_len);
-	ft_bzero(*buffer, line_len);
-	*tmp = *buffer;
+	*buffer_start = malloc(sizeof(char) * line_len);
+	ft_bzero(*buffer_start, line_len);
+	*buffer = *buffer_start;
 	return (line_len);
 }
 
-void	display_args(t_list *args)
+void	display_tokens(t_list *tokens)
 {
 	int		i;
 	t_token	*token;
@@ -50,36 +50,36 @@ void	display_args(t_list *args)
 	i = 0;
 	printf("i\tstr\t\t\t\tlen\t\ttype\n");
 	printf("____________________________________________________________\n");
-	while (args)
+	while (tokens)
 	{
-		token = args->content;
+		token = tokens->content;
 		len = ft_strlen(token->arg);
 		printf("%d\t\"%-20.20s\"\t\t%zu\t\t%s\n", i++, token->arg, len, enum_to_str(token->type));
-		args = args->next;
+		tokens = tokens->next;
 	}
 	printf("\n");
 }
 
-int		add_to_args(t_list **args, char **buffer, char **tmp)
+int		add_to_tokens(t_list **tokens, char **buffer_start, char **buffer)
 {
 	t_token				*token;
-	enum types	type;
+	enum e_types		type;
 
 	//	if (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP)
 	//		type = FD;
 	//	else
 	//		type = ARG;
 	type = ARG;
-	if (ft_strncmp(*buffer, ";", ft_strlen(*buffer)) == 0)
+	if (ft_strncmp(*buffer_start, ";", ft_strlen(*buffer_start)) == 0)
 		type = S_COLON;
-	if (**buffer)
+	if (**buffer_start)
 	{
 		/*
-		   if (**buffer == '<')
+		   if (**buffer_start == '<')
 		   type = REDIR_INF;
-		   else if (**buffer == '>')
+		   else if (**buffer_start == '>')
 		   {
-		   if (*((*buffer) + 1) == '>')
+		   if (*((*buffer_start) + 1) == '>')
 		   type = REDIR_DSUP;
 		   else
 		   type = REDIR_SUP;
@@ -87,24 +87,25 @@ int		add_to_args(t_list **args, char **buffer, char **tmp)
 		   */
 		token = malloc(sizeof(t_token));
 		token->type = type;
-		token->arg = ft_strdup(*buffer);
-		ft_lstadd_back(args, ft_lstnew(token));
-		ft_bzero(*buffer, *tmp - *buffer);
-		*tmp = *buffer;
+		token->arg = ft_strdup(*buffer_start);
+		ft_lstadd_back(tokens, ft_lstnew(token));
+		ft_bzero(*buffer_start, *buffer - *buffer_start);
+		*buffer = *buffer_start;
 	}
 	return (1);
 }
 
 t_list	*parsing(char *line)
 {
-	t_list		*args;
-	char		*buffer;
-	char		*tmp;
-	char		*line_start;
-	size_t		line_len;
-	enum state	state;
+	t_parsing		p;
+	t_list			*tokens;
+	char			*buffer_start;
+	char			*buffer;
+	char			*line_start;
+	size_t			line_len;
+	enum e_state	state;
 
-	line_len = init_args_and_buffer(&args, &buffer, &tmp, line);
+	line_len = init_list_and_buffer(&tokens, &buffer_start, &buffer, line);
 	state = NORMAL;
 	line_start = line;
 	while ((size_t)(line - line_start) < line_len)
@@ -118,7 +119,7 @@ t_list	*parsing(char *line)
 			{
 				if (*line == '$' || *line == ';')
 					*line = -*line;
-				*(tmp++) = *line;
+				*(buffer++) = *line;
 				state = NORMAL;
 			}
 		}
@@ -132,7 +133,7 @@ t_list	*parsing(char *line)
 			{
 				if (*line == '$' || *line == ';')
 					*line = -(*line);
-				*(tmp++) = *(line++);
+				*(buffer++) = *(line++);
 			}
 			if (*line == '\'')
 				state = NORMAL;
@@ -147,19 +148,19 @@ t_list	*parsing(char *line)
 			{
 				line++;
 				if (*line == '\"' || *line == '\\')
-					*(tmp++) = *(line);
+					*(buffer++) = *(line);
 				else if (*line == '$')
-					*(tmp++) = -*line;
+					*(buffer++) = -*line;
 				else 
 				{
-					*(tmp++) = '\\';
-					*(tmp++) = *(line);
+					*(buffer++) = '\\';
+					*(buffer++) = *(line);
 				}
 			}
 			else if (*line == ';')
-				*(tmp++) = -*line;
+				*(buffer++) = -*line;
 			else
-				*(tmp++) = *(line);
+				*(buffer++) = *(line);
 		}
 		else if (*line == '\"' && state == D_QUOTE)
 			state = NORMAL;
@@ -167,25 +168,25 @@ t_list	*parsing(char *line)
 		// NORMAL
 		else if (*line == ';' && state == NORMAL)
 		{
-			if (*buffer)
-				add_to_args(&args, &buffer, &tmp);
-			*(tmp++) = ';';
-			add_to_args(&args, &buffer, &tmp);
+			if (*buffer_start)
+				add_to_tokens(&tokens, &buffer_start, &buffer);
+			*(buffer++) = ';';
+			add_to_tokens(&tokens, &buffer_start, &buffer);
 		}
 		else if (*line != ' ' && *line != '\0' && state == NORMAL)
-			*(tmp++) = *line;
+			*(buffer++) = *line;
 		else if ((*line == ' ' || *line == '\0') && state == NORMAL)
-			add_to_args(&args, &buffer, &tmp);
+			add_to_tokens(&tokens, &buffer_start, &buffer);
 		line++;
 	}
-	free(buffer);
+	free(buffer_start);
 
 	// SYNTAX ERROR DETECTION
 	if (state != NORMAL)
 	{
 		ft_putstr_fd("mini-michel - syntax error\n", STDERR_FILENO);
-		ft_lstclear(&args, free_token);
+		ft_lstclear(&tokens, free_token);
 		return (NULL);
 	}
-	return (args);
+	return (tokens);
 }

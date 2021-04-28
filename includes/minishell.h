@@ -155,8 +155,13 @@ void		change_input_str(int arrow, t_buff *buff, t_list *history);
 /*
 **	FILE - parsing_test.c
 */
-t_list		*parsing(char *buffer);
-void		display_args(t_list *args);
+t_list		*parsing(char *line);
+void		display_tokens(t_list *tokens);
 void		free_token(void *token);
+
+/*
+**	FILE - utils_quoting.c
+*/
+
 
 #endif

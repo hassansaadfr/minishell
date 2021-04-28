@@ -18,7 +18,7 @@ static int	minishell_tty(t_termios orig_termios)
 	int		stop;
 	t_list	*history;
 	t_buff	buff;
-	t_list	*args;
+	t_list	*tokens;
 
 	(void)orig_termios;
 	signal_handling_register();
@@ -33,9 +33,9 @@ static int	minishell_tty(t_termios orig_termios)
 			stop = add_to_history(&buff, &history);
 			if (stop == 0)
 			{
-				args = parsing(buff.buffer);
-				display_args(args);
-				ft_lstclear(&args, free_token);
+				tokens = parsing(buff.buffer);
+				display_tokens(tokens);
+				ft_lstclear(&tokens, free_token);
 				//exec(parse(buff.buffer), g_global.env_list, orig_termios);
 			}
 		}
@@ -51,7 +51,7 @@ static int	minishell_non_tty(t_termios orig_termios)
 	int		ret_gnl;
 	char	*line;
 	char	***cmds;
-	t_list	*args;
+	t_list	*tokens;
 
 	line = NULL;
 	ret_gnl = 1;
@@ -61,9 +61,9 @@ static int	minishell_non_tty(t_termios orig_termios)
 		ret_gnl = get_next_line(STDIN_FILENO, &line);
 		if (*line)
 		{
-			args = parsing(line);
-			display_args(args);
-			ft_lstclear(&args, free);
+			tokens = parsing(line);
+			display_tokens(tokens);
+			ft_lstclear(&tokens, free);
 			(void)orig_termios;
 			(void)cmds;
 //			cmds = parse(line);
