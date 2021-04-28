@@ -10,19 +10,21 @@ void	free_token(void *content)
 	free(content);
 }
 
-char    *enum_to_str(int state)
+char    *enum_to_str(int type)
 {
-	if (state == ARG)
+	if (type == ARG)
 		return ("ARG");
-	else if (state == REDIR_INF)
+	else if (type == REDIR_INF)
 		return ("REDIR_INF");
-	else if (state == REDIR_SUP)
+	else if (type == REDIR_SUP)
 		return ("REDIR_SUP");
-	else if (state == REDIR_DSUP)
+	else if (type == REDIR_DSUP)
 		return ("REDIR_DSUP");
-	else if (state == FD)
+	else if (type == FD)
 		return ("FILE");
-	else if (state == S_COLON)
+	else if (type == PIPE)
+		return ("PIPE");
+	else if (type == S_COLON)
 		return ("S_COLON");
 	return ("ERR STATE");
 }
@@ -98,14 +100,14 @@ t_list	*parsing(char *line)
 	t_list		*args;
 	char		*buffer;
 	char		*tmp;
-	char		*orig_line;
+	char		*line_start;
 	size_t		line_len;
 	enum state	state;
 
 	line_len = init_args_and_buffer(&args, &buffer, &tmp, line);
 	state = NORMAL;
-	orig_line = line;
-	while ((size_t)(line - orig_line) < line_len)
+	line_start = line;
+	while ((size_t)(line - line_start) < line_len)
 	{
 		// B_SLASH
 		if (*line == '\\' && state == NORMAL)
@@ -114,8 +116,8 @@ t_list	*parsing(char *line)
 			line++;
 			if (*line)
 			{
-				if (*line == '$')
-					*line = -'$';
+				if (*line == '$' || *line == ';')
+					*line = -*line;
 				*(tmp++) = *line;
 				state = NORMAL;
 			}
@@ -128,7 +130,7 @@ t_list	*parsing(char *line)
 			state = S_QUOTE;
 			while (*line && *line != '\'')
 			{
-				if (*line == '$')
+				if (*line == '$' || *line == ';')
 					*line = -(*line);
 				*(tmp++) = *(line++);
 			}
@@ -147,13 +149,15 @@ t_list	*parsing(char *line)
 				if (*line == '\"' || *line == '\\')
 					*(tmp++) = *(line);
 				else if (*line == '$')
-					*(tmp++) = -'$';
+					*(tmp++) = -*line;
 				else 
 				{
 					*(tmp++) = '\\';
 					*(tmp++) = *(line);
 				}
 			}
+			else if (*line == ';')
+				*(tmp++) = -*line;
 			else
 				*(tmp++) = *(line);
 		}
@@ -174,11 +178,14 @@ t_list	*parsing(char *line)
 			add_to_args(&args, &buffer, &tmp);
 		line++;
 	}
+	free(buffer);
+
+	// SYNTAX ERROR DETECTION
 	if (state != NORMAL)
 	{
 		ft_putstr_fd("mini-michel - syntax error\n", STDERR_FILENO);
 		ft_lstclear(&args, free_token);
+		return (NULL);
 	}
-	free(buffer);
 	return (args);
 }

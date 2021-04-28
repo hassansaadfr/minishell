@@ -30,6 +30,14 @@ typedef struct			s_global
 
 t_global				g_global;
 
+typedef struct			s_parse
+{
+	t_list	*args;
+	char	*buffer;
+	char	*tmp;
+	char	*line_start;
+}						t_parse;
+
 enum	types
 {
 	ARG,
