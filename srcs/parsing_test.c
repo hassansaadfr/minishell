@@ -22,6 +22,8 @@ char    *enum_to_str(int state)
 		return ("REDIR_DSUP");
 	else if (state == FD)
 		return ("FILE");
+	else if (state == S_COLON)
+		return ("S_COLON");
 	return ("ERR STATE");
 }
 
@@ -59,25 +61,28 @@ void	display_args(t_list *args)
 int		add_to_args(t_list **args, char **buffer, char **tmp)
 {
 	t_token				*token;
-	static enum types	type = ARG;
+	enum types	type;
 
-//	if (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP)
-//		type = FD;
-//	else
-//		type = ARG;
+	//	if (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP)
+	//		type = FD;
+	//	else
+	//		type = ARG;
+	type = ARG;
+	if (ft_strncmp(*buffer, ";", ft_strlen(*buffer)) == 0)
+		type = S_COLON;
 	if (**buffer)
 	{
 		/*
-		if (**buffer == '<')
-			type = REDIR_INF;
-		else if (**buffer == '>')
-		{
-			if (*((*buffer) + 1) == '>')
-				type = REDIR_DSUP;
-			else
-				type = REDIR_SUP;
-		}
-		*/
+		   if (**buffer == '<')
+		   type = REDIR_INF;
+		   else if (**buffer == '>')
+		   {
+		   if (*((*buffer) + 1) == '>')
+		   type = REDIR_DSUP;
+		   else
+		   type = REDIR_SUP;
+		   }
+		   */
 		token = malloc(sizeof(t_token));
 		token->type = type;
 		token->arg = ft_strdup(*buffer);
@@ -156,6 +161,13 @@ t_list	*parsing(char *line)
 			state = NORMAL;
 
 		// NORMAL
+		else if (*line == ';' && state == NORMAL)
+		{
+			if (*buffer)
+				add_to_args(&args, &buffer, &tmp);
+			*(tmp++) = ';';
+			add_to_args(&args, &buffer, &tmp);
+		}
 		else if (*line != ' ' && *line != '\0' && state == NORMAL)
 			*(tmp++) = *line;
 		else if ((*line == ' ' || *line == '\0') && state == NORMAL)
