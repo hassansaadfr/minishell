@@ -34,7 +34,12 @@ t_global				g_global;
 enum	types
 {
 	ARG,
-	REDIR
+	REDIR_INF,
+	REDIR_SUP,
+	REDIR_DSUP,
+	FD,
+	PIPE,
+	S_COLON
 };
 
 enum	state
