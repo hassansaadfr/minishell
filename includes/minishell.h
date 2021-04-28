@@ -119,6 +119,7 @@ void		disable_raw_mode(t_termios orig_termios);
 */
 int			init_buff_and_history(t_buff *buff, t_list **history);
 int			init_termcaps(void);
+size_t		init_parse_struct(t_parse *p, char *line);
 
 /*
 **	FILE - utils_input.c

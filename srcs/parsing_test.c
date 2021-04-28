@@ -29,15 +29,15 @@ char    *enum_to_str(int type)
 	return ("ERR STATE");
 }
 
-size_t		init_list_and_buffer(t_list **tokens, char **buffer_start, char **buffer, char *line)
+size_t		init_parse_struct(t_parse *p, char *line)
 {
 	size_t	line_len;
 
-	*tokens = NULL;
+	p->tokens = NULL;
 	line_len = ft_strlen(line) + 1;
-	*buffer_start = malloc(sizeof(char) * line_len);
-	ft_bzero(*buffer_start, line_len);
-	*buffer = *buffer_start;
+	p->buffer_start = malloc(sizeof(char) * line_len);
+	ft_bzero(p->buffer_start, line_len);
+	p->buffer = p->buffer_start;
 	return (line_len);
 }
 
@@ -60,133 +60,172 @@ void	display_tokens(t_list *tokens)
 	printf("\n");
 }
 
-int		add_to_tokens(t_list **tokens, char **buffer_start, char **buffer)
+/*
+   int		add_to_tokens(t_list **tokens, char **buffer_start, char **buffer)
+   {
+   t_token				*token;
+   enum e_types		type;
+
+//	if (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP)
+//		type = FD;
+//	else
+//		type = ARG;
+type = ARG;
+if (ft_strncmp(*buffer_start, ";", ft_strlen(*buffer_start)) == 0)
+type = S_COLON;
+if (**buffer_start)
+{
+//		   if (**buffer_start == '<')
+//		   type = REDIR_INF;
+//		   else if (**buffer_start == '>')
+//		   {
+//		   if (*((*buffer_start) + 1) == '>')
+//		   type = REDIR_DSUP;
+//		   else
+//		   type = REDIR_SUP;
+//		   }
+token = malloc(sizeof(t_token));
+token->type = type;
+token->arg = ft_strdup(*buffer_start);
+ft_lstadd_back(tokens, ft_lstnew(token));
+ft_bzero(*buffer_start, *buffer - *buffer_start);
+ *buffer = *buffer_start;
+ }
+ return (1);
+ }
+ */
+
+t_list	*alloc_token_node(t_parse *p, int type)
 {
 	t_token				*token;
+	t_list				*new_node;
+
+	new_node = NULL;
+	if (*(p->buffer_start))
+	{
+		token = malloc(sizeof(t_token));
+		if (token == NULL)
+			return (NULL);
+		token->type = type;
+		token->arg = ft_strdup(p->buffer_start);
+		if (token->arg == NULL)
+		{
+			free(token);
+			return (NULL);
+		}
+		new_node = ft_lstnew(token);
+		if (new_node == NULL)
+		{
+			free_token(token);
+			return (NULL);
+		}
+	}
+	return (new_node);
+}
+
+int		add_to_tokens_list(t_parse *p)
+{
+	t_list				*new_node;
 	enum e_types		type;
 
-	//	if (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP)
-	//		type = FD;
-	//	else
-	//		type = ARG;
 	type = ARG;
-	if (ft_strncmp(*buffer_start, ";", ft_strlen(*buffer_start)) == 0)
+	if (ft_strncmp(p->buffer_start, ";", ft_strlen(p->buffer_start)) == 0)
 		type = S_COLON;
-	if (**buffer_start)
-	{
-		/*
-		   if (**buffer_start == '<')
-		   type = REDIR_INF;
-		   else if (**buffer_start == '>')
-		   {
-		   if (*((*buffer_start) + 1) == '>')
-		   type = REDIR_DSUP;
-		   else
-		   type = REDIR_SUP;
-		   }
-		   */
-		token = malloc(sizeof(t_token));
-		token->type = type;
-		token->arg = ft_strdup(*buffer_start);
-		ft_lstadd_back(tokens, ft_lstnew(token));
-		ft_bzero(*buffer_start, *buffer - *buffer_start);
-		*buffer = *buffer_start;
-	}
+	new_node = alloc_token_node(p, type);
+	if (new_node == NULL)
+		return (0);
+	ft_lstadd_back(&p->tokens, new_node);
+	ft_bzero(p->buffer_start, p->buffer - p->buffer_start);
+	p->buffer = p->buffer_start;
 	return (1);
 }
 
 t_list	*parsing(char *line)
 {
-	t_parsing		p;
-	t_list			*tokens;
-	char			*buffer_start;
-	char			*buffer;
-	char			*line_start;
-	size_t			line_len;
-	enum e_state	state;
+	t_parse			p;
 
-	line_len = init_list_and_buffer(&tokens, &buffer_start, &buffer, line);
-	state = NORMAL;
-	line_start = line;
-	while ((size_t)(line - line_start) < line_len)
+	p.line_len = init_parse_struct(&p, line);
+	p.state = NORMAL;
+	p.line_start = line;
+	while ((size_t)(line - p.line_start) < p.line_len)
 	{
 		// B_SLASH
-		if (*line == '\\' && state == NORMAL)
+		if (*line == '\\' && p.state == NORMAL)
 		{
-			state = B_SLASH;
+			p.state = B_SLASH;
 			line++;
 			if (*line)
 			{
 				if (*line == '$' || *line == ';')
 					*line = -*line;
-				*(buffer++) = *line;
-				state = NORMAL;
+				*(p.buffer++) = *line;
+				p.state = NORMAL;
 			}
 		}
 
 		// S_QUOTE
-		else if (*line == '\'' && state == NORMAL)
+		else if (*line == '\'' && p.state == NORMAL)
 		{
 			line++;
-			state = S_QUOTE;
+			p.state = S_QUOTE;
 			while (*line && *line != '\'')
 			{
 				if (*line == '$' || *line == ';')
 					*line = -(*line);
-				*(buffer++) = *(line++);
+				*(p.buffer++) = *(line++);
 			}
 			if (*line == '\'')
-				state = NORMAL;
+				p.state = NORMAL;
 		}
 
 		// D_QUOTE
-		else if (*line == '\"' && state == NORMAL)
-			state = D_QUOTE;
-		else if (*line && state == D_QUOTE && *line != '\"')
+		else if (*line == '\"' && p.state == NORMAL)
+			p.state = D_QUOTE;
+		else if (*line && p.state == D_QUOTE && *line != '\"')
 		{
 			if (*line == '\\')
 			{
 				line++;
 				if (*line == '\"' || *line == '\\')
-					*(buffer++) = *(line);
+					*(p.buffer++) = *(line);
 				else if (*line == '$')
-					*(buffer++) = -*line;
+					*(p.buffer++) = -*line;
 				else 
 				{
-					*(buffer++) = '\\';
-					*(buffer++) = *(line);
+					*(p.buffer++) = '\\';
+					*(p.buffer++) = *(line);
 				}
 			}
 			else if (*line == ';')
-				*(buffer++) = -*line;
+				*(p.buffer++) = -*line;
 			else
-				*(buffer++) = *(line);
+				*(p.buffer++) = *(line);
 		}
-		else if (*line == '\"' && state == D_QUOTE)
-			state = NORMAL;
+		else if (*line == '\"' && p.state == D_QUOTE)
+			p.state = NORMAL;
 
 		// NORMAL
-		else if (*line == ';' && state == NORMAL)
+		else if (*line == ';' && p.state == NORMAL)
 		{
-			if (*buffer_start)
-				add_to_tokens(&tokens, &buffer_start, &buffer);
-			*(buffer++) = ';';
-			add_to_tokens(&tokens, &buffer_start, &buffer);
+			if (*p.buffer_start)
+				add_to_tokens_list(&p);
+			*(p.buffer++) = ';';
+			add_to_tokens_list(&p);
 		}
-		else if (*line != ' ' && *line != '\0' && state == NORMAL)
-			*(buffer++) = *line;
-		else if ((*line == ' ' || *line == '\0') && state == NORMAL)
-			add_to_tokens(&tokens, &buffer_start, &buffer);
+		else if (*line != ' ' && *line != '\0' && p.state == NORMAL)
+			*(p.buffer++) = *line;
+		else if ((*line == ' ' || *line == '\0') && p.state == NORMAL)
+			add_to_tokens_list(&p);
 		line++;
 	}
-	free(buffer_start);
+	free(p.buffer_start);
 
 	// SYNTAX ERROR DETECTION
-	if (state != NORMAL)
+	if (p.state != NORMAL)
 	{
 		ft_putstr_fd("mini-michel - syntax error\n", STDERR_FILENO);
-		ft_lstclear(&tokens, free_token);
+		ft_lstclear(&p.tokens, free_token);
 		return (NULL);
 	}
-	return (tokens);
+	return (p.tokens);
 }
