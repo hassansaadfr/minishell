@@ -48,89 +48,23 @@ int		add_to_tokens_list(t_parse *p)
 
 t_list	*parsing(char *line)
 {
-	t_parse			p;
+	t_parse		p;
+	int			ret_smc_or_spc;
 
 	p.line_len = init_parse_struct(&p, line);
-	p.state = NORMAL; // ==> in init_parse_struct()
-	p.line_start = line;// ==> in init_parse_struct()
 	while ((size_t)(line - p.line_start) < p.line_len)
 	{
-		// B_SLASH
 		if (*line == '\\' && p.state == NORMAL)
 			backslash(&p, &line);
-		/*
-		{
-			p.state = B_SLASH;
-			line++;
-			if (*line)
-			{
-				if (*line == '$' || *line == ';')
-					*line = -*line;
-				*(p.buffer++) = *line;
-				p.state = NORMAL;
-			}
-		}
-		*/
-
-		// S_QUOTE
 		else if (*line == '\'' && p.state == NORMAL)
 			s_quote(&p, &line);
-		/*
-		{
-			line++;
-			p.state = S_QUOTE;
-			while (*line && *line != '\'')
-			{
-				if (*line == '$' || *line == ';')
-					*line = -(*line);
-				*(p.buffer++) = *(line++);
-			}
-			if (*line == '\'')
-				p.state = NORMAL;
-		}
-		*/
-
-		// D_QUOTE
-		else if (*line == '\"' && p.state == NORMAL) 
-			p.state = D_QUOTE;
-		else if (*line && p.state == D_QUOTE && *line != '\"')
+		else if ((*line == '\"' && p.state == NORMAL)
+				|| (*line && p.state == D_QUOTE && *line != '\"')
+				|| (*line == '\"' && p.state == D_QUOTE))
 			d_quote(&p, &line);
-		/*
-		{
-			if (*line == '\\')
-			{
-				line++;
-				if (*line == '\"' || *line == '\\')
-					*(p.buffer++) = *(line);
-				else if (*line == '$')
-					*(p.buffer++) = -*line;
-				else
-				{
-					*(p.buffer++) = '\\';
-					*(p.buffer++) = *(line);
-				}
-			}
-			else if (*line == ';')
-				*(p.buffer++) = -*line;
-			else
-				*(p.buffer++) = *(line);
-		}
-		*/
-		else if (*line == '\"' && p.state == D_QUOTE)
-			p.state = NORMAL;
-
-		// ADD_TO_TOKEN() - SEMI_COLON 
-		else if (*line == ';' && p.state == NORMAL)
-		{
-			if (*p.buffer_start)
-				add_to_tokens_list(&p);
-			*(p.buffer++) = ';';
-			add_to_tokens_list(&p);
-		}
-
-		// ADD_TO_TOKEN() - SPACE
-		else if ((*line == ' ' || *line == '\0') && p.state == NORMAL)
-			add_to_tokens_list(&p);
+		else if ((*line == ';' && p.state == NORMAL) 						// SEMICOLON
+				|| ((*line == ' ' || *line == '\0') && p.state == NORMAL))	// SPACE OR END OF LINE
+			ret_smc_or_spc = semicolon_or_space(&p, &line);
 
 		// NORMAL
 		else if (*line != ' ' && *line != '\0' && p.state == NORMAL)
@@ -144,6 +78,13 @@ t_list	*parsing(char *line)
 	if (p.state != NORMAL)
 	{
 		ft_putstr_fd("mini-michel - syntax error\n", STDERR_FILENO);
+		ft_lstclear(&p.tokens, free_token);
+		return (NULL);
+	}
+	// ALLOC ERROR
+	else if (ret_smc_or_spc == 0)
+	{
+		ft_putstr_fd("mini-michel - alloc error\n", STDERR_FILENO);
 		ft_lstclear(&p.tokens, free_token);
 		return (NULL);
 	}

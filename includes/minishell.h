@@ -165,6 +165,7 @@ void		change_input_str(int arrow, t_buff *buff, t_list *history);
 t_list		*parsing(char *line);
 void		display_tokens(t_list *tokens);
 void		free_token(void *token);
+int			add_to_tokens_list(t_parse *p);
 
 /*
 **	FILE - utils_quoting.c
@@ -172,5 +173,6 @@ void		free_token(void *token);
 void		backslash(t_parse *p, char **line);
 void		s_quote(t_parse *p, char **line);
 void		d_quote(t_parse *p, char **line);
+int			semicolon_or_space(t_parse *p, char **line);
 
 #endif

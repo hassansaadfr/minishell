@@ -57,5 +57,7 @@ size_t	init_parse_struct(t_parse *p, char *line)
 	p->buffer_start = malloc(sizeof(char) * line_len);
 	ft_bzero(p->buffer_start, line_len);
 	p->buffer = p->buffer_start;
+	p->state = NORMAL;
+	p->line_start = line;
 	return (line_len);
 }
