@@ -29,7 +29,7 @@ SRCS			=	main.c \
 					buffer.c \
 					history.c
 
-TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c #signal_tests.c
+TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c echo_test.c #signal_tests.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
