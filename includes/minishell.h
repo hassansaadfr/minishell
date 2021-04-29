@@ -44,6 +44,10 @@ int			handle_errno(int err, char *binary, char *arg);
 **	FILE - debug.c
 */
 void		dbg_display_stat_buff(struct stat stat_buff);
+void		display_tokens(t_list *tokens);
+char		*enum_to_str(int type);
+
+
 
 /*
 **	FILE - prompt.c
@@ -70,6 +74,7 @@ void		free_split(char **splitted);
 void		free_cmds(char ***cmds);
 void		free_env(t_list **env_list);
 void		*ft_realloc(void *old_ptr, size_t old_size, size_t new_size);
+void		free_token(void *content);
 
 /*
 **	FILE - utils_env.c
@@ -121,6 +126,7 @@ int			init_buff_and_history(t_buff *buff, t_list **history);
 int			init_termcaps(void);
 size_t		init_parse_struct(t_parse *p, char *line);
 
+
 /*
 **	FILE - utils_input.c
 */
@@ -163,6 +169,8 @@ void		free_token(void *token);
 /*
 **	FILE - utils_quoting.c
 */
-
+void		backslash(t_parse *p, char **line);
+void		s_quote(t_parse *p, char **line);
+void		d_quote(t_parse *p, char **line);
 
 #endif

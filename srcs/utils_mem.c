@@ -38,6 +38,17 @@ void	free_env(t_list **env_list)
 	env_list = NULL;
 }
 
+void	free_token(void *content)
+{
+	char	*arg;
+
+	arg = ((t_token*)content)->arg;
+	if (arg)
+		free(arg);
+	free(content);
+}
+
+
 void	*ft_realloc(void *old_ptr, size_t old_size, size_t new_size)
 {
 	void	*new_ptr;

@@ -28,7 +28,8 @@ SRCS			=	main.c \
 					termcaps.c \
 					buffer.c \
 					history.c \
-					parsing_test.c
+					parsing_test.c \
+					utils_quoting.c
 
 TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c #signal_tests.c
 
