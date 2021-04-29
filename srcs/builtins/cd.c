@@ -33,17 +33,48 @@ static int	set_old_pwd(char *old_pwd, t_list *env_list)
 	return (0);
 }
 
+static char	*get_path_env(t_list *env_list, char *name)
+{
+	t_list	*tmp;
+	char	*path;
+
+	path = NULL;
+	tmp = get_env(env_list, name);
+	if (tmp)
+		path = ((t_env*)(tmp->content))->value;
+	return (path);
+}
+
+static char	*get_path(t_list *env_list, char **argv)
+{
+	char	*path;
+
+	path = NULL;
+	if (argv[1])
+	{
+		if (ft_strncmp(argv[1], "-", ft_strlen(argv[1])) == 0)
+			path = get_path_env(env_list, "OLDPWD");
+		else
+			path = argv[1];
+	}
+	else
+		path = get_path_env(env_list, "HOME");
+	return (path);
+}
+
 int			builtin_cd(char **argv, t_list *env_list)
 {
 	int		ret;
 	char	old_pwd[PATH_MAX];
+	char	*path;
 
 	errno = 0;
 	ret = 0;
-	if (argv[1] && ft_strlen(argv[1]) > 0)
+	path = get_path(env_list, argv);
+	if (path)
 	{
 		getcwd(old_pwd, PATH_MAX);
-		ret = chdir(argv[1]);
+		ret = chdir(path);
 		if (get_strarr_size(argv) > 2)
 			errno = E2BIG;
 		if (ret == 0 && errno == 0)
