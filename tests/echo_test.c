@@ -112,6 +112,26 @@ Test(echo_suite, echo_multiple_arg_nl) {
 	cr_assert(diff == 0, "EXPECTED:\t%s\nRETURNED:\t%s\n", outputs[1], outputs[0]);
 }
 
+Test(echo_suite, echo_spaces) {
+	char	**outputs;
+	int		diff;
+
+	diff = -1;
+	outputs = compare_bash_msh("echo_spaces", "echo                                        ");
+	diff = ft_strncmp(outputs[0], outputs[1], 1000);
+	cr_assert(diff == 0, "EXPECTED:\t%s\nRETURNED:\t%s\n", outputs[1], outputs[0]);
+}
+
+Test(echo_suite, echo_spaces_nl) {
+	char	**outputs;
+	int		diff;
+
+	diff = -1;
+	outputs = compare_bash_msh("echo_spaces_nl", "echo -n                                        ");
+	diff = ft_strncmp(outputs[0], outputs[1], 1000);
+	cr_assert(diff == 0, "EXPECTED:\t%s\nRETURNED:\t%s\n", outputs[1], outputs[0]);
+}
+
 Test(echo_suite, echo_tricky) {
 	char	**outputs;
 	int		diff;
