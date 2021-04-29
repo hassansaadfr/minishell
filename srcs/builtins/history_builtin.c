@@ -16,7 +16,7 @@ int		builtin_history(char **argv, t_list *env_list, t_list *history)
 		while (tmp)
 		{
 			ft_putnbr_fd(i++, STDOUT_FILENO);
-			ft_putstr_fd('  ', STDOUT_FILENO);
+			ft_putstr_fd("  ", STDOUT_FILENO);
 			ft_putendl_fd(tmp->content, STDOUT_FILENO);
 			tmp = tmp->previous;
 		}
