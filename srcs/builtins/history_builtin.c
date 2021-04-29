@@ -10,9 +10,8 @@ int		builtin_history(char **argv, t_list *env_list, t_list *history)
 	size = 0;
 	i = 0;
 	tmp = ft_lstlast(history);
-	argv++;
 	size = get_strarr_size(argv);
-	if (size == 0)
+	if (size == 1)
 	{
 		while (tmp)
 		{
