@@ -87,6 +87,7 @@ Test(cd_suite, parent_tricky) {
 		printf("test: parent_tricky\n");
 		printf("+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
 	}
+	system("rm -rf test1");
 	cr_assert(diff == 0);
 }
 
