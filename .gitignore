@@ -1,6 +1,7 @@
 minishell
 minishell_test
 *.o
+*.out
 */**/*.o
 */*.o
 *.log

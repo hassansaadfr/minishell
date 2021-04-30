@@ -9,6 +9,7 @@ int	main(void)
 	str[1] = '2';
 	str[2] = 0;
 	ft_putendl_fd(str, STDOUT_FILENO);
+	// ft_free_ptr(str);
 	ft_exit_free();
 	ft_putendl_fd(str, STDOUT_FILENO);
 	return (0);
