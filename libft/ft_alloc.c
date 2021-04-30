@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 00:43:04 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/30 15:55:38 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/04/30 16:11:28 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,36 @@ static t_list	*ft_lstnew_alloc(void *content, t_list **arr_ptr)
 	return (new);
 }
 
-void			*ft_alloc_mem(size_t size, int done)
+t_list			*find_addr(t_list *lst, void *addr)
+{
+	while (lst)
+	{
+		if (addr == lst->content)
+			return (lst);
+		lst = lst->next;
+	}
+	return (NULL);
+}
+
+void			*ft_alloc_mem(size_t size, int done, void *addr)
 {
 	static t_list	*pointers = NULL;
+	t_list			*tmp;
 	void			*ptr;
 
+	tmp = NULL;
 	if (done == 1)
+	{
 		ft_lstclear(&pointers, free);
+		return (NULL);
+	}
+	if (addr != NULL)
+	{
+		tmp = find_addr(pointers, addr);
+		if (tmp)
+			ft_lstdelone(tmp, free);
+		return (NULL);
+	}
 	ptr = malloc(size);
 	if (ptr == NULL)
 		exit_gracefully(&pointers, errno);
@@ -55,15 +78,18 @@ void			*ft_alloc(size_t size)
 {
 	void	*ptr;
 
-	ptr = ft_alloc_mem(size, 0);
+	ptr = ft_alloc_mem(size, 0, NULL);
 	return (ptr);
 }
 
-void			*ft_free(void)
+void			ft_free_ptr(void *addr)
 {
-	void	*ptr;
+	ft_alloc_mem(0, 0, addr);
+}
 
-	ptr = ft_alloc_mem(0, 1);
+void			ft_exit_free(void)
+{
+	ft_alloc_mem(0, 1, NULL);
 }
 
 // static t_list	*ft_lstnew_alloc(void *content, int *crash)
