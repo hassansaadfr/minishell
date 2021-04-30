@@ -157,3 +157,41 @@ Test(cd_suite, too_many_args) {
 		printf("+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
 	cr_assert(diff == 0);
 }
+
+Test(cd_suite, cd_empty_arg) {
+	int		fd;
+	char	*path;
+	int		diff;
+	char	*expected;
+	char	*file;
+
+	expected = "/root";
+	path = "tests/outputs_m_sh/cd_empty_arg.log";
+	system("echo -n 'cd ; pwd' | ./minishell > tests/outputs_m_sh/cd_empty_arg.log");
+	fd = open(path, O_RDONLY);
+	get_next_line(fd, &file);
+	diff = ft_strncmp(expected, file, 100);
+	close(fd);
+	if (diff == 0)
+		system("rm -f tests/outputs_m_sh/cd_empty_arg.log");
+	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
+}
+
+Test(cd_suite, cd_home_minus) {
+	int		fd;
+	char	*path;
+	int		diff;
+	char	*expected;
+	char	*file;
+
+	expected = "/test_dir";
+	path = "tests/outputs_m_sh/cd_home_minus.log";
+	system("echo -n 'cd - ; pwd' | ./minishell > tests/outputs_m_sh/cd_home_minus.log");
+	fd = open(path, O_RDONLY);
+	get_next_line(fd, &file);
+	diff = ft_strncmp(expected, file, 100);
+	close(fd);
+	if (diff == 0)
+		system("rm -f tests/outputs_m_sh/cd_home_minus.log");
+	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
+}

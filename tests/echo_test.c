@@ -139,7 +139,6 @@ Test(echo_suite, echo_spaces_between_args) {
 	diff = -1;
 	outputs = compare_bash_msh("echo_spaces_between_args", "echo -n                t                     l   ");
 	diff = ft_strncmp(outputs[0], outputs[1], 1000);
-	printf("EXPECTED:\t%s\nRETURNED:\t%s\n", outputs[1], outputs[0]);
 	cr_assert(diff == 0, "EXPECTED:\t%s\nRETURNED:\t%s\n", outputs[1], outputs[0]);
 }
 
