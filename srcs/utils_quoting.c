@@ -59,19 +59,16 @@ void	d_quote(t_parse *p, char **line)
 
 int		semicolon_or_space(t_parse *p, char **line)
 {
-//	int		ret_add;
+	int		ret_add;
 
-//	ret_add = 1;
+	ret_add = 1;
 	if (**line == ';' && p->state == NORMAL)
 	{
 		if (*(p->buffer_start) != '\0')
-			add_to_tokens_list(p);
+			ret_add = add_to_tokens_list(p);
 		*(p->buffer++) = ';';
-		add_to_tokens_list(p);											//
 	}
-	else if ((**line == ' ' || **line == '\0') && p->state == NORMAL)	//
-		add_to_tokens_list(p);											//
-//	if (ret_add == 1)
-//		ret_add = add_to_tokens_list(p);
-	return (1);
+	if (ret_add == 1)
+		ret_add = add_to_tokens_list(p);
+	return (ret_add);
 }

@@ -6,7 +6,7 @@ t_list	*alloc_token_node(t_parse *p, int type)
 	t_list				*new_node;
 
 	new_node = NULL;
-	if (*(p->buffer_start))
+	if (*(p->buffer_start) != '\0')
 	{
 		token = malloc(sizeof(t_token));
 		if (token == NULL)
@@ -34,15 +34,20 @@ int		add_to_tokens_list(t_parse *p)
 	enum e_types		type;
 
 	type = ARG;
+	// FIND_TYPE() FUNCTION HERE
 	if (ft_strncmp(p->buffer_start, ";", ft_strlen(p->buffer_start)) == 0)
 		type = S_COLON;
 	// HERE CHECK IF PREVIOUS IS ALSO S_COLON
-	new_node = alloc_token_node(p, type);
-	if (new_node == NULL)
-		return (0);
-	ft_lstadd_back(&p->tokens, new_node);
-	ft_bzero(p->buffer_start, p->buffer - p->buffer_start);
-	p->buffer = p->buffer_start;
+
+	if (*(p->buffer_start) != '\0')
+	{
+		new_node = alloc_token_node(p, type);
+		if (new_node == NULL)
+			return (0);
+		ft_lstadd_back(&p->tokens, new_node);
+		ft_bzero(p->buffer_start, p->buffer - p->buffer_start);
+		p->buffer = p->buffer_start;
+	}
 	return (1);
 }
 
@@ -62,14 +67,15 @@ t_list	*parsing(char *line)
 				|| (*line && p.state == D_QUOTE && *line != '\"')
 				|| (*line == '\"' && p.state == D_QUOTE))
 			d_quote(&p, &line);
-		else if ((*line == ';' && p.state == NORMAL) 						// SEMICOLON
-				|| ((*line == ' ' || *line == '\0') && p.state == NORMAL))	// SPACE OR END OF LINE
+		else if ((*line == ';' || *line == ' ' || *line == '\0')
+				&& p.state == NORMAL)
+		{
 			ret_smc_or_spc = semicolon_or_space(&p, &line);
-
-		// NORMAL
+			if (ret_smc_or_spc == 0)
+				break ;
+		}
 		else if (*line != ' ' && *line != '\0' && p.state == NORMAL)
 			*(p.buffer++) = *line;
-
 		line++;
 	}
 	free(p.buffer_start);
