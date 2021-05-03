@@ -21,12 +21,16 @@ int		init_buff_and_history(t_buff *buff, t_list **history)
 	return (0);
 }
 
-int		init_termcaps(void)
+int		init_termcaps(t_list *env_list)
 {
 	int		ret_tgetent;
 	char	*term_type;
+	t_list	*tmp;
 
-	term_type = getenv("TERM");
+	tmp = get_env(env_list, "TERM");
+	term_type = NULL;
+	if (tmp)
+		term_type = ((t_env*)get_env(env_list, "TERM")->content)->value;
 	if (term_type == NULL)
 	{
 		ft_putstr_fd("ERROR - \"TERM\" not set in env\n", STDERR_FILENO);
