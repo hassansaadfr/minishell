@@ -28,8 +28,9 @@ static char	*get_env_term(t_list *env_list)
 
 	tmp = NULL;
 	term_type = NULL;
+	tmp = get_env(env_list, "TERM");
 	if (tmp)
-		term_type = ((t_env*)get_env(env_list, "TERM")->content)->value;
+		term_type = ((t_env*)tmp->content)->value;
 	return (term_type);
 }
 
