@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		init_buff_and_history(t_buff *buff, t_list **history)
+int			init_buff_and_history(t_buff *buff, t_list **history)
 {
 	buff->buffer = malloc(INPUT_MAX);
 	if (buff->buffer == NULL)
@@ -21,16 +21,24 @@ int		init_buff_and_history(t_buff *buff, t_list **history)
 	return (0);
 }
 
-int		init_termcaps(t_list *env_list)
+static char	*get_env_term(t_list *env_list)
+{
+	char	*term_type;
+	t_list	*tmp;
+
+	term_type = NULL;
+	if (tmp)
+		term_type = ((t_env*)get_env(env_list, "TERM")->content)->value;
+	return (term_type);
+}
+
+int			init_termcaps(t_list *env_list)
 {
 	int		ret_tgetent;
 	char	*term_type;
 	t_list	*tmp;
 
-	tmp = get_env(env_list, "TERM");
-	term_type = NULL;
-	if (tmp)
-		term_type = ((t_env*)get_env(env_list, "TERM")->content)->value;
+	tmp = get_env_term(env_list);
 	if (term_type == NULL)
 	{
 		ft_putstr_fd("ERROR - \"TERM\" not set in env\n", STDERR_FILENO);
