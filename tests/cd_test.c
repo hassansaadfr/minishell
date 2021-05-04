@@ -186,7 +186,7 @@ Test(cd_suite, cd_home_minus) {
 
 	expected = "/";
 	path = "tests/outputs_m_sh/cd_home_minus.log";
-	system("echo -n 'cd / && cd - ; pwd' | ./minishell > tests/outputs_m_sh/cd_home_minus.log");
+	system("echo -n 'cd / ; cd - ; pwd' | ./minishell > tests/outputs_m_sh/cd_home_minus.log");
 	fd = open(path, O_RDONLY);
 	get_next_line(fd, &file);
 	diff = ft_strncmp(expected, file, 100);
