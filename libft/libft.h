@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/10 19:28:50 by axaidan           #+#    #+#             */
-/*   Updated: 2021/05/04 16:20:05 by hsaadaou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LIBFT_H
 # define LIBFT_H
 
@@ -72,10 +60,10 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void*));
 
 int				get_next_line(int fd, char **line);
 
+int				ft_strcmp(char *s1, char *s2);
 void			*ft_alloc_mem(size_t size, int done, void **addr);
 void			*ft_alloc(size_t size);
 void			ft_exit_free(void);
 void			ft_free_ptr(void **addr);
-
 
 #endif
