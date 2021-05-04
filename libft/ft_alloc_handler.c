@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 16:12:52 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/30 16:13:07 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/05/04 14:49:11 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void			*ft_alloc(size_t size)
 	return (ptr);
 }
 
-void			ft_free_ptr(void *addr)
+void			ft_free_ptr(void **addr)
 {
 	ft_alloc_mem(0, 0, addr);
 }

@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 00:43:04 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/04/30 16:16:23 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/05/04 16:22:26 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_list	*find_addr(t_list *lst, void *addr)
 	return (NULL);
 }
 
-void			*ft_alloc_mem(size_t size, int done, void *addr)
+void			*ft_alloc_mem(size_t size, int done, void **addr)
 {
 	static t_list	*pointers = NULL;
 	t_list			*tmp;
@@ -60,9 +60,12 @@ void			*ft_alloc_mem(size_t size, int done, void *addr)
 	}
 	if (addr != NULL)
 	{
-		tmp = find_addr(pointers, addr);
+		tmp = find_addr(pointers, *addr);
 		if (tmp)
-			ft_lstdelone(tmp, free);
+		{
+			ft_lstdelone(&tmp, free);
+			*addr = NULL;
+		}
 		return (NULL);
 	}
 	ptr = malloc(size);
