@@ -8,3 +8,4 @@ minishell_test
 .*.swp
 .vscode
 *.a
+a.out

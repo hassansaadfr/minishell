@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 19:08:28 by axaidan           #+#    #+#             */
-/*   Updated: 2021/05/04 18:40:51 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/05/04 19:11:35 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	ft_lstdelone(t_list **elem, void (*del)(void *))
 	if ((*elem)->previous == NULL && (*elem)->next == NULL)
 		*elem = NULL;
 	else if ((*elem)->previous == NULL && (*elem)->next != NULL)
+	{
 		*elem = (*elem)->next;
+		(*elem)->previous = NULL;
+	}
 	else if ((*elem)->previous != NULL && (*elem)->next == NULL)
 	{
 		*elem = (*elem)->previous;
