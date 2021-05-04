@@ -184,7 +184,8 @@ Test(cd_suite, cd_home_minus) {
 	char	*expected;
 	char	*file;
 
-	expected = getenv("OLDPWD");
+	system("export OLDPWD=/");
+	expected = "/";
 	path = "tests/outputs_m_sh/cd_home_minus.log";
 	system("echo -n 'cd - ; pwd' | ./minishell > tests/outputs_m_sh/cd_home_minus.log");
 	fd = open(path, O_RDONLY);
