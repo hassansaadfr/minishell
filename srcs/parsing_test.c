@@ -57,6 +57,7 @@ t_list	*parsing(char *line)
 	int			ret_smc_or_spc;
 
 	p.line_len = init_parse_struct(&p, line);
+	// PASS LOOP IN A split_into_tokens() FUNCTION
 	while ((size_t)(line - p.line_start) < p.line_len)
 	{
 		if (*line == '\\' && p.state == NORMAL)
