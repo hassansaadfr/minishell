@@ -42,7 +42,7 @@ HEAD			=	-I includes -I libft
 
 CC				=	clang
 
-CFLAGS			=	-Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS			=	-Wall -Werror -Wextra -g #-fsanitize=address
 
 CRITERIONFLAGS	=	-lcriterion
 
