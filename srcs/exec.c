@@ -43,8 +43,6 @@ int			exec_bin(char *path, char **args, t_list *env_list,
 	else if (g_global.pid == 0)
 	{
 		env = list_to_array(env_list);
-		if (!env)
-			return (0);
 		ret = execve(path, args, env);
 	}
 	else
