@@ -71,19 +71,21 @@ int			builtin_cd(char **argv, t_list *env_list)
 	errno = 0;
 	ret = 0;
 	path = get_path(env_list, argv);
-	if (path)
+	if (!path)
+		return (ret);
+	getcwd(old_pwd, PATH_MAX);
+	ret = chdir(path);
+	if (get_strarr_size(argv) > 2)
+		errno = E2BIG;
+	if (ret == 0 && errno == 0)
 	{
-		getcwd(old_pwd, PATH_MAX);
-		ret = chdir(path);
-		if (get_strarr_size(argv) > 2)
-			errno = E2BIG;
-		if (ret == 0 && errno == 0)
+		if (update_pwd(env_list))
 		{
-			if (update_pwd(env_list))
-				return (!set_old_pwd(old_pwd, env_list));
-			return (0);
+			if (argv[1] && ft_strcmp(argv[1], "-") == 0)
+				ft_putendl_fd(old_pwd, STDOUT_FILENO);
+			return (!set_old_pwd(old_pwd, env_list));
 		}
-		handle_errno(errno, "cd", argv[1]);
+		return (0);
 	}
-	return (ret);
+	handle_errno(errno, "cd", argv[1]);
 }

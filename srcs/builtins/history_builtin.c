@@ -2,9 +2,9 @@
 
 int		builtin_history(char **argv, t_list *env_list, t_list *history)
 {
-	int		i;
-	int		size;
-	t_list*	tmp;
+	int			i;
+	int			size;
+	t_list		*tmp;
 
 	(void)env_list;
 	size = 0;
