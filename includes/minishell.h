@@ -29,7 +29,7 @@ char		***parse(char *cmd);
 /*
 ** FILE - exec.c
 */
-int			exec(char ***cmds, t_list *env_list, t_termios orig_termios);
+int			exec(char ***cmds, t_list *env_list, t_termios orig_termios, t_list	*history);
 int			exec_bin(char *path, char **args, t_list *env_list,
 			t_termios orig_termios);
 char		*create_full_path(char *bin_path, char *cmd);
@@ -62,6 +62,7 @@ int			builtin_exit(char **argv, t_list *env_list);
 int			builtin_export(char **argv, t_list *env_list);
 int			builtin_pwd(char **argv, t_list *env_list);
 int			builtin_unset(char **argv, t_list *env_list);
+int			builtin_history(char **argv, t_list *env_list, t_list *history);
 
 /*
 **	FILE - utils_mem.c
@@ -88,7 +89,7 @@ char		**list_to_array(t_list *env_list);
 **	FILE - bin_builtins.c
 */
 int			is_builtin(char **cmd);
-int			exec_from_builtins(char **cmd, t_list *env_list);
+int			exec_from_builtins(char **cmd, t_list *env_list, t_list	*history);
 
 /*
 **	FILE - bin_paths.c

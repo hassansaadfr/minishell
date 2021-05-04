@@ -1,7 +1,9 @@
 #include "minishell.h"
 
-int		exec_from_builtins(char **argv, t_list *env_list)
+int		exec_from_builtins(char **argv, t_list *env_list, t_list *history)
 {
+	if (ft_strncmp(argv[0], "history", 8) == 0)
+		return (builtin_history(argv, env_list, history));
 	if (ft_strncmp(argv[0], "pwd", 4) == 0)
 		return (builtin_pwd(argv, env_list));
 	if (ft_strncmp(argv[0], "echo", 5) == 0)
@@ -34,6 +36,8 @@ int		is_builtin(char **argv)
 	if (ft_strncmp(argv[0], "cd", 3) == 0)
 		return (1);
 	if (ft_strncmp(argv[0], "env", 4) == 0)
+		return (1);
+	if (ft_strncmp(argv[0], "history", 8) == 0)
 		return (1);
 	return (0);
 }
