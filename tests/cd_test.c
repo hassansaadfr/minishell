@@ -165,7 +165,7 @@ Test(cd_suite, cd_empty_arg) {
 	char	*expected;
 	char	*file;
 
-	expected = "/root";
+	expected = getenv("HOME");
 	path = "tests/outputs_m_sh/cd_empty_arg.log";
 	system("echo -n 'cd ; pwd' | ./minishell > tests/outputs_m_sh/cd_empty_arg.log");
 	fd = open(path, O_RDONLY);
