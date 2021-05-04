@@ -18,6 +18,7 @@ SRCS			=	main.c \
 					builtins/export.c \
 					builtins/pwd.c \
 					builtins/unset.c \
+					builtins/history_builtin.c \
 					utils_mem.c \
 					signals.c \
 					utils_env.c \
@@ -41,7 +42,7 @@ HEAD			=	-I includes -I libft
 
 CC				=	clang
 
-CFLAGS			=	-Wall -Werror -Wextra -g
+CFLAGS			=	-Wall -Werror -Wextra -g -fsanitize=address
 
 CRITERIONFLAGS	=	-lcriterion
 
