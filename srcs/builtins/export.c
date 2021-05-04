@@ -51,12 +51,14 @@ static void		print_env_list(t_list *env_list)
 	t_list	*tmp;
 	t_env	**env_arr;
 	int		i;
+	int		size;
 
+	size = ft_lstsize(env_list);
 	i = 0;
 	tmp = env_list;
 	env_arr = tlist_to_arr_of_tenv(env_list);
 	sort(env_arr, 0, ft_lstsize(env_list) - 1);
-	while (i < ft_lstsize(env_list))
+	while (i < size)
 	{
 		ft_putstr_fd("export ", STDOUT_FILENO);
 		ft_putstr_fd(env_arr[i]->name, STDOUT_FILENO);
