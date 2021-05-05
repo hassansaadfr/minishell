@@ -51,36 +51,39 @@ int		add_to_tokens_list(t_parse *p)
 	return (1);
 }
 
+void	split_into_tokens(t_parse *p, char **line, int *ret_smc_or_spc)
+{
+	while ((size_t)(*line - p->line_start) < p->line_len)
+	{
+		if (**line == '\\' && p->state == NORMAL)
+			backslash(p, line);
+		else if (**line == '\'' && p->state == NORMAL)
+			s_quote(p, line);
+		else if ((**line == '\"' && p->state == NORMAL)
+				|| (**line && p->state == D_QUOTE && **line != '\"')
+				|| (**line == '\"' && p->state == D_QUOTE))
+			d_quote(p, line);
+		else if ((**line == ';' || **line == ' ' || **line == '\0')
+				&& p->state == NORMAL)
+		{
+			*ret_smc_or_spc = semicolon_or_space(p, line);
+			if (*ret_smc_or_spc == 0)
+				return ;
+		}
+		else if (**line != ' ' && **line != '\0' && p->state == NORMAL)
+			*(p->buffer++) = **line;
+		(*line)++;
+	}
+}
+
 t_list	*parsing(char *line)
 {
 	t_parse		p;
 	int			ret_smc_or_spc;
 
 	p.line_len = init_parse_struct(&p, line);
-	// PASS LOOP IN A split_into_tokens() FUNCTION
-	while ((size_t)(line - p.line_start) < p.line_len)
-	{
-		if (*line == '\\' && p.state == NORMAL)
-			backslash(&p, &line);
-		else if (*line == '\'' && p.state == NORMAL)
-			s_quote(&p, &line);
-		else if ((*line == '\"' && p.state == NORMAL)
-				|| (*line && p.state == D_QUOTE && *line != '\"')
-				|| (*line == '\"' && p.state == D_QUOTE))
-			d_quote(&p, &line);
-		else if ((*line == ';' || *line == ' ' || *line == '\0')
-				&& p.state == NORMAL)
-		{
-			ret_smc_or_spc = semicolon_or_space(&p, &line);
-			if (ret_smc_or_spc == 0)
-				break ;
-		}
-		else if (*line != ' ' && *line != '\0' && p.state == NORMAL)
-			*(p.buffer++) = *line;
-		line++;
-	}
+	split_into_tokens(&p, &line, &ret_smc_or_spc);
 	free(p.buffer_start);
-
 	// SYNTAX ERROR
 	if (p.state != NORMAL)
 	{

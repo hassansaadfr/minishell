@@ -31,12 +31,12 @@ static int	minishell_tty(t_termios orig_termios)
 		if (stop == 0)
 		{
 			stop = add_to_history(&buff, &history);
-			if (stop == 0)
+			if (stop == 0 && (buff.buffer)[0] != '\0')
 			{
 				tokens = parsing(buff.buffer);
 				display_tokens(tokens);
-				ft_lstclear(&tokens, free_token);
 				//exec(parse(buff.buffer), g_global.env_list, orig_termios);
+				ft_lstclear(&tokens, free_token);
 			}
 		}
 	}
