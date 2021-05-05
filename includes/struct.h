@@ -32,11 +32,12 @@ t_global				g_global;
 
 enum					e_types
 {
+	ERR_TYPE,
 	ARG,
+	FD,
 	REDIR_INF,
 	REDIR_SUP,
 	REDIR_DSUP,
-	FD,
 	PIPE,
 	S_COLON
 };

@@ -173,6 +173,11 @@ int			add_to_tokens_list(t_parse *p);
 void		backslash(t_parse *p, char **line);
 void		s_quote(t_parse *p, char **line);
 void		d_quote(t_parse *p, char **line);
-int			semicolon_or_space(t_parse *p, char **line);
+int			metachar_or_space(t_parse *p, char **line);
+
+/*
+**	FILE - types.c
+*/
+int			find_token_type(t_parse *p);
 
 #endif

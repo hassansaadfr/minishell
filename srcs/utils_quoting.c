@@ -57,7 +57,7 @@ void	d_quote(t_parse *p, char **line)
 		p->state = NORMAL;
 }
 
-int		semicolon_or_space(t_parse *p, char **line)
+int		metachar_or_space(t_parse *p, char **line)
 {
 	int		ret_add;
 

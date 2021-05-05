@@ -33,12 +33,13 @@ int		add_to_tokens_list(t_parse *p)
 	t_list				*new_node;
 	enum e_types		type;
 
-	type = ARG;
-	// FIND_TYPE() FUNCTION HERE
-	if (ft_strncmp(p->buffer_start, ";", ft_strlen(p->buffer_start)) == 0)
-		type = S_COLON;
-	// HERE CHECK IF PREVIOUS IS ALSO S_COLON
-
+	type = find_token_type(p);
+	if (type == ERR_TYPE)
+	{
+		ft_bzero(p->buffer_start, p->buffer - p->buffer_start);
+		p->buffer = p->buffer_start;
+		return (-1);
+	}
 	if (*(p->buffer_start) != '\0')
 	{
 		new_node = alloc_token_node(p, type);
@@ -64,10 +65,10 @@ void	split_into_tokens(t_parse *p, char **line, int *ret_smc_or_spc)
 				|| (**line == '\"' && p->state == D_QUOTE))
 			d_quote(p, line);
 		else if ((**line == ';' || **line == ' ' || **line == '\0')
-				&& p->state == NORMAL)
+				&& p->state == NORMAL && p->buffer_start[0] != '\0')
 		{
-			*ret_smc_or_spc = semicolon_or_space(p, line);
-			if (*ret_smc_or_spc == 0)
+			*ret_smc_or_spc = metachar_or_space(p, line);
+			if (*ret_smc_or_spc <= 0)
 				return ;
 		}
 		else if (**line != ' ' && **line != '\0' && p->state == NORMAL)
@@ -80,14 +81,22 @@ t_list	*check_parsing_errors(t_parse p, int ret_smc_or_spc)
 {
 	if (p.state != NORMAL)
 	{
-		ft_putstr_fd("minishell - syntax error\n", STDERR_FILENO);
-		ft_lstclear(&p.tokens, free_token);
-		return (NULL);
+		ft_putstr_fd("minishell - quoting syntax error\n", STDERR_FILENO);
+//		ft_lstclear(&p.tokens, free_token);
+//		return (NULL);
+		return (p.tokens);
+	}
+	else if (ret_smc_or_spc == -1)
+	{
+		ft_putstr_fd("minishell - type syntax error near unexpected symbol \" \"\n", STDERR_FILENO);
+//		ft_lstclear(&p.tokens, free_token);
+//		return (NULL);
+		return (p.tokens);
 	}
 	else if (ret_smc_or_spc == 0)
 	{
 		ft_putstr_fd("minishell - alloc error\n", STDERR_FILENO);
-		ft_lstclear(&p.tokens, free_token);
+//		ft_lstclear(&p.tokens, free_token);
 		return (NULL);
 	}
 	return (p.tokens);
