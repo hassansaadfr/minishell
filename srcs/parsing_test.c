@@ -76,6 +76,23 @@ void	split_into_tokens(t_parse *p, char **line, int *ret_smc_or_spc)
 	}
 }
 
+t_list	*check_parsing_errors(t_parse p, int ret_smc_or_spc)
+{
+	if (p.state != NORMAL)
+	{
+		ft_putstr_fd("minishell - syntax error\n", STDERR_FILENO);
+		ft_lstclear(&p.tokens, free_token);
+		return (NULL);
+	}
+	else if (ret_smc_or_spc == 0)
+	{
+		ft_putstr_fd("minishell - alloc error\n", STDERR_FILENO);
+		ft_lstclear(&p.tokens, free_token);
+		return (NULL);
+	}
+	return (p.tokens);
+}
+
 t_list	*parsing(char *line)
 {
 	t_parse		p;
@@ -84,19 +101,5 @@ t_list	*parsing(char *line)
 	p.line_len = init_parse_struct(&p, line);
 	split_into_tokens(&p, &line, &ret_smc_or_spc);
 	free(p.buffer_start);
-	// SYNTAX ERROR
-	if (p.state != NORMAL)
-	{
-		ft_putstr_fd("mini-michel - syntax error\n", STDERR_FILENO);
-		ft_lstclear(&p.tokens, free_token);
-		return (NULL);
-	}
-	// ALLOC ERROR
-	else if (ret_smc_or_spc == 0)
-	{
-		ft_putstr_fd("mini-michel - alloc error\n", STDERR_FILENO);
-		ft_lstclear(&p.tokens, free_token);
-		return (NULL);
-	}
-	return (p.tokens);
+	return (check_parsing_errors(p, ret_smc_or_spc));
 }
