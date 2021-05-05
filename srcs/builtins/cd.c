@@ -82,7 +82,7 @@ int			builtin_cd(char **argv, t_list *env_list)
 		if (update_pwd(env_list))
 		{
 			if (argv[1] && ft_strcmp(argv[1], "-") == 0)
-				ft_putendl_fd(old_pwd, STDOUT_FILENO);
+				ft_putendl_fd(path, STDOUT_FILENO);
 			return (!set_old_pwd(old_pwd, env_list));
 		}
 		return (0);
