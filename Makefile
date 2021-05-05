@@ -61,7 +61,7 @@ test			:	$(TEST_NAME)
 
 $(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS} ${NAME}
 					@${CC} -g $(NO_MAIN) -Wall -Werror -Wextra ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
-						-lft -lncurses
+						-lft -lncurses -Itests
 					@ rm $(TEST_OBJS) $(NO_MAIN)
 
 clean			:

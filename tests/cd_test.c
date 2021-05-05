@@ -1,5 +1,6 @@
 #include <criterion/criterion.h>
 #include "minishell.h"
+#include "criterion.h"
 #include <fcntl.h>
 
 Test(cd_suite, directory_dont_exist) {
@@ -196,24 +197,14 @@ Test(cd_suite, cd_empty_arg_with_home_unset) {
 	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
 }
 
-Test(cd_suite, cd_home_minus) {
-	int		fd;
-	char	*path;
+Test(echo_suite, cd_home_minus) {
+	char	**outputs;
 	int		diff;
-	char	*expected;
-	char	*file;
 
-	expected = "/minishell";
-	path = "tests/outputs_m_sh/cd_home_minus.log";
-	system("echo here +++ && pwd && ls && ls ..");
-	system("cd .. &&  cd minishell && echo -n 'cd / ; cd -' | ./minishell > tests/outputs_m_sh/cd_home_minus.log");
-	fd = open(path, O_RDONLY);
-	get_next_line(fd, &file);
-	diff = ft_strncmp(expected, file, 100);
-	close(fd);
-	if (diff == 0)
-		system("rm -f tests/outputs_m_sh/cd_home_minus.log");
-	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
+	diff = -1;
+	outputs = compare_bash_msh("cd_home_minus", "cd -");
+	diff = ft_strncmp(outputs[0], outputs[1], 1000);
+	cr_assert(diff == 0, "EXPECTED:\t%s\nRETURNED:\t%s\n", outputs[1], outputs[0]);
 }
 
 Test(cd_suite, cd_home_minus_whithout_oldpwd_set) {

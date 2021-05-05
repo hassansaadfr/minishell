@@ -1,15 +1,8 @@
 #include <criterion/criterion.h>
 #include "minishell.h"
+#include "criterion.h"
 #include <unistd.h>
 #include <fcntl.h>
-
-typedef struct	s_cmd_test {
-	char	*output_bash;
-	char	*output_msh;
-	char	*cmd_bash;
-	char	*cmd_msh;
-
-}				t_cmd_test;
 
 t_cmd_test	*generate_cmds(char *test_name, char *cmd)
 {
