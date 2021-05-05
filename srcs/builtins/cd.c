@@ -42,6 +42,12 @@ static char	*get_path_env(t_list *env_list, char *name)
 	tmp = get_env(env_list, name);
 	if (tmp)
 		path = ((t_env*)(tmp->content))->value;
+	else
+	{
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(name, STDERR_FILENO);
+		ft_putstr_fd(" not set\n", STDERR_FILENO);
+	}
 	return (path);
 }
 

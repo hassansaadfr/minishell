@@ -177,21 +177,59 @@ Test(cd_suite, cd_empty_arg) {
 	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
 }
 
+Test(cd_suite, cd_empty_arg_with_home_unset) {
+	int		fd;
+	char	*path;
+	int		diff;
+	char	*expected;
+	char	*file;
+
+	expected = "minishell: cd: HOME not set";
+	path = "tests/outputs_m_sh/cd_empty_arg_with_home_unset.log";
+	system("unset HOME && echo -n 'cd' | ./minishell 2> tests/outputs_m_sh/cd_empty_arg_with_home_unset.log");
+	fd = open(path, O_RDONLY);
+	get_next_line(fd, &file);
+	diff = ft_strncmp(expected, file, 100);
+	close(fd);
+	if (diff == 0)
+		system("rm -f tests/outputs_m_sh/cd_empty_arg_with_home_unset.log");
+	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
+}
+
 Test(cd_suite, cd_home_minus) {
 	int		fd;
 	char	*path;
 	int		diff;
-	char	expected[1000];
+	char	*expected;
 	char	*file;
 
-	getcwd(expected, 1000);
+	expected = "/minishell";
 	path = "tests/outputs_m_sh/cd_home_minus.log";
-	system("echo -n 'cd / ; cd -' | ./minishell > tests/outputs_m_sh/cd_home_minus.log");
+	system("cd .. && cd minishell && echo -n 'cd / ; cd -' | ./minishell > tests/outputs_m_sh/cd_home_minus.log");
 	fd = open(path, O_RDONLY);
 	get_next_line(fd, &file);
 	diff = ft_strncmp(expected, file, 100);
 	close(fd);
 	if (diff == 0)
 		system("rm -f tests/outputs_m_sh/cd_home_minus.log");
+	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
+}
+
+Test(cd_suite, cd_home_minus_whithout_oldpwd_set) {
+	int		fd;
+	char	*path;
+	int		diff;
+	char	*expected;
+	char	*file;
+
+	expected = "minishell: cd: OLDPWD not set";
+	path = "tests/outputs_m_sh/cd_home_minus_whithout_oldpwd_set.log";
+	system("echo -n 'cd / ; cd -' | ./minishell 2> tests/outputs_m_sh/cd_home_minus_whithout_oldpwd_set.log");
+	fd = open(path, O_RDONLY);
+	get_next_line(fd, &file);
+	diff = ft_strncmp(expected, file, 100);
+	close(fd);
+	if (diff == 0)
+		system("rm -f tests/outputs_m_sh/cd_home_minus_whithout_oldpwd_set.log");
 	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
 }
