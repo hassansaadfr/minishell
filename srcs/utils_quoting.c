@@ -72,3 +72,13 @@ int		metachar_or_space(t_parse *p, char **line)
 		ret_add = add_to_tokens_list(p);
 	return (ret_add);
 }
+
+int		not_empty(char *buffer)
+{
+	return (buffer[0] != '\0');
+}
+
+int		is_metachar(char c)
+{
+	return (c == ';' /* || c == '<' || c == '>' || c == '|'*/);
+}

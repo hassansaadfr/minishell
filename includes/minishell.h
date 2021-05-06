@@ -160,7 +160,7 @@ void		exec_down_arrow(t_buff *buff);
 void		change_input_str(int arrow, t_buff *buff, t_list *history);
 
 /*
-**	FILE - parsing_test.c
+**	FILE - tokenizer.c
 */
 t_list		*parsing(char *line);
 void		display_tokens(t_list *tokens);
@@ -174,6 +174,8 @@ void		backslash(t_parse *p, char **line);
 void		s_quote(t_parse *p, char **line);
 void		d_quote(t_parse *p, char **line);
 int			metachar_or_space(t_parse *p, char **line);
+int			is_metachar(char c);
+int			not_empty(char *buffer);
 
 /*
 **	FILE - types.c

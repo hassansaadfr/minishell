@@ -1,0 +1,57 @@
+++++++++++++++ SHOULD BE TESTED NOW +++++++++++++++++
+
+ls bon" jour"						ls bon\" jour\"									"ls" "bon jour"
+ls bon jour							ls bon jour										"ls" "bon" "jour"
+ls bon "jou r"'je suis un test'		ls bon \"jou r\"\'je suis un test\'				"ls" "bon" "\"jou r\"\'je suis un test\'"
+ls   bon      " jour"				ls   bon      \" jour\"							"ls" "bon" " jour"
+ls ma\ "je"							ls ma\\ \"je\"									"echo" "ma je"
+echo bon" jour"						echo bon\" jour\"								"echo" "bon jour"
+echo "coment ca va ' toto '\n"		echo \"coment ca va \' toto \'\\n\"				"echo "coment ca va \' toto \'\\n"
+echo " '\ ' "						echo \" \'\\ \' \"								"echo" " \'\\ \' "
+echo "\ "							echo \"\\ \"									"echo" "\\ "
+echo "\i "							echo \"\\i \"									"echo" "\\i "
+echo "\"							echo \"\\\"										"echo" "\\"
+echo "\\"							echo \"\\\\\"									"echo" "\\"
+echo "'\'"							echo \"\'\\\'\"									"echo" "\'\\\'"
+echo "'"							echo \"\'\"										"echo" "\'"
+echo "' "'"							echo \"\' \"\'\"								"echo" "\' \"\'"
+echo "' \"'"						echo \"\' \\\"\'\"								"echo" "\' \"\' "
+echo " ' \"' "						echo \" \' \\\"\' \"							"echo" " \' \"\' " 
+echo   bon " jour"					echo   bon \" jour\"							"echo" "bon" " jour"
+echo " '\'"							echo \" \'\\\'\"								"echo" " \'\\\'"
+echo " '\"'"						echo \" \'\\\"\'\"								"echo" " \'\"\'"
+echo ' "\" '						echo \' \"\\\" \'								"echo" " \"\\\" "
+echo ' "\"" '						echo \' \"\\\"\" \'								"echo" " \"\\\"\" "
+echo ' "\"" \' '\n'					echo \' \"\\\"\" \\\' \'\\n\'					"echo" " \"\\\"\" \\"	"\\n"
+echo ' \\' '\n'						echo \' \\\\\' \'\\n\'							"echo" " \\\\" 			"\\n"
+echo ' \\'							echo \' \\\\\'									"echo" " \\\\"
+echo " '\'"							echo \" \'\\\'\"								"echo" " \'\\\'"
+echo "\\\ "							echo \"\\\\\\ \"								"echo" "\\\\ "
+echo "\\\\\\\\\\\\\\\\\\ "			echo \"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \"	"echo" "\\\\\\\\\\\\\\\\\\ " 
+echo "\\\\\\\\\\\\\\\\\ "			echo \"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \"	"echo" "\\\\\\\\\\\\\\\\\\ " 
+echo "\\\\ "						echo \"\\\\\\\\ \"								"echo" "\\\\ "
+echo "\\\\\\ "						echo \"\\\\\\\\\\\\ \"							"echo" "\\\\\\ "
+\e\c\h\o \b\o\n\j\o\u\r				\\e\\c\\h\\o \\b\\o\\n\\j\\o\\u\\r				"echo" "bonjour"
+
+
+-----------------------------------------------------
+
+
+++++++++++++++ MULTILIGNE ERROR +++++++++++++++++
+#echo ma\
+echo " ' "' "						echo \" \' \"\' \"
+echo "  '"' " 						echo \"  \'\"\' \"
+echo " '" '"						echo \" \'\" \'\"						"echo" " \'
+-------------------------------------------------
+
+++++++++++++++ NOT CLOSED ERROR +++++++++++++++++
+echo ma\ "je
+-------------------------------------------------
+
+++++++++++++++ NEGATIVE CHARS  ++++++++++++++++++
+echo $'It\'s Shell Programming'
+echo $'It\'s Shell \' Programming'
+echo \;								echo \\;
+echo "\;"							echo \"\\;\"
+echo "bonjour;"						echo \"bonjour;\"						"echo" "bonjour;"
+-------------------------------------------------
