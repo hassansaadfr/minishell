@@ -31,7 +31,7 @@ static int	minishell_tty(t_termios orig_termios)
 		if (stop == 0)
 		{
 			stop = add_to_history(&buff, &history);
-			if (stop == 0 && (buff.buffer)[0] != '\0')
+			if (stop == 0 && not_empty(buff.buffer))
 			{
 				tokens = parsing(buff.buffer);
 				if (tokens)

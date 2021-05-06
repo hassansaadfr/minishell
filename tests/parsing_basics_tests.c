@@ -120,3 +120,45 @@ Test(parsing_basic_suite, echo_arg1_arg2_smc_echo2_arg1_arg2)
 	}
 	cr_expect(i == 7);
 }
+
+Test(parsing_basic_suite, only_space)
+{
+	char	line[] = "     ";
+	t_list	*list = NULL;
+
+	list = parsing(line);
+	cr_expect(list == NULL);
+}
+
+Test(parsing_basic_suite, ls_smc_ls_NOSPACE)
+{
+	char	*line = NULL;
+	t_list	*list = NULL;
+	t_token *token = NULL;
+	int		i = 0;
+
+	line = "ls;ls";
+	list = parsing(line);
+	while (list)
+	{
+		token = list->content;
+		if (i == 0)
+		{
+			cr_expect(token->type == ARG);
+			cr_expect(strcmp(token->arg, "ls") == 0);
+		}
+		if (i == 1)
+		{
+			cr_expect(token->type == S_COLON);
+			cr_expect(strcmp(token->arg, ";") == 0);
+		}
+		if (i == 2)
+		{
+			cr_expect(token->type == ARG);
+			cr_expect(strcmp(token->arg, "ls") == 0);
+		}
+		list = list->next;
+		i++;
+	}
+	cr_expect(i == 3);
+}
