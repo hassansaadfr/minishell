@@ -29,7 +29,8 @@ char		***parse(char *cmd);
 /*
 ** FILE - exec.c
 */
-int			exec(char ***cmds, t_list *env_list, t_termios orig_termios, t_list	*history);
+int			exec(char ***cmds, t_list *env_list, t_termios orig_termios,
+		t_list *history);
 int			exec_bin(char *path, char **args, t_list *env_list,
 			t_termios orig_termios);
 char		*create_full_path(char *bin_path, char *cmd);
@@ -46,8 +47,6 @@ int			handle_errno(int err, char *binary, char *arg);
 void		dbg_display_stat_buff(struct stat stat_buff);
 void		display_tokens(t_list *tokens);
 char		*enum_to_str(int type);
-
-
 
 /*
 **	FILE - prompt.c
@@ -133,6 +132,7 @@ size_t		init_parse_struct(t_parse *p, char *line);
 int			is_ctrl_keys(char c, int *stop, t_buff *buff, t_list *history);
 int			arrow_value(void);
 char		ctrl_value(char c);
+int			not_empty(char *buffer);
 
 /*
 **	FILE - termcaps.c
@@ -175,7 +175,6 @@ void		s_quote(t_parse *p, char **line);
 void		d_quote(t_parse *p, char **line);
 int			metachar_or_space(t_parse *p, char **line);
 int			is_metachar(char c);
-int			not_empty(char *buffer);
 
 /*
 **	FILE - types.c

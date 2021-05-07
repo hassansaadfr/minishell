@@ -50,7 +50,8 @@ int			exec_bin(char *path, char **args, t_list *env_list,
 	return (0);
 }
 
-static int	search_bin(char **cmd, t_list *env_list, t_termios orig_termios, t_list	*history)
+static int	search_bin(char **cmd, t_list *env_list, t_termios orig_termios,
+		t_list *history)
 {
 	int	ret_exec;
 
@@ -64,7 +65,8 @@ static int	search_bin(char **cmd, t_list *env_list, t_termios orig_termios, t_li
 	return (ret_exec);
 }
 
-int			exec(char ***cmds, t_list *env_list, t_termios orig_termios, t_list	*history)
+int			exec(char ***cmds, t_list *env_list, t_termios orig_termios,
+		t_list *history)
 {
 	int		i;
 

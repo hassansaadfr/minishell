@@ -48,7 +48,6 @@ void	free_token(void *content)
 	free(content);
 }
 
-
 void	*ft_realloc(void *old_ptr, size_t old_size, size_t new_size)
 {
 	void	*new_ptr;

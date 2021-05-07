@@ -42,3 +42,8 @@ char	ctrl_value(char c)
 {
 	return ((c) & 0x1f);
 }
+
+int		not_empty(char *buffer)
+{
+	return (buffer[0] != '\0');
+}

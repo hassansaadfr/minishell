@@ -87,7 +87,8 @@ t_list	*check_parsing_errors(t_parse p, int ret_mtc_or_spc)
 	}
 	else if (ret_mtc_or_spc == -1)
 	{
-		ft_putstr_fd("minishell - TYPE syntax error near unexpected symbol \" \"\n", STDERR_FILENO);
+		ft_putendl_fd("minishell - TYPE syntax error near unexpected symbol",
+				STDERR_FILENO);
 		ft_lstclear(&p.tokens, free_token);
 		return (NULL);
 	}

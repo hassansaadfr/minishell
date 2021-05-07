@@ -61,9 +61,9 @@ int			init_termcaps(t_list *env_list)
 	return (1);
 }
 
-size_t	init_parse_struct(t_parse *p, char *line)
+size_t		init_parse_struct(t_parse *p, char *line)
 {
-	size_t  line_len;
+	size_t	line_len;
 
 	p->tokens = NULL;
 	line_len = ft_strlen(line) + 1;

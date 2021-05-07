@@ -73,12 +73,7 @@ int		metachar_or_space(t_parse *p, char **line)
 	return (ret_add);
 }
 
-int		not_empty(char *buffer)
-{
-	return (buffer[0] != '\0');
-}
-
 int		is_metachar(char c)
 {
-	return (c == ';' /* || c == '<' || c == '>' || c == '|'*/);
+	return (c == ';');
 }

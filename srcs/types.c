@@ -12,8 +12,8 @@ int		type_metachars(t_token *last_token)
 
 int		find_token_type(t_parse *p)
 {
-	enum e_types    type;
-	t_token         *last_token;
+	enum e_types	type;
+	t_token			*last_token;
 
 	type = ARG;
 	last_token = NULL;
