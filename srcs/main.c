@@ -15,14 +15,13 @@ void		signal_handling_register(void)
 ** exec(parse(buff.buffer), g_global.env_list, orig_termios);
 */
 
-static int	minishell_tty(t_termios orig_termios)
+static int	minishell_tty(void)
 {
 	int		stop;
 	t_list	*history;
 	t_buff	buff;
 	t_list	*tokens;
 
-	(void)orig_termios;
 	signal_handling_register();
 	init_buff_and_history(&buff, &history);
 	stop = 0;
@@ -31,16 +30,13 @@ static int	minishell_tty(t_termios orig_termios)
 		prompt();
 		stop = write_buffer(&stop, &buff, history);
 		if (stop == 0)
-		{
 			stop = add_to_history(&buff, &history);
-			if (stop == 0 && not_empty(buff.buffer))
-			{
-				tokens = parsing(buff.buffer);
-				if (tokens)
-					display_tokens(tokens);
-				ft_lstclear(&tokens, free_token);
-			}
-		}
+		if (stop == 0 && not_empty(buff.buffer))
+			tokens = parsing(buff.buffer);
+		if (tokens)
+			display_tokens(tokens);
+		if (tokens)
+			ft_lstclear(&tokens, free_token);
 	}
 	ft_lstclear(&history, free);
 	free(buff.buffer);
@@ -83,7 +79,7 @@ static int	minishell_non_tty(t_termios orig_termios)
 int			minishell(t_termios orig_termios)
 {
 	if (isatty(STDIN_FILENO))
-		return (minishell_tty(orig_termios));
+		return (minishell_tty());
 	else
 		return (minishell_non_tty(orig_termios));
 }
