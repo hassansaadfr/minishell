@@ -1,9 +1,11 @@
 minishell
 minishell_test
 *.o
+*.out
 */**/*.o
 */*.o
 *.log
 .*.swp
 .vscode
 *.a
+a.out

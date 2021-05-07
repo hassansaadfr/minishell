@@ -1,5 +1,6 @@
 #include <criterion/criterion.h>
 #include "minishell.h"
+#include "criterion.h"
 #include <fcntl.h>
 
 Test(cd_suite, directory_dont_exist) {
@@ -87,6 +88,7 @@ Test(cd_suite, parent_tricky) {
 		printf("test: parent_tricky\n");
 		printf("+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
 	}
+	system("rm -rf test1");
 	cr_assert(diff == 0);
 }
 
@@ -155,4 +157,71 @@ Test(cd_suite, too_many_args) {
 	else
 		printf("+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
 	cr_assert(diff == 0);
+}
+
+Test(cd_suite, cd_empty_arg) {
+	int		fd;
+	char	*path;
+	int		diff;
+	char	*expected;
+	char	*file;
+
+	expected = getenv("HOME");
+	path = "tests/outputs_m_sh/cd_empty_arg.log";
+	system("echo -n 'cd ; pwd' | ./minishell > tests/outputs_m_sh/cd_empty_arg.log");
+	fd = open(path, O_RDONLY);
+	get_next_line(fd, &file);
+	diff = ft_strncmp(expected, file, 100);
+	close(fd);
+	if (diff == 0)
+		system("rm -f tests/outputs_m_sh/cd_empty_arg.log");
+	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
+}
+
+Test(cd_suite, cd_empty_arg_with_home_unset) {
+	int		fd;
+	char	*path;
+	int		diff;
+	char	*expected;
+	char	*file;
+
+	expected = "minishell: cd: HOME not set";
+	path = "tests/outputs_m_sh/cd_empty_arg_with_home_unset.log";
+	system("unset HOME && echo -n 'cd' | ./minishell 2> tests/outputs_m_sh/cd_empty_arg_with_home_unset.log");
+	fd = open(path, O_RDONLY);
+	get_next_line(fd, &file);
+	diff = ft_strncmp(expected, file, 100);
+	close(fd);
+	if (diff == 0)
+		system("rm -f tests/outputs_m_sh/cd_empty_arg_with_home_unset.log");
+	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
+}
+
+Test(echo_suite, cd_home_minus) {
+	char	**outputs;
+	int		diff;
+
+	diff = -1;
+	outputs = compare_bash_msh("cd_home_minus", "cd -");
+	diff = ft_strncmp(outputs[0], outputs[1], 1000);
+	cr_assert(diff == 0, "EXPECTED:\t%s\nRETURNED:\t%s\n", outputs[1], outputs[0]);
+}
+
+Test(cd_suite, cd_home_minus_whithout_oldpwd_set) {
+	int		fd;
+	char	*path;
+	int		diff;
+	char	*expected;
+	char	*file;
+
+	expected = "minishell: cd: OLDPWD not set";
+	path = "tests/outputs_m_sh/cd_home_minus_whithout_oldpwd_set.log";
+	system("echo -n 'cd / ; cd -' | ./minishell 2> tests/outputs_m_sh/cd_home_minus_whithout_oldpwd_set.log");
+	fd = open(path, O_RDONLY);
+	get_next_line(fd, &file);
+	diff = ft_strncmp(expected, file, 100);
+	close(fd);
+	if (diff == 0)
+		system("rm -f tests/outputs_m_sh/cd_home_minus_whithout_oldpwd_set.log");
+	cr_assert(diff == 0, "+++++\nYour return: %s\nExpected: %s\n+++++\n", file, expected);
 }

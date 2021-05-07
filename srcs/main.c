@@ -89,13 +89,13 @@ int			main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	g_global.env_list = init_env(envp);
 	orig_termios = enable_raw_mode();
-	if (init_termcaps() == 0)
+	if (init_termcaps(g_global.env_list) == 0)
 	{
 		disable_raw_mode(orig_termios);
 		return (-1);
 	}
-	g_global.env_list = init_env(envp);
 	minishell(orig_termios);
 	free_env(&g_global.env_list);
 	disable_raw_mode(orig_termios);

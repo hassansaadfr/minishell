@@ -1,26 +1,80 @@
 #include "minishell.h"
 
-static void	print_env_list(t_list *env_list)
+static t_env	**tlist_to_arr_of_tenv(t_list *env_list)
 {
-	t_list	*tmp;
+	int		i;
+	int		size;
+	t_env	**out;
 
-	tmp = env_list;
-	while (tmp)
+	i = 0;
+	size = 0;
+	size = ft_lstsize(env_list);
+	out = malloc(sizeof(t_env) * (size + 1));
+	if (!out)
+		return (NULL);
+	out[size] = NULL;
+	while (env_list)
 	{
-		ft_putstr_fd("export ", STDOUT_FILENO);
-		ft_putstr_fd((((t_env*)tmp->content)->name), STDOUT_FILENO);
-		if (((t_env*)tmp->content)->value != NULL)
+		out[i] = ((t_env*)env_list->content);
+		i++;
+		env_list = env_list->next;
+	}
+	return (out);
+}
+
+static void		sort(t_env **array, int start, int end)
+{
+	int		i;
+	int		j;
+	t_env	*tmp;
+
+	i = start;
+	while (i <= end - 1)
+	{
+		j = i + 1;
+		while (j <= end)
 		{
-			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd((((t_env*)tmp->content)->value), STDOUT_FILENO);
-			ft_putstr_fd("\"", STDOUT_FILENO);
+			if (ft_strcmp(array[i]->name, array[j]->name) > 0)
+			{
+				tmp = array[j];
+				array[j] = array[i];
+				array[i] = tmp;
+			}
+			j++;
 		}
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		tmp = tmp->next;
+		i++;
 	}
 }
 
-int			builtin_export(char **argv, t_list *env_list)
+static void		print_env_list(t_list *env_list)
+{
+	t_list	*tmp;
+	t_env	**env_arr;
+	int		i;
+	int		size;
+
+	size = ft_lstsize(env_list);
+	i = 0;
+	tmp = env_list;
+	env_arr = tlist_to_arr_of_tenv(env_list);
+	sort(env_arr, 0, size - 1);
+	while (i < size)
+	{
+		ft_putstr_fd("export ", STDOUT_FILENO);
+		ft_putstr_fd(env_arr[i]->name, STDOUT_FILENO);
+		if (env_arr[i]->value != NULL)
+		{
+			ft_putstr_fd("=\"", STDOUT_FILENO);
+			ft_putstr_fd(env_arr[i]->value, STDOUT_FILENO);
+			ft_putstr_fd("\"", STDOUT_FILENO);
+		}
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		i++;
+	}
+	free(env_arr);
+}
+
+int				builtin_export(char **argv, t_list *env_list)
 {
 	int		i;
 	int		size;
