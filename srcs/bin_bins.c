@@ -40,18 +40,23 @@ char	*which_bin_fld(char *bin, char **bin_paths)
 
 int		exec_from_bins(char **cmd, t_list *env_list, t_termios orig_termios)
 {
+	t_list			*env_node;
 	char			*path;
 	char			**bin_paths;
 
 	errno = 0;
-	path = ((t_env*)get_env(env_list, "PATH")->content)->value;
-	bin_paths = ft_split(path, ':');
-	path = which_bin_fld(cmd[0], bin_paths);
-	free_split(bin_paths);
-	if (path)
+	env_node = get_env(env_list, "PATH");
+	if (env_node)
 	{
-		exec_bin(path, cmd, env_list, orig_termios);
-		free(path);
+		path = ((t_env*)env_node->content)->value;
+		bin_paths = ft_split(path, ':');
+		path = which_bin_fld(cmd[0], bin_paths);
+		free_split(bin_paths);
+		if (path)
+		{
+			exec_bin(path, cmd, env_list, orig_termios);
+			free(path);
+		}
 	}
 	return (0);
 }

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/10 19:28:50 by axaidan           #+#    #+#             */
-/*   Updated: 2021/04/10 11:51:24 by hsaadaou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LIBFT_H
 # define LIBFT_H
 
@@ -65,11 +53,17 @@ void			ft_lstadd_front(t_list **alst, t_list *new);
 int				ft_lstsize(t_list *lst);
 t_list			*ft_lstlast(t_list *lst);
 void			ft_lstadd_back(t_list **alst, t_list *new);
-void			ft_lstdelone(t_list *elem, void (*del)(void*));
+void			ft_lstdelone(t_list **elem, void (*del)(void*));
 void			ft_lstclear(t_list **lst, void(*del)(void *));
 void			ft_lstiter(t_list *lst, void(*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void*));
 
 int				get_next_line(int fd, char **line);
+
+int				ft_strcmp(char *s1, char *s2);
+void			*ft_alloc_mem(size_t size, int done, void **addr);
+void			*ft_alloc(size_t size);
+void			ft_exit_free(void);
+void			ft_free_ptr(void **addr);
 
 #endif

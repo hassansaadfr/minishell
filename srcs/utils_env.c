@@ -123,7 +123,7 @@ int			delete_env(t_list *env_list, char *name)
 		free(((t_env*)tmp->content)->name);
 		free(((t_env*)tmp->content)->value);
 		free(env_name);
-		ft_lstdelone(tmp, free);
+		ft_lstdelone(&tmp, free);
 		out = 1;
 	}
 	return (out);
