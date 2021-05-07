@@ -1,15 +1,8 @@
 #include <criterion/criterion.h>
 #include "minishell.h"
+#include "criterion.h"
 #include <unistd.h>
 #include <fcntl.h>
-
-typedef struct	s_cmd_test {
-	char	*output_bash;
-	char	*output_msh;
-	char	*cmd_bash;
-	char	*cmd_msh;
-
-}				t_cmd_test;
 
 t_cmd_test	*generate_cmds(char *test_name, char *cmd)
 {
@@ -139,7 +132,6 @@ Test(echo_suite, echo_spaces_between_args) {
 	diff = -1;
 	outputs = compare_bash_msh("echo_spaces_between_args", "echo -n                t                     l   ");
 	diff = ft_strncmp(outputs[0], outputs[1], 1000);
-	printf("EXPECTED:\t%s\nRETURNED:\t%s\n", outputs[1], outputs[0]);
 	cr_assert(diff == 0, "EXPECTED:\t%s\nRETURNED:\t%s\n", outputs[1], outputs[0]);
 }
 
