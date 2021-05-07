@@ -735,7 +735,14 @@ Test(parsing_escaped_suite, escaped22)
         }
         if (i == 1)
         {
-            expected = " \"\\\"\" \\\' \'\\n";
+            expected = " \"\\\"\" \\";
+            diff = strcmp(token->arg, expected) == 0;
+            cr_expect(token->type == ARG);
+            cr_expect(diff, "++++++\nexpected\t%s\nreturned\t%s\n", expected, token->arg);
+        }
+        if (i == 2)
+        {
+            expected = "\\n";
             diff = strcmp(token->arg, expected) == 0;
             cr_expect(token->type == ARG);
             cr_expect(diff, "++++++\nexpected\t%s\nreturned\t%s\n", expected, token->arg);
@@ -743,7 +750,7 @@ Test(parsing_escaped_suite, escaped22)
         list = list->next;
         i++;
     }
-    cr_expect(i == 2, "++++++\nexpected\t%d\nreturned\t%d\n", 2, i);
+    cr_expect(i == 3, "++++++\nexpected\t%d\nreturned\t%d\n", 2, i);
 }
 
 Test(parsing_escaped_suite, escaped23)
