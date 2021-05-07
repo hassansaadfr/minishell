@@ -66,8 +66,6 @@ void	split_into_tokens(t_parse *p, char **line, int *ret_mtc_or_spc)
 			d_quote(p, line);
 		else if ((**line == ';' || **line == ' ' || **line == '\0')
 				&& p->buffer_start[0] != '\0' && p->state == NORMAL)
-		//else if ((is_metachar(**line) || **line == ' ' || **line == '\0')
-		//		&& not_empty(p->buffer_start) && p->state == NORMAL)
 		{
 			*ret_mtc_or_spc = metachar_or_space(p, line);
 			if (*ret_mtc_or_spc <= 0)
@@ -86,19 +84,16 @@ t_list	*check_parsing_errors(t_parse p, int ret_mtc_or_spc)
 		ft_putstr_fd("minishell - QUOTING syntax error\n", STDERR_FILENO);
 		ft_lstclear(&p.tokens, free_token);
 		return (NULL);
-		//return (p.tokens);
 	}
 	else if (ret_mtc_or_spc == -1)
 	{
 		ft_putstr_fd("minishell - TYPE syntax error near unexpected symbol \" \"\n", STDERR_FILENO);
 		ft_lstclear(&p.tokens, free_token);
 		return (NULL);
-		//return (p.tokens);
 	}
 	else if (ret_mtc_or_spc == 0)
 	{
 		ft_putstr_fd("minishell - alloc error\n", STDERR_FILENO);
-		//		ft_lstclear(&p.tokens, free_token);
 		return (NULL);
 	}
 	return (p.tokens);

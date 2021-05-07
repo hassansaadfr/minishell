@@ -11,6 +11,8 @@ void		signal_handling_register(void)
 ** SHOULD REMOVE orig_termios FROM exec() FUNCTIONS
 ** THEN SHOULD ACTIVATE NON-CANONICAL MODE BEFORE write_buffer()
 ** AND THEN SHOULD DEACTIVATE NON-CANONICAL MODE AFTER
+** ANCIENT EXECCOMMAND :
+** exec(parse(buff.buffer), g_global.env_list, orig_termios);
 */
 
 static int	minishell_tty(t_termios orig_termios)
@@ -36,7 +38,6 @@ static int	minishell_tty(t_termios orig_termios)
 				tokens = parsing(buff.buffer);
 				if (tokens)
 					display_tokens(tokens);
-				//exec(parse(buff.buffer), g_global.env_list, orig_termios);
 				ft_lstclear(&tokens, free_token);
 			}
 		}
@@ -46,6 +47,12 @@ static int	minishell_tty(t_termios orig_termios)
 	free(buff.backup);
 	return (stop);
 }
+
+/*
+**	ANCIENT EXEC COMMAND : (in place of (void)cmds; (void)orig_termios;
+**	cmds = parse(line);
+**	exec(cmds, g_global.env_list, orig_termios);
+*/
 
 static int	minishell_non_tty(t_termios orig_termios)
 {
@@ -67,8 +74,6 @@ static int	minishell_non_tty(t_termios orig_termios)
 			ft_lstclear(&tokens, free);
 			(void)orig_termios;
 			(void)cmds;
-//			cmds = parse(line);
-//			exec(cmds, g_global.env_list, orig_termios);
 		}
 		free(line);
 	}
