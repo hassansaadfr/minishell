@@ -124,7 +124,7 @@ void		disable_raw_mode(t_termios orig_termios);
 **	FILE - initializations.c
 */
 int			init_buff_and_history(t_buff *buff, t_list **history);
-int			init_termcaps(void);
+int			init_termcaps(t_list *env_list);
 size_t		init_parse_struct(t_parse *p, char *line);
 
 /*

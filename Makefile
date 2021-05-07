@@ -35,7 +35,7 @@ SRCS			=	main.c \
 
 TEST_SRCS		=	parsing_basics_tests.c parsing_escaped_tests.c parsing_negatives_tests.c \
 					parsing_err_esc_tests.c parsing_err_types_tests.c \
-					cd_test.c env_utils_test.c unset_test.c #signal_tests.c
+					env_utils_test.c unset_test.c utils_test.c #cd_test.c #echo_test.c #signal_tests.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
@@ -66,7 +66,7 @@ test			:	$(TEST_NAME)
 
 $(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS} ${NAME}
 					@${CC} -g $(NO_MAIN) ${CFLAGS} ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
-						-lft -lncurses
+						-lft -lncurses -Itests 
 					@ rm $(TEST_OBJS) $(NO_MAIN)
 					@clear
 
