@@ -28,9 +28,14 @@ SRCS			=	main.c \
 					utils_input.c \
 					termcaps.c \
 					buffer.c \
-					history.c
+					history.c \
+					tokenizer.c \
+					utils_quoting.c \
+					types.c
 
-TEST_SRCS		=	cd_test.c env_utils_test.c unset_test.c echo_test.c #signal_tests.c
+TEST_SRCS		=	parsing_basics_tests.c parsing_escaped_tests.c parsing_negatives_tests.c \
+					parsing_err_esc_tests.c parsing_err_types_tests.c \
+					env_utils_test.c unset_test.c utils_test.c #cd_test.c #echo_test.c #signal_tests.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
@@ -47,7 +52,7 @@ CFLAGS			=	-Wall -Werror -Wextra -g #-fsanitize=address
 CRITERIONFLAGS	=	-lcriterion
 
 .c.o			:
-					${CC} ${CFLAGS} ${HEAD} -c $< -o ${<:.c=.o}
+					@${CC} ${CFLAGS} ${HEAD} -c $< -o ${<:.c=.o}
 
 $(NAME)			:	${OBJS}
 					make -C libft
@@ -56,13 +61,15 @@ $(NAME)			:	${OBJS}
 all				:	${NAME}
 
 test			:	$(TEST_NAME)
-					./${TEST_NAME}
+					@./${TEST_NAME}
 					@rm $(TEST_NAME)
 
 $(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS} ${NAME}
-					@${CC} -g $(NO_MAIN) -Wall -Werror -Wextra ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
-						-lft -lncurses -Itests
+					@${CC} -g $(NO_MAIN) ${CFLAGS} ${LD_FLAGS} ${TEST_OBJS} ${CRITERIONFLAGS} -o ${TEST_NAME} \
+						-lft -lncurses -Itests 
 					@ rm $(TEST_OBJS) $(NO_MAIN)
+					@clear
+
 
 clean			:
 					make clean -C libft

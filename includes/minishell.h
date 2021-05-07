@@ -29,7 +29,8 @@ char		***parse(char *cmd);
 /*
 ** FILE - exec.c
 */
-int			exec(char ***cmds, t_list *env_list, t_termios orig_termios, t_list	*history);
+int			exec(char ***cmds, t_list *env_list, t_termios orig_termios,
+		t_list *history);
 int			exec_bin(char *path, char **args, t_list *env_list,
 			t_termios orig_termios);
 char		*create_full_path(char *bin_path, char *cmd);
@@ -44,6 +45,8 @@ int			handle_errno(int err, char *binary, char *arg);
 **	FILE - debug.c
 */
 void		dbg_display_stat_buff(struct stat stat_buff);
+void		display_tokens(t_list *tokens);
+char		*enum_to_str(int type);
 
 /*
 **	FILE - prompt.c
@@ -71,6 +74,7 @@ void		free_split(char **splitted);
 void		free_cmds(char ***cmds);
 void		free_env(t_list **env_list);
 void		*ft_realloc(void *old_ptr, size_t old_size, size_t new_size);
+void		free_token(void *content);
 
 /*
 **	FILE - utils_env.c
@@ -120,6 +124,7 @@ void		disable_raw_mode(t_termios orig_termios);
 */
 int			init_buff_and_history(t_buff *buff, t_list **history);
 int			init_termcaps(t_list *env_list);
+size_t		init_parse_struct(t_parse *p, char *line);
 
 /*
 **	FILE - utils_input.c
@@ -127,6 +132,7 @@ int			init_termcaps(t_list *env_list);
 int			is_ctrl_keys(char c, int *stop, t_buff *buff, t_list *history);
 int			arrow_value(void);
 char		ctrl_value(char c);
+int			not_empty(char *buffer);
 
 /*
 **	FILE - termcaps.c
@@ -152,5 +158,27 @@ int			add_to_history(t_buff *buff, t_list **history);
 void		exec_up_arrow(t_buff *buff, t_list *history);
 void		exec_down_arrow(t_buff *buff);
 void		change_input_str(int arrow, t_buff *buff, t_list *history);
+
+/*
+**	FILE - tokenizer.c
+*/
+t_list		*parsing(char *line);
+void		display_tokens(t_list *tokens);
+void		free_token(void *token);
+int			add_to_tokens_list(t_parse *p);
+
+/*
+**	FILE - utils_quoting.c
+*/
+void		backslash(t_parse *p, char **line);
+void		s_quote(t_parse *p, char **line);
+void		d_quote(t_parse *p, char **line);
+int			metachar_or_space(t_parse *p, char **line);
+int			is_metachar(char c);
+
+/*
+**	FILE - types.c
+*/
+int			find_token_type(t_parse *p);
 
 #endif

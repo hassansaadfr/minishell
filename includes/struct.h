@@ -25,10 +25,45 @@ typedef struct			s_global
 {
 	t_list	*env_list;
 	pid_t	pid;
-	int		reset_buffer;
 	t_buff	*buff;
 }						t_global;
 
 t_global				g_global;
+
+enum					e_types
+{
+	ERR_TYPE,
+	ARG,
+	FD,
+	REDIR_INF,
+	REDIR_SUP,
+	REDIR_DSUP,
+	PIPE,
+	S_COLON
+};
+
+enum					e_state
+{
+	NORMAL,
+	S_QUOTE,
+	D_QUOTE,
+	B_SLASH
+};
+
+typedef struct			s_parse
+{
+	t_list			*tokens;
+	char			*buffer_start;
+	char			*buffer;
+	char			*line_start;
+	size_t			line_len;
+	enum e_state	state;
+}						t_parse;
+
+typedef struct			s_token
+{
+	int		type;
+	char	*arg;
+}						t_token;
 
 #endif

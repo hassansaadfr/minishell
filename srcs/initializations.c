@@ -60,3 +60,17 @@ int			init_termcaps(t_list *env_list)
 	}
 	return (1);
 }
+
+size_t		init_parse_struct(t_parse *p, char *line)
+{
+	size_t	line_len;
+
+	p->tokens = NULL;
+	line_len = ft_strlen(line) + 1;
+	p->buffer_start = malloc(sizeof(char) * line_len);
+	ft_bzero(p->buffer_start, line_len);
+	p->buffer = p->buffer_start;
+	p->state = NORMAL;
+	p->line_start = line;
+	return (line_len);
+}
