@@ -39,7 +39,8 @@ enum					e_types
 	REDIR_SUP,
 	REDIR_DSUP,
 	PIPE,
-	S_COLON
+	S_COLON,
+	NEWLINE
 };
 
 enum					e_state

@@ -32,13 +32,15 @@ int		add_to_tokens_list(t_parse *p)
 {
 	t_list				*new_node;
 	enum e_types		type;
+	char				err_char;
 
 	type = find_token_type(p);
 	if (type == ERR_TYPE)
 	{
+		err_char = *(p->buffer_start);
 		ft_bzero(p->buffer_start, p->buffer - p->buffer_start);
 		p->buffer = p->buffer_start;
-		return (-1);
+		return (-err_char);
 	}
 	if (*(p->buffer_start) != '\0')
 	{
@@ -52,8 +54,11 @@ int		add_to_tokens_list(t_parse *p)
 	return (1);
 }
 
-void	split_into_tokens(t_parse *p, char **line, int *ret_mtc_or_spc)
+int		split_into_tokens(t_parse *p, char **line)
 {
+	int	ret_mtc_or_spc;
+
+	ret_mtc_or_spc = 1;
 	while ((size_t)(*line - p->line_start) < p->line_len)
 	{
 		if (**line == '\\' && p->state == NORMAL)
@@ -64,50 +69,33 @@ void	split_into_tokens(t_parse *p, char **line, int *ret_mtc_or_spc)
 				|| (**line && p->state == D_QUOTE && **line != '\"')
 				|| (**line == '\"' && p->state == D_QUOTE))
 			d_quote(p, line);
-		else if ((**line == ';' || **line == ' ' || **line == '\0')
-				&& p->buffer_start[0] != '\0' && p->state == NORMAL)
+		else if (**line == ' ' && not_empty(p->buffer_start) && p->state == NORMAL)
 		{
-			*ret_mtc_or_spc = metachar_or_space(p, line);
-			if (*ret_mtc_or_spc <= 0)
-				return ;
+			ret_mtc_or_spc = space(p, line);
+			if (ret_mtc_or_spc <= 0)
+				return (ret_mtc_or_spc);
+		}
+		else if (is_metachar(**line) && not_empty(p->buffer_start) && p->state == NORMAL)
+		{
+			ret_mtc_or_spc = metachar(p, line);
+			if (ret_mtc_or_spc <= 0)
+				return (ret_mtc_or_spc);
 		}
 		else if (**line != ' ' && **line != '\0' && p->state == NORMAL)
 			*(p->buffer++) = **line;
 		(*line)++;
 	}
-}
-
-t_list	*check_parsing_errors(t_parse p, int ret_mtc_or_spc)
-{
-	if (p.state != NORMAL)
-	{
-		ft_putstr_fd("minishell - QUOTING syntax error\n", STDERR_FILENO);
-		ft_lstclear(&p.tokens, free_token);
-		return (NULL);
-	}
-	else if (ret_mtc_or_spc == -1)
-	{
-		ft_putendl_fd("minishell - TYPE syntax error near unexpected symbol",
-				STDERR_FILENO);
-		ft_lstclear(&p.tokens, free_token);
-		return (NULL);
-	}
-	else if (ret_mtc_or_spc == 0)
-	{
-		ft_putstr_fd("minishell - alloc error\n", STDERR_FILENO);
-		return (NULL);
-	}
-	return (p.tokens);
+	return (1);
 }
 
 t_list	*parsing(char *line)
 {
 	t_parse		p;
-	int			ret_mtc_or_spc;
+	int			ret_tokenizing;
 
-	ret_mtc_or_spc = 1;
+	ret_tokenizing = 1;
 	p.line_len = init_parse_struct(&p, line);
-	split_into_tokens(&p, &line, &ret_mtc_or_spc);
+	ret_tokenizing = split_into_tokens(&p, &line);
 	free(p.buffer_start);
-	return (check_parsing_errors(p, ret_mtc_or_spc));
+	return (check_parsing_errors(p, ret_tokenizing));
 }

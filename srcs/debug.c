@@ -10,6 +10,7 @@ void	display_tokens(t_list *tokens)
 	int		i;
 	t_token	*token;
 	size_t	len;
+	int		j;
 
 	i = 0;
 	printf("i\tstr\t\t\t\tlen\t\ttype\n");
@@ -18,8 +19,26 @@ void	display_tokens(t_list *tokens)
 	{
 		token = tokens->content;
 		len = ft_strlen(token->arg);
-		printf("%d\t\"%-20.20s\"\t\t%zu\t\t%s\n", i++, token->arg, len,
-				enum_to_str(token->type));
+		printf("%d\t\"", i++);
+		j = 0;
+		while (token->arg[j] && j < 20)
+		{
+			if (token->arg[j] > 0)
+				printf("%c", token->arg[j]);
+			else 
+			{
+				printf("\033[1;31m");
+				printf("%c", -token->arg[j]);
+				printf("\033[0m");
+			}
+			j++;
+		}
+		while (j < 20)
+		{
+			printf(" ");
+			j++;
+		}
+		printf("\"\t\t%zu\t\t%s\n", len, enum_to_str(token->type));
 		tokens = tokens->next;
 	}
 	printf("\n");
