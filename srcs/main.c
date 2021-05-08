@@ -11,16 +11,13 @@ void		signal_handling_register(void)
 ** SHOULD REMOVE orig_termios FROM exec() FUNCTIONS
 ** THEN SHOULD ACTIVATE NON-CANONICAL MODE BEFORE write_buffer()
 ** AND THEN SHOULD DEACTIVATE NON-CANONICAL MODE AFTER
-** ANCIENT EXECCOMMAND :
-** exec(parse(buff.buffer), g_global.env_list, orig_termios);
 */
 
-static int	minishell_tty(void)
+static int	minishell_tty(t_termios orig_termios)
 {
 	int		stop;
 	t_list	*history;
 	t_buff	buff;
-	t_list	*tokens;
 
 	signal_handling_register();
 	init_buff_and_history(&buff, &history);
@@ -31,12 +28,8 @@ static int	minishell_tty(void)
 		stop = write_buffer(&stop, &buff, history);
 		if (stop == 0)
 			stop = add_to_history(&buff, &history);
-		if (stop == 0 && not_empty(buff.buffer))
-			tokens = parsing(buff.buffer);
-		if (tokens)
-			display_tokens(tokens);
-		if (tokens)
-			ft_lstclear(&tokens, free_token);
+		if (stop == 0)
+			exec(parse(buff.buffer), g_global.env_list, orig_termios, history);
 	}
 	ft_lstclear(&history, free);
 	free(buff.buffer);
@@ -44,18 +37,11 @@ static int	minishell_tty(void)
 	return (stop);
 }
 
-/*
-**	ANCIENT EXEC COMMAND : (in place of (void)cmds; (void)orig_termios;
-**	cmds = parse(line);
-**	exec(cmds, g_global.env_list, orig_termios);
-*/
-
 static int	minishell_non_tty(t_termios orig_termios)
 {
 	int		ret_gnl;
 	char	*line;
 	char	***cmds;
-	t_list	*tokens;
 
 	line = NULL;
 	ret_gnl = 1;
@@ -65,11 +51,8 @@ static int	minishell_non_tty(t_termios orig_termios)
 		ret_gnl = get_next_line(STDIN_FILENO, &line);
 		if (*line)
 		{
-			tokens = parsing(line);
-			display_tokens(tokens);
-			ft_lstclear(&tokens, free);
-			(void)orig_termios;
-			(void)cmds;
+			cmds = parse(line);
+			exec(cmds, g_global.env_list, orig_termios, NULL);
 		}
 		free(line);
 	}
@@ -79,7 +62,7 @@ static int	minishell_non_tty(t_termios orig_termios)
 int			minishell(t_termios orig_termios)
 {
 	if (isatty(STDIN_FILENO))
-		return (minishell_tty());
+		return (minishell_tty(orig_termios));
 	else
 		return (minishell_non_tty(orig_termios));
 }
