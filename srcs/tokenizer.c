@@ -56,9 +56,9 @@ int		add_to_tokens_list(t_parse *p)
 
 int		split_into_tokens(t_parse *p, char **line)
 {
-	int	ret_mtc_or_spc;
+	int	ret_add;
 
-	ret_mtc_or_spc = 1;
+	ret_add = 1;
 	while ((size_t)(*line - p->line_start) < p->line_len)
 	{
 		if (**line == '\\' && p->state == NORMAL)
@@ -69,20 +69,14 @@ int		split_into_tokens(t_parse *p, char **line)
 				|| (**line && p->state == D_QUOTE && **line != '\"')
 				|| (**line == '\"' && p->state == D_QUOTE))
 			d_quote(p, line);
-		else if (**line == ' ' && not_empty(p->buffer_start) && p->state == NORMAL)
-		{
-			ret_mtc_or_spc = space(p, line);
-			if (ret_mtc_or_spc <= 0)
-				return (ret_mtc_or_spc);
-		}
-		else if (is_metachar(**line) && not_empty(p->buffer_start) && p->state == NORMAL)
-		{
-			ret_mtc_or_spc = metachar(p, line);
-			if (ret_mtc_or_spc <= 0)
-				return (ret_mtc_or_spc);
-		}
+		else if ((**line == ' ' || **line == '\0') && p->state == NORMAL)
+			ret_add = space_or_null(p);
+		else if (is_metachar(**line) && p->state == NORMAL)
+			ret_add = metachar(p, line);
 		else if (**line != ' ' && **line != '\0' && p->state == NORMAL)
 			*(p->buffer++) = **line;
+		if (ret_add <= 0)
+			return (ret_add);
 		(*line)++;
 	}
 	return (1);
@@ -94,7 +88,9 @@ t_list	*parsing(char *line)
 	int			ret_tokenizing;
 
 	ret_tokenizing = 1;
-	p.line_len = init_parse_struct(&p, line);
+	p.line_len = init_parse_struct(&p, line);	// PROTECT p->buffer_start ALLOCATION
+												// OR PASS AN ALREADY ALLOCATED BUFFER LARGE ENOUGH
+												// => (buff.backup)
 	ret_tokenizing = split_into_tokens(&p, &line);
 	free(p.buffer_start);
 	return (check_parsing_errors(p, ret_tokenizing));

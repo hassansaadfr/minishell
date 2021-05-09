@@ -173,9 +173,13 @@ int			add_to_tokens_list(t_parse *p);
 void		backslash(t_parse *p, char **line);
 void		s_quote(t_parse *p, char **line);
 void		d_quote(t_parse *p, char **line);
+
+/*
+**	FILE - utils_parsing.c
+*/
 int			metachar(t_parse *p, char **line);
 int			is_metachar(char c);
-int			space(t_parse *p);
+int			space_or_null(t_parse *p);
 
 /*
 **	FILE - types.c

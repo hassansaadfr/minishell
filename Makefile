@@ -32,7 +32,8 @@ SRCS			=	main.c \
 					tokenizer.c \
 					utils_quoting.c \
 					types.c \
-					parsing_errors.c
+					parsing_errors.c \
+					utils_parsing.c
 
 TEST_SRCS		=	parsing_basics_tests.c parsing_escaped_tests.c parsing_negatives_tests.c \
 					parsing_err_esc_tests.c parsing_err_types_tests.c \

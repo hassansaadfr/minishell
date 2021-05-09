@@ -56,31 +56,3 @@ void	d_quote(t_parse *p, char **line)
 	else if (**line == '\"' && p->state == D_QUOTE)
 		p->state = NORMAL;
 }
-
-int		metachar(t_parse *p, char **line)
-{
-	int		ret_add;
-
-	ret_add = 1;
-	if (**line == ';' && p->state == NORMAL)
-//	if (is_metachar(**line) && p->state == NORMAL)
-	{
-		if (not_empty(p->buffer_start))
-			ret_add = add_to_tokens_list(p);
-//		*(p->buffer++) = ';';
-		*(p->buffer++) = **line;
-	}
-	if (ret_add == 1)
-		ret_add = add_to_tokens_list(p);
-	return (ret_add);
-}
-
-int		space(t_parse *p)
-{
-    return (add_to_tokens_list(p));
-}
-
-int		is_metachar(char c)
-{
-	return (c == ';' || c == '\0' || c == '>' || c == '<' || c == '|');
-}
