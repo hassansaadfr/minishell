@@ -184,7 +184,7 @@ int			space_or_null(t_parse *p);
 /*
 **	FILE - types.c
 */
-int			find_token_type(t_parse *p);
+int			typing(t_parse *p);
 
 /*
 **	FILE - parsing_errors.c

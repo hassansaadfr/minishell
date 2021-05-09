@@ -34,7 +34,7 @@ int		add_to_tokens_list(t_parse *p)
 	enum e_types		type;
 	char				err_char;
 
-	type = find_token_type(p);
+	type = typing(p);
 	if (type == ERR_TYPE)
 	{
 		err_char = *(p->buffer_start);
@@ -42,7 +42,7 @@ int		add_to_tokens_list(t_parse *p)
 		p->buffer = p->buffer_start;
 		return (-err_char);
 	}
-	if (*(p->buffer_start) != '\0')
+	if (not_empty(p->buffer_start))
 	{
 		new_node = alloc_token_node(p, type);
 		if (new_node == NULL)
