@@ -337,3 +337,72 @@ Test(parsing_basic_pipe_suite, cmd1_pipe_cmd2_arg1_pipe_cmd3_pipe_cmd4_op1_smc_c
     }   
     cr_expect(i == 14); 
 }
+
+void    exp_type_and_arg_plus_line(t_token *token, int type, char *arg, int line)
+{
+    cr_expect(token->type == type, "LINE:%3d\ttype = %d\n", line, token->type);
+    cr_expect(strcmp(token->arg, arg) == 0, "LINE:%3d --\targ = \"%10.10s\"\n", line, token->arg);
+}
+
+Test(parsing_basic_pipe_suite, complex_pipe_1)
+{
+    char    *line = NULL;
+    t_list  *list = NULL;
+    t_token *token = NULL;
+    int     i = 0;
+
+    line = "<file cmd1|cmd2";
+    list = parsing(line);
+    while (list)
+    {   
+        token = list->content;
+        if (i == 0)
+			exp_type_and_arg_plus_line(token, REDIR_INF, "<", __LINE__);
+		else if (i == 1)
+			exp_type_and_arg_plus_line(token, FD, "file", __LINE__);
+		else if (i == 2)
+			exp_type_and_arg_plus_line(token, ARG, "cmd1", __LINE__);
+		else if (i == 3)
+			exp_type_and_arg_plus_line(token, PIPE, "|", __LINE__);
+		else if (i == 4)
+			exp_type_and_arg_plus_line(token, ARG, "cmd2", __LINE__);
+        list = list->next;
+        i++;
+    }   
+    cr_expect(i == 5); 
+}
+
+Test(parsing_basic_pipe_suite, complex_pipe_2)
+{
+    char    *line = NULL;
+    t_list  *list = NULL;
+    t_token *token = NULL;
+    int     i = 0;
+
+    line = "<file cmd1|>>file cmd2 arg1";
+    list = parsing(line);
+    while (list)
+    {   
+        token = list->content;
+        if (i == 0)
+			exp_type_and_arg_plus_line(token, REDIR_INF, "<", __LINE__);
+		else if (i == 1)
+			exp_type_and_arg_plus_line(token, FD, "file", __LINE__);
+		else if (i == 2)
+			exp_type_and_arg_plus_line(token, ARG, "cmd1", __LINE__);
+		else if (i == 3)
+			exp_type_and_arg_plus_line(token, PIPE, "|", __LINE__);
+		else if (i == 4)
+			exp_type_and_arg_plus_line(token, REDIR_DSUP, ">>", __LINE__);
+		else if (i == 5)
+			exp_type_and_arg_plus_line(token, FD, "file", __LINE__);
+		else if (i == 6)
+			exp_type_and_arg_plus_line(token, ARG, "cmd2", __LINE__);
+		else if (i == 7)
+			exp_type_and_arg_plus_line(token, ARG, "arg1", __LINE__);
+        list = list->next;
+        i++;
+    }   
+    cr_expect(i == 8); 
+}
+

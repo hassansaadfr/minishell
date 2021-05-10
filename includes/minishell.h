@@ -191,4 +191,12 @@ int			typing(t_parse *p);
 */
 t_list		*check_parsing_errors(t_parse p, int ret_mtc_or_spc);
 
+/*
+**	FILE - utils_exclusions.c
+*/
+int			smc_exclusions(t_token *last_token);
+int			pipe_exclusions(t_token *last_token);
+int			redirs_exclusions(t_token *last_token, int curr_type);
+int			newline_exclusions(t_list *last_node);
+
 #endif

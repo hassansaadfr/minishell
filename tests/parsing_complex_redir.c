@@ -4,8 +4,8 @@
 
 void	exp_type_and_arg(t_token *token, int type, char *arg)
 {
-	cr_expect(token->type == type);
-	cr_expect(strcmp(token->arg, arg) == 0); 
+	cr_expect(token->type == type, "type = %d", token->type);
+	cr_expect(strcmp(token->arg, arg) == 0, "\targ = \"%10.10s\"\n", token->arg); 
 }
 
 Test(parsing_complex_redir_suite, complex_redir_1)

@@ -2,7 +2,7 @@
 #include <string.h>
 #include "minishell.h"
 
-Test(parsing_err_types_suite, only_smc)
+Test(parsing_err_smc_suite, only_smc)
 {
     char    *line = NULL;
     t_list  *list = NULL;
@@ -12,7 +12,7 @@ Test(parsing_err_types_suite, only_smc)
     cr_expect(list == NULL); 
 }
 
-Test(parsing_err_types_suite, spc_smc)
+Test(parsing_err_smc_suite, spc_smc)
 {
     char    *line = NULL;
     t_list  *list = NULL;
@@ -22,7 +22,7 @@ Test(parsing_err_types_suite, spc_smc)
     cr_expect(list == NULL); 
 }
 
-Test(parsing_err_types_suite, spc_smc_spc)
+Test(parsing_err_smc_suite, spc_smc_spc)
 {
     char    *line = NULL;
     t_list  *list = NULL;
@@ -32,7 +32,7 @@ Test(parsing_err_types_suite, spc_smc_spc)
     cr_expect(list == NULL); 
 }
 
-Test(parsing_err_types_suite, smc_smc)
+Test(parsing_err_smc_suite, smc_smc)
 {
     char    *line = NULL;
     t_list  *list = NULL;
@@ -42,7 +42,7 @@ Test(parsing_err_types_suite, smc_smc)
     cr_expect(list == NULL); 
 }
 
-Test(parsing_err_types_suite, smc_spc_smc)
+Test(parsing_err_smc_suite, smc_spc_smc)
 {
     char    *line = NULL;
     t_list  *list = NULL;
@@ -52,7 +52,7 @@ Test(parsing_err_types_suite, smc_spc_smc)
     cr_expect(list == NULL); 
 }
 
-Test(parsing_err_types_suite, ls_smc_spc_smc_ls)
+Test(parsing_err_smc_suite, ls_smc_spc_smc_ls)
 {
     char    *line = NULL;
     t_list  *list = NULL;
@@ -60,4 +60,14 @@ Test(parsing_err_types_suite, ls_smc_spc_smc_ls)
     line = "ls ; ; ls";
     list = parsing(line);
     cr_expect(list == NULL); 
+}
+
+Test(parsing_err_smc_suite, smc_exclusions)
+{
+	char	*line = NULL;
+	t_list	*list = NULL;
+
+	line = "cmd | ; ";
+	list = parsing(line);
+	cr_expect(list == NULL);
 }

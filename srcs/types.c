@@ -2,9 +2,12 @@
 
 int		check_exclusions(enum e_types type, t_token *last_token)
 {
-	if (type == S_COLON &&
-			((last_token && last_token->type == S_COLON) || last_token == NULL))
-		return (ERR_TYPE);
+	if (type == S_COLON)
+		return (smc_exclusions(last_token));
+	else if (type == PIPE)
+		return (pipe_exclusions(last_token));
+	else if (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP)
+		return (redirs_exclusions(last_token, type));
 	return (type);
 }
 
@@ -15,9 +18,7 @@ int		is_redir(enum e_types type)
 
 int		find_token_type(t_parse *p, size_t token_len, t_token *last_token)
 {
-	if (last_token && is_redir(last_token->type))
-		return (FD);
-	else if (ft_strncmp(p->buffer_start, ";", token_len) == 0)
+	if (ft_strncmp(p->buffer_start, ";", token_len) == 0)
 		return (S_COLON);
 	else if (ft_strncmp(p->buffer_start, "<", token_len) == 0)
 		return (REDIR_INF);
@@ -27,6 +28,8 @@ int		find_token_type(t_parse *p, size_t token_len, t_token *last_token)
 		return (REDIR_DSUP);
 	else if (ft_strncmp(p->buffer_start, "|", token_len) == 0)
 		return (PIPE);
+	else if (last_token && is_redir(last_token->type))
+		return (FD);
 	else
 		return (ARG);
 }

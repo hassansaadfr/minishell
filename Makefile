@@ -33,18 +33,20 @@ SRCS			=	main.c \
 					utils_quoting.c \
 					types.c \
 					parsing_errors.c \
-					utils_parsing.c
+					utils_parsing.c \
+					utils_exclusions.c
 
-TEST_SRCS		=	parsing_basic_tests.c \
-					parsing_basic_pipe_tests.c \
-					parsing_basic_redir_sup_tests.c \
-					parsing_basic_redir_inf_tests.c \
-					parsing_basic_redir_dsup_tests.c \
-					parsing_complex_redir_tests.c \
-					parsing_negatives_tests.c \
-					parsing_escaped_tests.c \
-					parsing_err_esc_tests.c \
-					parsing_err_types_tests.c \
+TEST_SRCS		=	parsing_basic.c \
+					parsing_basic_pipe.c \
+					parsing_basic_redir_sup.c \
+					parsing_basic_redir_inf.c \
+					parsing_basic_redir_dsup.c \
+					parsing_complex_redir.c \
+					parsing_negatives.c \
+					parsing_escaped.c \
+					parsing_err_esc.c \
+					parsing_err_smc.c \
+					parsing_err_pipe.c
 #					env_utils_test.c unset_test.c utils_test.c #cd_test.c #echo_test.c #signal_tests.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}

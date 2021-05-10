@@ -79,6 +79,8 @@ int		split_into_tokens(t_parse *p, char **line)
 			return (ret_add);
 		(*line)++;
 	}
+	if (newline_exclusions(ft_lstlast(p->tokens)) == 0)
+		return (-NEWLINE);
 	return (1);
 }
 
