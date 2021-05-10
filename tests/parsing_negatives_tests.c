@@ -224,3 +224,228 @@ Test(parsing_negatives_suite, smc_ls_Esmc_smc_ls_smc_NO_SPACE)
     }
     cr_expect(i == 6);
 }
+
+Test(parsing_negatives_suite, echo_dq_all_negatives)
+{   char    line[]= "echo \"|\" \">\" \"<\" \">>\" \";\" \"\\$\" \"|><;\\$\"";
+    t_list  *list = NULL;
+    t_token *token = NULL;
+    int     i = 0;
+	char	neg_str1[] = "|";
+	char	neg_str2[] = ">";
+	char	neg_str3[] = "<";
+	char	neg_str4[] = ">>";
+	char	neg_str5[] = ";";
+	char	neg_str6[] = "$";
+	char	neg_str7[] = "|><;$";
+
+	neg_str1[0] = -neg_str1[0];
+	neg_str2[0] = -neg_str2[0];
+	neg_str3[0] = -neg_str3[0];
+	neg_str4[0] = -neg_str4[0];
+	neg_str4[1] = -neg_str4[1];
+	neg_str5[0] = -neg_str5[0];
+	neg_str6[0] = -neg_str6[0];
+	neg_str7[0] = -neg_str7[0];
+	neg_str7[1] = -neg_str7[1];
+	neg_str7[2] = -neg_str7[2];
+	neg_str7[3] = -neg_str7[3];
+	neg_str7[4] = -neg_str7[4];
+    list = parsing(line);
+    while (list)
+    {
+        token = list->content;
+        if (i == 0)
+        {
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, "echo") == 0);
+        }
+        if (i == 1)
+        {
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str1) == 0);
+        }
+		if (i == 2)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str2) == 0);
+		}
+		if (i == 3)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str3) == 0);
+		}
+		if (i == 4)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str4) == 0);
+		}
+		if (i == 5)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str5) == 0);
+		}
+		if (i == 6)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str6) == 0);
+		}
+		if (i == 7)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str7) == 0);
+		}
+        list = list->next;
+        i++;
+    }
+    cr_expect(i == 8);
+}
+
+Test(parsing_negatives_suite, echo_sq_all_negatives)
+{   char    line[]= "echo '|' '>' '<' '>>' ';' '$' '|>''<'';$'";
+    t_list  *list = NULL;
+    t_token *token = NULL;
+    int     i = 0;
+	char	neg_str1[] = "|";
+	char	neg_str2[] = ">";
+	char	neg_str3[] = "<";
+	char	neg_str4[] = ">>";
+	char	neg_str5[] = ";";
+	char	neg_str6[] = "$";
+	char	neg_str7[] = "|><;$";
+
+	neg_str1[0] = -neg_str1[0];
+	neg_str2[0] = -neg_str2[0];
+	neg_str3[0] = -neg_str3[0];
+	neg_str4[0] = -neg_str4[0];
+	neg_str4[1] = -neg_str4[1];
+	neg_str5[0] = -neg_str5[0];
+	neg_str6[0] = -neg_str6[0];
+	neg_str7[0] = -neg_str7[0];
+	neg_str7[1] = -neg_str7[1];
+	neg_str7[2] = -neg_str7[2];
+	neg_str7[3] = -neg_str7[3];
+	neg_str7[4] = -neg_str7[4];
+    list = parsing(line);
+    while (list)
+    {
+        token = list->content;
+        if (i == 0)
+        {
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, "echo") == 0);
+        }
+        if (i == 1)
+        {
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str1) == 0);
+        }
+		if (i == 2)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str2) == 0);
+		}
+		if (i == 3)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str3) == 0);
+		}
+		if (i == 4)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str4) == 0);
+		}
+		if (i == 5)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str5) == 0);
+		}
+		if (i == 6)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str6) == 0);
+		}
+		if (i == 7)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str7) == 0);
+		}
+        list = list->next;
+        i++;
+    }
+    cr_expect(i == 8);
+}
+
+Test(parsing_negatives_suite, echo_bslash_all_negatives)
+{   char    line[]= "echo \\| \\> \\< \\>\\> \\; \\$ \\|\\>\\<\\;\\$";
+    t_list  *list = NULL;
+    t_token *token = NULL;
+    int     i = 0;
+	char	neg_str1[] = "|";
+	char	neg_str2[] = ">";
+	char	neg_str3[] = "<";
+	char	neg_str4[] = ">>";
+	char	neg_str5[] = ";";
+	char	neg_str6[] = "$";
+	char	neg_str7[] = "|><;$";
+
+	neg_str1[0] = -neg_str1[0];
+	neg_str2[0] = -neg_str2[0];
+	neg_str3[0] = -neg_str3[0];
+	neg_str4[0] = -neg_str4[0];
+	neg_str4[1] = -neg_str4[1];
+	neg_str5[0] = -neg_str5[0];
+	neg_str6[0] = -neg_str6[0];
+	neg_str7[0] = -neg_str7[0];
+	neg_str7[1] = -neg_str7[1];
+	neg_str7[2] = -neg_str7[2];
+	neg_str7[3] = -neg_str7[3];
+	neg_str7[4] = -neg_str7[4];
+    list = parsing(line);
+    while (list)
+    {
+        token = list->content;
+        if (i == 0)
+        {
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, "echo") == 0);
+        }
+        if (i == 1)
+        {
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str1) == 0);
+        }
+		if (i == 2)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str2) == 0);
+		}
+		if (i == 3)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str3) == 0);
+		}
+		if (i == 4)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str4) == 0);
+		}
+		if (i == 5)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str5) == 0);
+		}
+		if (i == 6)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str6) == 0);
+		}
+		if (i == 7)
+		{
+            cr_expect(token->type == ARG);
+            cr_expect(strcmp(token->arg, neg_str7) == 0);
+		}
+        list = list->next;
+        i++;
+    }
+    cr_expect(i == 8);
+}
