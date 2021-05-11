@@ -92,7 +92,7 @@ t_list	*parsing(char *line)
 	ret_tokenizing = 1;
 	p.line_len = init_parse_struct(&p, line);	// PROTECT p->buffer_start ALLOCATION
 												// OR PASS AN ALREADY ALLOCATED BUFFER LARGE ENOUGH
-												// => (buff.backup)
+												//		=> (t_buff buff.backup)
 	ret_tokenizing = split_into_tokens(&p, &line);
 	free(p.buffer_start);
 	return (check_parsing_errors(p, ret_tokenizing));

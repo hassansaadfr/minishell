@@ -11,6 +11,10 @@ SRCS			=	main.c \
 					bin_builtins.c \
 					bin_paths.c \
 					bin_bins.c \
+					utils_mem.c \
+					signals.c \
+					utils_env.c \
+					utils_env2.c \
 					builtins/cd.c \
 					builtins/echo.c \
 					builtins/env.c \
@@ -19,34 +23,31 @@ SRCS			=	main.c \
 					builtins/pwd.c \
 					builtins/unset.c \
 					builtins/history_builtin.c \
-					utils_mem.c \
-					signals.c \
-					utils_env.c \
-					utils_env2.c \
-					termios.c \
 					initializations.c \
-					utils_input.c \
-					termcaps.c \
-					buffer.c \
-					history.c \
-					tokenizer.c \
-					utils_quoting.c \
-					types.c \
-					parsing_errors.c \
-					utils_parsing.c \
-					utils_exclusions.c
+					input/termios.c \
+					input/utils_input.c \
+					input/termcaps.c \
+					input/input.c \
+					input/history.c \
+					parsing/tokenizer.c \
+					parsing/utils_quoting.c \
+					parsing/types.c \
+					parsing/parsing_errors.c \
+					parsing/utils_parsing.c \
+					parsing/utils_exclusions.c
 
-TEST_SRCS		=	parsing_basic.c \
-					parsing_basic_pipe.c \
-					parsing_basic_redir_sup.c \
-					parsing_basic_redir_inf.c \
-					parsing_basic_redir_dsup.c \
-					parsing_complex_redir.c \
-					parsing_negatives.c \
-					parsing_escaped.c \
-					parsing_err_esc.c \
-					parsing_err_smc.c \
-					parsing_err_pipe.c
+TEST_SRCS		=	parsing/parsing_basic.c \
+					parsing/parsing_basic_pipe.c \
+					parsing/parsing_basic_redir_sup.c \
+					parsing/parsing_basic_redir_inf.c \
+					parsing/parsing_basic_redir_dsup.c \
+					parsing/parsing_complex_redir.c \
+					parsing/parsing_negatives.c \
+					parsing/parsing_escaped.c \
+					parsing/parsing_err_esc.c \
+					parsing/parsing_err_smc.c \
+					parsing/parsing_err_pipe.c \
+					parsing/parsing_err_redirs.c
 #					env_utils_test.c unset_test.c utils_test.c #cd_test.c #echo_test.c #signal_tests.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
