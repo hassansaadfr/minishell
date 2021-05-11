@@ -122,14 +122,14 @@ void		disable_raw_mode(t_termios orig_termios);
 /*
 **	FILE - initializations.c
 */
-int			init_buff_and_history(t_buff *buff, t_list **history);
+int			init_buff_and_history(t_input *buff, t_list **history);
 int			init_termcaps(t_list *env_list);
 size_t		init_parse_struct(t_parse *p, char *line);
 
 /*
 **	FILE - utils_input.c
 */
-int			is_ctrl_keys(char c, int *stop, t_buff *buff, t_list *history);
+int			is_ctrl_keys(char c, int *stop, t_input *buff, t_list *history);
 int			arrow_value(void);
 char		ctrl_value(char c);
 int			not_empty(char *buffer);
@@ -139,25 +139,25 @@ int			not_empty(char *buffer);
 */
 int			put_termcap(int c);
 void		exec_termcap(char *termcap_name);
-void		delete_char(t_buff *buff);
-void		clear_line(t_buff *buff);
+void		delete_char(t_input *buff);
+void		clear_line(t_input *buff);
 
 /*
 **	FILE - buffer.c
 */
 char		read_key(void);
-int			process_key(t_buff *buff);
-int			expand_buffers(t_buff *buff);
-int			write_buffer(int *stop, t_buff *buff, t_list *history);
+int			process_key(t_input *buff);
+int			expand_buffers(t_input *buff);
+int			write_buffer(int *stop, t_input *buff, t_list *history);
 
 /*
 **	FILE - history.c
 */
 void		display_history(t_list *hist);
-int			add_to_history(t_buff *buff, t_list **history);
-void		exec_up_arrow(t_buff *buff, t_list *history);
-void		exec_down_arrow(t_buff *buff);
-void		change_input_str(int arrow, t_buff *buff, t_list *history);
+int			add_to_history(t_input *buff, t_list **history);
+void		exec_up_arrow(t_input *buff, t_list *history);
+void		exec_down_arrow(t_input *buff);
+void		change_input_str(int arrow, t_input *buff, t_list *history);
 
 /*
 **	FILE - tokenizer.c
@@ -173,12 +173,32 @@ int			add_to_tokens_list(t_parse *p);
 void		backslash(t_parse *p, char **line);
 void		s_quote(t_parse *p, char **line);
 void		d_quote(t_parse *p, char **line);
-int			metachar_or_space(t_parse *p, char **line);
+
+/*
+**	FILE - utils_parsing.c
+*/
+int			metachar(t_parse *p, char **line);
 int			is_metachar(char c);
+int			space_or_null(t_parse *p);
+int			d_quote_conditions(t_parse *p, char **line);
 
 /*
 **	FILE - types.c
 */
-int			find_token_type(t_parse *p);
+int			typing(t_parse *p);
+int			is_redir(enum e_types type);
+
+/*
+**	FILE - parsing_errors.c
+*/
+t_list		*check_parsing_errors(t_parse *p, int ret_mtc_or_spc);
+
+/*
+**	FILE - utils_exclusions.c
+*/
+int			smc_exclusions(t_token *last_token);
+int			pipe_exclusions(t_token *last_token);
+int			redirs_exclusions(t_token *last_token, int curr_type);
+int			newline_exclusions(t_list *last_node);
 
 #endif

@@ -5,6 +5,30 @@ void	dbg_display_stat_buff(struct stat stat_buff)
 	printf("stat_buff.st_mode : %u\n\n", stat_buff.st_mode);
 }
 
+void	print_token_arg(t_token *token)
+{
+	int	j;
+
+	j = 0;
+	while (token->arg[j] && j < 20)
+	{
+		if (token->arg[j] > 0)
+			printf("%c", token->arg[j]);
+		else
+		{
+			printf("\033[1;31m");
+			printf("%c", -token->arg[j]);
+			printf("\033[0m");
+		}
+		j++;
+	}
+	while (j < 20)
+	{
+		printf(" ");
+		j++;
+	}
+}
+
 void	display_tokens(t_list *tokens)
 {
 	int		i;
@@ -18,8 +42,9 @@ void	display_tokens(t_list *tokens)
 	{
 		token = tokens->content;
 		len = ft_strlen(token->arg);
-		printf("%d\t\"%-20.20s\"\t\t%zu\t\t%s\n", i++, token->arg, len,
-				enum_to_str(token->type));
+		printf("%d\t\"", i++);
+		print_token_arg(token);
+		printf("\"\t\t%zu\t\t%s\n", len, enum_to_str(token->type));
 		tokens = tokens->next;
 	}
 	printf("\n");

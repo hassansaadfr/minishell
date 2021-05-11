@@ -14,7 +14,7 @@ void	display_history(t_list *hist)
 	}
 }
 
-int		add_to_history(t_buff *buff, t_list **history)
+int		add_to_history(t_input *buff, t_list **history)
 {
 	char	*line;
 	t_list	*new_node;
@@ -35,7 +35,7 @@ int		add_to_history(t_buff *buff, t_list **history)
 	return (0);
 }
 
-void	exec_up_arrow(t_buff *buff, t_list *history)
+void	exec_up_arrow(t_input *buff, t_list *history)
 {
 	size_t	len;
 
@@ -51,7 +51,7 @@ void	exec_up_arrow(t_buff *buff, t_list *history)
 	ft_memcpy(buff->buffer, buff->pos->content, len);
 }
 
-void	exec_down_arrow(t_buff *buff)
+void	exec_down_arrow(t_input *buff)
 {
 	size_t	len;
 
@@ -69,7 +69,7 @@ void	exec_down_arrow(t_buff *buff)
 	}
 }
 
-void	change_input_str(int arrow, t_buff *buff, t_list *history)
+void	change_input_str(int arrow, t_input *buff, t_list *history)
 {
 	t_list	*tmp;
 	char	*pwd_val;

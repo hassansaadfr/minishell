@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int			init_buff_and_history(t_buff *buff, t_list **history)
+int			init_buff_and_history(t_input *buff, t_list **history)
 {
 	buff->buffer = malloc(INPUT_MAX);
 	if (buff->buffer == NULL)
@@ -68,6 +68,8 @@ size_t		init_parse_struct(t_parse *p, char *line)
 	p->tokens = NULL;
 	line_len = ft_strlen(line) + 1;
 	p->buffer_start = malloc(sizeof(char) * line_len);
+	if (p->buffer_start == NULL)
+		return (0);
 	ft_bzero(p->buffer_start, line_len);
 	p->buffer = p->buffer_start;
 	p->state = NORMAL;

@@ -16,7 +16,7 @@ char	read_key(void)
 	return (c);
 }
 
-int		process_key(t_buff *buff)
+int		process_key(t_input *buff)
 {
 	char	c;
 
@@ -30,7 +30,7 @@ int		process_key(t_buff *buff)
 	return (c);
 }
 
-int		expand_buffers(t_buff *buff)
+int		expand_buffers(t_input *buff)
 {
 	(buff->factor)++;
 	buff->buffer = ft_realloc(buff->buffer,
@@ -46,7 +46,7 @@ int		expand_buffers(t_buff *buff)
 	return (0);
 }
 
-int		write_buffer(int *stop, t_buff *buff, t_list *history)
+int		write_buffer(int *stop, t_input *buff, t_list *history)
 {
 	int		c;
 

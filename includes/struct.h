@@ -12,20 +12,20 @@ typedef struct			s_env
 	char	*value;
 }						t_env;
 
-typedef struct			s_buff
+typedef struct			s_input
 {
 	char	*buffer;
 	char	*backup;
 	t_list	*pos;
 	int		i;
 	int		factor;
-}						t_buff;
+}						t_input;
 
 typedef struct			s_global
 {
 	t_list	*env_list;
 	pid_t	pid;
-	t_buff	*buff;
+	t_input	*buff;
 }						t_global;
 
 t_global				g_global;
@@ -39,7 +39,8 @@ enum					e_types
 	REDIR_SUP,
 	REDIR_DSUP,
 	PIPE,
-	S_COLON
+	S_COLON,
+	NEWLINE
 };
 
 enum					e_state
