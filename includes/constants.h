@@ -2,7 +2,7 @@
 
 # define CONSTANTS_H
 
-# define INPUT_MAX 4096 
+# define INPUT_MAX 4096
 # define ENTER '\n'
 # define DELETE 127
 # define ESCAPE 27

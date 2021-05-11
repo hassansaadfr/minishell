@@ -7,11 +7,11 @@ void		signal_handling_register(void)
 }
 
 /*
- ** TODO:
- ** SHOULD REMOVE orig_termios FROM exec() FUNCTIONS
- ** THEN SHOULD ACTIVATE NON-CANONICAL MODE BEFORE write_buffer()
- ** AND THEN SHOULD DEACTIVATE NON-CANONICAL MODE AFTER
- */
+** TODO:
+** SHOULD REMOVE orig_termios FROM exec() FUNCTIONS
+** THEN SHOULD ACTIVATE NON-CANONICAL MODE BEFORE write_buffer()
+** AND THEN SHOULD DEACTIVATE NON-CANONICAL MODE AFTER
+*/
 
 static int	minishell_tty(t_termios orig_termios)
 {
