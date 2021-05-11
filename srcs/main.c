@@ -81,7 +81,8 @@ int			main(int argc, char **argv, char **envp)
 		return (-1);
 	}
 	minishell(orig_termios);
-	free_env(&g_global.env_list);
+//	g_global.env_list = NULL;
+//	free_env(&g_global.env_list);
 	disable_raw_mode(orig_termios);
 	return (0);
 }

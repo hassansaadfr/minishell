@@ -1,0 +1,253 @@
+{
+	termcaps_suppression_1
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:malloc
+		fun:strdup
+		fun:_nc_trim_sgr0
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppresion2
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:malloc
+		fun:strdup
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_first_db
+		fun:_nc_read_entry
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppresion3
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:realloc
+		fun:_nc_doalloc
+		fun:tparm
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_trim_sgr0
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppresion4
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:malloc
+		fun:strdup
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_5
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:malloc
+		fun:_nc_home_terminfo
+		fun:_nc_first_db
+		fun:_nc_read_entry
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_6
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:realloc
+		fun:_nc_doalloc
+		fun:_nc_read_termtype
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_read_entry
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_7
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:calloc
+		fun:_nc_first_db
+		fun:_nc_read_entry
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_8
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:realloc
+		fun:_nc_doalloc
+		fun:_nc_read_termtype
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_read_entry
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_9
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:malloc
+		fun:_nc_first_db
+		fun:_nc_read_entry
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_10	
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:malloc
+		fun:_nc_tparm_analyze
+		fun:tparm
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_trim_sgr0
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_11
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:calloc
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_12
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:calloc
+		fun:_nc_read_termtype
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_read_entry
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_13
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:malloc
+		fun:_nc_read_termtype
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_read_entry
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_14
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:malloc
+		fun:_nc_read_termtype
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_read_entry
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_15
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:realloc
+		fun:_nc_doalloc
+		fun:_nc_read_termtype
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_read_entry
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_setupterm
+		fun:tgetent
+		fun:init_termcaps
+		fun:main
+}
+
+{
+	termcaps_suppression_16
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:calloc
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_find_type_entry
+		fun:tgetstr
+		fun:exec_termcap
+		fun:change_input_str
+		fun:write_buffer
+		fun:minishell_tty
+		fun:minishell
+		fun:main
+}
+
+{
+	termcaps_suppression_17
+		Memcheck:Leak
+		match-leak-kinds: reachable
+		fun:calloc
+		obj:/lib/x86_64-linux-gnu/libtinfo.so.5.9
+		fun:_nc_find_type_entry
+		fun:tgetstr
+		fun:exec_termcap
+		fun:delete_char
+		fun:process_key
+		fun:write_buffer
+		fun:minishell_tty
+		fun:minishell
+		fun:main
+}

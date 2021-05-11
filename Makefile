@@ -73,6 +73,13 @@ $(NAME)			:	${OBJS}
 
 all				:	${NAME}
 
+val				:	${NAME}
+					valgrind --leak-check=full --tool=memcheck --show-reachable=yes \
+						--errors-for-leak-kinds=all \
+						--show-leak-kinds=all \
+						--suppressions=tests/assets/termcaps_suppression \
+						--error-exitcode=42 ./minishell
+
 test			:	$(TEST_NAME)
 					@./${TEST_NAME}
 					@rm $(TEST_NAME)
