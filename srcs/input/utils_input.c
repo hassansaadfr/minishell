@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		is_ctrl_keys(char c, int *stop, t_buff *buff, t_list *history)
+int		is_ctrl_keys(char c, int *stop, t_input *buff, t_list *history)
 {
 	if (c == ctrl_value('d'))
 		*stop = 1;

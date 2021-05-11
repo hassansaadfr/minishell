@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int			init_buff_and_history(t_buff *buff, t_list **history)
+int			init_buff_and_history(t_input *buff, t_list **history)
 {
 	buff->buffer = malloc(INPUT_MAX);
 	if (buff->buffer == NULL)

@@ -37,10 +37,7 @@ int		redirs_exclusions(t_token *last_token, int curr_type)
 	last_type = 0;
 	if (last_token)
 		last_type = last_token->type;
-	if (last_type &&
-			(last_type == REDIR_INF
-			 || last_type == REDIR_SUP
-			 || last_type == REDIR_DSUP))
+	if (last_type && is_redir(last_type))
 		return (ERR_TYPE);
 	return (curr_type);
 }
@@ -59,9 +56,7 @@ int		newline_exclusions(t_list *last_node)
 	else
 		last_type = last_token->type;
 	if (last_type &&
-			(last_type == S_COLON
-			 || last_type == FD
-			 || last_type == ARG))
+			(last_type == S_COLON || last_type == FD || last_type == ARG))
 		return (1);
 	return (0);
-}	
+}

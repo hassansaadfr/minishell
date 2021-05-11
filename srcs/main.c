@@ -17,7 +17,7 @@ static int	minishell_tty(void)
 {
 	int		stop;
 	t_list	*history;
-	t_buff	buff;
+	t_input	buff;
 	t_list	*tokens;
 
 	signal_handling_register();
@@ -32,7 +32,7 @@ static int	minishell_tty(void)
 			stop = add_to_history(&buff, &history);
 		if (stop == 0 && not_empty(buff.buffer))
 			tokens = parsing(buff.buffer);
-		if (tokens)
+		if (tokens && DEBUG)
 			display_tokens(tokens);
 		if (tokens)
 			ft_lstclear(&tokens, free_token);

@@ -17,7 +17,7 @@ void	exec_termcap(char *termcap_name)
 	tputs(termcap_value, 1, put_termcap);
 }
 
-void	delete_char(t_buff *buff)
+void	delete_char(t_input *buff)
 {
 	if (buff->i >= 1)
 	{
@@ -27,7 +27,7 @@ void	delete_char(t_buff *buff)
 	}
 }
 
-void	clear_line(t_buff *buff)
+void	clear_line(t_input *buff)
 {
 	exec_termcap("dl");
 	buff->i = 0;
