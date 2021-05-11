@@ -32,15 +32,15 @@ static void	typing_err_msg(t_parse *p, int ret_tokenizing)
 
 t_list		*check_parsing_errors(t_parse *p, int ret_tokenizing)
 {
-	if (p->state != NORMAL)
-		escaping_err_msg(p);
-	else if (ret_tokenizing < 0)
-		typing_err_msg(p, ret_tokenizing);
-	else if (ret_tokenizing == 0)
+	if (p->line_len == 0)
 	{
 		ft_putstr_fd("minishell - ALLOC error\n", STDERR_FILENO);
 		return (NULL);
 	}
+	else if (p->state != NORMAL)
+		escaping_err_msg(p);
+	else if (ret_tokenizing < 0)
+		typing_err_msg(p, ret_tokenizing);
 	free(p->buffer_start);
 	return (p->tokens);
 }

@@ -94,6 +94,8 @@ t_list	*parsing(char *line)
 
 	ret_tokenizing = 1;
 	p.line_len = init_parse_struct(&p, line);
+	if (p.line_len == 0)
+		return (check_parsing_errors(&p, 0));
 	ret_tokenizing = split_into_tokens(&p, &line);
 	return (check_parsing_errors(&p, ret_tokenizing));
 }
