@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+void	reset_token_buffer(t_parse *p)
+{
+	ft_bzero(p->buffer_start, p->buffer - p->buffer_start);
+	p->buffer = p->buffer_start;
+}
+
 t_list	*alloc_token_node(t_parse *p, int type)
 {
 	t_token				*token;
@@ -32,24 +38,17 @@ int		add_to_tokens_list(t_parse *p)
 {
 	t_list				*new_node;
 	enum e_types		type;
-	char				err_char;
 
 	type = typing(p);
 	if (type == ERR_TYPE)
-	{
-		err_char = *(p->buffer_start);
-		ft_bzero(p->buffer_start, p->buffer - p->buffer_start);
-		p->buffer = p->buffer_start;
-		return (-err_char);
-	}
+		return (-p->buffer_start[0]);
 	if (not_empty(p->buffer_start))
 	{
 		new_node = alloc_token_node(p, type);
 		if (new_node == NULL)
 			return (0);
 		ft_lstadd_back(&p->tokens, new_node);
-		ft_bzero(p->buffer_start, p->buffer - p->buffer_start);
-		p->buffer = p->buffer_start;
+		reset_token_buffer(p);
 	}
 	return (1);
 }
@@ -94,6 +93,5 @@ t_list	*parsing(char *line)
 												// OR PASS AN ALREADY ALLOCATED BUFFER LARGE ENOUGH
 												//		=> (t_buff buff.backup)
 	ret_tokenizing = split_into_tokens(&p, &line);
-	free(p.buffer_start);
 	return (check_parsing_errors(p, ret_tokenizing));
 }

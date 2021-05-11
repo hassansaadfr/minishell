@@ -1,19 +1,19 @@
 #include "minishell.h"
 
+int		is_redir(enum e_types type)
+{
+	return (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP);
+}
+
 int		check_exclusions(enum e_types type, t_token *last_token)
 {
 	if (type == S_COLON)
 		return (smc_exclusions(last_token));
 	else if (type == PIPE)
 		return (pipe_exclusions(last_token));
-	else if (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP)
+	else if (is_redir(type))
 		return (redirs_exclusions(last_token, type));
 	return (type);
-}
-
-int		is_redir(enum e_types type)
-{
-	return (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP);
 }
 
 int		find_token_type(t_parse *p, size_t token_len, t_token *last_token)

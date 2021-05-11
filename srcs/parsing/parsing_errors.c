@@ -1,37 +1,46 @@
 #include "minishell.h"
 
-/*
-**	PARSING ERROR RESERVED EXIT CODE : 2
-*/
+static void	escaping_err_msg(t_parse *p)
+{
+	ft_putstr_fd("minishell - ESCAPING syntax error because of unterminated "
+			, STDERR_FILENO);
+	if (p->state == D_QUOTE)
+		ft_putendl_fd("' \" '", STDERR_FILENO);
+	else if (p->state == B_SLASH)
+		ft_putendl_fd("' \\ '", STDERR_FILENO);
+	else if (p->state == S_QUOTE)
+		ft_putendl_fd("\" ' \"", STDERR_FILENO);
+	ft_lstclear(&p->tokens, free_token);
+}
 
-t_list	*check_parsing_errors(t_parse p, int ret_tokenizing)
+static void	typing_err_msg(t_parse *p, int ret_tokenizing)
+{
+	ft_putstr_fd("minishell - TYPE syntax error near unexpected symbol ",
+			STDERR_FILENO);
+	if (ret_tokenizing == -NEWLINE)
+		ft_putendl_fd("\" newline \"", STDERR_FILENO);
+	else if (ret_tokenizing == -'>' && p->buffer_start[1] == '>')
+		ft_putendl_fd("\'>>\'", STDERR_FILENO);
+	else
+	{
+		ft_putchar_fd('\'', STDERR_FILENO);
+		ft_putchar_fd(-ret_tokenizing, STDERR_FILENO);
+		ft_putendl_fd("'", STDERR_FILENO);
+	}
+	ft_lstclear(&p->tokens, free_token);
+}
+
+t_list		*check_parsing_errors(t_parse p, int ret_tokenizing)
 {
 	if (p.state != NORMAL)
-	{
-		ft_putstr_fd("minishell - QUOTING syntax error\n", STDERR_FILENO);
-		ft_lstclear(&p.tokens, free_token);
-		return (NULL);
-	}
+		escaping_err_msg(&p);
 	else if (ret_tokenizing < 0)
-	{
-		ft_putstr_fd("minishell - TYPE syntax error near unexpected symbol ",
-				STDERR_FILENO);
-		if (ret_tokenizing == -NEWLINE)
-			ft_putstr_fd("\" newline \"", STDERR_FILENO);
-		else
-		{
-			ft_putchar_fd('\'', STDERR_FILENO);
-			ft_putchar_fd(-ret_tokenizing, STDERR_FILENO);
-			ft_putchar_fd('\'', STDERR_FILENO);
-		}
-		ft_putchar_fd('\n', STDERR_FILENO);
-		ft_lstclear(&p.tokens, free_token);
-		return (NULL);
-	}
+		typing_err_msg(&p, ret_tokenizing);
 	else if (ret_tokenizing == 0)
 	{
-		ft_putstr_fd("minishell - alloc error\n", STDERR_FILENO);
+		ft_putstr_fd("minishell - ALLOC error\n", STDERR_FILENO);
 		return (NULL);
 	}
+	free(p.buffer_start);
 	return (p.tokens);
 }

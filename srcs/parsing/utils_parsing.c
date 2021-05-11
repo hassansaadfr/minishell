@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	buffer_redir_dsup(t_parse *p, char **line)
+void	bufferize_redir_dsup(t_parse *p, char **line)
 {
 	*(p->buffer++) = *((*line)++);
 	*(p->buffer++) = **line;
@@ -14,7 +14,7 @@ int		metachar(t_parse *p, char **line)
 	if (not_empty(p->buffer_start))
 		ret_add = add_to_tokens_list(p);
 	if (ft_strncmp(*line, ">>", 2) == 0)
-		buffer_redir_dsup(p, line);	
+		bufferize_redir_dsup(p, line);	
 	else
 		*(p->buffer++) = **line;
 	if (ret_add == 1)
