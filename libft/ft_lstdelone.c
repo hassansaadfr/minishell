@@ -6,11 +6,12 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 19:08:28 by axaidan           #+#    #+#             */
-/*   Updated: 2021/05/04 19:11:35 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/05/12 15:11:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 /*
 ** NULL-X-NULL		=> NULL				/// If NO prv and NO next ELEM = NULL

@@ -54,7 +54,7 @@ char		*ft_strtrim(char const *s, char const *set)
 	while (s[start] && is_set(s[start], set))
 		start++;
 	end = (s[start] == '\0') ? start : find_end(s, set, start);
-	if (!(trimmed = malloc(sizeof(char) * (end - start + 1))))
+	if (!(trimmed = ft_alloc(sizeof(char) * (end - start + 1))))
 		return (NULL);
 	i = 0;
 	while (start + i < end)

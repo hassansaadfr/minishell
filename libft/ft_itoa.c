@@ -52,7 +52,7 @@ char			*ft_itoa(int x)
 
 	n = x;
 	chars = count_chars(n);
-	if (!(str = malloc(sizeof(char) * (chars + 1))))
+	if (!(str = ft_alloc(sizeof(char) * (chars + 1))))
 		return (NULL);
 	i = 0;
 	make_str(str, n, &i);

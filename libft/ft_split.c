@@ -66,7 +66,7 @@ static char		**alloc_words(char const *s, char c, char **tab)
 			len++;
 		}
 		if (len)
-			if (!(tab[j++] = malloc(sizeof(char) * (len + 1))))
+			if (!(tab[j++] = ft_alloc(sizeof(char) * (len + 1))))
 			{
 				free_split(tab);
 				return (NULL);
@@ -109,7 +109,7 @@ char			**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	words = count_words(s, c);
-	if (!(tab = malloc(sizeof(char *) * (words + 1))))
+	if (!(tab = ft_alloc(sizeof(char *) * (words + 1))))
 		return (NULL);
 	if (!(tab = alloc_words(s, c, tab)))
 		return (NULL);
