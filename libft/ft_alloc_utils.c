@@ -85,8 +85,6 @@ void			*ft_free(t_list **pointers, void **addr)
 	return (NULL);
 }
 
-
-
 void			*ft_alloc_mem(size_t size, int done, void **addr)
 {
 	static t_list	*pointers = NULL;

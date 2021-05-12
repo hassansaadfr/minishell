@@ -6,6 +6,7 @@ void			*ft_alloc(size_t size)
 	void	*ptr;
 
 	ptr = ft_alloc_mem(size, 0, NULL);
+	printf("alloced\t-\tptr\t= %p\n\n", ptr);
 	return (ptr);
 }
 
