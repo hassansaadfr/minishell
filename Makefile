@@ -2,19 +2,11 @@ NAME			=	minishell
 
 TEST_NAME		=	minishell_test
 
-SRCS			=	main.c \
-					parse.c \
-					utils.c \
-					exec.c \
+SRCS			=	system/main.c \
+					system/signals.c \
 					debug.c \
-					prompt.c \
-					bin_builtins.c \
-					bin_paths.c \
-					bin_bins.c \
-					utils_mem.c \
-					signals.c \
-					utils_env.c \
-					utils_env2.c \
+					builtins/utils_env.c \
+					builtins/utils_env2.c \
 					builtins/cd.c \
 					builtins/echo.c \
 					builtins/env.c \
@@ -23,18 +15,26 @@ SRCS			=	main.c \
 					builtins/pwd.c \
 					builtins/unset.c \
 					builtins/history_builtin.c \
-					initializations.c \
+					utils/utils.c \
+					utils/utils_mem.c \
+					utils/initializations.c \
+					input/prompt.c \
 					input/termios.c \
 					input/utils_input.c \
 					input/termcaps.c \
 					input/input.c \
 					input/history.c \
+					parsing/old_parse.c \
 					parsing/tokenizer.c \
 					parsing/utils_quoting.c \
 					parsing/types.c \
 					parsing/parsing_errors.c \
 					parsing/utils_parsing.c \
-					parsing/utils_exclusions.c
+					parsing/utils_exclusions.c \
+					exec/exec.c \
+					exec/bin_builtins.c \
+					exec/bin_paths.c \
+					exec/bin_bins.c
 
 TEST_SRCS		=	parsing/parsing_basic.c \
 					parsing/parsing_basic_pipe.c \
