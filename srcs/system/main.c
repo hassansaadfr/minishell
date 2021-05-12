@@ -13,12 +13,20 @@ void		signal_handling_register(void)
 ** AND THEN SHOULD DEACTIVATE NON-CANONICAL MODE AFTER
 */
 
-static int	minishell_tty(t_termios orig_termios)
+//static int	minishell_tty(t_termios orig_termios)
+static int	minishell_tty(void)
 {
-	int		stop;
-	t_list	*history;
-	t_input	buff;
+	int			stop;
+	t_list		*history;
+	t_input		buff;
+	t_termios	orig_termios;
 
+	orig_termios = enable_raw_mode();
+	if (init_termcaps(g_global.env_list) == 0)
+	{
+		disable_raw_mode(orig_termios);
+		return (-1);
+	}
 	signal_handling_register();
 	init_buff_and_history(&buff, &history);
 	stop = 0;
@@ -37,7 +45,8 @@ static int	minishell_tty(t_termios orig_termios)
 	return (stop);
 }
 
-static int	minishell_non_tty(t_termios orig_termios)
+//static int	minishell_non_tty(t_termios orig_termios)
+static int	minishell_non_tty(void)
 {
 	int		ret_gnl;
 	char	*line;
@@ -59,29 +68,35 @@ static int	minishell_non_tty(t_termios orig_termios)
 	return (0);
 }
 
-int			minishell(t_termios orig_termios)
+//int			minishell(t_termios orig_termios)
+int			minishell(void)
 {
 	if (isatty(STDIN_FILENO))
-		return (minishell_tty(orig_termios));
+//		return (minishell_tty(orig_termios));
+		return (minishell_tty());
 	else
-		return (minishell_non_tty(orig_termios));
+//		return (minishell_non_tty(orig_termios));
+		return (minishell_non_tty());
 }
 
 int			main(int argc, char **argv, char **envp)
 {
-	t_termios	orig_termios;
+//	t_termios	orig_termios;
 
 	(void)argc;
 	(void)argv;
 	g_global.env_list = init_env(envp);
+	/*
 	orig_termios = enable_raw_mode();
 	if (init_termcaps(g_global.env_list) == 0)
 	{
 		disable_raw_mode(orig_termios);
 		return (-1);
 	}
-	minishell(orig_termios);
+	*/
+//	minishell(orig_termios);
+	minishell();
 	free_env(&g_global.env_list);
-	disable_raw_mode(orig_termios);
+//	disable_raw_mode(orig_termios);
 	return (0);
 }

@@ -19,7 +19,8 @@
 /*
 **	FILE - main.c
 */
-int			minishell(t_termios orig_termios);
+//int			minishell(t_termios orig_termios);
+int			minishell(void);
 
 /*
 ** FILE - parse.c
