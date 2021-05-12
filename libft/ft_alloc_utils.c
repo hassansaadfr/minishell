@@ -1,25 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_alloc_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/12 17:01:51 by user42            #+#    #+#             */
+/*   Updated: 2021/05/12 17:04:50 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
-#include <errno.h>
-#include <string.h>
-#include <stdio.h>
-
-void			display_list(t_list *pointers)
-{
-	int		i;
-
-	i = 0;
-	printf("ALLOC LIST\n");
-	if (pointers == NULL)
-		printf("list is empty\n");
-	else
-		while (pointers)
-		{
-			if (pointers->content)
-				printf("%2d\tnode:\t%p\tc_addr: %p\tc_ctnt: \"%s\"\tnext:\t%p\n", i++,
-						pointers, pointers->content, (char*)pointers->content, pointers->next);
-			pointers = pointers->next;
-		}
-}
 
 static void		exit_gracefully(t_list **arr_ptr, int err)
 {
@@ -63,7 +54,7 @@ static t_list	**find_addr(t_list **lst, void *addr)
 	return (NULL);
 }
 
-void			*ft_free(t_list **pointers, void **addr)
+static void		*ft_free(t_list **pointers, void **addr)
 {
 	t_list			**tmp;
 	t_list			*cursor;
@@ -74,7 +65,6 @@ void			*ft_free(t_list **pointers, void **addr)
 	else
 	{
 		cursor = *pointers;
-		printf("freeing\t\t-\t\taddr\t= %p\tstr\t= %s\n\n", *addr, (char*)*addr);
 		tmp = find_addr(&cursor, *addr);
 		if (tmp)
 		{
@@ -90,7 +80,6 @@ void			*ft_alloc_mem(size_t size, int done, void **addr)
 	static t_list	*pointers = NULL;
 	void			*ptr;
 
-	display_list(pointers);
 	if (done == 1)
 		exit_gracefully(&pointers, 0);
 	if (addr != NULL)

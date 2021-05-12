@@ -4,6 +4,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
+# include <errno.h>
+# include <string.h>
+# include <stdio.h>
+
 # define BUFFER_SIZE 1024
 
 void			*ft_memset(void *s, int c, size_t n);
