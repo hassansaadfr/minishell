@@ -8,9 +8,10 @@ void		signal_handling_register(void)
 
 /*
 ** TODO:
-** SHOULD REMOVE orig_termios FROM exec() FUNCTIONS
-** THEN SHOULD ACTIVATE NON-CANONICAL MODE BEFORE write_buffer()
-** AND THEN SHOULD DEACTIVATE NON-CANONICAL MODE AFTER
+** -	SHOULD REMOVE orig_termios FROM exec() FUNCTIONS
+** 		THEN SHOULD ACTIVATE NON-CANONICAL MODE BEFORE write_buffer()
+** 		AND THEN SHOULD DEACTIVATE NON-CANONICAL MODE AFTER
+** -	SHOULD signal_handling_register() IN main() FCUNTION
 */
 
 //static int	minishell_tty(t_termios orig_termios)
@@ -34,10 +35,12 @@ static int	minishell_tty(void)
 	{
 		prompt();
 		stop = write_buffer(&stop, &buff, history);
+		disable_raw_mode(orig_termios);
 		if (stop == 0)
 			stop = add_to_history(&buff, &history);
 		if (stop == 0)
-			exec(parse(buff.buffer), g_global.env_list, orig_termios, history);
+			execution(parse(buff.buffer), g_global.env_list/*, orig_termios*/, history);
+		orig_termios = enable_raw_mode();
 	}
 	ft_lstclear(&history, free);
 	free(buff.buffer);
@@ -61,7 +64,7 @@ static int	minishell_non_tty(void)
 		if (*line)
 		{
 			cmds = parse(line);
-			exec(cmds, g_global.env_list, orig_termios, NULL);
+			execution(cmds, g_global.env_list/*, orig_termios*/, NULL);
 		}
 		free(line);
 	}
