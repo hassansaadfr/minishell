@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+/*
+** SYNTAX ERRORS SETS LAST RETURN TO 2
+*/
+
 static void	escaping_err_msg(t_parse *p)
 {
 	ft_putstr_fd("minishell - ESCAPING syntax error because of unterminated "

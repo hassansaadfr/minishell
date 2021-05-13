@@ -14,16 +14,16 @@ void		signal_handling_register(void)
 ** -	SHOULD signal_handling_register() IN main() FCUNTION
 */
 
-//static int	minishell_tty(t_termios orig_termios)
-static int	minishell_tty(void)
+static int	minishell_tty(t_list *env_list)
 {
 	int			stop;
 	t_list		*history;
 	t_input		buff;
 	t_termios	orig_termios;
+	t_list		*tokens;
 
 	orig_termios = enable_raw_mode();
-	if (init_termcaps(g_global.env_list) == 0)
+	if (init_termcaps(env_list) == 0)
 	{
 		disable_raw_mode(orig_termios);
 		return (-1);
@@ -34,22 +34,28 @@ static int	minishell_tty(void)
 	while (stop == 0)
 	{
 		prompt();
+		tokens = NULL;
 		stop = write_buffer(&stop, &buff, history);
 		disable_raw_mode(orig_termios);
 		if (stop == 0)
 			stop = add_to_history(&buff, &history);
-		if (stop == 0)
-			execution(parse(buff.buffer), g_global.env_list/*, orig_termios*/, history);
+		if (stop == 0 && not_empty(buff.buffer))
+			tokens = parsing(buff.buffer);
+		(void)env_list;
+		if (tokens != NULL)
+			stop = executing(tokens, env_list, history);
+		if (tokens != NULL)
+			ft_lstclear(&tokens, free_token);
 		orig_termios = enable_raw_mode();
 	}
 	ft_lstclear(&history, free);
 	free(buff.buffer);
 	free(buff.backup);
+	disable_raw_mode(orig_termios);
 	return (stop);
 }
 
-//static int	minishell_non_tty(t_termios orig_termios)
-static int	minishell_non_tty(void)
+static int	minishell_non_tty(t_list *env_list)
 {
 	int		ret_gnl;
 	char	*line;
@@ -64,42 +70,27 @@ static int	minishell_non_tty(void)
 		if (*line)
 		{
 			cmds = parse(line);
-			execution(cmds, g_global.env_list/*, orig_termios*/, NULL);
+			execution(cmds, env_list, NULL);
 		}
 		free(line);
 	}
 	return (0);
 }
 
-//int			minishell(t_termios orig_termios)
-int			minishell(void)
+int			minishell(t_list *env_list)
 {
 	if (isatty(STDIN_FILENO))
-//		return (minishell_tty(orig_termios));
-		return (minishell_tty());
+		return (minishell_tty(env_list));
 	else
-//		return (minishell_non_tty(orig_termios));
-		return (minishell_non_tty());
+		return (minishell_non_tty(env_list));
 }
 
 int			main(int argc, char **argv, char **envp)
 {
-//	t_termios	orig_termios;
-
 	(void)argc;
 	(void)argv;
 	g_global.env_list = init_env(envp);
-	/*
-	orig_termios = enable_raw_mode();
-	if (init_termcaps(g_global.env_list) == 0)
-	{
-		disable_raw_mode(orig_termios);
-		return (-1);
-	}
-	*/
-//	minishell(orig_termios);
-	minishell();
+	minishell(g_global.env_list);
 	free_env(&g_global.env_list);
-//	disable_raw_mode(orig_termios);
 	return (0);
 }

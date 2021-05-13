@@ -34,7 +34,8 @@ SRCS			=	system/main.c \
 					exec/exec.c \
 					exec/bin_builtins.c \
 					exec/bin_paths.c \
-					exec/bin_bins.c
+					exec/bin_bins.c \
+					exec2/exec2.c
 
 TEST_SRCS		=	parsing/parsing_basic.c \
 					parsing/parsing_basic_pipe.c \

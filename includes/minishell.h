@@ -20,7 +20,8 @@
 **	FILE - main.c
 */
 //int			minishell(t_termios orig_termios);
-int			minishell(void);
+//int			minishell(void);
+int			minishell(t_list *env_list);
 
 /*
 ** FILE - parse.c
@@ -84,10 +85,8 @@ char		**list_to_array(t_list *env_list);
 /*
 ** FILE - exec.c
 */
-int			execution(char ***cmds, t_list *env_list/*, t_termios orig_termios*/,
-		t_list *history);
-int			exec_bin(char *path, char **args, t_list *env_list/*,
-			t_termios orig_termios*/);
+int			execution(char ***cmds, t_list *env_list, t_list *history);
+int			exec_bin(char *path, char **args, t_list *env_li);
 char		*create_full_path(char *bin_path, char *cmd);
 
 /*
@@ -100,12 +99,12 @@ int			exec_from_builtins(char **cmd, t_list *env_list, t_list	*history);
 **	FILE - bin_paths.c
 */
 int			is_path(char *cmd);
-int			exec_from_path(char **cmd, t_list *env_list/*, t_termios orig_termios*/);
+int			exec_from_path(char **cmd, t_list *env_list);
 
 /*
 **	FILE - bin_bins.c
 */
-int			exec_from_bins(char **cmd, t_list *env_list/*, t_termios orig_termios*/);
+int			exec_from_bins(char **cmd, t_list *env_list);
 
 /*
 **	FILE - signals.c
@@ -199,5 +198,10 @@ int			smc_exclusions(t_token *last_token);
 int			pipe_exclusions(t_token *last_token);
 int			redirs_exclusions(t_token *last_token, int curr_type);
 int			newline_exclusions(t_list *last_node);
+
+/*
+**	FILE - exec2.c
+*/
+int			executing(t_list *tokens, t_list *env, t_list *history);
 
 #endif

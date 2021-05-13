@@ -81,12 +81,6 @@ int		split_into_tokens(t_parse *p, char **line)
 	return (1);
 }
 
-/*
-**	PROTECT p->buffer_start ALLOCATION
-**	OR PASS AN ALREADY ALLOCATED BUFFER LARGE ENOUGH
-**		=> (t_input buff.backup)
-*/
-
 t_list	*parsing(char *line)
 {
 	t_parse		p;
