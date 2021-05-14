@@ -94,9 +94,9 @@ t_list		*init_env_node(char *env)
 
 	if (!env)
 		return (NULL);
-	env_node = malloc(sizeof(t_env));
-	if (!env_node)
-		return (NULL);
+	env_node = ft_alloc(sizeof(t_env));
+	// if (!env_node)
+	// 	return (NULL);
 	name = parse_env_name(env);
 	value = parse_env_value(env);
 	env_node->name = name;

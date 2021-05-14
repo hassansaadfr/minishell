@@ -2,14 +2,14 @@
 
 int			init_buff_and_history(t_input *buff, t_list **history)
 {
-	buff->buffer = malloc(INPUT_MAX);
+	buff->buffer = ft_alloc(INPUT_MAX);
 	if (buff->buffer == NULL)
 		return (1);
 	ft_bzero(buff->buffer, INPUT_MAX);
-	buff->backup = malloc(INPUT_MAX);
+	buff->backup = ft_alloc(INPUT_MAX);
 	if (buff->backup == NULL)
 	{
-		free(buff->buffer);
+		ft_free_ptr((void**)&buff->buffer);
 		return (1);
 	}
 	ft_bzero(buff->backup, INPUT_MAX);

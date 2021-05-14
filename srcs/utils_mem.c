@@ -7,10 +7,10 @@ void	free_split(char **splitted)
 	i = 0;
 	while (splitted[i] != NULL)
 	{
-		free(splitted[i]);
+		ft_free_ptr((void**)&splitted[i]);
 		i++;
 	}
-	free(splitted);
+	ft_free_ptr((void**)&splitted);
 }
 
 void	free_cmds(char ***cmds)
@@ -20,7 +20,7 @@ void	free_cmds(char ***cmds)
 	i = 0;
 	while (cmds[i])
 		free_split(cmds[i++]);
-	free(cmds);
+	ft_free_ptr((void**)&cmds);
 }
 
 void	free_env(t_list **env_list)

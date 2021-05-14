@@ -15,7 +15,7 @@ t_list		*init_env(char **envp)
 		new_node = init_env_node(*envp);
 		if (!new_node)
 		{
-			ft_lstclear(&env_list, free);
+			// ft_lstclear(&env_list, free);
 			return (NULL);
 		}
 		name = ((t_env*)new_node->content)->name;
@@ -45,12 +45,12 @@ t_list		*get_env(t_list *env_list, char *name)
 		len = ft_strlen(parsed_name) + 1;
 		if (ft_strncmp(((t_env*)tmp->content)->name, parsed_name, len + 1) == 0)
 		{
-			free(parsed_name);
+			ft_free_ptr((void**)&parsed_name);
 			return (tmp);
 		}
 		tmp = tmp->next;
 	}
-	free(parsed_name);
+	ft_free_ptr((void**)&parsed_name);
 	return (NULL);
 }
 
@@ -72,13 +72,13 @@ int			new_env(t_list *env_list, char *new_env)
 		env_node = init_env_node(new_env);
 		if (!env_node)
 		{
-			free(parsed_name);
+			ft_free_ptr((void**)&parsed_name);
 			return (0);
 		}
 		ft_lstadd_back(&env_list, env_node);
 		out = 1;
 	}
-	free(parsed_name);
+	ft_free_ptr((void**)&parsed_name);
 	return (out);
 }
 
@@ -96,11 +96,16 @@ int			edit_env(t_list *env_list, char *env)
 	{
 		env_node = tmp->content;
 		if (env_node->value)
-			free(env_node->value);
+			ft_free_ptr((void**)&env_node->value);
 		env_node->value = parse_env_value(env);
 		return (1);
 	}
 	return (0);
+}
+
+void		free_env_node(void *ptr)
+{
+	ft_free_ptr((void**)&ptr);
 }
 
 int			delete_env(t_list *env_list, char *name)
@@ -120,10 +125,10 @@ int			delete_env(t_list *env_list, char *name)
 		tmp = get_env(env_list, env_name);
 	if (tmp)
 	{
-		free(((t_env*)tmp->content)->name);
-		free(((t_env*)tmp->content)->value);
-		free(env_name);
-		ft_lstdelone(&tmp, free);
+		ft_free_ptr((void**)&((t_env*)tmp->content)->name);
+		ft_free_ptr((void**)&((t_env*)tmp->content)->value);
+		ft_free_ptr((void**)&env_name);
+		ft_lstdelone(&tmp, free_env_node);
 		out = 1;
 	}
 	return (out);

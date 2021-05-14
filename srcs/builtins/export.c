@@ -94,7 +94,7 @@ int				builtin_export(char **argv, t_list *env_list)
 			done = new_env(env_list, env);
 			if (!done)
 				done = edit_env(env_list, env);
-			free(env);
+			ft_free_ptr((void**)&env);
 			i++;
 		}
 	}

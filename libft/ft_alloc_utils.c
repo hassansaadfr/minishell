@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_alloc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 17:01:51 by user42            #+#    #+#             */
-/*   Updated: 2021/05/12 17:04:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/14 13:45:22 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,34 @@ static void		exit_gracefully(t_list **arr_ptr, int err)
 		ft_putstr_fd(strerror(err), STDERR_FILENO);
 	ft_lstclear(arr_ptr, free);
 	exit(0);
+}
+
+void	ft_lstdelnode(t_list **elem, void (*del)(void *))
+{
+	t_list	*tmp;
+
+	if (del == NULL || *elem == NULL)
+		return ;
+	tmp = *elem;
+	if ((*elem)->previous == NULL && (*elem)->next == NULL)
+		*elem = NULL;
+	else if ((*elem)->previous == NULL && (*elem)->next != NULL)
+	{
+		*elem = (*elem)->next;
+		(*elem)->previous = NULL;
+	}
+	else if ((*elem)->previous != NULL && (*elem)->next == NULL)
+	{
+		*elem = (*elem)->previous;
+		(*elem)->next = NULL;
+	}
+	else if ((*elem)->previous != NULL && (*elem)->next != NULL)
+	{
+		tmp->previous->next = tmp->next;
+		tmp->next->previous = tmp->previous;
+	}
+	del(tmp->content);
+	free(tmp);
 }
 
 static t_list	*ft_lstnew_alloc(void *content, t_list **arr_ptr)
@@ -61,14 +89,14 @@ static void		*ft_free(t_list **pointers, void **addr)
 
 	tmp = NULL;
 	if (*pointers && *addr == (*pointers)->content)
-		ft_lstdelone(pointers, free);
+		ft_lstdelnode(pointers, free);
 	else
 	{
 		cursor = *pointers;
 		tmp = find_addr(&cursor, *addr);
 		if (tmp)
 		{
-			ft_lstdelone(tmp, free);
+			ft_lstdelnode(tmp, free);
 			*addr = NULL;
 		}
 	}

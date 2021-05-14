@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 19:08:28 by axaidan           #+#    #+#             */
-/*   Updated: 2021/05/12 15:11:22 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/14 13:45:33 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ void	ft_lstdelone(t_list **elem, void (*del)(void *))
 		tmp->next->previous = tmp->previous;
 	}
 	del(tmp->content);
-	free(tmp);
+	ft_free_ptr((void**)&tmp);
 }
