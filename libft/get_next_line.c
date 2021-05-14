@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axaidan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 14:55:04 by axaidan           #+#    #+#             */
-/*   Updated: 2021/04/07 15:54:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/05/14 16:01:10 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ char	*nl_return(char *newline_pos, char **line, char *remaining)
 	{
 		if (!(newline_pos = ft_strdup(newline_pos + 1)))
 		{
-			free(*line);
-			free(remaining);
+			ft_free_ptr((void**)&line);
+			ft_free_ptr((void**)&remaining);
 			*line = NULL;
 			return (NULL);
 		}
-		free(remaining);
+		ft_free_ptr((void**)&remaining);
 		return (newline_pos);
 	}
 }
@@ -52,13 +52,13 @@ char	*find_nl(char *remaining, char **line, char *buff)
 		*newline_pos = '\0';
 	if (!(*line = ft_strjoin(*line, to_parse)))
 	{
-		free(temp_line);
-		free(remaining);
+		ft_free_ptr((void**)&temp_line);
+		ft_free_ptr((void**)&remaining);
 		return (NULL);
 	}
 	if (remaining && !(newline_pos))
-		free(remaining);
-	free(temp_line);
+		ft_free_ptr((void**)&remaining);
+	ft_free_ptr((void**)&temp_line);
 	return (nl_return(newline_pos, line, remaining));
 }
 
@@ -70,7 +70,7 @@ int		get_next_line(int fd, char **line)
 
 	if (check_errors(fd, line) || !(*line = ft_strdup("")))
 	{
-		free(remaining);
+		ft_free_ptr((void**)&remaining);
 		return (-1);
 	}
 	if (!remaining)
@@ -82,7 +82,7 @@ int		get_next_line(int fd, char **line)
 		if ((bytes_read = read(fd, buff, BUFFER_SIZE)) <= 0)
 		{
 			if (bytes_read < 0)
-				free(*line);
+				ft_free_ptr((void**)&line);
 			return (bytes_read);
 		}
 		buff[bytes_read] = '\0';

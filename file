@@ -15,10 +15,10 @@
    match-leak-kinds: reachable
    fun:malloc
    fun:strdup
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_first_db
    fun:_nc_read_entry2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -31,7 +31,7 @@
    fun:realloc
    fun:_nc_doalloc
    fun:tparm
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_trim_sgr0
    fun:tgetent_sp
    fun:init_termcaps
@@ -56,7 +56,7 @@
    fun:_nc_home_terminfo
    fun:_nc_first_db
    fun:_nc_read_entry2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -69,10 +69,10 @@
    fun:realloc
    fun:_nc_doalloc
    fun:_nc_read_termtype
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
+   obj:*libtinfo.so.*
    fun:_nc_read_entry2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -83,7 +83,7 @@
    Memcheck:Leak
    match-leak-kinds: reachable
    fun:malloc
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -96,7 +96,7 @@
    fun:calloc
    fun:_nc_first_db
    fun:_nc_read_entry2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -107,7 +107,7 @@
    Memcheck:Leak
    match-leak-kinds: reachable
    fun:malloc
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -120,7 +120,7 @@
    fun:malloc
    fun:_nc_first_db
    fun:_nc_read_entry2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -133,7 +133,7 @@
    fun:malloc
    fun:_nc_tparm_analyze
    fun:tparm
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_trim_sgr0
    fun:tgetent_sp
    fun:init_termcaps
@@ -146,10 +146,10 @@
    fun:realloc
    fun:_nc_doalloc
    fun:_nc_read_termtype
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
+   obj:*libtinfo.so.*
    fun:_nc_read_entry2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -171,10 +171,10 @@
    match-leak-kinds: reachable
    fun:calloc
    fun:_nc_read_termtype
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
+   obj:*libtinfo.so.*
    fun:_nc_read_entry2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -185,22 +185,7 @@
    Memcheck:Leak
    match-leak-kinds: reachable
    fun:malloc
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
-   fun:_nc_setupterm
-   fun:tgetent_sp
-   fun:init_termcaps
-   fun:main
-}
-{
-   <insert_a_suppression_name_here>
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:malloc
-   fun:_nc_read_termtype
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
-   fun:_nc_read_entry2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -212,10 +197,25 @@
    match-leak-kinds: reachable
    fun:malloc
    fun:_nc_read_termtype
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
+   obj:*libtinfo.so.*
    fun:_nc_read_entry2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:init_termcaps
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_read_termtype
+   obj:*libtinfo.so.*
+   obj:*libtinfo.so.*
+   fun:_nc_read_entry2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -228,10 +228,10 @@
    fun:realloc
    fun:_nc_doalloc
    fun:_nc_read_termtype
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
+   obj:*libtinfo.so.*
    fun:_nc_read_entry2
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps
@@ -241,8 +241,24 @@
    <insert_a_suppression_name_here>
    Memcheck:Leak
    match-leak-kinds: reachable
+   fun:calloc
+   obj:*libtinfo.so.*
+   fun:_nc_find_type_entry
+   fun:tgetstr_sp
+   fun:exec_termcap
+   fun:delete_char
+   fun:process_key
+   fun:write_buffer
+   fun:minishell_tty
+   fun:minishell
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
    fun:malloc
-   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2
+   obj:*libtinfo.so.*
    fun:_nc_setupterm
    fun:tgetent_sp
    fun:init_termcaps

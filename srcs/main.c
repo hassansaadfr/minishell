@@ -54,7 +54,7 @@ static int	minishell_non_tty(t_termios orig_termios)
 			cmds = parse(line);
 			exec(cmds, g_global.env_list, orig_termios, NULL);
 		}
-		free(line);
+		ft_free_ptr((void**)&line);
 	}
 	return (0);
 }

@@ -14,7 +14,7 @@ static char	*concat_name_value_env(t_list *list)
 	if (!tmp)
 		return (NULL);
 	out = ft_strjoin(tmp, value);
-	free(tmp);
+	ft_free_ptr((void**)&tmp);
 	if (!out)
 		return (NULL);
 	return (out);
@@ -31,9 +31,9 @@ char		**list_to_array(t_list *env_list)
 	if (!env_list)
 		return (NULL);
 	size = ft_lstsize(env_list);
-	out = malloc(sizeof(char*) * (size + 1));
-	if (!out)
-		return (NULL);
+	out = ft_alloc(sizeof(char*) * (size + 1));
+	// if (!out)
+	// 	return (NULL);
 	out[size] = 0;
 	while (env_list)
 	{

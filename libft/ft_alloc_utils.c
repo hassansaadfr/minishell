@@ -6,17 +6,35 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 17:01:51 by user42            #+#    #+#             */
-/*   Updated: 2021/05/14 13:45:22 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/05/14 15:38:26 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+void	ft_clearallocs(t_list **lst, void (*del)(void*))
+{
+	t_list	*current;
+	t_list	*previous;
+
+	if (!lst || !*lst || !del)
+		return ;
+	current = *lst;
+	while (current)
+	{
+		previous = current;
+		current = current->next;
+		(*del)(previous->content);
+		free(previous);
+	}
+	*lst = NULL;
+}
+
 static void		exit_gracefully(t_list **arr_ptr, int err)
 {
 	if (errno)
 		ft_putstr_fd(strerror(err), STDERR_FILENO);
-	ft_lstclear(arr_ptr, free);
+	ft_clearallocs(arr_ptr, free);
 	exit(0);
 }
 

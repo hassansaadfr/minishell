@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 15:49:30 by axaidan           #+#    #+#             */
-/*   Updated: 2021/05/14 11:30:11 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/05/14 15:38:40 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 		current = current->next;
 		// printf("EXIT_freeing\t-\taddr\t= %p\n", previous->content);
 		(*del)(previous->content);
-		free(previous);
+		ft_free_ptr((void**)&previous);
 	}
 	*lst = NULL;
 }
