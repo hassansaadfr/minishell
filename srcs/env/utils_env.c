@@ -1,31 +1,5 @@
 #include "minishell.h"
 
-t_list		*init_env(char **envp)
-{
-	t_list	*env_list;
-	t_list	*new_node;
-	char	*name;
-	char	*value;
-
-	errno = 0;
-	env_list = NULL;
-	new_node = NULL;
-	while (errno == 0 && (envp != NULL && *envp != NULL))
-	{
-		new_node = init_env_node(*envp);
-		if (!new_node)
-		{
-			// ft_lstclear(&env_list, free);
-			return (NULL);
-		}
-		name = ((t_env*)new_node->content)->name;
-		value = ((t_env*)new_node->content)->value;
-		ft_lstadd_back(&env_list, new_node);
-		envp++;
-	}
-	return (env_list);
-}
-
 t_list		*get_env(t_list *env_list, char *name)
 {
 	t_list	*tmp;
@@ -101,11 +75,6 @@ int			edit_env(t_list *env_list, char *env)
 		return (1);
 	}
 	return (0);
-}
-
-void		free_env_node(void *ptr)
-{
-	ft_free_ptr((void**)&ptr);
 }
 
 int			delete_env(t_list *env_list, char *name)

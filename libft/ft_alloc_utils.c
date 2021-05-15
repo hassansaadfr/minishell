@@ -6,83 +6,11 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 17:01:51 by user42            #+#    #+#             */
-/*   Updated: 2021/05/14 15:38:26 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/05/15 17:11:12 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-void	ft_clearallocs(t_list **lst, void (*del)(void*))
-{
-	t_list	*current;
-	t_list	*previous;
-
-	if (!lst || !*lst || !del)
-		return ;
-	current = *lst;
-	while (current)
-	{
-		previous = current;
-		current = current->next;
-		(*del)(previous->content);
-		free(previous);
-	}
-	*lst = NULL;
-}
-
-static void		exit_gracefully(t_list **arr_ptr, int err)
-{
-	if (errno)
-		ft_putstr_fd(strerror(err), STDERR_FILENO);
-	ft_clearallocs(arr_ptr, free);
-	exit(0);
-}
-
-void	ft_lstdelnode(t_list **elem, void (*del)(void *))
-{
-	t_list	*tmp;
-
-	if (del == NULL || *elem == NULL)
-		return ;
-	tmp = *elem;
-	if ((*elem)->previous == NULL && (*elem)->next == NULL)
-		*elem = NULL;
-	else if ((*elem)->previous == NULL && (*elem)->next != NULL)
-	{
-		*elem = (*elem)->next;
-		(*elem)->previous = NULL;
-	}
-	else if ((*elem)->previous != NULL && (*elem)->next == NULL)
-	{
-		*elem = (*elem)->previous;
-		(*elem)->next = NULL;
-	}
-	else if ((*elem)->previous != NULL && (*elem)->next != NULL)
-	{
-		tmp->previous->next = tmp->next;
-		tmp->next->previous = tmp->previous;
-	}
-	del(tmp->content);
-	free(tmp);
-}
-
-static t_list	*ft_lstnew_alloc(void *content, t_list **arr_ptr)
-{
-	t_list	*new;
-
-	errno = 0;
-	new = malloc(sizeof(t_list));
-	if (new == NULL)
-	{
-		free(content);
-		exit_gracefully(arr_ptr, errno);
-	}
-	ft_bzero(new, sizeof(t_list));
-	new->content = content;
-	new->previous = NULL;
-	new->next = NULL;
-	return (new);
-}
 
 static t_list	**find_addr(t_list **lst, void *addr)
 {
@@ -121,16 +49,16 @@ static void		*ft_free(t_list **pointers, void **addr)
 	return (NULL);
 }
 
-void			*ft_alloc_mem(size_t size, int done, void **addr)
+void			*ft_alloc_mem(size_t size, int done, void **addr, int exit_code)
 {
 	static t_list	*pointers = NULL;
 	void			*ptr;
 
 	if (done == 1)
-		exit_gracefully(&pointers, 0);
+		exit_gracefully(&pointers, exit_code);
 	if (addr != NULL)
 		return (ft_free(&pointers, addr));
-	ptr = malloc(size);
+	ptr = ft_malloc_err(size);
 	if (ptr == NULL)
 		exit_gracefully(&pointers, errno);
 	else

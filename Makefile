@@ -13,8 +13,9 @@ SRCS			=	main.c \
 					bin_bins.c \
 					utils_mem.c \
 					signals.c \
-					utils_env.c \
-					utils_env2.c \
+					env/parse_env.c \
+					env/utils_env.c \
+					env/utils_mem_env.c \
 					builtins/cd.c \
 					builtins/echo.c \
 					builtins/env.c \
@@ -72,6 +73,14 @@ $(NAME)			:	${OBJS}
 					@${CC} ${CFLAGS} ${LD_FLAGS} ${OBJS} -o ${NAME} -lft -lncurses
 
 all				:	${NAME}
+
+val				:	${NAME}
+					valgrind \
+					--leak-check=full --tool=memcheck \
+					--show-reachable=yes \
+					--suppressions=tests/assets/suppressions_valgrind \
+					--errors-for-leak-kinds=all \
+					--show-leak-kinds=all --error-exitcode=1 ./minishell
 
 test			:	$(TEST_NAME)
 					@./${TEST_NAME}

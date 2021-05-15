@@ -25,11 +25,6 @@ int		add_to_history(t_input *buff, t_list **history)
 		if (line == NULL)
 			return (1);
 		new_node = ft_lstnew(line);
-		// if (new_node == NULL)
-		// {
-		// 	free(line);
-		// 	return (1);
-		// }
 		ft_lstadd_front(history, new_node);
 	}
 	return (0);

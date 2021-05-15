@@ -31,7 +31,6 @@ static int	minishell_tty(t_termios orig_termios)
 		if (stop == 0)
 			exec(parse(buff.buffer), g_global.env_list, orig_termios, history);
 	}
-	// ft_lstclear(&history, free);
 	ft_free_ptr((void**)&buff.buffer);
 	ft_free_ptr((void**)&buff.backup);
 	return (stop);
@@ -81,8 +80,7 @@ int			main(int argc, char **argv, char **envp)
 		return (-1);
 	}
 	minishell(orig_termios);
-	// free_env(&g_global.env_list);
 	disable_raw_mode(orig_termios);
-	ft_exit_free();
+	ft_exit_free(0);
 	return (0);
 }

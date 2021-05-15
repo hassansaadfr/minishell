@@ -53,11 +53,6 @@ void	*ft_realloc(void *old_ptr, size_t old_size, size_t new_size)
 	void	*new_ptr;
 
 	new_ptr = ft_alloc(new_size);
-	// if (new_ptr == NULL)
-	// {
-	// 	free(old_ptr);
-	// 	return (NULL);
-	// }
 	ft_bzero(new_ptr, new_size);
 	ft_memcpy(new_ptr, old_ptr, old_size);
 	ft_free_ptr((void**)&old_ptr);
