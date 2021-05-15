@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     name: norminette
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - uses: alexandregv/norminette-action@v3
       with:
         # Remove headers check
