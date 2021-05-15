@@ -1,0 +1,13 @@
+
+name: norminette
+on: [pull_request]
+jobs:
+  norminette_job:
+    runs-on: ubuntu-latest
+    name: norminette
+    steps:
+    - uses: actions/checkout@v3
+    - uses: alexandregv/norminette-action@v3
+      with:
+        # Remove headers check
+        flags: '-R CheckTopCommentHeader includes/ srcs/'
