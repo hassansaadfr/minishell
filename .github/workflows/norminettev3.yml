@@ -1,5 +1,5 @@
 
-name: norminette
+name: norminette3
 on: [pull_request]
 jobs:
   norminette_job:
