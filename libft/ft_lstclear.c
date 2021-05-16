@@ -6,11 +6,12 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 15:49:30 by axaidan           #+#    #+#             */
-/*   Updated: 2021/04/10 16:27:36 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/05/15 14:05:21 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
@@ -25,7 +26,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 		previous = current;
 		current = current->next;
 		(*del)(previous->content);
-		free(previous);
+		ft_free_ptr((void**)&previous);
 	}
 	*lst = NULL;
 }

@@ -9,9 +9,7 @@ static t_env	**tlist_to_arr_of_tenv(t_list *env_list)
 	i = 0;
 	size = 0;
 	size = ft_lstsize(env_list);
-	out = malloc(sizeof(t_env) * (size + 1));
-	if (!out)
-		return (NULL);
+	out = ft_alloc(sizeof(t_env) * (size + 1));
 	out[size] = NULL;
 	while (env_list)
 	{
@@ -71,7 +69,7 @@ static void		print_env_list(t_list *env_list)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		i++;
 	}
-	free(env_arr);
+	ft_free_ptr((void**)&env_arr);
 }
 
 int				builtin_export(char **argv, t_list *env_list)
@@ -94,7 +92,7 @@ int				builtin_export(char **argv, t_list *env_list)
 			done = new_env(env_list, env);
 			if (!done)
 				done = edit_env(env_list, env);
-			free(env);
+			ft_free_ptr((void**)&env);
 			i++;
 		}
 	}

@@ -13,7 +13,7 @@ char		*create_full_path(char *bin_path, char *cmd)
 	s = ft_strjoin(bin_path, "/");
 	tmp = s;
 	s = ft_strjoin(s, cmd);
-	free(tmp);
+	ft_free_ptr((void**)&tmp);
 	return (s);
 }
 

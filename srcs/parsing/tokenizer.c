@@ -14,22 +14,10 @@ t_list	*alloc_token_node(t_parse *p, int type)
 	new_node = NULL;
 	if (*(p->buffer_start) != '\0')
 	{
-		token = malloc(sizeof(t_token));
-		if (token == NULL)
-			return (NULL);
+		token = ft_alloc(sizeof(t_token));
 		token->type = type;
 		token->arg = ft_strdup(p->buffer_start);
-		if (token->arg == NULL)
-		{
-			free(token);
-			return (NULL);
-		}
 		new_node = ft_lstnew(token);
-		if (new_node == NULL)
-		{
-			free_token(token);
-			return (NULL);
-		}
 	}
 	return (new_node);
 }

@@ -14,7 +14,7 @@ static char	*concat_name_value_env(t_list *list)
 	if (!tmp)
 		return (NULL);
 	out = ft_strjoin(tmp, value);
-	free(tmp);
+	ft_free_ptr((void**)&tmp);
 	if (!out)
 		return (NULL);
 	return (out);
@@ -31,9 +31,7 @@ char		**list_to_array(t_list *env_list)
 	if (!env_list)
 		return (NULL);
 	size = ft_lstsize(env_list);
-	out = malloc(sizeof(char*) * (size + 1));
-	if (!out)
-		return (NULL);
+	out = ft_alloc(sizeof(char*) * (size + 1));
 	out[size] = 0;
 	while (env_list)
 	{
@@ -83,24 +81,4 @@ char		*parse_env_value(char *env)
 	if (equal_pos != NULL)
 		value = ft_strdup(equal_pos + 1);
 	return (value);
-}
-
-t_list		*init_env_node(char *env)
-{
-	t_list	*list_node;
-	t_env	*env_node;
-	char	*name;
-	char	*value;
-
-	if (!env)
-		return (NULL);
-	env_node = malloc(sizeof(t_env));
-	if (!env_node)
-		return (NULL);
-	name = parse_env_name(env);
-	value = parse_env_value(env);
-	env_node->name = name;
-	env_node->value = value;
-	list_node = ft_lstnew(env_node);
-	return (list_node);
 }

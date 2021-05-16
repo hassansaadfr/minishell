@@ -79,15 +79,26 @@ void		free_token(void *content);
 /*
 **	FILE - utils_env.c
 */
-t_list		*init_env(char **envp);
+int			new_env(t_list *env_list, char *new_env);
 t_list		*get_env(t_list *env_list, char *name);
 int			edit_env(t_list *env_list, char *env);
 int			delete_env(t_list *env_list, char *name);
-int			new_env(t_list *env_list, char *new_env);
-t_list		*init_env_node(char *env);
+
+/*
+**	FILE - parse_env.c
+*/
+
 char		*parse_env_value(char *env);
 char		*parse_env_name(char *env);
 char		**list_to_array(t_list *env_list);
+
+/*
+**	FILE - utils_mem_env.c
+*/
+
+t_list		*init_env(char **envp);
+t_list		*init_env_node(char *env);
+void		free_env_node(void *ptr);
 
 /*
 **	FILE - bin_builtins.c

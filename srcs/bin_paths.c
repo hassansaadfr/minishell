@@ -34,6 +34,6 @@ int			exec_from_path(char **cmd, t_list *env_list, t_termios orig_termios)
 	ret_stat = stat(checked_path, &stat_buff);
 	if (ret_stat == 0)
 		exec_bin(checked_path, cmd, env_list, orig_termios);
-	free(checked_path);
+	ft_free_ptr((void**)&checked_path);
 	return (0);
 }

@@ -13,7 +13,7 @@ static int	update_pwd(t_list *env_list)
 		done = new_env(env_list, final_path);
 		if (!done)
 			done = edit_env(env_list, final_path);
-		free(final_path);
+		ft_free_ptr((void**)&final_path);
 		return (done);
 	}
 	return (0);
@@ -29,7 +29,7 @@ static int	set_old_pwd(char *old_pwd, t_list *env_list)
 	if (!joined || errno != 0)
 		return (1);
 	edit_env(env_list, joined);
-	free(joined);
+	ft_free_ptr((void**)&joined);
 	return (0);
 }
 
