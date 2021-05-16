@@ -2,7 +2,7 @@
 
 void	free_split(char **splitted)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (splitted[i] != NULL)
