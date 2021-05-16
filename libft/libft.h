@@ -10,7 +10,7 @@
 
 # ifndef DEBUG_MALLOC
 
-# define DEBUG_MALLOC 0
+#  define DEBUG_MALLOC 0
 
 # endif
 
