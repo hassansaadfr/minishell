@@ -52,44 +52,40 @@ t_list	*find_first_arg_node(t_list *tokens)
 	return (NULL);
 }
 
-t_list	*isolate_redirs(t_list **redirs_and_args)
+int		is_redir_or_fd(t_list *node)
+{
+	return (is_redir(((t_token*)node->content)->type)
+			|| ((t_token*)node->content)->type == FD);
+}
+
+
+t_list	*isolate_redirs(t_list **args)
 {
 	t_list	*redirs;
-	t_token	*token;
 	t_list	*tmp;
-	t_list	*to_remove;
+	t_list	*to_rm;
 
 	redirs = NULL;
-	// DEBUT DE LISTE
-	while (*redirs_and_args && 
-			(is_redir(((t_token*)(*redirs_and_args)->content)->type)
-			 || ((t_token*)(*redirs_and_args)->content)->type == FD))
+	while (*args && is_redir_or_fd(*args))
 	{
-		tmp = *redirs_and_args;
-		*redirs_and_args = (*redirs_and_args)->next;
+		tmp = *args;
+//		*args = (*args)->next;
+		ft_lstdelone(args, NULL);
 		tmp->next = NULL;
 		tmp->previous = NULL;
 		ft_lstadd_back(&redirs, tmp);
 	}
-	// EN MILIEU DE LISTE
-	token = NULL;
-	tmp = *redirs_and_args;
+	tmp = *args;
 	while (tmp)
 	{
-		token = NULL;
-		tmp = *redirs_and_args;
-		while (tmp)
+		to_rm = tmp;
+		tmp = tmp->next;
+		if (is_redir_or_fd(to_rm))
 		{
-			to_remove = tmp;
-			token = to_remove->content;
-			tmp = tmp->next;
-			if (is_redir(token->type) || token->type == FD)
-			{
-				ft_lstdelone(&to_remove, NULL);
-				to_remove->previous = NULL;
-				to_remove->next = NULL;
-				ft_lstadd_back(&redirs, to_remove);
-			}
+			ft_lstdelone(&to_rm, NULL);
+			to_rm->previous = NULL;
+			to_rm->next = NULL;
+			ft_lstadd_back(&redirs, to_rm);
 		}
 	}
 	return (redirs);
