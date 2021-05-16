@@ -34,7 +34,7 @@ void			*ft_malloc_err(size_t size)
 
 void			exit_gracefully(t_list **arr_ptr, int err)
 {
-	if (errno)
+	if (err)
 		ft_putstr_fd(strerror(err), STDERR_FILENO);
 	ft_clearallocs(arr_ptr, free);
 	exit(0);
