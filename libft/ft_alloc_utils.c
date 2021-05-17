@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 17:01:51 by user42            #+#    #+#             */
-/*   Updated: 2021/05/15 17:11:12 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/05/17 14:41:44 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void			*ft_alloc_mem(size_t size, int done, void **addr, int exit_code)
 	void			*ptr;
 
 	if (done == 1)
-		exit_gracefully(&pointers, exit_code);
+		exit_gracefully(&pointers, 0, exit_code);
 	if (addr != NULL)
 		return (ft_free(&pointers, addr));
 	ptr = ft_malloc_err(size);
 	if (ptr == NULL)
-		exit_gracefully(&pointers, errno);
+		exit_gracefully(&pointers, errno, 0);
 	else
 		ft_lstadd_back(&pointers, ft_lstnew_alloc(ptr, &pointers));
 	return (ptr);

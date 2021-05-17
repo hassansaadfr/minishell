@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 14:01:53 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/05/15 14:08:13 by hsaadaou         ###   ########.fr       */
+/*   Updated: 2021/05/17 14:42:39 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,17 @@ void			*ft_malloc_err(size_t size)
 	}
 }
 
-void			exit_gracefully(t_list **arr_ptr, int err)
+void			exit_gracefully(t_list **arr_ptr, int error, int exit_code)
 {
-	if (err)
-		ft_putstr_fd(strerror(err), STDERR_FILENO);
+	if (error != 0)
+	{
+		printf("here %d\n", error);
+		ft_putstr_fd(strerror(error), STDERR_FILENO);
+		ft_clearallocs(arr_ptr, free);
+		exit(error);
+	}
 	ft_clearallocs(arr_ptr, free);
-	exit(0);
+	exit(exit_code);
 }
 
 t_list			*ft_lstnew_alloc(void *content, t_list **arr_ptr)
@@ -49,7 +54,7 @@ t_list			*ft_lstnew_alloc(void *content, t_list **arr_ptr)
 	if (new == NULL)
 	{
 		free(content);
-		exit_gracefully(arr_ptr, errno);
+		exit_gracefully(arr_ptr, errno, 0);
 	}
 	ft_bzero(new, sizeof(t_list));
 	new->content = content;

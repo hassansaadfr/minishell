@@ -79,7 +79,7 @@ void	ft_free_ptr(void **addr);
 t_list	*ft_lstnew_alloc(void *content, t_list **arr_ptr);
 void	ft_lstdelnode(t_list **elem, void (*del)(void *));
 void	ft_clearallocs(t_list **lst, void (*del)(void*));
-void	exit_gracefully(t_list **arr_ptr, int err);
+void	exit_gracefully(t_list **arr_ptr, int error, int exit_code);
 void	*ft_malloc_err(size_t size);
 
 #endif
