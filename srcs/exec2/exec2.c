@@ -58,6 +58,13 @@ int		is_redir_or_fd(t_list *node)
 			|| ((t_token*)node->content)->type == FD);
 }
 
+void	del_and_change_list(t_list **redirs, t_list **args, t_list **to_rm)
+{
+	ft_lstdelone(args, NULL);
+	(*to_rm)->next = NULL;
+	(*to_rm)->previous = NULL;
+	ft_lstadd_back(redirs, *to_rm);
+}
 
 t_list	*isolate_redirs(t_list **args)
 {
@@ -69,7 +76,9 @@ t_list	*isolate_redirs(t_list **args)
 	while (*args && is_redir_or_fd(*args))
 	{
 		tmp = *args;
-//		*args = (*args)->next;
+		/*
+		del_and_change_list(&redirs, args, &tmp);
+		*/
 		ft_lstdelone(args, NULL);
 		tmp->next = NULL;
 		tmp->previous = NULL;
@@ -82,6 +91,9 @@ t_list	*isolate_redirs(t_list **args)
 		tmp = tmp->next;
 		if (is_redir_or_fd(to_rm))
 		{
+			/*
+			del_and_change_list(&redirs, &to_rm, &to_rm);
+			*/
 			ft_lstdelone(&to_rm, NULL);
 			to_rm->previous = NULL;
 			to_rm->next = NULL;
@@ -122,7 +134,7 @@ int		executing(t_list *tokens, t_list *env_list, t_list *history)
 	while (tokens)
 	{
 		indpdt_cmd = split_smc(&tokens);
-		//	display_splitted_cmd(indpdt_cmd, debug_i++, "CMD");
+		display_splitted_cmd(indpdt_cmd, debug_i, "F_C");
 		// 1 - EXPANSION
 		// 2 - EXECUTION
 		ret_exec = execute_simple_cmd(indpdt_cmd, env_list, debug_i++);
