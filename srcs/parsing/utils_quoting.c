@@ -32,7 +32,10 @@ void	s_quote(t_parse *p, char **line)
 void	dollar_in_d_quote(t_parse *p, char **line)
 {
 	if (**line == ' ')
+	{
+		*(p->buffer++) = **line;
 		p->state = D_QUOTE;
+	}
 	else if (**line == '\"')
 	{	
 		*(p->buffer++) = **line;
@@ -40,13 +43,6 @@ void	dollar_in_d_quote(t_parse *p, char **line)
 	}
 	else
 		*(p->buffer++) = **line;
-}
-
-int         d_quote_conditions(t_parse *p, char **line)
-{
-	return ((**line == '\"' && p->state == NORMAL)
-			|| (**line && p->state == D_QUOTE && **line != '\"')
-			|| (**line == '\"' && p->state == D_QUOTE));
 }
 
 void	d_quote(t_parse *p, char **line)
