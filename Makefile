@@ -35,7 +35,8 @@ SRCS			=	main.c \
 					parsing/types.c \
 					parsing/parsing_errors.c \
 					parsing/utils_parsing.c \
-					parsing/utils_exclusions.c
+					parsing/utils_exclusions.c \
+					parsing/utils_d_quote.c
 
 TEST_SRCS		=	parsing/parsing_basic.c \
 					parsing/parsing_basic_pipe.c \

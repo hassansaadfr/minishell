@@ -187,6 +187,13 @@ void		d_quote(t_parse *p, char **line);
 void		dollar_in_d_quote(t_parse *p, char **line);
 
 /*
+**	FILE - utils_d_quote.c
+*/
+void		open_d_quote(t_parse *p, char **line);
+void		close_d_quote(t_parse *p, char **line);
+void		dollar_in_d_quote(t_parse *p, char **line);
+
+/*
 **	FILE - utils_parsing.c
 */
 int			metachar(t_parse *p, char **line);
