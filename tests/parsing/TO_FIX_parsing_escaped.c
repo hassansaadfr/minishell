@@ -2,14 +2,23 @@
 #include <string.h>
 #include "minishell.h"
 
+void	esc_str_to_neg_str(char **str_addr)
+{
+	int		i = 0;
+	
+	while ((*str_addr)[i])
+	{
+		
+	}
+}
+
 Test(parsing_escaped_suite, escaped1_echo_arg1)
 {
-    char    *line = NULL;
+    char 	line[] = "\"e\"cho arg1";
     t_list  *list = NULL;
     t_token *token = NULL;
     int     i = 0;
 
-    line = "\"e\"cho arg1";
     list = parsing(line);
     while (list)
     {

@@ -23,7 +23,7 @@ char			***parse(char *cmd)
 	i = 0;
 	splitted = ft_split(cmd, ';');
 	size = get_strarr_size(splitted);
-	cmd_list = malloc(sizeof(char*) * (size + 1));
+	cmd_list = ft_alloc(sizeof(char*) * (size + 1));
 	cmd_list[size] = NULL;
 	while (splitted[i])
 	{

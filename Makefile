@@ -5,8 +5,9 @@ TEST_NAME		=	minishell_test
 SRCS			=	system/main.c \
 					system/signals.c \
 					debug.c \
-					builtins/utils_env.c \
-					builtins/utils_env2.c \
+					env/parse_env.c \
+					env/utils_env.c \
+					env/utils_mem_env.c \
 					builtins/cd.c \
 					builtins/echo.c \
 					builtins/env.c \
@@ -35,7 +36,8 @@ SRCS			=	system/main.c \
 					exec/bin_builtins.c \
 					exec/bin_paths.c \
 					exec/bin_bins.c \
-					exec2/exec2.c
+					exec2/exec2.c \
+					parsing/utils_d_quote.c
 
 TEST_SRCS		=	parsing/parsing_basic.c \
 					parsing/parsing_basic_pipe.c \
@@ -43,13 +45,13 @@ TEST_SRCS		=	parsing/parsing_basic.c \
 					parsing/parsing_basic_redir_inf.c \
 					parsing/parsing_basic_redir_dsup.c \
 					parsing/parsing_complex_redir.c \
-					parsing/parsing_negatives.c \
-					parsing/parsing_escaped.c \
 					parsing/parsing_err_esc.c \
 					parsing/parsing_err_smc.c \
 					parsing/parsing_err_pipe.c \
 					parsing/parsing_err_redirs.c \
-					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c #signal_tests.c
+#					parsing/parsing_negatives.c \
+#					parsing/parsing_escaped.c \
+#					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c #signal_tests.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
@@ -73,6 +75,14 @@ $(NAME)			:	${OBJS}
 					@${CC} ${CFLAGS} ${LD_FLAGS} ${OBJS} -o ${NAME} -lft -lncurses
 
 all				:	${NAME}
+
+val				:	${NAME}
+					valgrind \
+					--leak-check=full --tool=memcheck \
+					--show-reachable=yes \
+					--suppressions=tests/assets/suppressions_valgrind \
+					--errors-for-leak-kinds=all \
+					--show-leak-kinds=all --error-exitcode=1 ./minishell
 
 test			:	$(TEST_NAME)
 					@./${TEST_NAME}

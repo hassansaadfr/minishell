@@ -45,6 +45,6 @@ t_list		*check_parsing_errors(t_parse *p, int ret_tokenizing)
 		escaping_err_msg(p);
 	else if (ret_tokenizing < 0)
 		typing_err_msg(p, ret_tokenizing);
-	free(p->buffer_start);
+	ft_free_ptr((void**)&p->buffer_start);
 	return (p->tokens);
 }

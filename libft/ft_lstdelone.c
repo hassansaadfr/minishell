@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 /*
  ** NULL-X-NULL		=> NULL				/// If NO prv and NO next ELEM = NULL

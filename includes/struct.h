@@ -48,7 +48,8 @@ enum					e_state
 	NORMAL,
 	S_QUOTE,
 	D_QUOTE,
-	B_SLASH
+	B_SLASH,
+	DLR_DQ
 };
 
 typedef struct			s_parse

@@ -22,7 +22,7 @@ char	*which_bin_fld(char *bin, char **bin_paths)
 		path = create_full_path(bin_paths[i], bin);
 		ret_stat = stat(path, &stat_buff);
 		if (ret_stat)
-			free(path);
+			ft_free_ptr((void**)&path);
 		i++;
 	}
 	if (ret_stat == 0)
@@ -54,8 +54,8 @@ int		exec_from_bins(char **cmd, t_list *env_list/*, t_termios orig_termios*/)
 		free_split(bin_paths);
 		if (path)
 		{
-			exec_bin(path, cmd, env_list/*, orig_termios*/);
-			free(path);
+			exec_bin(path, cmd, env_list);
+			ft_free_ptr((void**)&path);
 		}
 	}
 	return (0);

@@ -37,12 +37,6 @@ int		expand_buffers(t_input *buff)
 		(size_t)INPUT_MAX * (buff->factor - 1), INPUT_MAX * buff->factor);
 	buff->backup = ft_realloc(buff->backup,
 		(size_t)INPUT_MAX * (buff->factor - 1), INPUT_MAX * buff->factor);
-	if (buff->backup == NULL || buff->buffer == NULL)
-	{
-		free(buff->buffer);
-		free(buff->backup);
-		return (1);
-	}
 	return (0);
 }
 

@@ -5,70 +5,60 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/30 00:43:04 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/05/04 16:22:26 by hsaadaou         ###   ########.fr       */
+/*   Created: 2021/05/12 17:01:51 by user42            #+#    #+#             */
+/*   Updated: 2021/05/15 17:11:12 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <errno.h>
-#include <string.h>
 
-static void		exit_gracefully(t_list **arr_ptr, int err)
+static t_list	**find_addr(t_list **lst, void *addr)
 {
-	ft_putstr_fd(strerror(err), STDERR_FILENO);
-	ft_lstclear(arr_ptr, free);
-	exit(1);
-}
+	t_list **node_addr;
 
-static t_list	*ft_lstnew_alloc(void *content, t_list **arr_ptr)
-{
-	t_list	*new;
-
-	errno = 0;
-	new = malloc(sizeof(t_list));
-	if (new == NULL)
-		exit_gracefully(arr_ptr, errno);
-	new->content = content;
-	new->previous = NULL;
-	new->next = NULL;
-	return (new);
-}
-
-static t_list	*find_addr(t_list *lst, void *addr)
-{
-	while (lst)
+	while (*lst)
 	{
-		if (addr == lst->content)
-			return (lst);
-		lst = lst->next;
+		if (addr == (*lst)->content)
+		{
+			node_addr = lst;
+			return (node_addr);
+		}
+		*lst = (*lst)->next;
 	}
 	return (NULL);
 }
 
-void			*ft_alloc_mem(size_t size, int done, void **addr)
+static void		*ft_free(t_list **pointers, void **addr)
 {
-	static t_list	*pointers = NULL;
-	t_list			*tmp;
-	void			*ptr;
+	t_list			**tmp;
+	t_list			*cursor;
 
 	tmp = NULL;
-	if (done == 1)
+	if (*pointers && *addr == (*pointers)->content)
+		ft_lstdelnode(pointers, free);
+	else
 	{
-		ft_lstclear(&pointers, free);
-		return (NULL);
-	}
-	if (addr != NULL)
-	{
-		tmp = find_addr(pointers, *addr);
+		cursor = *pointers;
+		tmp = find_addr(&cursor, *addr);
 		if (tmp)
 		{
-			ft_lstdelone(&tmp, free);
+			ft_lstdelnode(tmp, free);
 			*addr = NULL;
 		}
-		return (NULL);
 	}
-	ptr = malloc(size);
+	return (NULL);
+}
+
+void			*ft_alloc_mem(size_t size, int done, void **addr, int exit_code)
+{
+	static t_list	*pointers = NULL;
+	void			*ptr;
+
+	if (done == 1)
+		exit_gracefully(&pointers, exit_code);
+	if (addr != NULL)
+		return (ft_free(&pointers, addr));
+	ptr = ft_malloc_err(size);
 	if (ptr == NULL)
 		exit_gracefully(&pointers, errno);
 	else

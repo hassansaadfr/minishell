@@ -31,6 +31,7 @@ static int	minishell_tty(t_list *env_list)
 	signal_handling_register();
 	init_buff_and_history(&buff, &history);
 	stop = 0;
+	tokens = NULL;
 	while (stop == 0)
 	{
 		prompt();
@@ -48,9 +49,9 @@ static int	minishell_tty(t_list *env_list)
 		orig_termios = enable_raw_mode();
 	}
 	ft_lstclear(&history, free);
-	free(buff.buffer);
-	free(buff.backup);
 	disable_raw_mode(orig_termios);
+	ft_free_ptr((void**)&buff.buffer);
+	ft_free_ptr((void**)&buff.backup);
 	return (stop);
 }
 
@@ -71,7 +72,7 @@ static int	minishell_non_tty(t_list *env_list)
 			cmds = parse(line);
 			execution(cmds, env_list, NULL);
 		}
-		free(line);
+		ft_free_ptr((void**)&line);
 	}
 	return (0);
 }

@@ -10,7 +10,7 @@ void	print_token_arg(t_token *token)
 	int	j;
 
 	j = 0;
-	while (token->arg[j] && j < 20)
+	while (token->arg[j] && j < 40)
 	{
 		if (token->arg[j] > 0)
 			printf("%c", token->arg[j]);
@@ -22,7 +22,7 @@ void	print_token_arg(t_token *token)
 		}
 		j++;
 	}
-	while (j < 20)
+	while (j < 40)
 	{
 		printf(" ");
 		j++;
@@ -36,8 +36,8 @@ void	display_tokens(t_list *tokens)
 	size_t	len;
 
 	i = 0;
-	printf("i\tstr\t\t\t\tlen\t\ttype\n");
-	printf("____________________________________________________________\n");
+	printf("i\tstr\t\t\t\t\t\tlen\t\ttype\n");
+	printf("___________________________________________________________________________\n");
 	while (tokens)
 	{
 		token = tokens->content;

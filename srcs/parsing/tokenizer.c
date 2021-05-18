@@ -14,22 +14,10 @@ t_list	*alloc_token_node(t_parse *p, int type)
 	new_node = NULL;
 	if (*(p->buffer_start) != '\0')
 	{
-		token = malloc(sizeof(t_token));
-		if (token == NULL)
-			return (NULL);
+		token = ft_alloc(sizeof(t_token));
 		token->type = type;
 		token->arg = ft_strdup(p->buffer_start);
-		if (token->arg == NULL)
-		{
-			free(token);
-			return (NULL);
-		}
 		new_node = ft_lstnew(token);
-		if (new_node == NULL)
-		{
-			free_token(token);
-			return (NULL);
-		}
 	}
 	return (new_node);
 }
@@ -66,6 +54,8 @@ int		split_into_tokens(t_parse *p, char **line)
 			s_quote(p, line);
 		else if (d_quote_conditions(p, line))
 			d_quote(p, line);
+		else if (p->state == DLR_DQ)
+			dollar_in_d_quote(p, line);
 		else if ((**line == ' ' || **line == '\0') && p->state == NORMAL)
 			ret_add = space_or_null(p);
 		else if (is_metachar(**line) && p->state == NORMAL)

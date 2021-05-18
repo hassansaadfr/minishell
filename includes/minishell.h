@@ -72,12 +72,15 @@ void		free_token(void *content);
 /*
 **	FILE - utils_env.c
 */
-t_list		*init_env(char **envp);
+int			new_env(t_list *env_list, char *new_env);
 t_list		*get_env(t_list *env_list, char *name);
 int			edit_env(t_list *env_list, char *env);
 int			delete_env(t_list *env_list, char *name);
-int			new_env(t_list *env_list, char *new_env);
-t_list		*init_env_node(char *env);
+
+/*
+**	FILE - parse_env.c
+*/
+
 char		*parse_env_value(char *env);
 char		*parse_env_name(char *env);
 char		**list_to_array(t_list *env_list);
@@ -88,6 +91,14 @@ char		**list_to_array(t_list *env_list);
 int			execution(char ***cmds, t_list *env_list, t_list *history);
 int			exec_bin(char *path, char **args, t_list *env_li);
 char		*create_full_path(char *bin_path, char *cmd);
+
+/*
+**	FILE - utils_mem_env.c
+*/
+
+t_list		*init_env(char **envp);
+t_list		*init_env_node(char *env);
+void		free_env_node(void *ptr);
 
 /*
 **	FILE - bin_builtins.c
@@ -171,6 +182,14 @@ int			add_to_tokens_list(t_parse *p);
 void		backslash(t_parse *p, char **line);
 void		s_quote(t_parse *p, char **line);
 void		d_quote(t_parse *p, char **line);
+void		dollar_in_d_quote(t_parse *p, char **line);
+
+/*
+**	FILE - utils_d_quote.c
+*/
+void		open_d_quote(t_parse *p, char **line);
+void		close_d_quote(t_parse *p, char **line);
+void		dollar_in_d_quote(t_parse *p, char **line);
 
 /*
 **	FILE - utils_parsing.c
