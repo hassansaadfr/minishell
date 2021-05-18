@@ -91,6 +91,6 @@ int			main(int argc, char **argv, char **envp)
 	(void)argv;
 	g_global.env_list = init_env(envp);
 	minishell(g_global.env_list);
-	free_env(&g_global.env_list);
+	ft_exit_free(0);
 	return (0);
 }
