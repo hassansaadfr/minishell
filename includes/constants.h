@@ -12,4 +12,17 @@
 
 # define DEBUG 1
 
+# define ARG_NUMERIC_FR "argument numérique nécessaire"
+# define ARG_NUMERIC_EN "numeric argument required"
+
+# define TOO_MUCH_ARGS_FR "trop d'arguments"
+# define TOO_MUCH_ARGS_EN "too many args"
+
+enum	e_err_msg_exit
+{
+	ARG_NUMERIC,
+	TOO_MUCH_ARGS
+};
+
+
 #endif

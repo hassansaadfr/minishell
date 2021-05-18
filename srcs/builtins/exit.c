@@ -16,11 +16,10 @@ static int	is_numeric(char *arg)
 	return (1);
 }
 
-static char	*get_err_msg(t_list *env_list)
+static char	*get_err_msg(t_list *env_list, int msg)
 {
 	t_list	*tmp;
 	char	*lang;
-
 	lang = NULL;
 	tmp = get_env(env_list, "LANG");
 	if (tmp && tmp->content)
@@ -29,10 +28,18 @@ static char	*get_err_msg(t_list *env_list)
 		if (lang)
 		{
 			if (ft_strncmp("fr_FR", lang, 5) == 0)
-				return (ft_strdup("argument numérique nécessaire"));
+			{
+				if (msg == ARG_NUMERIC)
+					return (ft_strdup(ARG_NUMERIC_FR));
+				else
+					return (ft_strdup(TOO_MUCH_ARGS_FR));
+			}
 		}
 	}
-	return (ft_strdup("numeric argument required"));
+	if (msg == ARG_NUMERIC)
+		return (ft_strdup(ARG_NUMERIC_EN));
+	else
+		return (ft_strdup(TOO_MUCH_ARGS_EN));
 }
 
 static int	get_exit_code(char *str)
@@ -64,15 +71,20 @@ int			builtin_exit(char **argv, t_list *env_list)
 	if (isatty(STDIN_FILENO))
 		ft_putendl_fd("exit", STDERR_FILENO);
 	if (arr_len > 1)
-		ft_putendl_fd(strerror(E2BIG), STDERR_FILENO);
+	{
+		ft_putendl_fd(ft_strjoin("minishell: line 1: exit: ", get_err_msg(env_list, TOO_MUCH_ARGS)), STDERR_FILENO);
+		if (!isatty(STDIN_FILENO))
+			ft_exit_free(1);
+	}
 	else
 	{
+		if (!*argv)
+			ft_exit_free(0);
 		if (is_numeric(*argv))
 			ft_exit_free(get_exit_code(*argv));
 		else
 		{
-			msg = get_err_msg(env_list);
-			ft_putstr_fd("minishell: exit ", STDERR_FILENO);
+			ft_putstr_fd(ft_strjoin("minishell: exit ", get_err_msg(env_list, ARG_NUMERIC)), STDERR_FILENO);
 			ft_putstr_fd(*argv, STDERR_FILENO);
 			ft_putstr_fd(" : ", STDERR_FILENO);
 			ft_putendl_fd(msg, STDERR_FILENO);
