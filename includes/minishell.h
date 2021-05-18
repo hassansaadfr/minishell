@@ -184,6 +184,7 @@ int			add_to_tokens_list(t_parse *p);
 void		backslash(t_parse *p, char **line);
 void		s_quote(t_parse *p, char **line);
 void		d_quote(t_parse *p, char **line);
+void		dollar_in_d_quote(t_parse *p, char **line);
 
 /*
 **	FILE - utils_parsing.c

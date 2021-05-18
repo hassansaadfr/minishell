@@ -43,13 +43,13 @@ TEST_SRCS		=	parsing/parsing_basic.c \
 					parsing/parsing_basic_redir_inf.c \
 					parsing/parsing_basic_redir_dsup.c \
 					parsing/parsing_complex_redir.c \
-					parsing/parsing_negatives.c \
-					parsing/parsing_escaped.c \
 					parsing/parsing_err_esc.c \
 					parsing/parsing_err_smc.c \
 					parsing/parsing_err_pipe.c \
 					parsing/parsing_err_redirs.c \
-					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c #signal_tests.c
+#					parsing/parsing_negatives.c \
+#					parsing/parsing_escaped.c \
+#					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c #signal_tests.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}

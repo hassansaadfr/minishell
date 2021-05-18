@@ -17,19 +17,26 @@ static int	minishell_tty(t_termios orig_termios)
 {
 	int		stop;
 	t_list	*history;
+	t_list	*tokens;
 	t_input	buff;
+	(void)orig_termios;
 
 	signal_handling_register();
 	init_buff_and_history(&buff, &history);
 	stop = 0;
+	tokens = NULL;
 	while (stop == 0)
 	{
 		prompt();
 		stop = write_buffer(&stop, &buff, history);
 		if (stop == 0)
 			stop = add_to_history(&buff, &history);
-		if (stop == 0)
-			exec(parse(buff.buffer), g_global.env_list, orig_termios, history);
+		tokens = parsing(buff.buffer);
+		if (tokens)
+			display_tokens(tokens);
+
+//		if (stop == 0)
+//			exec(parse(buff.buffer), g_global.env_list, orig_termios, history);
 	}
 	ft_free_ptr((void**)&buff.buffer);
 	ft_free_ptr((void**)&buff.backup);
