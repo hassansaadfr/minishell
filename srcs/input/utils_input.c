@@ -2,7 +2,7 @@
 
 int		is_ctrl_keys(char c, int *stop, t_input *buff, t_list *history)
 {
-	if (c == ctrl_value('d'))
+	if (c == ctrl_value('d') && buff->i == 0)
 		*stop = 1;
 	else if (c == ctrl_value('u'))
 		clear_line(buff);
