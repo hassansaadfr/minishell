@@ -36,7 +36,7 @@ void	d_quote(t_parse *p, char **line)
 	{
 		if (**line == '\\')
 		{
-			(*line)++;
+			*(p->buffer++) = *((*line)++);
 			if (**line == '\"' || **line == '\\' || **line == '$')
 				*(p->buffer++) = -(**line);
 			else

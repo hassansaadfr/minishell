@@ -38,17 +38,14 @@ static int	minishell_tty(t_list *env_list)
 		tokens = NULL;
 		stop = write_buffer(&stop, &buff, history);
 		disable_raw_mode(orig_termios);
-		if (stop == 0)
+		if (stop == 0 && not_empty(buff.buffer))
 			stop = add_to_history(&buff, &history);
 		if (stop == 0 && not_empty(buff.buffer))
 			tokens = parsing(buff.buffer);
 		if (tokens != NULL)
 			stop = executing(tokens, env_list, history);
-//		if (tokens != NULL)
-//			ft_lstclear(&tokens, free_token);
 		orig_termios = enable_raw_mode();
 	}
-	ft_lstclear(&history, free);
 	disable_raw_mode(orig_termios);
 	ft_free_ptr((void**)&buff.buffer);
 	ft_free_ptr((void**)&buff.backup);

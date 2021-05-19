@@ -15,7 +15,7 @@ void	dollar_in_d_quote(t_parse *p, char **line)
 	else if (**line == '\\')
 	{
 		p->state = D_QUOTE;
-		(*line)++;
+		*(p->buffer++) = *((*line)++);
 		if (**line == '\"' || **line == '\\' || **line == '$')
 			*(p->buffer++) = -(**line);
 		else

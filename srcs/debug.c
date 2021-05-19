@@ -36,8 +36,8 @@ void	display_tokens(t_list *tokens)
 	size_t	len;
 
 	i = 0;
-	printf("i\tstr\t\t\t\t\t\tlen\t\ttype\n");
-	printf("___________________________________________________________________________\n");
+	printf("i\tstr\t\t\t\t\t\t\tlen\t\ttype\n");
+	printf("___________________________________________________________________________________\n");
 	while (tokens)
 	{
 		token = tokens->content;
