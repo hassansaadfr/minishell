@@ -39,6 +39,7 @@ int			handle_errno(int err, char *binary, char *arg);
 */
 void		dbg_display_stat_buff(struct stat stat_buff);
 void		display_tokens(t_list *tokens);
+void		display_splitted_cmd(t_list *cmd, int debug_i, char *type);
 char		*enum_to_str(int type);
 
 /*
@@ -80,7 +81,6 @@ int			delete_env(t_list *env_list, char *name);
 /*
 **	FILE - parse_env.c
 */
-
 char		*parse_env_value(char *env);
 char		*parse_env_name(char *env);
 char		**list_to_array(t_list *env_list);
@@ -204,6 +204,7 @@ int			d_quote_conditions(t_parse *p, char **line);
 */
 int			typing(t_parse *p);
 int			is_redir(enum e_types type);
+int			is_redir_or_fd(t_list *node);
 
 /*
 **	FILE - parsing_errors.c
@@ -224,7 +225,20 @@ int			newline_exclusions(t_list *last_node);
 int			executing(t_list *tokens, t_list *env, t_list *history);
 
 /*
-**	FILE - utils_argv.c
+**	FILE - rearrange_lists.c
 */
+t_list		*isolate_indpdt_cmd(t_list **tokens);
+t_list		*isolate_redirs(t_list **args);
+
+/*
+**	FILE - utils_expansion.c
+*/
+int			token_is(enum e_types wanted_type, t_token *token);
+int			token_arg_contains(char wanted_char, t_token *token);
+
+/*
+**	FILE - expansion.c
+*/
+t_list		*expansion(t_list *cmd, t_list *env_list);
 
 #endif

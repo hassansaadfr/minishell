@@ -32,12 +32,15 @@ SRCS			=	system/main.c \
 					parsing/parsing_errors.c \
 					parsing/utils_parsing.c \
 					parsing/utils_exclusions.c \
+					parsing/utils_d_quote.c \
 					exec/exec.c \
 					exec/bin_builtins.c \
 					exec/bin_paths.c \
 					exec/bin_bins.c \
 					exec2/exec2.c \
-					parsing/utils_d_quote.c
+					exec2/rearrange_lists.c \
+#					expansion/expansion.c \
+#					expansion/utils_expansion.c 
 
 TEST_SRCS		=	parsing/parsing_basic.c \
 					parsing/parsing_basic_pipe.c \

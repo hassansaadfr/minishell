@@ -37,7 +37,7 @@ void	display_tokens(t_list *tokens)
 
 	i = 0;
 	printf("i\tstr\t\t\t\t\t\t\tlen\t\ttype\n");
-	printf("___________________________________________________________________________________\n");
+	printf("__________________________________________________________________________________________\n");
 	while (tokens)
 	{
 		token = tokens->content;
@@ -48,6 +48,22 @@ void	display_tokens(t_list *tokens)
 		tokens = tokens->next;
 	}
 	printf("\n");
+}
+
+void    display_splitted_cmd(t_list *cmd, int debug_i, char *type)
+{
+	if (ft_strncmp(type, "CMD", 4) == 0)
+	{
+		printf("\t============================================================\n");
+		printf("\t========================== %3.3s %2i ==========================\n",
+				type, debug_i++);
+	}
+	else
+	printf("========================== %3.3s %2i ==========================\n",
+			type, debug_i++);
+	if (ft_strncmp(type, "CMD", 4) == 0)
+		printf("\t============================================================\n");
+	display_tokens(cmd);
 }
 
 char	*enum_to_str(int type)
