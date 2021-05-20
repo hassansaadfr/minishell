@@ -7,6 +7,7 @@
 # include <errno.h>
 # include <string.h>
 # include <stdio.h>
+# include "struct.h"
 
 # ifndef DEBUG_MALLOC
 
@@ -51,13 +52,6 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-
-typedef struct	s_list
-{
-	void			*content;
-	struct s_list	*previous;
-	struct s_list	*next;
-}				t_list;
 
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **alst, t_list *new);

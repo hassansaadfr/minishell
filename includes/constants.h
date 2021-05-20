@@ -24,5 +24,4 @@ enum	e_err_msg_exit
 	TOO_MUCH_ARGS
 };
 
-
 #endif
