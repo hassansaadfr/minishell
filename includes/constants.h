@@ -16,7 +16,7 @@
 # define ARG_NUMERIC_EN "numeric argument required"
 
 # define TOO_MUCH_ARGS_FR "trop d'arguments"
-# define TOO_MUCH_ARGS_EN "too many args"
+# define TOO_MUCH_ARGS_EN "too many arguments"
 
 enum	e_err_msg_exit
 {

@@ -7,6 +7,10 @@ static int	is_numeric(char *arg)
 	i = 0;
 	if (arg[i] == '-' || arg[i] == '+')
 		i++;
+	if (!arg[i])
+		return (0);
+	if (arg[i] == '-')
+		return (1);
 	while (arg[i])
 	{
 		if (!ft_isdigit(arg[i]))
@@ -20,6 +24,7 @@ static char	*get_err_msg(t_list *env_list, int msg)
 {
 	t_list	*tmp;
 	char	*lang;
+
 	lang = NULL;
 	tmp = get_env(env_list, "LANG");
 	if (tmp && tmp->content)
@@ -60,37 +65,42 @@ static int	get_exit_code(char *str)
 	return (code);
 }
 
+static void	print_err(char *arg, char *err)
+{
+	ft_putstr_fd("minishell:", STDERR_FILENO);
+	if (!isatty(STDIN_FILENO))
+		ft_putstr_fd(" line 1:", STDERR_FILENO);
+	ft_putstr_fd(" exit: ", STDERR_FILENO);
+	if (arg)
+	{
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
+	ft_putendl_fd(err, STDERR_FILENO);
+}
+
 int			builtin_exit(char **argv, t_list *env_list)
 {
 	int		arr_len;
-	char	*msg;
 
-	msg = NULL;
 	argv++;
 	arr_len = get_strarr_size(argv);
 	if (isatty(STDIN_FILENO))
 		ft_putendl_fd("exit", STDERR_FILENO);
-	if (arr_len > 1)
+	if (!*argv)
+		ft_exit_free(0);
+	if (!is_numeric(*argv))
 	{
-		ft_putendl_fd(ft_strjoin("minishell: line 1: exit: ", get_err_msg(env_list, TOO_MUCH_ARGS)), STDERR_FILENO);
+		print_err(*argv, get_err_msg(env_list, ARG_NUMERIC));
+		ft_exit_free(2);
+	}
+	else if (arr_len > 1)
+	{
+		print_err(NULL, get_err_msg(env_list, TOO_MUCH_ARGS));
 		if (!isatty(STDIN_FILENO))
 			ft_exit_free(1);
 	}
 	else
-	{
-		if (!*argv)
-			ft_exit_free(0);
-		if (is_numeric(*argv))
-			ft_exit_free(get_exit_code(*argv));
-		else
-		{
-			ft_putstr_fd(ft_strjoin("minishell: exit ", get_err_msg(env_list, ARG_NUMERIC)), STDERR_FILENO);
-			ft_putstr_fd(*argv, STDERR_FILENO);
-			ft_putstr_fd(" : ", STDERR_FILENO);
-			ft_putendl_fd(msg, STDERR_FILENO);
-			ft_free_ptr((void**)&msg);
-			ft_exit_free(2);
-		}
-	}
+		ft_exit_free(get_exit_code(*argv));
 	return (1);
 }
