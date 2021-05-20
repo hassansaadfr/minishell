@@ -6,12 +6,17 @@ int		execute_simple_cmd(t_list *tokens, t_list *env_list, int debug_i)
 	int		ret_exec;
 	t_list	*redirs;
 
-	// EXPANSION
 	redirs = isolate_redirs(&tokens);
 	if (tokens)
+	{
+		//expand_args();
 		display_splitted_cmd(tokens, debug_i, "ARG");
+	}
 	if (redirs)
+	{
+		redirs = expand_redirs(&redirs, env_list);
 		display_splitted_cmd(redirs, debug_i, "RDR");
+	}
 	ft_lstclear(&redirs, free_token);
 	ft_lstclear(&tokens, free_token);
 	ret_exec = 0;

@@ -39,8 +39,8 @@ SRCS			=	system/main.c \
 					exec/bin_bins.c \
 					exec2/exec2.c \
 					exec2/rearrange_lists.c \
-#					expansion/expansion.c \
-#					expansion/utils_expansion.c 
+					expansion/expansion.c \
+					expansion/utils_expansion.c 
 
 TEST_SRCS		=	parsing/parsing_basic.c \
 					parsing/parsing_basic_pipe.c \

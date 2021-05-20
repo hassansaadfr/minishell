@@ -233,12 +233,13 @@ t_list		*isolate_redirs(t_list **args);
 /*
 **	FILE - utils_expansion.c
 */
-int			token_is(enum e_types wanted_type, t_token *token);
-int			token_arg_contains(char wanted_char, t_token *token);
+int			token_is(int wanted_type, t_token *token);
+void		*arg_contains(char wanted_char, char *arg);
 
 /*
 **	FILE - expansion.c
 */
+t_list		*expand_redirs(t_list **redirs, t_list *env_list);
 t_list		*expansion(t_list *cmd, t_list *env_list);
 
 #endif
