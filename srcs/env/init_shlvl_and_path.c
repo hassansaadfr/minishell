@@ -13,15 +13,14 @@ static int	set_shlvl_value(char *value_env)
 		i++;
 	j = i;
 	while (tmp[j])
-	{
-		if (!ft_isdigit(tmp[j]))
+		if (!ft_isdigit(tmp[j++]))
 			return (1);
-		j++;
-	}
 	value = ft_atoi(tmp);
 	if (value == 999)
 	{
-		ft_putendl_fd(SHLVL_TOO_HIGH, STDERR_FILENO);
+		ft_putstr_fd("minishell: avertissement : ", STDERR_FILENO);
+		ft_putstr_fd("niveau de shell trop élevé (1000), ", STDERR_FILENO);
+		ft_putstr_fd("initialisation à 1\n", STDERR_FILENO);
 		return (1);
 	}
 	if (value < 0)

@@ -58,7 +58,6 @@ int			builtin_exit(char **argv, t_list *env_list)
 	int		arr_len;
 	char	*msg;
 
-	msg = NULL;
 	argv++;
 	arr_len = get_strarr_size(argv);
 	if (isatty(STDIN_FILENO))

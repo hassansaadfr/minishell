@@ -101,7 +101,6 @@ char		*init_shlvl(t_list *env_list);
 char		*init_path(t_list *env_list);
 void		init_path_and_shlvl(t_list **env_list);
 
-
 /*
 **	FILE - utils_mem_env.c
 */
