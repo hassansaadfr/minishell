@@ -46,27 +46,28 @@ static void		sort(t_env **array, int start, int end)
 
 static void		print_env_list(t_list *env_list)
 {
-	t_list	*tmp;
 	t_env	**env_arr;
 	int		i;
 	int		size;
 
 	size = ft_lstsize(env_list);
 	i = 0;
-	tmp = env_list;
 	env_arr = tlist_to_arr_of_tenv(env_list);
 	sort(env_arr, 0, size - 1);
 	while (i < size)
 	{
-		ft_putstr_fd("export ", STDOUT_FILENO);
-		ft_putstr_fd(env_arr[i]->name, STDOUT_FILENO);
-		if (env_arr[i]->value != NULL)
+		if (ft_strcmp("_", env_arr[i]->name) != 0)
 		{
-			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd(env_arr[i]->value, STDOUT_FILENO);
-			ft_putstr_fd("\"", STDOUT_FILENO);
+			ft_putstr_fd("export ", STDOUT_FILENO);
+			ft_putstr_fd(env_arr[i]->name, STDOUT_FILENO);
+			if (env_arr[i]->value != NULL)
+			{
+				ft_putstr_fd("=\"", STDOUT_FILENO);
+				ft_putstr_fd(env_arr[i]->value, STDOUT_FILENO);
+				ft_putstr_fd("\"", STDOUT_FILENO);
+			}
+			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
-		ft_putstr_fd("\n", STDOUT_FILENO);
 		i++;
 	}
 	ft_free_ptr((void**)&env_arr);
@@ -74,26 +75,26 @@ static void		print_env_list(t_list *env_list)
 
 int				builtin_export(char **argv, t_list *env_list)
 {
-	int		i;
-	int		size;
 	char	*env;
 	int		done;
 
 	done = 0;
-	i = 1;
-	size = get_strarr_size(argv);
-	if (size == 1)
+	if (get_strarr_size(argv) == 1)
 		print_env_list(env_list);
 	else
 	{
-		while (argv[i])
+		argv++;
+		while (*argv)
 		{
-			env = ft_strdup(argv[i]);
-			done = new_env(env_list, env);
-			if (!done)
-				done = edit_env(env_list, env);
-			ft_free_ptr((void**)&env);
-			i++;
+			if (is_valid_env_name(*argv, "export"))
+			{
+				env = ft_strdup(*argv);
+				done = new_env(env_list, env);
+				if (!done)
+					done = edit_env(env_list, env);
+				ft_free_ptr((void**)&env);
+			}
+			argv++;
 		}
 	}
 	return (done);
