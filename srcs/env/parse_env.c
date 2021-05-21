@@ -86,13 +86,11 @@ char		*parse_env_value(char *env)
 int			is_valid_env_name(char *name, char *binary)
 {
 	int		i;
-	char	*var;
 
 	i = 0;
-	var = parse_env_name(name);
-	while (var && var[i])
+	while (name && name[i])
 	{
-		if (ft_isalnum(var[i]) || var[i] == '_')
+		if (ft_isalnum(name[i]) || name[i] == '_')
 			i++;
 		else
 		{

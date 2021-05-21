@@ -51,10 +51,11 @@ Test(unset_suite, unset_basic_undefined) {
 
 Test(unset_suite, unset_malformed_name) {
 	t_list	*env_list;
-	int		is_unset;
+	int		is_unset = -1;
 
 	env_list = test_init_env();
 	is_unset = unset("TITI=", env_list);
+	printf("is unset %d\n", is_unset);
 	cr_assert(is_unset == 0);
 	free_env(&env_list);
 }
