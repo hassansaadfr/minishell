@@ -16,6 +16,7 @@ SRCS			=	main.c \
 					env/parse_env.c \
 					env/utils_env.c \
 					env/utils_mem_env.c \
+					env/init_shlvl_and_path.c \
 					builtins/cd.c \
 					builtins/echo.c \
 					builtins/env.c \

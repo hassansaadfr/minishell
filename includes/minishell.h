@@ -11,6 +11,7 @@
 # include <term.h>
 # include <termios.h>
 # include <curses.h>
+# include <fcntl.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -91,6 +92,15 @@ int			delete_env(t_list *env_list, char *name);
 char		*parse_env_value(char *env);
 char		*parse_env_name(char *env);
 char		**list_to_array(t_list *env_list);
+
+/*
+**	FILE - init_shlvl_and_path.c
+*/
+
+char		*init_shlvl(t_list *env_list);
+char		*init_path(t_list *env_list);
+void		init_path_and_shlvl(t_list **env_list);
+
 
 /*
 **	FILE - utils_mem_env.c
