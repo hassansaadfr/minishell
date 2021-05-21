@@ -2,9 +2,11 @@
 
 void	dollar_in_d_quote(t_parse *p, char **line)
 {
-	if (**line == ' ')
+	//if (**line == ' ')
+	if (**line == ' ' || **line == '\'')
 	{
-		*(p->buffer++) = **line;
+		//*(p->buffer++) = **line;
+		*(p->buffer++) = -(**line);
 		p->state = D_QUOTE;
 	}
 	else if (**line == '\"')
@@ -20,7 +22,8 @@ void	dollar_in_d_quote(t_parse *p, char **line)
 			*(p->buffer++) = -(**line);
 		else
 		{
-			*(p->buffer++) = -'\\';
+	//		*(p->buffer++) = -'\\';
+			*(p->buffer - 1) = -'\\';
 			*(p->buffer++) = -(**line);
 		}
 	}
