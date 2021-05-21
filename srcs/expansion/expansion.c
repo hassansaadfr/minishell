@@ -117,12 +117,12 @@ void	expand_fd(t_token *token, t_list *env_list, char *dollar_pos)
 				// PASS ESC CHARS AND SPACES IN expansion TO NEGATIVE HERE
 				if (new_arg == NULL)
 				{
-					display_expansion_parts(beginning, expansion, remaining, key_len);
+			//		display_expansion_parts(beginning, expansion, remaining, key_len);
 					new_arg = ft_strjoin(beginning, expansion);
 				}
 				else
 				{
-					display_expansion_parts(new_arg, expansion, remaining, key_len);
+			//		display_expansion_parts(new_arg, expansion, remaining, key_len);
 					tmp_new_arg = new_arg;
 					new_arg = ft_strjoin(new_arg, expansion);
 					ft_free_ptr((void**)&tmp_new_arg);
