@@ -87,13 +87,15 @@ void	expand_fd(t_token *token, t_list *env_list, char *dollar_pos)
 	{
 		key_len = 0;
 		expansion = NULL;
+		// IF '$' MUST BE LEFT AS IS
 		if (dollar_pos[1] == '\0' || dollar_pos[1] == '\\' || dollar_pos[1] == ' '
 				|| dollar_pos[1] == -' ' || dollar_pos[1] == '\"')
 			dollar_pos = ft_strchr(dollar_pos + 1, '$');
+		// IF EXPANSION NEEDED
 		else
 		{
 			beginning = token->arg;
-			while (is_expansion_delimiter(dollar_pos[key_len], key_len) == false)
+			while (is_expansion_delimiter(dollar_pos[key_len], key_len) == 0)
 				key_len++;
 			tmp_remaining = remaining;
 			remaining = dollar_pos + key_len;
@@ -117,12 +119,12 @@ void	expand_fd(t_token *token, t_list *env_list, char *dollar_pos)
 				// PASS ESC CHARS AND SPACES IN expansion TO NEGATIVE HERE
 				if (new_arg == NULL)
 				{
-			//		display_expansion_parts(beginning, expansion, remaining, key_len);
+					display_expansion_parts(beginning, expansion, remaining, key_len);
 					new_arg = ft_strjoin(beginning, expansion);
 				}
 				else
 				{
-			//		display_expansion_parts(new_arg, expansion, remaining, key_len);
+					display_expansion_parts(new_arg, expansion, remaining, key_len);
 					tmp_new_arg = new_arg;
 					new_arg = ft_strjoin(new_arg, expansion);
 					ft_free_ptr((void**)&tmp_new_arg);
@@ -132,13 +134,32 @@ void	expand_fd(t_token *token, t_list *env_list, char *dollar_pos)
 			dollar_pos = ft_strchr(remaining, '$');
 		}
 	}
-	if (new_arg)
+	/*
+	if (new_arg != NULL)
 	{
 		if (not_empty(remaining))
 			new_arg = ft_strjoin(new_arg, remaining);
 		ft_free_ptr((void**)&token->arg);
 		token->arg = new_arg;
 	}
+	*/
+	if (not_empty(remaining))
+	{
+		if (new_arg == NULL)
+		{
+			tmp_new_arg = token->arg;
+			new_arg = ft_strjoin(tmp_new_arg, remaining);
+			ft_free_ptr((void**)&tmp_new_arg);
+		}
+		else
+		{
+			tmp_new_arg = new_arg;
+			new_arg = ft_strjoin(tmp_new_arg, remaining);
+			ft_free_ptr((void**)&tmp_new_arg);
+			ft_free_ptr((void**)&token->arg);
+		}
+	}
+	token->arg = new_arg;
 }
 
 t_list	*expand_redirs(t_list **redirs, t_list *env_list)
