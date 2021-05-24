@@ -134,27 +134,17 @@ void	expand_fd(t_token *token, t_list *env_list, char *dollar_pos)
 			dollar_pos = ft_strchr(remaining, '$');
 		}
 	}
-	/*
-	if (new_arg != NULL)
-	{
-		if (not_empty(remaining))
-			new_arg = ft_strjoin(new_arg, remaining);
-		ft_free_ptr((void**)&token->arg);
-		token->arg = new_arg;
-	}
-	*/
 	if (not_empty(remaining))
 	{
 		if (new_arg == NULL)
-		{
 			tmp_new_arg = token->arg;
-			new_arg = ft_strjoin(tmp_new_arg, remaining);
-			ft_free_ptr((void**)&tmp_new_arg);
-		}
+		else
+			tmp_new_arg = new_arg;
+		new_arg = ft_strjoin(tmp_new_arg, remaining);
+		if (tmp_new_arg == token->arg)
+			ft_free_ptr((void**)&token->arg);
 		else
 		{
-			tmp_new_arg = new_arg;
-			new_arg = ft_strjoin(tmp_new_arg, remaining);
 			ft_free_ptr((void**)&tmp_new_arg);
 			ft_free_ptr((void**)&token->arg);
 		}
