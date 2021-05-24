@@ -11,6 +11,8 @@
 # include <term.h>
 # include <termios.h>
 # include <curses.h>
+# include <signal.h>
+# include <limits.h>
 
 # include "libft.h"
 # include "constants.h"
