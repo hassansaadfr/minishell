@@ -3,23 +3,24 @@
 static int	is_numeric(char *arg)
 {
 	int		i;
+	char	*str;
+	int		out;
 
+	out = -1;
 	i = 0;
-	while (ft_strchr(" \t\n\r\v\f", arg[i]))
+	str = ft_strtrim(arg, " \t\n\r\v\f");
+	if (str[i] == '-' || str[i] == '+')
 		i++;
-	if (arg[i] == '-' || arg[i] == '+')
+	if (!str[i])
+		out = 0;
+	if (out == -1 && str[i] == '-')
+		out = 1;
+	while (out == -1 && ft_isdigit(str[i]))
 		i++;
-	if (!arg[i])
-		return (0);
-	if (arg[i] == '-')
-		return (1);
-	while (arg[i])
-	{
-		if (!ft_isdigit(arg[i]))
-			return (0);
-		i++;
-	}
-	return (1);
+	if (out == -1 && str[i])
+		out = 0;
+	ft_free_ptr((void**)&str);
+	return (out);
 }
 
 static char	*get_err_msg(t_list *env_list, int msg)
