@@ -2,6 +2,8 @@
 
 int			unset(char *argv, t_list *env_list)
 {
+	if (!is_valid_env_name(argv, "unset"))
+		return (0);
 	return (delete_env(env_list, argv));
 }
 

@@ -93,6 +93,7 @@ int			delete_env(t_list *env_list, char *name);
 char		*parse_env_value(char *env);
 char		*parse_env_name(char *env);
 char		**list_to_array(t_list *env_list);
+int			is_valid_env_name(char *name, char *binary);
 
 /*
 **	FILE - utils_mem_env.c
