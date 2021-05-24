@@ -5,6 +5,8 @@ static int	is_numeric(char *arg)
 	int		i;
 
 	i = 0;
+	while (ft_strchr(" \t\n\r\v\f", arg[i]))
+		i++;
 	if (arg[i] == '-' || arg[i] == '+')
 		i++;
 	if (!arg[i])
@@ -47,24 +49,6 @@ static char	*get_err_msg(t_list *env_list, int msg)
 		return (ft_strdup(TOO_MUCH_ARGS_EN));
 }
 
-static int	get_exit_code(char *str)
-{
-	int		code;
-
-	code = ft_atoi(str);
-	if (code < 0)
-	{
-		while (code < 0 && code < 256)
-			code = code + 256;
-	}
-	else
-	{
-		while (code > 256)
-			code -= 256;
-	}
-	return (code);
-}
-
 static void	print_err(char *arg, char *err)
 {
 	ft_putstr_fd("minishell:", STDERR_FILENO);
@@ -77,6 +61,21 @@ static void	print_err(char *arg, char *err)
 		ft_putstr_fd(": ", STDERR_FILENO);
 	}
 	ft_putendl_fd(err, STDERR_FILENO);
+}
+
+static int	get_exit_code(char *str, t_list *env_list)
+{
+	long int		code;
+	int				overflow;
+
+	overflow = 0;
+	code = ft_atoll(str, &overflow);
+	if (overflow)
+	{
+		print_err(str, get_err_msg(env_list, ARG_NUMERIC));
+		return (2);
+	}
+	return (code % 256);
 }
 
 int			builtin_exit(char **argv, t_list *env_list)
@@ -101,6 +100,6 @@ int			builtin_exit(char **argv, t_list *env_list)
 			ft_exit_free(1);
 	}
 	else
-		ft_exit_free(get_exit_code(*argv));
+		ft_exit_free(get_exit_code(*argv, env_list));
 	return (1);
 }

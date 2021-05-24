@@ -379,3 +379,91 @@ Test(exit_suite_code, exit_arg_num_and_non_num2)
 	close(fd_msh);
 	system("rm ./tests/outputs_m_sh/exit_arg_num_and_non_num2.log ./tests/outputs_bash/exit_arg_num_and_non_num2.log");
 }
+
+Test(exit_suite_code, exit_arg_long_max)
+{
+	int fd_msh = -1;
+	int fd_bsh = -1;
+	int readed = 0;
+	char output_msh[1000];
+	char output_bsh[1000];
+
+	system("echo exit 9223372036854775807 | ./minishell ; echo $? > ./tests/outputs_m_sh/exit_arg_long_max.log");
+	system("echo exit 9223372036854775807 | bash --posix ; echo $? > ./tests/outputs_bash/exit_arg_long_max.log");
+	fd_msh = open("tests/outputs_m_sh/exit_arg_long_max.log", O_RDONLY);
+	fd_bsh = open("tests/outputs_bash/exit_arg_long_max.log", O_RDONLY);
+	readed = read(fd_bsh, output_bsh, 100);
+	output_bsh[readed] = 0;
+	readed = read(fd_msh, output_msh, 100);
+	output_msh[readed] = 0;
+	cr_assert_str_eq(output_msh, output_bsh);
+	close(fd_bsh);
+	close(fd_msh);
+	system("rm ./tests/outputs_m_sh/exit_arg_long_max.log ./tests/outputs_bash/exit_arg_long_max.log");
+}
+
+Test(exit_suite_code, exit_arg_long_max_err)
+{
+	int fd_msh = -1;
+	int fd_bsh = -1;
+	int readed = 0;
+	char output_msh[1000];
+	char output_bsh[1000];
+
+	system("echo exit 9223372036854775808 | ./minishell ; echo $? > ./tests/outputs_m_sh/exit_arg_long_max_err.log");
+	system("echo exit 9223372036854775808 | bash --posix ; echo $? > ./tests/outputs_bash/exit_arg_long_max_err.log");
+	fd_msh = open("tests/outputs_m_sh/exit_arg_long_max_err.log", O_RDONLY);
+	fd_bsh = open("tests/outputs_bash/exit_arg_long_max_err.log", O_RDONLY);
+	readed = read(fd_bsh, output_bsh, 100);
+	output_bsh[readed] = 0;
+	readed = read(fd_msh, output_msh, 100);
+	output_msh[readed] = 0;
+	cr_assert_str_eq(output_msh, output_bsh);
+	close(fd_bsh);
+	close(fd_msh);
+	system("rm ./tests/outputs_m_sh/exit_arg_long_max_err.log ./tests/outputs_bash/exit_arg_long_max_err.log");
+}
+
+Test(exit_suite_code, exit_arg_long_min)
+{
+	int fd_msh = -1;
+	int fd_bsh = -1;
+	int readed = 0;
+	char output_msh[1000];
+	char output_bsh[1000];
+
+	system("echo exit -9223372036854775808 | ./minishell ; echo $? > ./tests/outputs_m_sh/exit_arg_long_min.log");
+	system("echo exit -9223372036854775808 | bash --posix ; echo $? > ./tests/outputs_bash/exit_arg_long_min.log");
+	fd_msh = open("tests/outputs_m_sh/exit_arg_long_min.log", O_RDONLY);
+	fd_bsh = open("tests/outputs_bash/exit_arg_long_min.log", O_RDONLY);
+	readed = read(fd_bsh, output_bsh, 100);
+	output_bsh[readed] = 0;
+	readed = read(fd_msh, output_msh, 100);
+	output_msh[readed] = 0;
+	cr_assert_str_eq(output_msh, output_bsh);
+	close(fd_bsh);
+	close(fd_msh);
+	system("rm ./tests/outputs_m_sh/exit_arg_long_min.log ./tests/outputs_bash/exit_arg_long_min.log");
+}
+
+Test(exit_suite_code, exit_arg_long_min_err)
+{
+	int fd_msh = -1;
+	int fd_bsh = -1;
+	int readed = 0;
+	char output_msh[1000];
+	char output_bsh[1000];
+
+	system("echo exit -9223372036854775809 | ./minishell ; echo $? > ./tests/outputs_m_sh/exit_arg_long_min_err.log");
+	system("echo exit -9223372036854775809 | bash --posix ; echo $? > ./tests/outputs_bash/exit_arg_long_min_err.log");
+	fd_msh = open("tests/outputs_m_sh/exit_arg_long_min_err.log", O_RDONLY);
+	fd_bsh = open("tests/outputs_bash/exit_arg_long_min_err.log", O_RDONLY);
+	readed = read(fd_bsh, output_bsh, 100);
+	output_bsh[readed] = 0;
+	readed = read(fd_msh, output_msh, 100);
+	output_msh[readed] = 0;
+	cr_assert_str_eq(output_msh, output_bsh);
+	close(fd_bsh);
+	close(fd_msh);
+	system("rm ./tests/outputs_m_sh/exit_arg_long_min_err.log ./tests/outputs_bash/exit_arg_long_min_err.log");
+}
