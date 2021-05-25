@@ -20,6 +20,12 @@ void	display_expansion_parts(char *beginning, char *expansion, char *remaining, 
 
 int		is_expansion_delimiter(char c, int key_len)
 {	
+/*
+	if (key_len == 0)
+		return (ft_isalnum(c) == 0 && c != '_');
+	else
+		return ((ft_isalnum(c) == 0 && c != '_') || c == '$');
+				*/
 	if (key_len == 0)
 		return (c == '\0' || c == '\'' || c == '\"' || c == '\\'
 				|| c == -'\0' || c == -'\'' || c == -'\"' || c == -'\\');
@@ -84,7 +90,6 @@ char	*get_expansion_value(char *key_pos, t_list *env_list)
 
 void	expand_fd(t_token *token, t_list *env_list, char *dollar_pos)
 {
-//	t_list		*node;
 	t_expand	exp;
 
 	init_expand_struct(&exp, token);
@@ -106,11 +111,6 @@ void	expand_fd(t_token *token, t_list *env_list, char *dollar_pos)
 			if (exp.tmp_remaining != NULL)
 				concat_tmp_remaining(&exp);
 			*exp.remaining = '\0';
-				/*
-			node = get_env(env_list, dollar_pos + 1);
-			if (node)
-				exp.expansion = ((t_env*)node->content)->value;
-				*/
 			exp.expansion = get_expansion_value(dollar_pos + 1, env_list);
 			*exp.remaining = exp.tmp_c;
 			if (exp.expansion)
