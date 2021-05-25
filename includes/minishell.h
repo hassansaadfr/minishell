@@ -134,6 +134,7 @@ void		disable_raw_mode(t_termios orig_termios);
 int			init_buff_and_history(t_input *buff, t_list **history);
 int			init_termcaps(t_list *env_list);
 size_t		init_parse_struct(t_parse *p, char *line);
+void		init_expand_struct(t_expand *exp, t_token *token);
 
 /*
 **	FILE - utils_input.c

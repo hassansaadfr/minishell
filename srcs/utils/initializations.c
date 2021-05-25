@@ -74,3 +74,16 @@ size_t		init_parse_struct(t_parse *p, char *line)
 	p->line_start = line;
 	return (line_len);
 }
+
+void		init_expand_struct(t_expand *exp, t_token *token)
+{
+	exp->key_len = 0;
+	exp->beginning = token->arg;
+	exp->remaining = NULL;
+	exp->expansion = NULL;
+	exp->new_arg = NULL;
+	exp->tmp_c = '\0';
+	exp->tmp_new_arg = NULL;
+	exp->tmp_remaining = NULL;
+
+}

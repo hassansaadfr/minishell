@@ -1,0 +1,9 @@
+ $ $ $ $ $ $ 
+ft_alloc_tests
+includes
+libft
+Makefile
+minishell
+README.md
+srcs
+tests

@@ -68,4 +68,16 @@ typedef struct			s_token
 	char	*arg;
 }						t_token;
 
+typedef struct			s_expand
+{
+    int     key_len;
+    char    *beginning;
+    char    *expansion;
+    char    *remaining;
+    char    *new_arg;
+    char    tmp_c;
+    char    *tmp_new_arg;
+    char    *tmp_remaining;
+}						t_expand;
+
 #endif

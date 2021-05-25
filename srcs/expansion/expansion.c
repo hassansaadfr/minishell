@@ -1,47 +1,6 @@
 #include "minishell.h"
 
 /*
-   void	expand(t_list **cmd, t_list *env_list)
-   {	
-   char	*dollar_pos;
-   char	*arg_start;
-   t_token	*token;
-
-   token = (*cmd)->content;
-   dollar_pos = ft_strchr(token->arg, '$');
-   arg_start = token->arg;
-   while (dollar_pos)
-   {
-   dollar_pos = ft_strchr(token->arg, '$');
-   }
-   }
-
-   t_list	*expand_args(t_list *cmd, t_list *env_list)
-   {
-   t_list	*list_start;
-   t_token	*token;
-
-   list_start = cmd;
-   while (cmd)
-   {
-   token = cmd->content;
-   if (arg_contains('$', token->arg))
-   {
-   if (token_is(FD, token))
-   expand_fd(cmd, env_list);
-   else if (arg_contains('"', token->arg))
-   expand_d_quote(cmd, env_list);
-   expand(&cmd, env_list);
-   remove_escaping(cmd);
-   neg_to_pos(cmd);
-   }
-   cmd = cmd->next;
-   }
-   return (list_start);
-   }
- */
-
-/*
    1 - trouver le '$'
 //2 - incrementer le ptr sur la pos ==> on est sur la position de la premiere lettre de la key
 3 - trouver le bout de str qui constitue la key
@@ -69,87 +28,78 @@ int		is_expansion_delimiter(char c, int key_len)
 				|| c == -'\0' || c == -'\'' || c == -'\"' || c == -'\\' || c == -' ');
 }
 
+int		dollar_must_be_printed(char c)
+{
+	return (c == '\0' || c == '\\' || c == ' ' || c == -' ' || c == '\"');
+}
+
 void	expand_fd(t_token *token, t_list *env_list, char *dollar_pos)
 {
-	t_list	*node;
-	int		key_len;
-	char	*beginning;
-	char	*remaining;
-	char	*expansion;
-	char	*new_arg;
-	char	tmp_c;
-	char	*tmp_new_arg;
-	char	*tmp_remaining;
+	t_list		*node;
+	t_expand	exp;
 
-	new_arg = NULL;
-	remaining = NULL;
+	init_expand_struct(&exp, token);
 	while (dollar_pos)
 	{
-		key_len = 0;
-		expansion = NULL;
-		// IF '$' MUST BE LEFT AS IS
-		if (dollar_pos[1] == '\0' || dollar_pos[1] == '\\' || dollar_pos[1] == ' '
-				|| dollar_pos[1] == -' ' || dollar_pos[1] == '\"')
+		exp.key_len = 0;
+		exp.expansion = NULL;
+		if (dollar_must_be_printed(dollar_pos[1]))
 			dollar_pos = ft_strchr(dollar_pos + 1, '$');
-		// IF EXPANSION NEEDED
 		else
 		{
-			beginning = token->arg;
-			while (is_expansion_delimiter(dollar_pos[key_len], key_len) == 0)
-				key_len++;
-			tmp_remaining = remaining;
-			remaining = dollar_pos + key_len;
-			tmp_c = *remaining;
+			exp.beginning = token->arg;
+			while (is_expansion_delimiter(dollar_pos[exp.key_len], exp.key_len) == 0)
+				exp.key_len++;
+			exp.tmp_remaining = exp.remaining;
+			exp.remaining = dollar_pos + exp.key_len;
+			exp.tmp_c = *exp.remaining;
 			*dollar_pos = '\0';
-			if (tmp_remaining != NULL)
+			if (exp.tmp_remaining != NULL)
 			{
-				tmp_new_arg = new_arg;
-				new_arg = ft_strjoin(new_arg, tmp_remaining);
-				tmp_remaining = NULL;
-				ft_free_ptr((void**)&tmp_new_arg);
-				tmp_new_arg = NULL;
+				exp.tmp_new_arg = exp.new_arg;
+				exp.new_arg = ft_strjoin(exp.new_arg, exp.tmp_remaining);
+				exp.tmp_remaining = NULL;
+				ft_free_ptr((void**)&exp.tmp_new_arg);
+				exp.tmp_new_arg = NULL;
 			}
-			*remaining = '\0';
+			*exp.remaining = '\0';
 			node = get_env(env_list, dollar_pos + 1);
 			if (node)
-				expansion = ((t_env*)node->content)->value;
-			*remaining = tmp_c;
-			if (expansion)
+				exp.expansion = ((t_env*)node->content)->value;
+			*exp.remaining = exp.tmp_c;
+			if (exp.expansion)
 			{
-				// PASS ESC CHARS AND SPACES IN expansion TO NEGATIVE HERE
-				if (new_arg == NULL)
-				{
-					display_expansion_parts(beginning, expansion, remaining, key_len);
-					new_arg = ft_strjoin(beginning, expansion);
-				}
+				if (exp.new_arg == NULL)
+					exp.new_arg = ft_strjoin(exp.beginning, exp.expansion);
 				else
 				{
-					display_expansion_parts(new_arg, expansion, remaining, key_len);
-					tmp_new_arg = new_arg;
-					new_arg = ft_strjoin(new_arg, expansion);
-					ft_free_ptr((void**)&tmp_new_arg);
-					tmp_new_arg = NULL;
+					exp.tmp_new_arg = exp.new_arg;
+					exp.new_arg = ft_strjoin(exp.new_arg, exp.expansion);
+					exp.expansion = NULL;
+					ft_free_ptr((void**)&exp.tmp_new_arg);
+					exp.tmp_new_arg = NULL;
 				}
 			}
-			dollar_pos = ft_strchr(remaining, '$');
+			dollar_pos = ft_strchr(exp.remaining, '$');
 		}
 	}
-	if (not_empty(remaining))
+	if (exp.remaining != NULL && not_empty(exp.remaining))
 	{
-		if (new_arg == NULL)
-			tmp_new_arg = token->arg;
+		if (exp.new_arg == NULL)
+			exp.tmp_new_arg = token->arg;
 		else
-			tmp_new_arg = new_arg;
-		new_arg = ft_strjoin(tmp_new_arg, remaining);
-		if (tmp_new_arg == token->arg)
+			exp.tmp_new_arg = exp.new_arg;
+		exp.new_arg = ft_strjoin(exp.tmp_new_arg, exp.remaining);
+		if (exp.tmp_new_arg == token->arg)
 			ft_free_ptr((void**)&token->arg);
 		else
 		{
-			ft_free_ptr((void**)&tmp_new_arg);
+			ft_free_ptr((void**)&exp.tmp_new_arg);
 			ft_free_ptr((void**)&token->arg);
 		}
 	}
-	token->arg = new_arg;
+	if (exp.new_arg)
+		token->arg = exp.new_arg;
 }
 
 t_list	*expand_redirs(t_list **redirs, t_list *env_list)
