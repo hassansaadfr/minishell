@@ -33,9 +33,58 @@ int		dollar_must_be_printed(char c)
 	return (c == '\0' || c == '\\' || c == ' ' || c == -' ' || c == '\"');
 }
 
+void	concat_expansion(t_expand *exp)
+{
+	if (exp->new_arg == NULL)
+	{
+		display_expansion_parts(exp->beginning, exp->expansion, exp->remaining, exp->key_len);
+		exp->new_arg = ft_strjoin(exp->beginning, exp->expansion);
+		exp->expansion = NULL;
+	}
+	else
+	{
+		display_expansion_parts(exp->new_arg, exp->expansion, exp->remaining, exp->key_len);
+		exp->tmp_new_arg = exp->new_arg;
+		exp->new_arg = ft_strjoin(exp->new_arg, exp->expansion);
+		exp->expansion = NULL;
+		ft_free_ptr((void**)&exp->tmp_new_arg);
+		exp->tmp_new_arg = NULL;
+	}
+}
+
+void	concat_tmp_remaining(t_expand *exp)
+{
+	if (exp->new_arg == NULL)
+	{
+		display_expansion_parts(exp->beginning, exp->expansion, exp->remaining, exp->key_len);
+		exp->new_arg = ft_strjoin(exp->beginning, exp->tmp_remaining);
+		exp->tmp_remaining = NULL;
+	}
+	else
+	{
+		exp->tmp_new_arg = exp->new_arg;
+		exp->new_arg = ft_strjoin(exp->new_arg, exp->tmp_remaining);
+		exp->tmp_remaining = NULL;
+		ft_free_ptr((void**)&exp->tmp_new_arg);
+		exp->tmp_new_arg = NULL;
+	}
+}
+
+char	*get_expansion_value(char *key_pos, t_list *env_list)
+{
+	t_list	*node;
+	char	*env_value;
+
+	env_value = NULL;
+	node = get_env(env_list, key_pos);
+	if (node)
+		env_value = ((t_env*)node->content)->value;
+	return (env_value);
+}
+
 void	expand_fd(t_token *token, t_list *env_list, char *dollar_pos)
 {
-	t_list		*node;
+//	t_list		*node;
 	t_expand	exp;
 
 	init_expand_struct(&exp, token);
@@ -55,31 +104,17 @@ void	expand_fd(t_token *token, t_list *env_list, char *dollar_pos)
 			exp.tmp_c = *exp.remaining;
 			*dollar_pos = '\0';
 			if (exp.tmp_remaining != NULL)
-			{
-				exp.tmp_new_arg = exp.new_arg;
-				exp.new_arg = ft_strjoin(exp.new_arg, exp.tmp_remaining);
-				exp.tmp_remaining = NULL;
-				ft_free_ptr((void**)&exp.tmp_new_arg);
-				exp.tmp_new_arg = NULL;
-			}
+				concat_tmp_remaining(&exp);
 			*exp.remaining = '\0';
+				/*
 			node = get_env(env_list, dollar_pos + 1);
 			if (node)
 				exp.expansion = ((t_env*)node->content)->value;
+				*/
+			exp.expansion = get_expansion_value(dollar_pos + 1, env_list);
 			*exp.remaining = exp.tmp_c;
 			if (exp.expansion)
-			{
-				if (exp.new_arg == NULL)
-					exp.new_arg = ft_strjoin(exp.beginning, exp.expansion);
-				else
-				{
-					exp.tmp_new_arg = exp.new_arg;
-					exp.new_arg = ft_strjoin(exp.new_arg, exp.expansion);
-					exp.expansion = NULL;
-					ft_free_ptr((void**)&exp.tmp_new_arg);
-					exp.tmp_new_arg = NULL;
-				}
-			}
+				concat_expansion(&exp);
 			dollar_pos = ft_strchr(exp.remaining, '$');
 		}
 	}
