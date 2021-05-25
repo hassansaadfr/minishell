@@ -19,7 +19,7 @@ int		add_to_history(t_input *buff, t_list **history)
 	char	*line;
 	t_list	*new_node;
 
-	if (buff->buffer[0] != '\0')
+	if (not_empty(buff->buffer))
 	{
 		line = ft_strdup(buff->buffer);
 		if (line == NULL)

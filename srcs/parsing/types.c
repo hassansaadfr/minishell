@@ -5,6 +5,12 @@ int		is_redir(enum e_types type)
 	return (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP);
 }
 
+int		is_redir_or_fd(t_list *node)
+{
+	return (is_redir(((t_token*)node->content)->type)
+			|| ((t_token*)node->content)->type == FD);
+}
+
 int		check_exclusions(enum e_types type, t_token *last_token)
 {
 	if (type == S_COLON)

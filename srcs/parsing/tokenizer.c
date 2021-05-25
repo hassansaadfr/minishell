@@ -54,6 +54,8 @@ int		split_into_tokens(t_parse *p, char **line)
 			s_quote(p, line);
 		else if (d_quote_conditions(p, line))
 			d_quote(p, line);
+		else if (p->state == DLR_DQ)
+			dollar_in_d_quote(p, line);
 		else if ((**line == ' ' || **line == '\0') && p->state == NORMAL)
 			ret_add = space_or_null(p);
 		else if (is_metachar(**line) && p->state == NORMAL)
@@ -68,12 +70,6 @@ int		split_into_tokens(t_parse *p, char **line)
 		return (-NEWLINE);
 	return (1);
 }
-
-/*
-**	PROTECT p->buffer_start ALLOCATION
-**	OR PASS AN ALREADY ALLOCATED BUFFER LARGE ENOUGH
-**		=> (t_input buff.backup)
-*/
 
 t_list	*parsing(char *line)
 {

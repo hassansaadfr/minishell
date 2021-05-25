@@ -2,17 +2,9 @@ NAME			=	minishell
 
 TEST_NAME		=	minishell_test
 
-SRCS			=	main.c \
-					parse.c \
-					utils.c \
-					exec.c \
+SRCS			=	system/main.c \
+					system/signals.c \
 					debug.c \
-					prompt.c \
-					bin_builtins.c \
-					bin_paths.c \
-					bin_bins.c \
-					utils_mem.c \
-					signals.c \
 					env/parse_env.c \
 					env/utils_env.c \
 					env/utils_mem_env.c \
@@ -24,18 +16,31 @@ SRCS			=	main.c \
 					builtins/pwd.c \
 					builtins/unset.c \
 					builtins/history_builtin.c \
-					initializations.c \
+					utils/utils.c \
+					utils/utils_mem.c \
+					utils/initializations.c \
+					input/prompt.c \
 					input/termios.c \
 					input/utils_input.c \
 					input/termcaps.c \
 					input/input.c \
 					input/history.c \
+					parsing/old_parse.c \
 					parsing/tokenizer.c \
 					parsing/utils_quoting.c \
 					parsing/types.c \
 					parsing/parsing_errors.c \
 					parsing/utils_parsing.c \
-					parsing/utils_exclusions.c
+					parsing/utils_exclusions.c \
+					parsing/utils_d_quote.c \
+					exec/exec.c \
+					exec/bin_builtins.c \
+					exec/bin_paths.c \
+					exec/bin_bins.c \
+					exec2/exec2.c \
+					exec2/rearrange_lists.c \
+					expansion/expansion.c \
+					expansion/utils_expansion.c 
 
 TEST_SRCS		=	exit_test_messages.c \
 					exit_test_codes.c \
@@ -45,13 +50,13 @@ TEST_SRCS		=	exit_test_messages.c \
 					parsing/parsing_basic_redir_inf.c \
 					parsing/parsing_basic_redir_dsup.c \
 					parsing/parsing_complex_redir.c \
-					parsing/parsing_negatives.c \
-					parsing/parsing_escaped.c \
 					parsing/parsing_err_esc.c \
 					parsing/parsing_err_smc.c \
 					parsing/parsing_err_pipe.c \
 					parsing/parsing_err_redirs.c \
-					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c #signal_tests.c
+#					parsing/parsing_negatives.c \
+#					parsing/parsing_escaped.c \
+#					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c #signal_tests.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}

@@ -48,7 +48,8 @@ enum					e_state
 	NORMAL,
 	S_QUOTE,
 	D_QUOTE,
-	B_SLASH
+	B_SLASH,
+	DLR_DQ
 };
 
 typedef struct			s_parse
@@ -66,5 +67,17 @@ typedef struct			s_token
 	int		type;
 	char	*arg;
 }						t_token;
+
+typedef struct			s_expand
+{
+    int     key_len;
+    char    *beginning;
+    char    *expansion;
+    char    *remaining;
+    char    *new_arg;
+    char    tmp_c;
+    char    *tmp_new_arg;
+    char    *tmp_remaining;
+}						t_expand;
 
 #endif

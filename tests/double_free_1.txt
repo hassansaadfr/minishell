@@ -1,0 +1,3 @@
+cmd0 ; cmd1
+<in1 cat >out1 >>out2 arg1 arg2
+<in1 cat >out1 >>$VAR' 'et\ des" conneries"

@@ -21,21 +21,14 @@
 /*
 **	FILE - main.c
 */
-int			minishell(t_termios orig_termios);
+//int			minishell(t_termios orig_termios);
+//int			minishell(void);
+int			minishell(t_list *env_list);
 
 /*
 ** FILE - parse.c
 */
 char		***parse(char *cmd);
-
-/*
-** FILE - exec.c
-*/
-int			exec(char ***cmds, t_list *env_list, t_termios orig_termios,
-		t_list *history);
-int			exec_bin(char *path, char **args, t_list *env_list,
-			t_termios orig_termios);
-char		*create_full_path(char *bin_path, char *cmd);
 
 /*
 ** FILE - utils.c
@@ -48,6 +41,7 @@ int			handle_errno(int err, char *binary, char *arg);
 */
 void		dbg_display_stat_buff(struct stat stat_buff);
 void		display_tokens(t_list *tokens);
+void		display_splitted_cmd(t_list *cmd, int debug_i, char *type);
 char		*enum_to_str(int type);
 
 /*
@@ -89,11 +83,17 @@ int			delete_env(t_list *env_list, char *name);
 /*
 **	FILE - parse_env.c
 */
-
 char		*parse_env_value(char *env);
 char		*parse_env_name(char *env);
 char		**list_to_array(t_list *env_list);
 int			is_valid_env_name(char *name, char *binary);
+
+/*
+** FILE - exec.c
+*/
+int			execution(char ***cmds, t_list *env_list, t_list *history);
+int			exec_bin(char *path, char **args, t_list *env_li);
+char		*create_full_path(char *bin_path, char *cmd);
 
 /*
 **	FILE - utils_mem_env.c
@@ -113,14 +113,12 @@ int			exec_from_builtins(char **cmd, t_list *env_list, t_list	*history);
 **	FILE - bin_paths.c
 */
 int			is_path(char *cmd);
-int			exec_from_path(char **cmd, t_list *env_list,
-			t_termios orig_termios);
+int			exec_from_path(char **cmd, t_list *env_list);
 
 /*
 **	FILE - bin_bins.c
 */
-int			exec_from_bins(char **cmd, t_list *env_list,
-			t_termios orig_termios);
+int			exec_from_bins(char **cmd, t_list *env_list);
 
 /*
 **	FILE - signals.c
@@ -139,6 +137,7 @@ void		disable_raw_mode(t_termios orig_termios);
 int			init_buff_and_history(t_input *buff, t_list **history);
 int			init_termcaps(t_list *env_list);
 size_t		init_parse_struct(t_parse *p, char *line);
+void		init_expand_struct(t_expand *exp, t_token *token);
 
 /*
 **	FILE - utils_input.c
@@ -187,6 +186,14 @@ int			add_to_tokens_list(t_parse *p);
 void		backslash(t_parse *p, char **line);
 void		s_quote(t_parse *p, char **line);
 void		d_quote(t_parse *p, char **line);
+void		dollar_in_d_quote(t_parse *p, char **line);
+
+/*
+**	FILE - utils_d_quote.c
+*/
+void		open_d_quote(t_parse *p, char **line);
+void		close_d_quote(t_parse *p, char **line);
+void		dollar_in_d_quote(t_parse *p, char **line);
 
 /*
 **	FILE - utils_parsing.c
@@ -201,6 +208,7 @@ int			d_quote_conditions(t_parse *p, char **line);
 */
 int			typing(t_parse *p);
 int			is_redir(enum e_types type);
+int			is_redir_or_fd(t_list *node);
 
 /*
 **	FILE - parsing_errors.c
@@ -214,5 +222,28 @@ int			smc_exclusions(t_token *last_token);
 int			pipe_exclusions(t_token *last_token);
 int			redirs_exclusions(t_token *last_token, int curr_type);
 int			newline_exclusions(t_list *last_node);
+
+/*
+**	FILE - exec2.c
+*/
+int			executing(t_list *tokens, t_list *env, t_list *history);
+
+/*
+**	FILE - rearrange_lists.c
+*/
+t_list		*isolate_indpdt_cmd(t_list **tokens);
+t_list		*isolate_redirs(t_list **args);
+
+/*
+**	FILE - utils_expansion.c
+*/
+int			token_is(int wanted_type, t_token *token);
+void		*arg_contains(char wanted_char, char *arg);
+
+/*
+**	FILE - expansion.c
+*/
+t_list		*expand_redirs(t_list **redirs, t_list *env_list);
+t_list		*expansion(t_list *cmd, t_list *env_list);
 
 #endif
