@@ -57,12 +57,12 @@ int		execute_simple_cmd(t_list *tokens, t_list *env_list, int debug_i)
 	if (tokens)
 	{
 		//expand_args();
-		reformat(tokens);
+		//reformat(tokens);
 		display_splitted_cmd(tokens, debug_i, "ARG");
 	}
 	if (redirs)
 	{
-		//redirs = expand_redirs(&redirs, env_list);
+		redirs = expand_redirs(&redirs, env_list);
 		reformat(redirs);
 		display_splitted_cmd(redirs, debug_i, "RDR");
 	}
