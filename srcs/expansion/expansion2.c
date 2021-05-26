@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-char    *get_expansion_value(char *key_pos, t_list *env_list)
+char	*get_expansion_value(char *key_pos, t_list *env_list)
 {
-	t_list  *node;
-	char    *env_value;
+	t_list	*node;
+	char	*env_value;
 
 	env_value = NULL;
 	node = get_env(env_list, key_pos);
@@ -18,16 +18,17 @@ char	*concat_expansion(char *new_arg, char *key_pos, t_list *env_list)
 	char	*expansion;
 
 	if (*key_pos == '\0' || *key_pos == ' ' || *key_pos == -' '
-		|| *key_pos == '\\' || *key_pos == -'\\')
+			|| *key_pos == '\\' || *key_pos == -'\\')
 		expansion = ft_strdup("$");
 	else
 		expansion = get_expansion_value(key_pos, env_list);
 	if (expansion != NULL)
 	{
+	// PASS ESC CHARS AND SPACES IN expansion TO NEGATIVE HERE
 		tmp = new_arg;
 		new_arg = ft_strjoin(new_arg, expansion);
 		ft_free_ptr((void**)&tmp);
-		ft_free_ptr((void**)&expansion);
+//		ft_free_ptr((void**)&expansion);
 	}
 	return (new_arg);
 }
@@ -42,7 +43,8 @@ char	*concat_remaining(char *new_arg, char *remaining)
 	return (new_arg);
 }
 
-void	prepare_concat(char **dollar_pos, char **new_arg, char **remaining, char *tmp_c)
+void	prepare_concat(char **dollar_pos, char **new_arg, char **remaining,
+		char *tmp_c)
 {
 	char	*tmp;
 
@@ -80,8 +82,8 @@ void	expand_in_token(t_token *token, t_list *env_list, char *dollar_pos)
 		}
 		else
 		{
-			if (not_empty(remaining)) 
-				new_arg = concat_remaining(new_arg, remaining); 
+			if (not_empty(remaining))
+				new_arg = concat_remaining(new_arg, remaining);
 			remaining = NULL;
 		}
 	}

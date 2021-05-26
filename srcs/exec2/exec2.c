@@ -63,7 +63,7 @@ int		execute_simple_cmd(t_list *tokens, t_list *env_list, int debug_i)
 	if (redirs)
 	{
 		redirs = expand_redirs(&redirs, env_list);
-		reformat(redirs);
+//		reformat(redirs);
 		display_splitted_cmd(redirs, debug_i, "RDR");
 	}
 	// HASSAN - PERFORM REDIRS
