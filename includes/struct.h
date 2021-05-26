@@ -80,4 +80,19 @@ typedef struct			s_expand
     char    *tmp_remaining;
 }						t_expand;
 
+enum					e_err_msg_exit
+{
+	ARG_NUMERIC,
+	TOO_MUCH_ARGS
+};
+
+enum					e_path
+{
+	NO_PATH,
+	ABSOLUTE_PATH,
+	RELATIVE_PATH
+};
+
+typedef enum e_path		t_path;
+
 #endif

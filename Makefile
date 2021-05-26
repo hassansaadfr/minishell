@@ -19,6 +19,7 @@ SRCS			=	system/main.c \
 					utils/utils.c \
 					utils/utils_mem.c \
 					utils/initializations.c \
+					utils/errors.c \
 					input/prompt.c \
 					input/termios.c \
 					input/utils_input.c \

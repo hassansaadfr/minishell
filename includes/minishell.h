@@ -252,5 +252,9 @@ t_list		*expansion(t_list *cmd, t_list *env_list);
 */
 t_path		get_path_type(char *str);
 
+/*
+**	FILE - expansion.c
+*/
+void		print_err(char *binary, char *arg, char *err);
 
 #endif

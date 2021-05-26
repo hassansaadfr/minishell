@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-/*
-** TODO:
-** check create_full_path return value
-** check stat return value
-** if ret_stat != 0 set errno
-*/
-
 char	*which_bin_fld(char *bin, char **bin_paths)
 {
 	char			*path;
@@ -48,34 +41,6 @@ static char	*find_bin_in_path(char *bin, t_list *env_list)
 	return (path);
 }
 
-int		exec_from_bins(char **cmd, t_list *env_list/*, t_termios orig_termios*/)
-{
-	t_list		*env_node;
-	char		*path;
-	char		**bin_paths;
-
-	errno = 0;
-	env_node = get_env(env_list, "PATH");
-	if (env_node)
-	{
-		path = ((t_env*)env_node->content)->value;
-		bin_paths = ft_split(path, ':');
-		path = which_bin_fld(cmd[0], bin_paths);
-		free_split(bin_paths);
-		if (path)
-		{
-			exec_bin(path, cmd, env_list);
-			ft_free_ptr((void**)&path);
-		}
-	}
-	return (0);
-}
-
-/*
-** TODO:
-** - Check strjoin returns
-*/
-
 char		*create_full_path(char *bin_path, char *cmd)
 {
 	char	*tmp;
@@ -88,51 +53,33 @@ char		*create_full_path(char *bin_path, char *cmd)
 	return (s);
 }
 
-// int		search_bin(char *cmd, t_list *env_list)
-// {
-// 	char	*path_env;
-// 	char	*path;
-// 	char	**bin_paths;
-
-// 	path_env = get_env_value(env_list, "path");
-// 	if (path_env)
-// 	{
-// 		bin_paths = ft_split(path_env, ':');
-// 		path = which_bin_fld(cmd, bin_paths);
-// 		free_split(bin_paths);
-// 		ft_free_ptr((void**)&path_env);
-// 	}
-// 	return (0);
-// }
-
-/*
-** waitpid() return -1 on error
-** pid > 0 = parent
-** pid == 0 = child
-*/
-
 int			exec_bin(char *path, char **args, t_list *env_list)
 {
 	int		ret;
 	int		status;
 	char	**env;
+	int		exec_ret;
 
 	errno = 0;
+	exec_ret = 0;
 	g_global.pid = fork();
 	env = NULL;
 	if (g_global.pid > 0)
 	{
 		ret = waitpid(0, &status, 0);
 		g_global.pid = 0;
+		exec_ret = WEXITSTATUS(status);
 	}
-	else if (g_global.pid == 0)
+	else if (g_global.pid == CHILD_PID)
 	{
 		env = list_to_array(env_list);
-		ret = execve(path, args, env);
+		exec_ret = execve(path, args, env);
+		if (exec_ret == -1)
+			return (125 + errno);
 	}
 	else
 		printf("ERROR - fork\n");
-	return (0);
+	return (exec_ret);
 }
 
 static char	*get_path(char *cmd, t_list *env_list)
@@ -150,32 +97,64 @@ static char	*get_path(char *cmd, t_list *env_list)
 		path = create_full_path(pwd, cmd);
 	else
 		path = cmd;
-	// STAT => CHECK EXISTENCE (127 if error) AND PERMISSIONS (126 if error) HERE, ERROR DISPLAY IN FUNCTION
 	return (path);
+}
+
+static int	can_exec(char *path)
+{
+	struct stat		stat_buff;
+	int				ret_stat;
+
+	errno = 0;
+	ret_stat = stat(path, &stat_buff);
+	if ((stat_buff.st_mode & S_IXOTH) == 1)
+		return (ret_stat);
+	else
+	{
+		errno = EPERM;
+		return (125 + errno);
+	}
 }
 
 static int	search_bin(char **cmd, t_list *env_list, t_list *history)
 {
-	int	ret_exec;
-	char *path;
+	char	*path;
+	char	*lang;
 
-	ret_exec = 0;
+	lang = NULL;
 	if (is_builtin(cmd))
-		ret_exec = exec_from_builtins(cmd, env_list, history);
+		return (exec_from_builtins(cmd, env_list, history));
 	else
 	{
 		path = get_path(cmd[0], env_list);
 		if (path == NULL)
 		{
-			ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
-			ft_putendl_fd(*cmd, STDERR_FILENO);
+			lang = get_env_value(env_list, "LANG");
+			if (lang && ft_strncmp(lang, "fr_FR", 4) == 0)
+				print_err(NULL, cmd[0], COMMAND_NOT_FOUND_FR);
+			else
+				print_err(NULL, cmd[0], COMMAND_NOT_FOUND_EN);
+			return (-1);
+		}
+		else
+		{
+			ft_free_ptr((void**)&cmd[0]);
+			cmd[0] = path;
+			return (can_exec(path));
 		}
 	}
-	return (ret_exec);
 }
 
 int			execution(char **cmds, t_list *env_list, t_list *history)
 {
-	search_bin(cmds, env_list, history);
-	return (0);
+	int		can_exec;
+	int		return_value;
+
+	return_value = 0;
+	can_exec = search_bin(cmds, env_list, history);
+	if (can_exec == 0)
+		return_value = exec_bin(cmds[0], cmds, env_list);
+	else if (can_exec > 125)
+		print_err(NULL, cmds[0], strerror(can_exec - 125));
+	return (return_value);
 }
