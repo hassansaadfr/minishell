@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	process_is_parent()
+static int	process_is_parent(void)
 {
 	if (g_global.pid > 0)
 		return (PARENT_PID);
