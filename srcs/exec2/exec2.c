@@ -41,10 +41,50 @@ void	reformat(t_list *list)
 	while (list)
 	{
 		token = list->content;
-		if (contains_esc_or_neg_chars(token->arg))	
+		if (contains_esc_or_neg_chars(token->arg))
 			sanitize(token->arg);
 		list = list->next;
 	}
+}
+
+void	display_token(t_list *tokens)
+{
+	t_list *tmp;
+	t_token *tok;
+
+	tmp = tokens;
+	while (tmp)
+	{
+		tok = tmp->content;
+		printf("token : %s\n", tok->arg);
+		tmp = tmp->next;
+	}
+}
+
+char	**token_list_to_array(t_list *token_list)
+{
+	int		size;
+	char	**array;
+	int		i;
+	t_list	*tmp_lst;
+
+	size = ft_lstsize(token_list);
+	i = 0;
+	array = ft_alloc(sizeof(char*) * (size + 1));
+	array[size] = NULL;
+	tmp_lst = token_list;
+	while (tmp_lst)
+	{
+		t_token *tmp = tmp_lst->content;
+		array[i] = ft_strdup(tmp->arg);
+		// ft_lstdelone(&token_list, free_token);
+		i++;
+		tmp_lst = tmp_lst->next;
+	}
+	i = 0;
+	while (array[i])
+		printf("%s\n", array[i++]);
+	return (array);
 }
 
 int		execute_simple_cmd(t_list *tokens, t_list *env_list, int debug_i)
@@ -53,23 +93,26 @@ int		execute_simple_cmd(t_list *tokens, t_list *env_list, int debug_i)
 	int		ret_exec;
 	t_list	*redirs;
 
+	(void)debug_i;
 	redirs = isolate_redirs(&tokens);
 	if (tokens)
 	{
 		//expand_args();
 		reformat(tokens);
-		display_splitted_cmd(tokens, debug_i, "ARG");
+		// display_splitted_cmd(tokens, debug_i, "ARG");
 	}
 	if (redirs)
 	{
 		//redirs = expand_redirs(&redirs, env_list);
 		reformat(redirs);
-		display_splitted_cmd(redirs, debug_i, "RDR");
+		// display_splitted_cmd(redirs, debug_i, "RDR");
 	}
 	// HASSAN - PERFORM REDIRS
 	// HASSAN - EXEC(tokens)
+	token_list_to_array(tokens);
+
 	ft_lstclear(&redirs, free_token);
-	ft_lstclear(&tokens, free_token);
+	// ft_lstclear(&tokens, free_token);
 	ret_exec = 0;
 	return (0);
 }
@@ -86,7 +129,7 @@ int		executing(t_list *tokens, t_list *env_list, t_list *history)
 	while (tokens)
 	{
 		indpdt_cmd = isolate_indpdt_cmd(&tokens);
-		display_splitted_cmd(indpdt_cmd, debug_i, "CMD");
+		// display_splitted_cmd(indpdt_cmd, debug_i, "CMD");
 		ret_exec = execute_simple_cmd(indpdt_cmd, env_list, debug_i++);
 	}
 	return (ret_exec);

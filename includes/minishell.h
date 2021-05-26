@@ -79,6 +79,7 @@ int			new_env(t_list *env_list, char *new_env);
 t_list		*get_env(t_list *env_list, char *name);
 int			edit_env(t_list *env_list, char *env);
 int			delete_env(t_list *env_list, char *name);
+char		*get_env_value(t_list *env_list, char *name);
 
 /*
 **	FILE - parse_env.c

@@ -102,3 +102,16 @@ int			delete_env(t_list *env_list, char *name)
 	}
 	return (out);
 }
+
+char		*get_env_value(t_list *env_list, char *name)
+{
+	char	*value;
+	t_list	*tmp;
+
+	value = NULL;
+	tmp = NULL;
+	tmp = get_env(env_list, name);
+	if (tmp)
+		value = tmp->content;
+	return (value);
+}
