@@ -95,4 +95,12 @@ enum					e_path
 
 typedef enum e_path		t_path;
 
+enum					e_pid
+{
+	PARENT_PID,
+	CHILD_PID,
+	ERROR_FORK
+};
+
+
 #endif

@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+static int	process_is_parent()
+{
+	if (g_global.pid > 0)
+		return (PARENT_PID);
+	else if (g_global.pid == 0)
+		return (CHILD_PID);
+	else
+		return (ERROR_FORK);
+}
+
 static int	exec_bin(char *path, char **args, t_list *env_list)
 {
 	int		ret;
@@ -11,13 +21,13 @@ static int	exec_bin(char *path, char **args, t_list *env_list)
 	exec_ret = 0;
 	g_global.pid = fork();
 	env = NULL;
-	if (g_global.pid > 0)
+	if (process_is_parent() == PARENT_PID)
 	{
 		ret = waitpid(0, &status, 0);
 		g_global.pid = 0;
 		exec_ret = WEXITSTATUS(status);
 	}
-	else if (g_global.pid == CHILD_PID)
+	else if (process_is_parent() == CHILD_PID)
 	{
 		env = list_to_array(env_list);
 		exec_ret = execve(path, args, env);

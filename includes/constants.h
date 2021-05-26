@@ -2,8 +2,6 @@
 
 # define CONSTANTS_H
 
-# define CHILD_PID 0
-
 # define INPUT_MAX 4096
 # define ENTER '\n'
 # define DELETE 127
