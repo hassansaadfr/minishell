@@ -31,11 +31,28 @@ char	*which_bin_fld(char *bin, char **bin_paths)
 		return (NULL);
 }
 
+static char	*find_bin_in_path(char *bin, t_list *env_list)
+{
+	char			*path;
+	char			*path_var_env;
+	char			**path_list;
+
+	path = NULL;
+	path_var_env = get_env_value(env_list, "PATH");
+	if (path_var_env)
+	{
+		path_list = ft_split(path_var_env, ':');
+		path = which_bin_fld(bin, path_list);
+		free_split(path_list);
+	}
+	return (path);
+}
+
 int		exec_from_bins(char **cmd, t_list *env_list/*, t_termios orig_termios*/)
 {
-	t_list			*env_node;
-	char			*path;
-	char			**bin_paths;
+	t_list		*env_node;
+	char		*path;
+	char		**bin_paths;
 
 	errno = 0;
 	env_node = get_env(env_list, "PATH");
@@ -120,13 +137,20 @@ int			exec_bin(char *path, char **args, t_list *env_list)
 
 static char	*get_path(char *cmd, t_list *env_list)
 {
-	char	*path;
+	char				*path;
+	t_path				path_type;
+	char				*pwd;
 
+	pwd = get_env_value(env_list, "PWD");
+	path_type = get_path_type(cmd);
 	path = NULL;
-	if (is_path(cmd))
-		path = create_full_path(get_env_value(env_list, "PWD"), cmd);
-	else if (ft_strcmp("./", cmd))
-		return (cmd);
+	if (path_type == NO_PATH)
+		path = find_bin_in_path(cmd, env_list);
+	else if (path_type == RELATIVE_PATH)
+		path = create_full_path(pwd, cmd);
+	else
+		path = cmd;
+	// STAT => CHECK EXISTENCE (127 if error) AND PERMISSIONS (126 if error) HERE, ERROR DISPLAY IN FUNCTION
 	return (path);
 }
 
@@ -140,30 +164,18 @@ static int	search_bin(char **cmd, t_list *env_list, t_list *history)
 		ret_exec = exec_from_builtins(cmd, env_list, history);
 	else
 	{
-		path = get_path(cmd[0], env_list); // cree un path si c'est un path ou si c'est dans les dossiers de binaires
-		// ret_stat = stat(path);
+		path = get_path(cmd[0], env_list);
+		if (path == NULL)
+		{
+			ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+			ft_putendl_fd(*cmd, STDERR_FILENO);
+		}
 	}
-	/*
-	else if (is_path(cmd[0]))
-		ret_exec = exec_from_path(cmd, env_list);
-	else
-		ret_exec = exec_from_bins(cmd, env_list);
-	if (ret_exec != 0 || ret_exec == NULL)
-	{
-		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
-		ft_putstr_fd(*cmd, STDERR_FILENO);
-	}
-	*/
 	return (ret_exec);
 }
 
-int			execution(char ***cmds, t_list *env_list, t_list *history)
+int			execution(char **cmds, t_list *env_list, t_list *history)
 {
-	int		i;
-
-	i = 0;
-	while (cmds[i])
-		search_bin(cmds[i++], env_list, history);
-	free_cmds(cmds);
+	search_bin(cmds, env_list, history);
 	return (0);
 }

@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-int			is_path(char *cmd)
-{
-	char	*slash_pos;
+// int			is_path(char *cmd)
+// {
+// 	char	*slash_pos;
 
-	slash_pos = ft_strchr(cmd, '/');
-	if (slash_pos)
-		return (1);
-	return (0);
-}
+// 	slash_pos = ft_strchr(cmd, '/');
+// 	if (slash_pos)
+// 		return (1);
+// 	return (0);
+// }
 
 /*
 ** TODO:

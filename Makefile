@@ -37,23 +37,25 @@ SRCS			=	system/main.c \
 					exec/bin_builtins.c \
 					exec/bin_paths.c \
 					exec/bin_bins.c \
+					exec/path_utils.c \
 					exec2/exec2.c \
 					exec2/rearrange_lists.c \
 					expansion/expansion.c \
-					expansion/utils_expansion.c 
+					expansion/utils_expansion.c
 
-TEST_SRCS		=	exit_test_messages.c \
-					exit_test_codes.c \
-					parsing/parsing_basic.c \
-					parsing/parsing_basic_pipe.c \
-					parsing/parsing_basic_redir_sup.c \
-					parsing/parsing_basic_redir_inf.c \
-					parsing/parsing_basic_redir_dsup.c \
-					parsing/parsing_complex_redir.c \
-					parsing/parsing_err_esc.c \
-					parsing/parsing_err_smc.c \
-					parsing/parsing_err_pipe.c \
-					parsing/parsing_err_redirs.c \
+TEST_SRCS		=	execution/path_type_parser.c \
+					#exit_test_messages.c \
+					#exit_test_codes.c \
+					#parsing/parsing_basic.c \
+					#parsing/parsing_basic_pipe.c \
+					#parsing/parsing_basic_redir_sup.c \
+					#parsing/parsing_basic_redir_inf.c \
+					#parsing/parsing_basic_redir_dsup.c \
+					#parsing/parsing_complex_redir.c \
+					#parsing/parsing_err_esc.c \
+					#parsing/parsing_err_smc.c \
+					#parsing/parsing_err_pipe.c \
+					#parsing/parsing_err_redirs.c \
 #					parsing/parsing_negatives.c \
 #					parsing/parsing_escaped.c \
 #					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c #signal_tests.c

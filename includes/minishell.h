@@ -92,7 +92,7 @@ int			is_valid_env_name(char *name, char *binary);
 /*
 ** FILE - exec.c
 */
-int			execution(char ***cmds, t_list *env_list, t_list *history);
+int			execution(char **cmds, t_list *env_list, t_list *history);
 int			exec_bin(char *path, char **args, t_list *env_li);
 char		*create_full_path(char *bin_path, char *cmd);
 
@@ -246,5 +246,11 @@ void		*arg_contains(char wanted_char, char *arg);
 */
 t_list		*expand_redirs(t_list **redirs, t_list *env_list);
 t_list		*expansion(t_list *cmd, t_list *env_list);
+
+/*
+**	FILE - expansion.c
+*/
+t_path		get_path_type(char *str);
+
 
 #endif

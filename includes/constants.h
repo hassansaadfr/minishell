@@ -24,4 +24,13 @@ enum	e_err_msg_exit
 	TOO_MUCH_ARGS
 };
 
+enum	e_path_type
+{
+	NO_PATH,
+	ABSOLUTE_PATH,
+	RELATIVE_PATH
+};
+
+typedef enum e_path_type	t_path;
+
 #endif

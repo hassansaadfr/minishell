@@ -77,13 +77,9 @@ char	**token_list_to_array(t_list *token_list)
 	{
 		t_token *tmp = tmp_lst->content;
 		array[i] = ft_strdup(tmp->arg);
-		// ft_lstdelone(&token_list, free_token);
 		i++;
 		tmp_lst = tmp_lst->next;
 	}
-	i = 0;
-	while (array[i])
-		printf("%s\n", array[i++]);
 	return (array);
 }
 
@@ -92,27 +88,34 @@ int		execute_simple_cmd(t_list *tokens, t_list *env_list, int debug_i)
 	(void)env_list;
 	int		ret_exec;
 	t_list	*redirs;
+	char	**cmds;
 
 	(void)debug_i;
+	cmds = NULL;
 	redirs = isolate_redirs(&tokens);
 	if (tokens)
 	{
 		//expand_args();
 		reformat(tokens);
-		// display_splitted_cmd(tokens, debug_i, "ARG");
 	}
 	if (redirs)
 	{
 		//redirs = expand_redirs(&redirs, env_list);
 		reformat(redirs);
-		// display_splitted_cmd(redirs, debug_i, "RDR");
 	}
 	// HASSAN - PERFORM REDIRS
 	// HASSAN - EXEC(tokens)
-	token_list_to_array(tokens);
-
+	if  (tokens)
+	{
+		cmds = token_list_to_array(tokens);
+		if (cmds)
+		{
+			execution(cmds, env_list, NULL);
+			free_split(cmds);
+		}
+		ft_lstclear(&tokens, free_token);
+	}
 	ft_lstclear(&redirs, free_token);
-	// ft_lstclear(&tokens, free_token);
 	ret_exec = 0;
 	return (0);
 }

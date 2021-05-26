@@ -24,7 +24,7 @@ int		builtin_history(char **argv, t_list *env_list, t_list *history)
 	else
 	{
 		ft_putendl_fd("minishell: history: Argument list too long", 2);
-		return (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }

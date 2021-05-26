@@ -56,7 +56,8 @@ static int	minishell_non_tty(t_list *env_list)
 {
 	int		ret_gnl;
 	char	*line;
-	char	***cmds;
+	// char	***cmds;
+	t_list		*tokens;
 
 	line = NULL;
 	ret_gnl = 1;
@@ -66,8 +67,10 @@ static int	minishell_non_tty(t_list *env_list)
 		ret_gnl = get_next_line(STDIN_FILENO, &line);
 		if (*line)
 		{
-			cmds = parse(line);
-			execution(cmds, env_list, NULL);
+			tokens = parsing(line);
+			executing(tokens, env_list, NULL);
+			// cmds = parse(line);
+			// execution(cmds, env_list, NULL);
 		}
 		ft_free_ptr((void**)&line);
 	}
