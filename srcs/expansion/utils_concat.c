@@ -1,10 +1,13 @@
 #include "minishell.h"
 
+// PASS tmp_c (FROM expand_in_token()) and 
 char    *concat_expansion(char *new_arg, char *key_pos, t_list *env_list)
 {
 	char    *tmp;
 	char    *expansion;
 
+	// IF '$' WAS NOT FOLLOWED BY AN alnum OR A '_', key_pos WILL ALWAYS BE '\0'
+	// PASS MORE PARAMS
 	if (*key_pos == '\0' || *key_pos == ' ' || *key_pos == -' '
 			|| *key_pos == '\\' || *key_pos == -'\\')
 		expansion = ft_strdup("$");
