@@ -36,8 +36,6 @@ SRCS			=	system/main.c \
 					parsing/utils_d_quote.c \
 					exec/exec.c \
 					exec/bin_builtins.c \
-					exec/bin_paths.c \
-					exec/bin_bins.c \
 					exec/path_utils.c \
 					exec2/exec2.c \
 					exec2/rearrange_lists.c \
