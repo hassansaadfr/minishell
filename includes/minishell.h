@@ -1,4 +1,4 @@
-#ifndef MINISHELL_H
+# ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include <stdio.h>
@@ -21,8 +21,6 @@
 /*
 **	FILE - main.c
 */
-//int			minishell(t_termios orig_termios);
-//int			minishell(void);
 int			minishell(t_list *env_list);
 
 /*
@@ -43,10 +41,11 @@ void		dbg_display_stat_buff(struct stat stat_buff);
 void		display_tokens(t_list *tokens);
 void		display_splitted_cmd(t_list *cmd, int debug_i, char *type);
 char		*enum_to_str(int type);
+void		print_token_str(char *arg);
 
 /*
-**	FILE - prompt.c
-*/
+ **	FILE - prompt.c
+ */
 void		prompt(void);
 
 /*
@@ -79,6 +78,7 @@ int			new_env(t_list *env_list, char *new_env);
 t_list		*get_env(t_list *env_list, char *name);
 int			edit_env(t_list *env_list, char *env);
 int			delete_env(t_list *env_list, char *name);
+char		*get_env_value(t_list *env_list, char *name);
 
 /*
 **	FILE - parse_env.c
@@ -98,7 +98,6 @@ char		*create_full_path(char *bin_path, char *cmd);
 /*
 **	FILE - utils_mem_env.c
 */
-
 t_list		*init_env(char **envp);
 t_list		*init_env_node(char *env);
 void		free_env_node(void *ptr);
@@ -227,6 +226,7 @@ int			newline_exclusions(t_list *last_node);
 **	FILE - exec2.c
 */
 int			executing(t_list *tokens, t_list *env, t_list *history);
+void		reformat(t_list *list);
 
 /*
 **	FILE - rearrange_lists.c
@@ -244,6 +244,20 @@ void		*arg_contains(char wanted_char, char *arg);
 **	FILE - expansion.c
 */
 t_list		*expand_redirs(t_list **redirs, t_list *env_list);
+t_list		*expand_args(t_list **args, t_list *env_list);
+void		expand_in_token(t_token *token, t_list *env_list, char *dollar_pos);
 t_list		*expansion(t_list *cmd, t_list *env_list);
+
+/*
+**	FILE - utils_concat.c
+*/
+char		*concat_expansion(char *new_arg, char *key_pos, t_list *env_list);
+char		*concat_remaining(char *new_arg, char *remaining);
+void		prepare_concat(char **dollar_pos, char **new_arg, char **remaining,
+		char *tmp_c);
+char		*dup_expansion_value(char *key_pos, t_list *env_list);
+void		quoting_to_neg(char **expansion);
+
+
 
 #endif

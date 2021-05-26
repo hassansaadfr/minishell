@@ -40,7 +40,8 @@ SRCS			=	system/main.c \
 					exec2/exec2.c \
 					exec2/rearrange_lists.c \
 					expansion/expansion2.c \
-					expansion/utils_expansion.c 
+					expansion/utils_concat.c \
+					expansion/utils_expansion.c
 
 TEST_SRCS		=	exit_test_messages.c \
 					exit_test_codes.c \

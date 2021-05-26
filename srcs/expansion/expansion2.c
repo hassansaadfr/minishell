@@ -1,68 +1,5 @@
 #include "minishell.h"
 
-char	*get_expansion_value(char *key_pos, t_list *env_list)
-{
-	t_list	*node;
-	char	*env_value;
-
-	env_value = NULL;
-	node = get_env(env_list, key_pos);
-	if (node)
-		env_value = ((t_env*)node->content)->value;
-	return (env_value);
-}
-
-char	*concat_expansion(char *new_arg, char *key_pos, t_list *env_list)
-{
-	char	*tmp;
-	char	*expansion;
-
-	if (*key_pos == '\0' || *key_pos == ' ' || *key_pos == -' '
-			|| *key_pos == '\\' || *key_pos == -'\\')
-		expansion = ft_strdup("$");
-	else
-		expansion = get_expansion_value(key_pos, env_list);
-	if (expansion != NULL)
-	{
-	// PASS ESC CHARS AND SPACES IN expansion TO NEGATIVE HERE
-		tmp = new_arg;
-		new_arg = ft_strjoin(new_arg, expansion);
-		ft_free_ptr((void**)&tmp);
-//		ft_free_ptr((void**)&expansion);
-	}
-	return (new_arg);
-}
-
-char	*concat_remaining(char *new_arg, char *remaining)
-{
-	char	*tmp;
-
-	tmp = new_arg;
-	new_arg = ft_strjoin(new_arg, remaining);
-	ft_free_ptr((void**)&tmp);
-	return (new_arg);
-}
-
-void	prepare_concat(char **dollar_pos, char **new_arg, char **remaining,
-		char *tmp_c)
-{
-	char	*tmp;
-
-	**dollar_pos = '\0';
-	if (*remaining != *dollar_pos)
-	{
-		tmp = *new_arg;
-		*new_arg = ft_strjoin(*new_arg, *remaining);
-		ft_free_ptr((void**)&tmp);
-	}
-	(*dollar_pos)++;
-	*remaining = *dollar_pos;
-	while (**remaining && (ft_isalnum(**remaining) || **remaining == '_'))
-		(*remaining)++;
-	*tmp_c = **remaining;
-	**remaining = '\0';
-}
-
 void	expand_in_token(t_token *token, t_list *env_list, char *dollar_pos)
 {
 	char	*remaining;
@@ -106,5 +43,111 @@ t_list	*expand_redirs(t_list **redirs, t_list *env_list)
 			expand_in_token(token, env_list, dollar_exists);
 		cursor = cursor->next;
 	}
+	reformat(*redirs);
 	return (*redirs);
+}
+
+void	display_token_to_be_splitted(t_token *token, char **arg_split)
+{
+	int		i;
+
+	printf("========================== SPL  0 ==========================\n");
+	printf("TOKEN : \"%40s\"\n", token->arg);
+	printf("MUST BE SPLITTED AS :\n");
+	i = 0;
+	while (arg_split[i])
+	{
+		printf("\t%2d\t\"", i);
+		print_token_str(arg_split[i]);
+		printf("\"\n");
+		i++;
+	}
+	printf("\n");
+}
+
+
+
+void	split_token(t_list *cursor)
+{
+	char	**arg_split;
+	t_token	*token;
+	t_list	*new_node;
+	int		i;
+
+	arg_split = NULL;
+	token = cursor->content;
+	arg_split = ft_split(token->arg, ' ');
+	display_token_to_be_splitted(token, arg_split);
+	i = 0;
+	token->arg = arg_split[i++];
+	while (arg_split[i])
+	{
+		new_node = ft_alloc(sizeof(t_list));	
+		token = ft_alloc(sizeof(t_token));
+		token->arg = arg_split[i];
+		token->type = ARG;
+		new_node->content = token;
+		new_node->previous = cursor;
+		new_node->next = cursor->next;
+		cursor->next = new_node;
+		cursor = cursor->next;
+		i++;
+	}
+	ft_free_ptr((void**)&arg_split);
+}
+
+void	esc_space_to_neg(char *str)
+{
+	enum e_state	state;
+	int				i;
+
+	state = NORMAL;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' && state == NORMAL)
+			state = D_QUOTE;
+		else if (str[i] == '\\' && state == NORMAL)
+			state = B_SLASH;
+		else if (str[i] == '\'' && state == NORMAL)
+			state = S_QUOTE;
+		else if (str[i] == ' ' &&
+				(state == D_QUOTE
+					|| state == S_QUOTE 
+					|| state == B_SLASH))
+			str[i] = -str[i];
+		else if ((str[i] == '\'' && state == S_QUOTE)
+				|| (str[i] == '\"' && state == D_QUOTE)
+				|| state == B_SLASH)
+			state = NORMAL;
+		i++;
+	}
+}
+
+t_list	*expand_args(t_list **args, t_list *env_list)
+{
+	t_list	*cursor;
+	t_token	*token;
+	char	*dollar_exists;
+	char	*space_exists;
+
+	cursor = *args;
+	dollar_exists = NULL;
+	while (cursor)
+	{
+		space_exists = NULL;
+		token = cursor->content;
+		dollar_exists = ft_strchr(token->arg, '$');
+		if (dollar_exists)
+		{
+			expand_in_token(token, env_list, dollar_exists);
+			esc_space_to_neg(token->arg);
+			space_exists = ft_strchr(token->arg, ' ');
+			if (space_exists)
+				split_token(cursor);
+		}
+		cursor = cursor->next;
+	}
+	reformat(*args);
+	return (*args);
 }
