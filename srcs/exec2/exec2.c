@@ -14,7 +14,7 @@ int		contains_esc_or_neg_chars(char *str)
 	return (0);
 }
 
-void	sanitize(char *str)
+void	remove_quoting_chars(char *str)
 {
 	int		reader;
 	int		writer;
@@ -42,7 +42,7 @@ void	reformat(t_list *list)
 	{
 		token = list->content;
 		if (contains_esc_or_neg_chars(token->arg))	
-			sanitize(token->arg);
+			remove_quoting_chars(token->arg);
 		list = list->next;
 	}
 }
