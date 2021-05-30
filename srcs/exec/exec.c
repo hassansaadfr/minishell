@@ -32,7 +32,7 @@ static int	exec_bin(char *path, char **args, t_list *env_list)
 		env = list_to_array(env_list);
 		exec_ret = execve(path, args, env);
 		if (exec_ret == -1)
-			return (125 + errno);
+			exit(125 + errno);
 	}
 	else
 		printf("ERROR - fork\n");
