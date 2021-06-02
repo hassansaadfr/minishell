@@ -102,6 +102,11 @@ int			process_is_parent(void);
 int			perform_redirections(t_list *redirs);
 
 /*
+** FILE perform_execution.c
+*/
+int 		perform_execution(t_list *redirs, t_list *tokens, t_list *env_list);
+
+/*
 **	FILE - utils_mem_env.c
 */
 

@@ -25,5 +25,5 @@ int			builtin_echo(char **argv, t_list *env_list)
 	}
 	if (!nl)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (1);
+	return (0);
 }

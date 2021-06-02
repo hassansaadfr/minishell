@@ -40,6 +40,7 @@ SRCS			=	system/main.c \
 					exec/exec2.c \
 					exec/rearrange_lists.c \
 					exec/redirections.c \
+					exec/perform_execution.c \
 					expansion/expansion.c \
 					expansion/utils_expansion.c
 
