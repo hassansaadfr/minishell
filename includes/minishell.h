@@ -93,6 +93,7 @@ int			is_valid_env_name(char *name, char *binary);
 ** FILE - exec.c
 */
 int			execution(char **cmds, t_list *env_list, t_list *history);
+int			process_is_parent(void);
 
 /*
 **	FILE - utils_mem_env.c
@@ -123,6 +124,7 @@ int			exec_from_bins(char **cmd, t_list *env_list);
 **	FILE - signals.c
 */
 void		sigint_handler(int signal_value);
+void		sigquit_handler(int signal_value);
 
 /*
 **	FILE - termios.c

@@ -3,7 +3,7 @@
 void		signal_handling_register(void)
 {
 	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, sigquit_handler);
 }
 
 /*

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	process_is_parent(void)
+int			process_is_parent(void)
 {
 	if (g_global.pid > 0)
 		return (PARENT_PID);
@@ -32,7 +32,7 @@ static int	exec_bin(char *path, char **args, t_list *env_list)
 		env = list_to_array(env_list);
 		exec_ret = execve(path, args, env);
 		if (exec_ret == -1)
-			exit(125 + errno);
+			ft_exit_free(125 + errno);
 	}
 	else
 		printf("ERROR - fork\n");
