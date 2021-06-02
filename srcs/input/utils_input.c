@@ -17,7 +17,10 @@ int		is_ctrl_keys(char c, int *stop, t_input *buff, t_list *history)
 		prompt();
 	}
 	else if (c == ctrl_value('c'))
+	{
 		ft_putstr_fd("^C\n", STDERR_FILENO);
+		prompt();
+	}
 	else
 		return (0);
 	return (1);

@@ -5,9 +5,9 @@ void	sigint_handler(int signal_value)
 	if (process_is_parent() == PARENT_PID)
 	{
 		kill(g_global.pid, signal_value);
-		write(STDERR_FILENO, "\n", 1);
+		ft_putchar_fd('\n', STDERR_FILENO);
 	}
-	else
+	else if (process_is_parent() == CHILD_PID)
 	{
 		ft_putchar_fd('\n', STDERR_FILENO);
 		prompt();
