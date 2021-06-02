@@ -105,6 +105,7 @@ int		execute_simple_cmd(t_list *tokens, t_list *env_list, int debug_i)
 	}
 	// HASSAN - PERFORM REDIRS
 	// HASSAN - EXEC(tokens)
+	perform_redirections(redirs);
 	if  (tokens)
 	{
 		cmds = token_list_to_array(tokens);

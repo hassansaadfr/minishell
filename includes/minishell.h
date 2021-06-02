@@ -13,6 +13,7 @@
 # include <curses.h>
 # include <signal.h>
 # include <limits.h>
+# include <fcntl.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -93,6 +94,11 @@ int			is_valid_env_name(char *name, char *binary);
 ** FILE - exec.c
 */
 int			execution(char **cmds, t_list *env_list, t_list *history);
+
+/*
+** FILE redirections.c
+*/
+int			perform_redirections(t_list *redirs);
 
 /*
 **	FILE - utils_mem_env.c
