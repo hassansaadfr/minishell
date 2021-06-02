@@ -3,7 +3,7 @@
 void		signal_handling_register(void)
 {
 	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, sigquit_handler);
 }
 
 /*
@@ -37,11 +37,11 @@ static int	minishell_tty(t_list *env_list)
 		prompt();
 		tokens = NULL;
 		stop = write_buffer(&stop, &buff, history);
-		disable_raw_mode(orig_termios);
 		if (stop == 0 && not_empty(buff.buffer))
 			stop = add_to_history(&buff, &history);
 		if (stop == 0 && not_empty(buff.buffer))
 			tokens = parsing(buff.buffer);
+		disable_raw_mode(orig_termios);
 		if (tokens != NULL)
 			stop = executing(tokens, env_list, history);
 		orig_termios = enable_raw_mode();
