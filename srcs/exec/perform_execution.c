@@ -40,6 +40,8 @@ static void	restore_fd(t_redir_status *backup)
 	{
 		dup2(backup->fd_stdin, STDIN_FILENO);
 		dup2(backup->fd_stdout, STDOUT_FILENO);
+		close(backup->fd_stdin);
+		close(backup->fd_stdout);
 	}
 }
 
