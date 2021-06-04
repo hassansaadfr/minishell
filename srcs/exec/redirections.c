@@ -34,6 +34,23 @@ static int	perform_dsup_redir(t_token *node)
 	return (0);
 }
 
+static int	perform_inf_redir(t_token *node)
+{
+	int		fd_file;
+
+	errno = 0;
+	fd_file = -1;
+	fd_file = open(node->arg, O_RDONLY);
+	if (errno != 0)
+	{
+		print_err(node->arg, NULL, strerror(errno));
+		return (1);
+	}
+	dup2(fd_file, STDIN_FILENO);
+	close(fd_file);
+	return (0);
+}
+
 int	perform_redirections(t_list *redirs)
 {
 	t_token	*node;
@@ -51,6 +68,8 @@ int	perform_redirections(t_list *redirs)
 			ret_redir = perform_sup_redir((t_token *)redirs->next->content);
 		else if (node->type == REDIR_DSUP)
 			ret_redir =  perform_dsup_redir((t_token *)redirs->next->content);
+		else if (node->type == REDIR_INF)
+			ret_redir =  perform_inf_redir((t_token *)redirs->next->content);
 		if (ret_redir != 0)
 			return (ret_redir);
 		redirs = redirs->next;

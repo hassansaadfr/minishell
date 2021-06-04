@@ -21,12 +21,8 @@ static char	**token_list_to_array(t_list *token_list)
 	return (array);
 }
 
-t_redir_status	*init_redirs(t_list *redirs)
+void	init_redirs(t_list *redirs, t_redir_status	*backup)
 {
-	t_redir_status	*backup;
-
-	backup = NULL;
-	backup = ft_alloc(sizeof(t_redir_status *));
 	backup->fd_stdin = -1;
 	backup->fd_stdout = -1;
 	backup->status = 0;
@@ -36,7 +32,6 @@ t_redir_status	*init_redirs(t_list *redirs)
 		backup->fd_stdout = dup(STDOUT_FILENO);
 		backup->status = perform_redirections(redirs);
 	}
-	return (backup);
 }
 
 static void	restore_fd(t_redir_status *backup)
@@ -52,12 +47,13 @@ int perform_execution(t_list *redirs, t_list *tokens, t_list *env_list)
 {
 	int				ret_exec;
 	char			**cmds;
-	t_redir_status	*backup;
+	t_redir_status	backup;
 
 	ret_exec = 0;
 	cmds = NULL;
-	backup = init_redirs(redirs);
-	if  (tokens && backup->status == 0)
+	if (redirs)
+		init_redirs(redirs, &backup);
+	if  (tokens && backup.status == 0)
 	{
 		cmds = token_list_to_array(tokens);
 		if (cmds)
@@ -68,7 +64,9 @@ int perform_execution(t_list *redirs, t_list *tokens, t_list *env_list)
 		ft_lstclear(&tokens, free_token);
 	}
 	if (redirs)
-		restore_fd(backup);
+	{
+		restore_fd(&backup);
+	}
 	ft_lstclear(&redirs, free_token);
 	return (ret_exec);
 }
