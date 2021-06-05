@@ -42,6 +42,7 @@ void		display_tokens(t_list *tokens);
 void		display_splitted_cmd(t_list *cmd, int debug_i, char *type);
 char		*enum_to_str(int type);
 void		print_token_str(char *arg);
+void		display_token_to_be_splitted(t_token *token, char **arg_split);
 
 /*
  **	FILE - prompt.c
@@ -239,6 +240,7 @@ t_list		*isolate_redirs(t_list **args);
 */
 int			token_is(int wanted_type, t_token *token);
 void		*arg_contains(char wanted_char, char *arg);
+int			token_has_empty_arg(t_token *token);
 
 /*
 **	FILE - expansion.c

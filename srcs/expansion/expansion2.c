@@ -47,26 +47,6 @@ t_list	*expand_redirs(t_list **redirs, t_list *env_list)
 	return (*redirs);
 }
 
-void	display_token_to_be_splitted(t_token *token, char **arg_split)
-{
-	int		i;
-
-	printf("========================== SPL  0 ==========================\n");
-	printf("TOKEN : \"%40s\"\n", token->arg);
-	printf("MUST BE SPLITTED AS :\n");
-	i = 0;
-	while (arg_split[i])
-	{
-		printf("\t%2d\t\"", i);
-		print_token_str(arg_split[i]);
-		printf("\"\n");
-		i++;
-	}
-	printf("\n");
-}
-
-
-
 void	split_token(t_list *cursor)
 {
 	char	**arg_split;
@@ -124,6 +104,42 @@ void	esc_space_to_neg(char *str)
 	}
 }
 
+
+
+void	remove_empty_tokens(t_list **args)
+{
+	t_list	*tmp;
+	t_list	*prev;
+	t_list	*lst;
+
+	while (*args && token_has_empty_arg((*args)->content))
+	{
+		tmp = *args;
+		*args = (*args)->next;
+		free_token(tmp->content);
+		ft_free_ptr((void**)&tmp);
+	}
+	prev = NULL;
+	lst = *args;
+	while (lst)
+	{
+		tmp = lst;
+		if (token_has_empty_arg(lst->content))
+		{
+			tmp = lst;
+			prev->next = tmp->next;
+			lst = lst->next;
+			free_token(tmp->content);
+			ft_free_ptr((void **)&tmp);
+		}
+		else
+		{
+			prev = lst;
+			lst = lst->next;
+		}
+	}
+}
+
 t_list	*expand_args(t_list **args, t_list *env_list)
 {
 	t_list	*cursor;
@@ -148,6 +164,7 @@ t_list	*expand_args(t_list **args, t_list *env_list)
 		}
 		cursor = cursor->next;
 	}
+	remove_empty_tokens(args);
 	reformat(*args);
 	return (*args);
 }
