@@ -65,7 +65,7 @@ char    *dup_expansion_value(char *key_pos, t_list *env_list)
 	return (env_value);
 }
 
-void    quoting_to_neg(char **expansion)
+void	quoting_to_neg(char **expansion)
 {
 	int     i;
 

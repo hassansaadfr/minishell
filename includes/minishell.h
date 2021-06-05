@@ -241,6 +241,8 @@ t_list		*isolate_redirs(t_list **args);
 int			token_is(int wanted_type, t_token *token);
 void		*arg_contains(char wanted_char, char *arg);
 int			token_has_empty_arg(t_token *token);
+void		remove_empty_tokens(t_list **args);
+
 
 /*
 **	FILE - expansion.c

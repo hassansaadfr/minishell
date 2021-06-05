@@ -47,6 +47,8 @@ t_list	*expand_redirs(t_list **redirs, t_list *env_list)
 	return (*redirs);
 }
 
+/*	display_token_to_be_splitted(token, arg_split);*/
+
 void	split_token(t_list *cursor)
 {
 	char	**arg_split;
@@ -57,12 +59,11 @@ void	split_token(t_list *cursor)
 	arg_split = NULL;
 	token = cursor->content;
 	arg_split = ft_split(token->arg, ' ');
-	display_token_to_be_splitted(token, arg_split);
 	i = 0;
 	token->arg = arg_split[i++];
 	while (arg_split[i])
 	{
-		new_node = ft_alloc(sizeof(t_list));	
+		new_node = ft_alloc(sizeof(t_list));
 		token = ft_alloc(sizeof(t_token));
 		token->arg = arg_split[i];
 		token->type = ARG;
@@ -73,7 +74,7 @@ void	split_token(t_list *cursor)
 		cursor = cursor->next;
 		i++;
 	}
-	ft_free_ptr((void**)&arg_split);
+	ft_free_ptr((void **)&arg_split);
 }
 
 void	esc_space_to_neg(char *str)
@@ -91,52 +92,14 @@ void	esc_space_to_neg(char *str)
 			state = B_SLASH;
 		else if (str[i] == '\'' && state == NORMAL)
 			state = S_QUOTE;
-		else if (str[i] == ' ' &&
-				(state == D_QUOTE
-					|| state == S_QUOTE 
-					|| state == B_SLASH))
+		else if (str[i] == ' '
+			&& (state == D_QUOTE || state == S_QUOTE || state == B_SLASH))
 			str[i] = -str[i];
 		else if ((str[i] == '\'' && state == S_QUOTE)
-				|| (str[i] == '\"' && state == D_QUOTE)
-				|| state == B_SLASH)
+			|| (str[i] == '\"' && state == D_QUOTE)
+			|| state == B_SLASH)
 			state = NORMAL;
 		i++;
-	}
-}
-
-
-
-void	remove_empty_tokens(t_list **args)
-{
-	t_list	*tmp;
-	t_list	*prev;
-	t_list	*lst;
-
-	while (*args && token_has_empty_arg((*args)->content))
-	{
-		tmp = *args;
-		*args = (*args)->next;
-		free_token(tmp->content);
-		ft_free_ptr((void**)&tmp);
-	}
-	prev = NULL;
-	lst = *args;
-	while (lst)
-	{
-		tmp = lst;
-		if (token_has_empty_arg(lst->content))
-		{
-			tmp = lst;
-			prev->next = tmp->next;
-			lst = lst->next;
-			free_token(tmp->content);
-			ft_free_ptr((void **)&tmp);
-		}
-		else
-		{
-			prev = lst;
-			lst = lst->next;
-		}
 	}
 }
 
