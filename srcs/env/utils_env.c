@@ -86,11 +86,11 @@ int	delete_env(t_list *env_list, char *name)
 
 	env_name = NULL;
 	if (name == NULL || ft_strchr(name, '='))
-		return (0);
+		return (1);
 	if (name)
 		env_name = parse_env_name(name);
 	tmp = NULL;
-	out = 0;
+	out = 1;
 	if (env_name)
 		tmp = get_env(env_list, env_name);
 	if (tmp)
@@ -99,7 +99,7 @@ int	delete_env(t_list *env_list, char *name)
 		ft_free_ptr((void **)&((t_env *)tmp->content)->value);
 		ft_free_ptr((void **)&env_name);
 		ft_lstdelone(&tmp, free_env_node);
-		out = 1;
+		out = 0;
 	}
 	return (out);
 }

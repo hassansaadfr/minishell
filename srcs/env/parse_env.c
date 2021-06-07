@@ -20,7 +20,7 @@ static char	*concat_name_value_env(t_list *list)
 	return (out);
 }
 
-char		**list_to_array(t_list *env_list)
+char	**list_to_array(t_list *env_list)
 {
 	char	**out;
 	int		size;
@@ -47,7 +47,7 @@ char		**list_to_array(t_list *env_list)
 	return (out);
 }
 
-char		*parse_env_name(char *env)
+char	*parse_env_name(char *env)
 {
 	char	*name;
 	char	*equal_pos;
@@ -62,13 +62,14 @@ char		*parse_env_name(char *env)
 	if (equal_pos != NULL)
 	{
 		*equal_pos = '\0';
-		name = ft_strdup(env);
+		if (ft_strlen(env) > 0)
+			name = ft_strdup(env);
 		*equal_pos = '=';
 	}
 	return (name);
 }
 
-char		*parse_env_value(char *env)
+char	*parse_env_value(char *env)
 {
 	char	*value;
 	char	*equal_pos;
@@ -83,27 +84,30 @@ char		*parse_env_value(char *env)
 	return (value);
 }
 
-int			is_valid_env_name(char *name, char *binary)
+int	is_valid_env_name(char *name, char *binary)
 {
 	int		i;
+	char	*var_name;
 
-	i = 0;
-	while (name && name[i])
+	var_name = NULL;
+	var_name = parse_env_name(name);
+	if (var_name == NULL)
 	{
-		if (ft_isalnum(name[i]) || name[i] == '_')
+		print_err_with_quote(binary, name, INVALID_IDENTIFIER_FR);
+		return (1);
+	}
+	i = 0;
+	while (var_name[i])
+	{
+		if (ft_isalnum(var_name[i]) || var_name[i] == '_')
 			i++;
 		else
 		{
 			if (isatty(STDIN_FILENO))
-			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				ft_putstr_fd(binary, STDERR_FILENO);
-				ft_putstr_fd(" « ", STDERR_FILENO);
-				ft_putstr_fd(name, STDERR_FILENO);
-				ft_putendl_fd(" » : identifiant non valable", STDERR_FILENO);
-			}
+				print_err_with_quote(binary, var_name, INVALID_IDENTIFIER_FR);
 			return (1);
 		}
 	}
+	ft_free_ptr((void **)&var_name);
 	return (0);
 }

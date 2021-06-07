@@ -2,9 +2,13 @@
 
 int	unset(char *argv, t_list *env_list)
 {
+	int		out;
+
+	out = 0;
 	if (!is_valid_env_name(argv, "unset"))
-		return (0);
-	return (delete_env(env_list, argv));
+		out = 1;
+	out = delete_env(env_list, argv);
+	return (out);
 }
 
 int	builtin_unset(char **argv, t_list *env_list)

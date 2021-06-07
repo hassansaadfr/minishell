@@ -182,7 +182,7 @@ Test(delete_env_suite, delete_exist)
 	int		expected;
 	int		returned;
 
-	expected = 1;
+	expected = 0;
 	returned = -1;
 	env_list = test_init_env();
 	returned = delete_env(env_list, "KIND");
@@ -198,7 +198,7 @@ Test(delete_env_suite, delete_undefined)
 	int		expected;
 	int		returned;
 
-	expected = 0;
+	expected = 1;
 	returned = -1;
 	env_list = test_init_env();
 	returned = delete_env(env_list, "UNDEFINED");
@@ -212,7 +212,7 @@ Test(delete_env_suite, delete_null)
 	int		expected;
 	int		returned;
 
-	expected = 0;
+	expected = 1;
 	returned = -1;
 	env_list = test_init_env();
 	returned = delete_env(env_list, NULL);
@@ -226,7 +226,7 @@ Test(delete_env_suite, delete_invalid_name)
 	int		expected;
 	int		returned;
 
-	expected = 0;
+	expected = 1;
 	returned = -1;
 	env_list = test_init_env();
 	returned = delete_env(env_list, ft_strdup("FOO="));
@@ -240,7 +240,7 @@ Test(delete_env_suite, delete_malformed)
 	int		expected;
 	int		returned;
 
-	expected = 0;
+	expected = 1;
 	returned = -1;
 	env_list = test_init_env();
 	returned = delete_env(env_list, ft_strdup("FOO="));

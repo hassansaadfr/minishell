@@ -49,7 +49,7 @@ TEST_SRCS		=	execution/path_type_parser.c \
 					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c \
 					exit_test_messages.c \
 					exit_test_codes.c \
-					#signal_tests.c
+					signal_tests.c
 					#parsing/parsing_basic.c \
 					#parsing/parsing_basic_pipe.c \
 					#parsing/parsing_basic_redir_sup.c \

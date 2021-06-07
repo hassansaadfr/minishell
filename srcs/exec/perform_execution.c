@@ -78,7 +78,9 @@ int	perform_execution(t_list *redirs, t_list *tokens, t_list *env_list)
 	if (tokens)
 		ft_lstclear(&tokens, free_token);
 	if (redirs)
+	{
+		restore_fd(&backup);
 		ft_lstclear(&redirs, free_token);
-	restore_fd(&backup);
+	}
 	return (ret_exec);
 }
