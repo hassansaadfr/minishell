@@ -14,7 +14,7 @@ int		contains_esc_or_neg_chars(char *str)
 	return (0);
 }
 
-void	sanitize(char *str)
+void	remove_quoting_chars(char *str)
 {
 	int		reader;
 	int		writer;
@@ -42,12 +42,12 @@ void	reformat(t_list *list)
 	{
 		token = list->content;
 		if (contains_esc_or_neg_chars(token->arg))	
-			sanitize(token->arg);
+			remove_quoting_chars(token->arg);
 		list = list->next;
 	}
 }
 
-int		execute_simple_cmd(t_list *tokens, t_list *env_list, int debug_i)
+int		execute_simple_cmd(t_list *tokens, t_list *env_list)
 {
 	(void)env_list;
 	int		ret_exec;
@@ -55,19 +55,9 @@ int		execute_simple_cmd(t_list *tokens, t_list *env_list, int debug_i)
 
 	redirs = isolate_redirs(&tokens);
 	if (tokens)
-	{
-		//expand_args();
-		reformat(tokens);
-		display_splitted_cmd(tokens, debug_i, "ARG");
-	}
+		tokens = expand_args(&tokens, env_list);
 	if (redirs)
-	{
-		//redirs = expand_redirs(&redirs, env_list);
-		reformat(redirs);
-		display_splitted_cmd(redirs, debug_i, "RDR");
-	}
-	// HASSAN - PERFORM REDIRS
-	// HASSAN - EXEC(tokens)
+		redirs = expand_redirs(&redirs, env_list);
 	ft_lstclear(&redirs, free_token);
 	ft_lstclear(&tokens, free_token);
 	ret_exec = 0;
@@ -77,7 +67,6 @@ int		execute_simple_cmd(t_list *tokens, t_list *env_list, int debug_i)
 int		executing(t_list *tokens, t_list *env_list, t_list *history)
 {
 	(void)history;
-	int		debug_i = 0;
 	t_list	*indpdt_cmd;
 	int		ret_exec;
 
@@ -86,8 +75,7 @@ int		executing(t_list *tokens, t_list *env_list, t_list *history)
 	while (tokens)
 	{
 		indpdt_cmd = isolate_indpdt_cmd(&tokens);
-		display_splitted_cmd(indpdt_cmd, debug_i, "CMD");
-		ret_exec = execute_simple_cmd(indpdt_cmd, env_list, debug_i++);
+		ret_exec = execute_simple_cmd(indpdt_cmd, env_list);
 	}
 	return (ret_exec);
 }

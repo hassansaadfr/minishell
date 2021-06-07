@@ -5,6 +5,30 @@ void	dbg_display_stat_buff(struct stat stat_buff)
 	printf("stat_buff.st_mode : %u\n\n", stat_buff.st_mode);
 }
 
+void	print_token_str(char *arg)
+{
+	int	j;
+
+	j = 0;
+	while (arg[j] && j < 40)
+	{
+		if (arg[j] > 0)
+			printf("%c", arg[j]);
+		else
+		{
+			printf("\033[1;31m");
+			printf("%c", -arg[j]);
+			printf("\033[0m");
+		}
+		j++;
+	}
+	while (j < 40)
+	{
+		printf(" ");
+		j++;
+	}
+}
+
 void	print_token_arg(t_token *token)
 {
 	int	j;
@@ -59,8 +83,8 @@ void    display_splitted_cmd(t_list *cmd, int debug_i, char *type)
 				type, debug_i++);
 	}
 	else
-	printf("========================== %3.3s %2i ==========================\n",
-			type, debug_i++);
+		printf("========================== %3.3s %2i ==========================\n",
+				type, debug_i++);
 	if (ft_strncmp(type, "CMD", 4) == 0)
 		printf("\t============================================================\n");
 	display_tokens(cmd);
@@ -83,4 +107,22 @@ char	*enum_to_str(int type)
 	else if (type == S_COLON)
 		return ("S_COLON");
 	return ("ERR STATE");
+}
+
+void    display_token_to_be_splitted(t_token *token, char **arg_split)
+{
+    int     i;
+
+    printf("========================== SPL  0 ==========================\n");
+    printf("TOKEN : \"%40s\"\n", token->arg);
+    printf("MUST BE SPLITTED AS :\n");
+    i = 0;
+    while (arg_split[i])
+    {
+        printf("\t%2d\t\"", i);
+        print_token_str(arg_split[i]);
+        printf("\"\n");
+        i++;
+    }
+    printf("\n");
 }
