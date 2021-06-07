@@ -46,7 +46,7 @@ SRCS			=	system/main.c \
 
 TEST_SRCS		=	execution/path_type_parser.c \
 					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c \
-					#exit_test_messages.c \
+					exit_test_messages.c \
 					exit_test_codes.c \
 					#signal_tests.c
 					#parsing/parsing_basic.c \
@@ -59,8 +59,8 @@ TEST_SRCS		=	execution/path_type_parser.c \
 					#parsing/parsing_err_smc.c \
 					#parsing/parsing_err_pipe.c \
 					#parsing/parsing_err_redirs.c \
-#					parsing/parsing_negatives.c \
-#					parsing/parsing_escaped.c
+					#parsing/parsing_negatives.c \
+					#parsing/parsing_escaped.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
