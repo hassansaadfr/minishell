@@ -13,6 +13,7 @@
 # include <curses.h>
 # include <signal.h>
 # include <limits.h>
+# include <fcntl.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -96,6 +97,16 @@ int			execution(char **cmds, t_list *env_list, t_list *history);
 int			process_is_parent(void);
 
 /*
+** FILE redirections.c
+*/
+int			perform_redirections(t_list *redirs);
+
+/*
+** FILE perform_execution.c
+*/
+int 		perform_execution(t_list *redirs, t_list *tokens, t_list *env_list);
+
+/*
 **	FILE - utils_mem_env.c
 */
 
@@ -114,6 +125,7 @@ int			exec_from_builtins(char **cmd, t_list *env_list, t_list	*history);
 */
 int			is_path(char *cmd);
 int			exec_from_path(char **cmd, t_list *env_list);
+t_path		get_path_type(char *str);
 
 /*
 **	FILE - bin_bins.c

@@ -80,6 +80,13 @@ typedef struct			s_expand
     char    *tmp_remaining;
 }						t_expand;
 
+typedef struct			s_redir_status
+{
+	int		fd_stdin;
+	int		fd_stdout;
+	int		status;
+}						t_redir_status;
+
 enum					e_err_msg_exit
 {
 	ARG_NUMERIC,

@@ -37,14 +37,18 @@ SRCS			=	system/main.c \
 					exec/exec.c \
 					exec/bin_builtins.c \
 					exec/path_utils.c \
-					exec2/exec2.c \
-					exec2/rearrange_lists.c \
+					exec/exec2.c \
+					exec/rearrange_lists.c \
+					exec/redirections.c \
+					exec/perform_execution.c \
 					expansion/expansion.c \
 					expansion/utils_expansion.c
 
 TEST_SRCS		=	execution/path_type_parser.c \
-					#exit_test_messages.c \
-					#exit_test_codes.c \
+					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c \
+					exit_test_messages.c \
+					exit_test_codes.c \
+					#signal_tests.c
 					#parsing/parsing_basic.c \
 					#parsing/parsing_basic_pipe.c \
 					#parsing/parsing_basic_redir_sup.c \
@@ -55,13 +59,12 @@ TEST_SRCS		=	execution/path_type_parser.c \
 					#parsing/parsing_err_smc.c \
 					#parsing/parsing_err_pipe.c \
 					#parsing/parsing_err_redirs.c \
-#					parsing/parsing_negatives.c \
-#					parsing/parsing_escaped.c \
-#					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c #signal_tests.c
+					#parsing/parsing_negatives.c \
+					#parsing/parsing_escaped.c
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
-NO_MAIN			=	$(filter-out srcs/main.o,$(OBJS))
+NO_MAIN			=	$(filter-out srcs/system/main.o,$(OBJS))
 
 LD_FLAGS		=	-L libft
 
@@ -86,6 +89,7 @@ val				:	${NAME}
 					valgrind \
 					--leak-check=full --tool=memcheck \
 					--show-reachable=yes \
+					--track-fds=yes \
 					--suppressions=tests/assets/suppressions_valgrind \
 					--errors-for-leak-kinds=all \
 					--show-leak-kinds=all --error-exitcode=1 ./minishell

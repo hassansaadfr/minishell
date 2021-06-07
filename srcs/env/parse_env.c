@@ -102,9 +102,8 @@ int			is_valid_env_name(char *name, char *binary)
 				ft_putstr_fd(name, STDERR_FILENO);
 				ft_putendl_fd(" » : identifiant non valable", STDERR_FILENO);
 			}
-			return (0);
+			return (1);
 		}
-		i++;
 	}
-	return (1);
+	return (0);
 }

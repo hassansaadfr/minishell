@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static t_path	get_path_type(char *str)
+t_path	get_path_type(char *str)
 {
 	t_path	type;
 
