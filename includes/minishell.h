@@ -125,6 +125,7 @@ int			exec_from_builtins(char **cmd, t_list *env_list, t_list	*history);
 */
 int			is_path(char *cmd);
 int			exec_from_path(char **cmd, t_list *env_list);
+t_path		get_path_type(char *str);
 
 /*
 **	FILE - bin_bins.c

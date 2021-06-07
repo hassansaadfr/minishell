@@ -52,6 +52,7 @@ int perform_execution(t_list *redirs, t_list *tokens, t_list *env_list)
 
 	ret_exec = 0;
 	cmds = NULL;
+	backup.status = 0;
 	if (redirs)
 		init_redirs(redirs, &backup);
 	if  (tokens && backup.status == 0)

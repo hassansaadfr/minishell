@@ -38,5 +38,5 @@ Test(parser_type, is_absolute_path3)
 	t_path type;
 
 	type = get_path_type("/empty");
-	cr_assert(type == ERROR);
+	cr_assert(type == ABSOLUTE_PATH);
 }
