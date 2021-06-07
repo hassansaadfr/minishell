@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		token_is(int wanted_type, t_token *token)
+int	token_is(int wanted_type, t_token *token)
 {
 	return (token->type == wanted_type);
 }
@@ -10,14 +10,14 @@ void	*arg_contains(char wanted_char, char *arg)
 	return (ft_strchr(arg, wanted_char));
 }
 
-int		token_has_empty_arg(t_token *token)
+int	token_has_empty_arg(t_token *token)
 {
 	return (*(token->arg) == '\0');
 }
 
-void    advance_list_beginning_if_empty(t_list **args)
+void	advance_list_beginning_if_empty(t_list **args)
 {
-	t_list  *tmp;
+	t_list	*tmp;
 
 	while (*args && token_has_empty_arg((*args)->content))
 	{
@@ -28,11 +28,11 @@ void    advance_list_beginning_if_empty(t_list **args)
 	}
 }
 
-void    remove_empty_tokens(t_list **args)
+void	remove_empty_tokens(t_list **args)
 {
-	t_list  *tmp;
-	t_list  *prev;
-	t_list  *lst;
+	t_list	*tmp;
+	t_list	*prev;
+	t_list	*lst;
 
 	advance_list_beginning_if_empty(args);
 	lst = *args;

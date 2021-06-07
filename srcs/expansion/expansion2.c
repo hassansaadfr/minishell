@@ -47,8 +47,6 @@ t_list	*expand_redirs(t_list **redirs, t_list *env_list)
 	return (*redirs);
 }
 
-/*	display_token_to_be_splitted(token, arg_split);*/
-
 void	split_token(t_list *cursor)
 {
 	char	**arg_split;
