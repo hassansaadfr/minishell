@@ -89,13 +89,6 @@ int			main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	// int file = open("toto.sh", O_RDWR | O_CREAT);
-	// ft_putstr_fd("echo bonjour ", file);
-	// for (size_t i = 0; i < 1000000; i++)
-	// {
-	// 	ft_putstr_fd(ft_strjoin("> file", ft_itoa((int)i)), file);
-	// }
-
 	g_global.env_list = init_env(envp);
 	minishell(g_global.env_list);
 	close(STDIN_FILENO);
