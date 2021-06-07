@@ -27,26 +27,6 @@ void	expand_in_token(t_token *token, t_list *env_list, char *dollar_pos)
 	token->arg = new_arg;
 }
 
-t_list	*expand_redirs(t_list **redirs, t_list *env_list)
-{
-	t_list	*cursor;
-	t_token	*token;
-	char	*dollar_exists;
-
-	cursor = *redirs;
-	dollar_exists = NULL;
-	while (cursor)
-	{
-		token = cursor->content;
-		dollar_exists = ft_strchr(token->arg, '$');
-		if (token_is(FD, token) && dollar_exists)
-			expand_in_token(token, env_list, dollar_exists);
-		cursor = cursor->next;
-	}
-	reformat(*redirs);
-	return (*redirs);
-}
-
 void	split_token(t_list *cursor)
 {
 	char	**arg_split;
@@ -99,6 +79,26 @@ void	esc_space_to_neg(char *str)
 			state = NORMAL;
 		i++;
 	}
+}
+
+t_list	*expand_redirs(t_list **redirs, t_list *env_list)
+{
+	t_list	*cursor;
+	t_token	*token;
+	char	*dollar_exists;
+
+	cursor = *redirs;
+	dollar_exists = NULL;
+	while (cursor)
+	{
+		token = cursor->content;
+		dollar_exists = ft_strchr(token->arg, '$');
+		if (token_is(FD, token) && dollar_exists)
+			expand_in_token(token, env_list, dollar_exists);
+		cursor = cursor->next;
+	}
+	reformat(*redirs);
+	return (*redirs);
 }
 
 t_list	*expand_args(t_list **args, t_list *env_list)
