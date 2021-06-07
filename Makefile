@@ -88,6 +88,7 @@ val				:	${NAME}
 					valgrind \
 					--leak-check=full --tool=memcheck \
 					--show-reachable=yes \
+					--track-fds=yes \
 					--suppressions=tests/assets/suppressions_valgrind \
 					--errors-for-leak-kinds=all \
 					--show-leak-kinds=all --error-exitcode=1 ./minishell

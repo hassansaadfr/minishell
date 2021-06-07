@@ -25,7 +25,6 @@ void	init_redirs(t_list *redirs, t_redir_status	*backup)
 {
 	backup->fd_stdin = -1;
 	backup->fd_stdout = -1;
-	backup->status = 0;
 	if (redirs)
 	{
 		backup->fd_stdin = dup(STDIN_FILENO);
@@ -66,9 +65,7 @@ int perform_execution(t_list *redirs, t_list *tokens, t_list *env_list)
 		ft_lstclear(&tokens, free_token);
 	}
 	if (redirs)
-	{
 		restore_fd(&backup);
-	}
 	ft_lstclear(&redirs, free_token);
 	return (ret_exec);
 }
