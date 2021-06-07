@@ -62,7 +62,8 @@ char		*parse_env_name(char *env)
 	if (equal_pos != NULL)
 	{
 		*equal_pos = '\0';
-		name = ft_strdup(env);
+		if (ft_strlen(env) > 0)
+			name = ft_strdup(env);
 		*equal_pos = '=';
 	}
 	return (name);
@@ -86,24 +87,27 @@ char		*parse_env_value(char *env)
 int	is_valid_env_name(char *name, char *binary)
 {
 	int		i;
-	char	*variable_name;
+	char	*var_name;
 
-	variable_name = NULL;
-	variable_name = parse_env_name(name);
-	if (variable_name == NULL)
-		return (1);
-	i = 0;
-	while (variable_name[i])
+	var_name = NULL;
+	var_name = parse_env_name(name);
+	if (var_name == NULL)
 	{
-		if (ft_isalnum(variable_name[i]) || variable_name[i] == '_')
+		print_err_with_quote(binary, name, INVALID_IDENTIFIER_FR);
+		return (1);
+	}
+	i = 0;
+	while (var_name[i])
+	{
+		if (ft_isalnum(var_name[i]) || var_name[i] == '_')
 			i++;
 		else
 		{
 			if (isatty(STDIN_FILENO))
-				print_err(binary, variable_name, "identifiant non valable");
+				print_err_with_quote(binary, var_name, INVALID_IDENTIFIER_FR);
 			return (1);
 		}
 	}
-	ft_free_ptr((void **)&variable_name);
+	ft_free_ptr((void **)&var_name);
 	return (0);
 }

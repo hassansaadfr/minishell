@@ -21,4 +21,6 @@
 # define COMMAND_NOT_FOUND_EN "command not found"
 # define COMMAND_NOT_FOUND_FR "commande introuvable"
 
+# define INVALID_IDENTIFIER_FR "identifiant non valable"
+
 #endif

@@ -1,6 +1,20 @@
 #include "minishell.h"
 
-void		print_err(char *binary, char *arg, char *err)
+void	print_err_with_quote(char *binary, char *arg, char *err)
+{
+	char	*with_quote;
+	char	*tmp;
+
+	with_quote = NULL;
+	tmp = NULL;
+	tmp = ft_strjoin("« ", arg);
+	with_quote = ft_strjoin(tmp, " » ");
+	print_err(binary, with_quote, err);
+	ft_free_ptr((void **)&tmp);
+	ft_free_ptr((void **)&with_quote);
+}
+
+void	print_err(char *binary, char *arg, char *err)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (!isatty(STDIN_FILENO))
