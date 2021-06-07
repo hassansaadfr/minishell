@@ -8,7 +8,7 @@ void		print_err(char *binary, char *arg, char *err)
 	if (binary)
 	{
 		ft_putstr_fd(binary, STDERR_FILENO);
-		ft_putstr_fd(" : ", STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 	}
 	if (arg)
 	{
