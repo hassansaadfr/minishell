@@ -283,5 +283,6 @@ char		*get_binary_path(char *cmd, t_list *env_list);
 **	FILE - errors.c
 */
 void		print_err(char *binary, char *arg, char *err);
+void		print_err_with_quote(char *binary, char *arg, char *err);
 
 #endif

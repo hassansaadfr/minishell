@@ -20,5 +20,5 @@ static void	print_env_list(t_list *env_list)
 int			env(t_list *env_list)
 {
 	print_env_list(env_list);
-	return (1);
+	return (0);
 }

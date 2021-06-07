@@ -10,7 +10,7 @@ int			builtin_echo(char **argv, t_list *env_list)
 	nl = 0;
 	(void)env_list;
 	argv++;
-	if (*argv && ft_strncmp(argv[0], "-n", 3) == 0)
+	while (*argv && ft_strncmp(argv[0], "-n", 3) == 0)
 	{
 		nl = 1;
 		argv++;
