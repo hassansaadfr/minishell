@@ -77,12 +77,14 @@ int				builtin_export(char **argv, t_list *env_list)
 {
 	char	*env;
 	int		done;
+	char	*name;
 
 	done = 0;
 	if (get_strarr_size(argv) == 1)
 		print_env_list(env_list);
 	else
 	{
+		name = parse_env_name(*argv);
 		argv++;
 		while (*argv)
 		{
@@ -96,6 +98,7 @@ int				builtin_export(char **argv, t_list *env_list)
 			}
 			argv++;
 		}
+		ft_free_ptr((void**)&name);
 	}
 	return (done);
 }
