@@ -14,7 +14,7 @@ static char	**token_list_to_array(t_list *token_list)
 	tmp_lst = token_list;
 	while (tmp_lst)
 	{
-		array[i] = ((t_token *)(tmp_lst->content))->arg;
+		array[i] = ft_strdup(((t_token *)(tmp_lst->content))->arg);
 		i++;
 		tmp_lst = tmp_lst->next;
 	}
@@ -63,11 +63,13 @@ int perform_execution(t_list *redirs, t_list *tokens, t_list *env_list)
 			ret_exec = execution(cmds, env_list, NULL);
 			free_split(cmds);
 		}
-		ft_lstclear(&tokens, free_token);
 	}
+	if (tokens)
+		ft_lstclear(&tokens, free_token);
 	if (redirs)
 	{
 		restore_fd(&backup);
+
 		ft_lstclear(&redirs, free_token);
 	}
 	return (ret_exec);
