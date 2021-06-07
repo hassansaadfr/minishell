@@ -50,20 +50,6 @@ static char	*get_err_msg(t_list *env_list, int msg)
 		return (ft_strdup(TOO_MUCH_ARGS_EN));
 }
 
-static void	print_err(char *arg, char *err)
-{
-	ft_putstr_fd("minishell:", STDERR_FILENO);
-	if (!isatty(STDIN_FILENO))
-		ft_putstr_fd(" line 1:", STDERR_FILENO);
-	ft_putstr_fd(" exit: ", STDERR_FILENO);
-	if (arg)
-	{
-		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-	}
-	ft_putendl_fd(err, STDERR_FILENO);
-}
-
 static int	get_exit_code(char *str, t_list *env_list)
 {
 	long int		code;
@@ -73,7 +59,7 @@ static int	get_exit_code(char *str, t_list *env_list)
 	code = ft_atoll(str, &overflow);
 	if (overflow)
 	{
-		print_err(str, get_err_msg(env_list, ARG_NUMERIC));
+		print_err("exit", str, get_err_msg(env_list, ARG_NUMERIC));
 		return (2);
 	}
 	return (code % 256);
@@ -90,12 +76,12 @@ int			builtin_exit(char **argv, t_list *env_list)
 		ft_exit_free(0);
 	if (!is_numeric(*argv))
 	{
-		print_err(*argv, get_err_msg(env_list, ARG_NUMERIC));
+		print_err("exit", *argv, get_err_msg(env_list, ARG_NUMERIC));
 		ft_exit_free(2);
 	}
 	else if (arr_len > 1)
 	{
-		print_err(NULL, get_err_msg(env_list, TOO_MUCH_ARGS));
+		print_err("exit", NULL, get_err_msg(env_list, TOO_MUCH_ARGS));
 		if (!isatty(STDIN_FILENO))
 			ft_exit_free(1);
 	}

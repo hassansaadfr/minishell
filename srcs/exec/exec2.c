@@ -47,21 +47,32 @@ void	reformat(t_list *list)
 	}
 }
 
+void	display_token(t_list *tokens)
+{
+	t_list *tmp;
+	t_token *tok;
+
+	tmp = tokens;
+	while (tmp)
+	{
+		tok = tmp->content;
+		printf("token : %s\n", tok->arg);
+		tmp = tmp->next;
+	}
+}
+
 int		execute_simple_cmd(t_list *tokens, t_list *env_list)
 {
-	(void)env_list;
-	int		ret_exec;
 	t_list	*redirs;
+	char	**cmds;
 
+	cmds = NULL;
 	redirs = isolate_redirs(&tokens);
 	if (tokens)
 		tokens = expand_args(&tokens, env_list);
 	if (redirs)
 		redirs = expand_redirs(&redirs, env_list);
-	ft_lstclear(&redirs, free_token);
-	ft_lstclear(&tokens, free_token);
-	ret_exec = 0;
-	return (0);
+	return (perform_execution(redirs, tokens, env_list));
 }
 
 int		executing(t_list *tokens, t_list *env_list, t_list *history)

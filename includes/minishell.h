@@ -13,6 +13,7 @@
 # include <curses.h>
 # include <signal.h>
 # include <limits.h>
+# include <fcntl.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -92,9 +93,18 @@ int			is_valid_env_name(char *name, char *binary);
 /*
 ** FILE - exec.c
 */
-int			execution(char ***cmds, t_list *env_list, t_list *history);
-int			exec_bin(char *path, char **args, t_list *env_li);
-char		*create_full_path(char *bin_path, char *cmd);
+int			execution(char **cmds, t_list *env_list, t_list *history);
+int			process_is_parent(void);
+
+/*
+** FILE redirections.c
+*/
+int			perform_redirections(t_list *redirs);
+
+/*
+** FILE perform_execution.c
+*/
+int 		perform_execution(t_list *redirs, t_list *tokens, t_list *env_list);
 
 /*
 **	FILE - utils_mem_env.c
@@ -114,6 +124,7 @@ int			exec_from_builtins(char **cmd, t_list *env_list, t_list	*history);
 */
 int			is_path(char *cmd);
 int			exec_from_path(char **cmd, t_list *env_list);
+t_path		get_path_type(char *str);
 
 /*
 **	FILE - bin_bins.c
@@ -124,6 +135,7 @@ int			exec_from_bins(char **cmd, t_list *env_list);
 **	FILE - signals.c
 */
 void		sigint_handler(int signal_value);
+void		sigquit_handler(int signal_value);
 
 /*
 **	FILE - termios.c
@@ -262,6 +274,14 @@ void		prepare_concat(char **dollar_pos, char **new_arg, char **remaining,
 char		*dup_expansion_value(char *key_pos, t_list *env_list);
 void		quoting_to_neg(char **expansion);
 
+/*
+**	FILE - path_utils.c
+*/
+char		*get_binary_path(char *cmd, t_list *env_list);
 
+/*
+**	FILE - errors.c
+*/
+void		print_err(char *binary, char *arg, char *err);
 
 #endif

@@ -18,10 +18,7 @@
 # define TOO_MUCH_ARGS_FR "trop d'arguments"
 # define TOO_MUCH_ARGS_EN "too many arguments"
 
-enum	e_err_msg_exit
-{
-	ARG_NUMERIC,
-	TOO_MUCH_ARGS
-};
+# define COMMAND_NOT_FOUND_EN "command not found"
+# define COMMAND_NOT_FOUND_FR "commande introuvable"
 
 #endif

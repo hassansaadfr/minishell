@@ -3,7 +3,7 @@
 void		signal_handling_register(void)
 {
 	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, sigquit_handler);
 }
 
 /*
@@ -38,11 +38,11 @@ static int	minishell_tty(t_list *env_list)
 		prompt();
 		tokens = NULL;
 		stop = write_buffer(&stop, &buff, history);
-		disable_raw_mode(orig_termios);
 		if (stop == 0 && not_empty(buff.buffer))
 			stop = add_to_history(&buff, &history);
 		if (stop == 0 && not_empty(buff.buffer))
 			tokens = parsing(buff.buffer);
+		disable_raw_mode(orig_termios);
 		if (tokens != NULL)
 			stop = executing(tokens, env_list, history);
 		orig_termios = enable_raw_mode();
@@ -57,7 +57,8 @@ static int	minishell_non_tty(t_list *env_list)
 {
 	int		ret_gnl;
 	char	*line;
-	char	***cmds;
+	// char	***cmds;
+	t_list		*tokens;
 
 	line = NULL;
 	ret_gnl = 1;
@@ -67,8 +68,10 @@ static int	minishell_non_tty(t_list *env_list)
 		ret_gnl = get_next_line(STDIN_FILENO, &line);
 		if (*line)
 		{
-			cmds = parse(line);
-			execution(cmds, env_list, NULL);
+			tokens = parsing(line);
+			executing(tokens, env_list, NULL);
+			// cmds = parse(line);
+			// execution(cmds, env_list, NULL);
 		}
 		ft_free_ptr((void**)&line);
 	}
@@ -89,6 +92,9 @@ int			main(int argc, char **argv, char **envp)
 	(void)argv;
 	g_global.env_list = init_env(envp);
 	minishell(g_global.env_list);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 	ft_exit_free(0);
 	return (0);
 }

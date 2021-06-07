@@ -1,5 +1,5 @@
 NAME = libft.a
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror -g
 OPTIONS = -I
 ARC = ar rc
@@ -22,16 +22,16 @@ OBJS = $(SRCS:.c=.o)
 all:	$(NAME)
 
 $(NAME):	$(OBJS)
-	$(ARC) $(NAME) $(OBJS)
+	@$(ARC) $(NAME) $(OBJS)
 
 %.o:%.c libft.h
-	$(CC) $(CFLAGS) -o $@ -c $<
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
 
 fclean:	clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re:	fclean all
 
