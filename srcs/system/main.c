@@ -44,7 +44,7 @@ static int	minishell_tty(t_list *env_list)
 			tokens = parsing(buff.buffer);
 		disable_raw_mode(orig_termios);
 		if (tokens != NULL)
-			stop = executing(tokens, env_list, history);
+			g_global.last_return = executing(tokens, env_list, history);
 		orig_termios = enable_raw_mode();
 	}
 	disable_raw_mode(orig_termios);

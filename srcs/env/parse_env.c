@@ -83,27 +83,27 @@ char		*parse_env_value(char *env)
 	return (value);
 }
 
-int			is_valid_env_name(char *name, char *binary)
+int	is_valid_env_name(char *name, char *binary)
 {
 	int		i;
+	char	*variable_name;
 
+	variable_name = NULL;
+	variable_name = parse_env_name(name);
+	if (variable_name == NULL)
+		return (1);
 	i = 0;
-	while (name && name[i])
+	while (variable_name[i])
 	{
-		if (ft_isalnum(name[i]) || name[i] == '_')
+		if (ft_isalnum(variable_name[i]) || variable_name[i] == '_')
 			i++;
 		else
 		{
 			if (isatty(STDIN_FILENO))
-			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				ft_putstr_fd(binary, STDERR_FILENO);
-				ft_putstr_fd(" « ", STDERR_FILENO);
-				ft_putstr_fd(name, STDERR_FILENO);
-				ft_putendl_fd(" » : identifiant non valable", STDERR_FILENO);
-			}
+				print_err(binary, variable_name, "identifiant non valable");
 			return (1);
 		}
 	}
+	ft_free_ptr((void **)&variable_name);
 	return (0);
 }
