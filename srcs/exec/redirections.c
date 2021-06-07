@@ -54,13 +54,9 @@ static int	perform_inf_redir(t_token *node)
 int	perform_redirections(t_list *redirs)
 {
 	t_token	*node;
-	int		backup;
 	int		ret_redir;
 
 	ret_redir = 0;
-	backup = -1;
-	if (!redirs)
-		return (1);
 	while (redirs)
 	{
 		node = redirs->content;
