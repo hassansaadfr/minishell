@@ -72,15 +72,17 @@ char			*get_binary_path(char *cmd, t_list *env_list)
 {
 	char				*path;
 	t_path				path_type;
-	char				*pwd;
+	char				pwd[PATH_MAX];
 
-	pwd = get_env_value(env_list, "PWD");
 	path_type = get_path_type(cmd);
 	path = NULL;
 	if (path_type == NO_PATH)
 		path = find_bin_in_path(cmd, env_list);
 	else if (path_type == RELATIVE_PATH)
-		path = create_full_path(pwd, cmd);
+	{
+		if (getcwd(pwd, PATH_MAX) != NULL)
+			path = create_full_path(pwd, cmd);
+	}
 	else
 		path = cmd;
 	return (path);
