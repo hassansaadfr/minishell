@@ -54,4 +54,3 @@ void    remove_empty_tokens(t_list **args)
 		}
 	}
 }
-

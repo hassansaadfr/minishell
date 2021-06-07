@@ -22,6 +22,7 @@ static int	minishell_tty(t_list *env_list)
 	t_termios	orig_termios;
 	t_list		*tokens;
 
+	g_global.last_return = 42;
 	orig_termios = enable_raw_mode();
 	if (init_termcaps(env_list) == 0)
 	{

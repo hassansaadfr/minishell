@@ -26,6 +26,7 @@ typedef struct			s_global
 	t_list	*env_list;
 	pid_t	pid;
 	t_input	*buff;
+	int		last_return;
 }						t_global;
 
 t_global				g_global;
