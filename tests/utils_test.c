@@ -26,7 +26,7 @@ char	**compare_bash_msh(char *test_name, char *cmd)
 	char		returned[1000];
 	char		**outputs;
 
-	outputs = malloc(sizeof(char*) * 3);
+	outputs = malloc(sizeof(char *) * 3);
 	outputs[2] = 0;
 	cmds = generate_cmds(test_name, cmd);
 	system(cmds->cmd_bash);

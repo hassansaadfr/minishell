@@ -6,7 +6,7 @@ static void	bufferize_redir_dsup(t_parse *p, char **line)
 	*(p->buffer++) = **line;
 }
 
-int			metachar(t_parse *p, char **line)
+int	metachar(t_parse *p, char **line)
 {
 	int	ret_add;
 
@@ -22,7 +22,7 @@ int			metachar(t_parse *p, char **line)
 	return (ret_add);
 }
 
-int			space_or_null(t_parse *p)
+int	space_or_null(t_parse *p)
 {
 	if (not_empty(p->buffer_start))
 		return (add_to_tokens_list(p));
@@ -30,14 +30,14 @@ int			space_or_null(t_parse *p)
 		return (1);
 }
 
-int			is_metachar(char c)
+int	is_metachar(char c)
 {
 	return (c == ';' || c == '>' || c == '<' || c == '|');
 }
 
-int			d_quote_conditions(t_parse *p, char **line)
+int	d_quote_conditions(t_parse *p, char **line)
 {
 	return ((**line == '\"' && p->state == NORMAL)
-			|| (**line && p->state == D_QUOTE && **line != '\"')
-			|| (**line == '\"' && p->state == D_QUOTE));
+		|| (**line && p->state == D_QUOTE && **line != '\"')
+		|| (**line == '\"' && p->state == D_QUOTE));
 }

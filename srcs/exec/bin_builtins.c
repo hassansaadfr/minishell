@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		exec_from_builtins(char **argv, t_list *env_list, t_list *history)
+int	exec_from_builtins(char **argv, t_list *env_list, t_list *history)
 {
 	if (ft_strcmp(*argv, "history") == 0)
 		return (builtin_history(argv, env_list, history));
@@ -21,7 +21,7 @@ int		exec_from_builtins(char **argv, t_list *env_list, t_list *history)
 	return (0);
 }
 
-int		is_builtin(char **argv)
+int	is_builtin(char **argv)
 {
 	if (ft_strcmp(*argv, "pwd") == 0)
 		return (1);

@@ -19,7 +19,7 @@ static int	is_numeric(char *arg)
 		i++;
 	if (out == -1 && str[i])
 		out = 0;
-	ft_free_ptr((void**)&str);
+	ft_free_ptr((void **)&str);
 	return (out);
 }
 
@@ -32,7 +32,7 @@ static char	*get_err_msg(t_list *env_list, int msg)
 	tmp = get_env(env_list, "LANG");
 	if (tmp && tmp->content)
 	{
-		lang = ((t_env*)(tmp->content))->value;
+		lang = ((t_env *)(tmp->content))->value;
 		if (lang)
 		{
 			if (ft_strncmp("fr_FR", lang, 5) == 0)
@@ -65,9 +65,10 @@ static int	get_exit_code(char *str, t_list *env_list)
 	return (code % 256);
 }
 
-int			builtin_exit(char **argv, t_list *env_list)
+int	builtin_exit(char **argv, t_list *env_list)
 {
 	int		arr_len;
+
 	argv++;
 	arr_len = get_strarr_size(argv);
 	if (isatty(STDIN_FILENO))

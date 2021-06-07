@@ -8,8 +8,8 @@ static char		*concat_name_value_env(t_list *list)
 	char	*value;
 	char	*out;
 
-	name = ((t_env*)list->content)->name;
-	value = ((t_env*)list->content)->value;
+	name = ((t_env *)list->content)->name;
+	value = ((t_env *)list->content)->value;
 	out = ft_strjoin(name, "=");
 	out = ft_strjoin(out, value);
 	return (out);
@@ -22,7 +22,7 @@ static char		**init_dummy_arrstr(void)
 	char	*word2 = "KIND=SHELL";
 	char	*word3 = "FOO=BAR";
 
-	out = malloc(sizeof(char*) * (3 + 1));
+	out = malloc(sizeof(char *) * (3 + 1));
 	out[0] = ft_strdup(word1);
 	out[1] = ft_strdup(word2);
 	out[2] = ft_strdup(word3);

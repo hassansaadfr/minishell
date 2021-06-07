@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char		**parse_cmd(char *splitted)
+static char	**parse_cmd(char *splitted)
 {
 	char	**splitted_cmd;
 
@@ -13,7 +13,7 @@ static char		**parse_cmd(char *splitted)
 ** Check return of split
 */
 
-char			***parse(char *cmd)
+char	***parse(char *cmd)
 {
 	int		i;
 	char	**splitted;
@@ -23,7 +23,7 @@ char			***parse(char *cmd)
 	i = 0;
 	splitted = ft_split(cmd, ';');
 	size = get_strarr_size(splitted);
-	cmd_list = ft_alloc(sizeof(char*) * (size + 1));
+	cmd_list = ft_alloc(sizeof(char *) * (size + 1));
 	cmd_list[size] = NULL;
 	while (splitted[i])
 	{

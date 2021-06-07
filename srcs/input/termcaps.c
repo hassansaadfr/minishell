@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		put_termcap(int c)
+int	put_termcap(int c)
 {
 	char	ch_c;
 

@@ -13,14 +13,14 @@ void	display_lst(t_list *hist)
 	while (hist)
 	{
         printf("%d\tcur: %p\t\"%10.10s\"\tprv: %15p\tnxt: %15p\n", i++, hist,
-            (char*)hist->content, hist->previous, hist->next);
+            (char *)hist->content, hist->previous, hist->next);
 		hist = hist->next;
 	}
 	printf("a l'envers\n");
 	while (last)
 	{
 		printf("%d\tcur: %p\t\"%10.10s\"\tprv: %15p\tnxt: %15p\n", i++, last,
-			(char*)last->content, last->previous, last->next);
+			(char *)last->content, last->previous, last->next);
 		last = last->previous;
 	}
 	printf("fini\n");
@@ -59,7 +59,7 @@ int	main(void)
 	// str[1] = '2';
 	// str[2] = 0;
 	// ft_putendl_fd(str, STDOUT_FILENO);
-	// // ft_free_ptr((void**)(&str));
+	// // ft_free_ptr((void **)(&str));
 	// ft_exit_free();
 	// // str = NULL;
 	// ft_putendl_fd(str, STDOUT_FILENO);

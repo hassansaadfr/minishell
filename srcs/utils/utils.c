@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		get_strarr_size(char **arr)
+int	get_strarr_size(char **arr)
 {
 	int		i;
 
@@ -12,7 +12,7 @@ int		get_strarr_size(char **arr)
 	return (i);
 }
 
-int		handle_errno(int err, char *binary, char *arg)
+int	handle_errno(int err, char *binary, char *arg)
 {
 	if (err != 0)
 	{

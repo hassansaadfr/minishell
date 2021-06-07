@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int			process_is_parent(void)
+int	process_is_parent(void)
 {
 	if (g_global.pid > 0)
 		return (PARENT_PID);
@@ -73,13 +73,13 @@ static int	search_bin(char **cmd, t_list *env_list)
 	}
 	else
 	{
-		ft_free_ptr((void**)&cmd[0]);
+		ft_free_ptr((void **)&cmd[0]);
 		cmd[0] = path;
 		return (can_exec(path));
 	}
 }
 
-int			execution(char **cmds, t_list *env_list, t_list *history)
+int	execution(char **cmds, t_list *env_list, t_list *history)
 {
 	int		can_exec;
 	int		return_value;

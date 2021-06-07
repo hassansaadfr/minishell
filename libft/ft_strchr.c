@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axaidan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 17:40:51 by axaidan           #+#    #+#             */
-/*   Updated: 2020/09/25 17:41:39 by axaidan          ###   ########.fr       */
+/*   Updated: 2021/06/08 00:14:50 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ char	*ft_strchr(const char *s, int c)
 		i++;
 	if (s[i] == '\0' && (char)c != '\0')
 		return (NULL);
-	return ((char*)(s + i));
+	return ((char *)(s + i));
 }

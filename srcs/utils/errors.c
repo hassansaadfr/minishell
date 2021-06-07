@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void		print_err(char *binary, char *arg, char *err)
+void	print_err(char *binary, char *arg, char *err)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (!isatty(STDIN_FILENO))

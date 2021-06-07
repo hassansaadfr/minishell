@@ -9,7 +9,7 @@ static char		**init_dummy_arrstr(void)
 	char	*word2 = "KIND=SHELL";
 	char	*word3 = "FOO=BAR";
 
-	out = malloc(sizeof(char*) * (3 + 1));
+	out = malloc(sizeof(char *) * (3 + 1));
 	out[0] = ft_strdup(word1);
 	out[1] = ft_strdup(word2);
 	out[2] = ft_strdup(word3);

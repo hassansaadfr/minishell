@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		smc_exclusions(t_token *last_token)
+int	smc_exclusions(t_token *last_token)
 {
 	int		last_type;
 
@@ -15,7 +15,7 @@ int		smc_exclusions(t_token *last_token)
 	return (S_COLON);
 }
 
-int		pipe_exclusions(t_token *last_token)
+int	pipe_exclusions(t_token *last_token)
 {
 	int		last_type;
 
@@ -30,7 +30,7 @@ int		pipe_exclusions(t_token *last_token)
 	return (PIPE);
 }
 
-int		redirs_exclusions(t_token *last_token, int curr_type)
+int	redirs_exclusions(t_token *last_token, int curr_type)
 {
 	int		last_type;
 
@@ -42,7 +42,7 @@ int		redirs_exclusions(t_token *last_token, int curr_type)
 	return (curr_type);
 }
 
-int		newline_exclusions(t_list *last_node)
+int	newline_exclusions(t_list *last_node)
 {
 	int		last_type;
 	t_token	*last_token;
@@ -55,8 +55,9 @@ int		newline_exclusions(t_list *last_node)
 		return (1);
 	else
 		last_type = last_token->type;
-	if (last_type &&
-			(last_type == S_COLON || last_type == FD || last_type == ARG))
+	if (last_type && (
+			last_type == S_COLON || last_type == FD || last_type == ARG
+		))
 		return (1);
 	return (0);
 }

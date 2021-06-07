@@ -16,7 +16,7 @@ char	read_key(void)
 	return (c);
 }
 
-int		process_key(t_input *buff)
+int	process_key(t_input *buff)
 {
 	char	c;
 
@@ -30,13 +30,13 @@ int		process_key(t_input *buff)
 	return (c);
 }
 
-int		expand_buffers(t_input *buff)
+int	expand_buffers(t_input *buff)
 {
 	(buff->factor)++;
 	buff->buffer = ft_realloc(buff->buffer,
-		(size_t)INPUT_MAX * (buff->factor - 1), INPUT_MAX * buff->factor);
+			(size_t)INPUT_MAX * (buff->factor - 1), INPUT_MAX * buff->factor);
 	buff->backup = ft_realloc(buff->backup,
-		(size_t)INPUT_MAX * (buff->factor - 1), INPUT_MAX * buff->factor);
+			(size_t)INPUT_MAX * (buff->factor - 1), INPUT_MAX * buff->factor);
 	return (0);
 }
 
