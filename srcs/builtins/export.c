@@ -88,7 +88,7 @@ int				builtin_export(char **argv, t_list *env_list)
 		argv++;
 		while (*argv)
 		{
-			if (is_valid_env_name(parse_env_name(*argv), "export") == 0)
+			if (is_valid_env_name(name, "export") == 0)
 			{
 				env = ft_strdup(*argv);
 				done = new_env(env_list, env);
