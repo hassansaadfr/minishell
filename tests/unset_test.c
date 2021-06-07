@@ -34,7 +34,7 @@ Test(unset_suite, unset_basic_exist) {
 	env_list = test_init_env();
 	is_unset = unset("KIND", env_list);
 	cr_assert(get_env(env_list, "KIND") == NULL);
-	cr_assert(is_unset == 1);
+	cr_assert(is_unset == 0);
 	free_env(&env_list);
 }
 
@@ -45,7 +45,7 @@ Test(unset_suite, unset_basic_undefined) {
 	env_list = test_init_env();
 	is_unset = unset("TITI", env_list);
 	cr_assert(get_env(env_list, "TITI") == NULL);
-	cr_assert(is_unset == 0);
+	cr_assert(is_unset == 1);
 	free_env(&env_list);
 }
 
@@ -56,6 +56,6 @@ Test(unset_suite, unset_malformed_name) {
 	env_list = test_init_env();
 	is_unset = unset("TITI=", env_list);
 	printf("is unset %d\n", is_unset);
-	cr_assert(is_unset == 0);
+	cr_assert(is_unset == 1);
 	free_env(&env_list);
 }
