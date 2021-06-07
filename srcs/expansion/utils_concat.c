@@ -48,6 +48,8 @@ char    *concat_expansion(char *new_arg, char *key_pos, t_list *env_list)
 		expansion = ft_strdup("$");
 	else if (*key_pos == '?')
 		expansion = ft_itoa(g_global.last_return);
+	else if (*key_pos == '\'' || *key_pos == '\"')
+		expansion = ft_strdup("");
 	else
 		expansion = dup_expansion_value(key_pos, env_list);
 	if (expansion != NULL)
@@ -75,8 +77,8 @@ void    prepare_concat(char **dollar_pos, char **new_arg, char **remaining,
 	}
 	(*dollar_pos)++;
 	*remaining = *dollar_pos;
-	// DETECT "$?" HERE
-	if (*remaining == *dollar_pos && **remaining == '?')
+	if (*remaining == *dollar_pos && (**remaining == '?' ||
+			**remaining == '\'' || **remaining == '\"'))
 		(*remaining)++;
 	else
 	{
