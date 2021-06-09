@@ -40,7 +40,7 @@ int	expand_buffers(t_input *buff)
 	return (0);
 }
 
-int		write_buffer(int *stop, t_input *buff, t_list *history)
+int	write_buffer(int *stop, t_input *buff, t_list *history)
 {
 	int		c;
 

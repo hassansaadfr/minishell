@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+void	signal_handling_register(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
+}
+
 void	sigint_handler(int signal_value)
 {
 	if (process_is_parent() == PARENT_PID)

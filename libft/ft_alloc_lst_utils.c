@@ -1,21 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_alloc_lst_utils.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/15 14:01:53 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/05/17 14:42:39 by hsaadaou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
-void			*ft_malloc_err(size_t size)
+void	*ft_malloc_err(size_t size)
 {
-	static int current = 0;
-	static int limit = -1;
+	static int	current = 0;
+	static int	limit = -1;
 
 	if (!DEBUG_MALLOC)
 		return (malloc(size));
@@ -32,11 +20,10 @@ void			*ft_malloc_err(size_t size)
 	}
 }
 
-void			exit_gracefully(t_list **arr_ptr, int error, int exit_code)
+void	exit_gracefully(t_list **arr_ptr, int error, int exit_code)
 {
 	if (error != 0)
 	{
-		printf("here %d\n", error);
 		ft_putstr_fd(strerror(error), STDERR_FILENO);
 		ft_clearallocs(arr_ptr, free);
 		exit(error);
@@ -45,7 +32,7 @@ void			exit_gracefully(t_list **arr_ptr, int error, int exit_code)
 	exit(exit_code);
 }
 
-t_list			*ft_lstnew_alloc(void *content, t_list **arr_ptr)
+t_list	*ft_lstnew_alloc(void *content, t_list **arr_ptr)
 {
 	t_list	*new;
 
@@ -63,7 +50,7 @@ t_list			*ft_lstnew_alloc(void *content, t_list **arr_ptr)
 	return (new);
 }
 
-void			ft_lstdelnode(t_list **elem, void (*del)(void *))
+void	ft_lstdelnode(t_list **elem, void (*del)(void *))
 {
 	t_list	*tmp;
 
@@ -91,7 +78,7 @@ void			ft_lstdelnode(t_list **elem, void (*del)(void *))
 	free(tmp);
 }
 
-void			ft_clearallocs(t_list **lst, void (*del)(void*))
+void	ft_clearallocs(t_list **lst, void (*del)(void*))
 {
 	t_list	*current;
 	t_list	*previous;
