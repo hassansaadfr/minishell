@@ -23,35 +23,31 @@ int	minishell_init(struct termios *orig_termios,
 
 int	minishell_tty(t_list *env_list)
 {
-	int				stop;
-	t_list			*history;
-	t_input			buff;
-	struct termios	orig_termios;
-	t_list			*tokens;
+	t_msh	msh;
 
-	if (minishell_init(&orig_termios, env_list) == 1)
+	if (minishell_init(&msh.orig_termios, env_list) == 1)
 		return (-1);
-	init_buff_and_history(&buff, &history);
-	stop = 0;
-	while (stop == 0)
+	init_buff_and_history(&msh.buff, &msh.history);
+	msh.stop = 0;
+	while (msh.stop == 0)
 	{
 		prompt();
-		tokens = NULL;
-		stop = write_buffer(&stop, &buff, history);
-		if (stop == 0 && not_empty(buff.buffer))
+		msh.tokens = NULL;
+		msh.stop = write_buffer(&msh.stop, &msh.buff, msh.history);
+		if (msh.stop == 0 && not_empty(msh.buff.buffer))
 		{
-			stop = add_to_history(&buff, &history);
-			tokens = parsing(buff.buffer);
+			msh.stop = add_to_history(&msh.buff, &msh.history);
+			msh.tokens = parsing(msh.buff.buffer);
 		}
-		disable_raw_mode(orig_termios);
-		if (tokens != NULL)
-			g_global.last_return = executing(tokens, env_list, history);
-		orig_termios = enable_raw_mode();
+		disable_raw_mode(msh.orig_termios);
+		if (msh.tokens != NULL)
+			g_global.last_return = executing(msh.tokens, env_list, msh.history);
+		msh.orig_termios = enable_raw_mode();
 	}
-	disable_raw_mode(orig_termios);
-	ft_free_ptr((void **)&buff.buffer);
-	ft_free_ptr((void **)&buff.backup);
-	return (stop);
+	disable_raw_mode(msh.orig_termios);
+	ft_free_ptr((void **)&msh.buff.buffer);
+	ft_free_ptr((void **)&msh.buff.backup);
+	return (msh.stop);
 }
 
 int	minishell_non_tty(t_list *env_list)
