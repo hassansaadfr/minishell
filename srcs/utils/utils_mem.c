@@ -1,18 +1,5 @@
 #include "minishell.h"
 
-void	free_split(char **splitted)
-{
-	int	i;
-
-	i = 0;
-	while (splitted[i] != NULL)
-	{
-		ft_free_ptr((void **)&splitted[i]);
-		i++;
-	}
-	ft_free_ptr((void **)&splitted);
-}
-
 void	free_cmds(char ***cmds)
 {
 	int	i;

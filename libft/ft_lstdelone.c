@@ -1,12 +1,10 @@
 #include "libft.h"
 #include <stdio.h>
 
-void	ft_lstdelone(t_list **elem, void (*del)(void *))
+static void	rearrange(t_list **elem, void (*del)(void *))
 {
 	t_list	*tmp;
 
-	if (*elem == NULL)
-		return ;
 	tmp = *elem;
 	if ((*elem)->previous == NULL && (*elem)->next == NULL)
 		*elem = NULL;
@@ -30,4 +28,10 @@ void	ft_lstdelone(t_list **elem, void (*del)(void *))
 		del(tmp->content);
 		ft_free_ptr((void **)&tmp);
 	}
+}
+
+void	ft_lstdelone(t_list **elem, void (*del)(void *))
+{
+	if (*elem)
+		rearrange(elem, del);
 }

@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_alloc_utils.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/12 17:01:51 by user42            #+#    #+#             */
-/*   Updated: 2021/05/17 14:41:44 by hsaadaou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
 static t_list	**find_addr(t_list **lst, void *addr)
 {
-	t_list **node_addr;
+	t_list	**node_addr;
 
 	while (*lst)
 	{
@@ -28,7 +16,7 @@ static t_list	**find_addr(t_list **lst, void *addr)
 	return (NULL);
 }
 
-static void		*ft_free(t_list **pointers, void **addr)
+static void	*ft_free(t_list **pointers, void **addr)
 {
 	t_list			**tmp;
 	t_list			*cursor;
@@ -49,7 +37,7 @@ static void		*ft_free(t_list **pointers, void **addr)
 	return (NULL);
 }
 
-void			*ft_alloc_mem(size_t size, int done, void **addr, int exit_code)
+void	*ft_alloc_mem(size_t size, int done, void **addr, int exit_code)
 {
 	static t_list	*pointers = NULL;
 	void			*ptr;

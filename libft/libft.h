@@ -8,14 +8,17 @@
 # include <string.h>
 # include <limits.h>
 # include <stdio.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 # ifndef DEBUG_MALLOC
-
 #  define DEBUG_MALLOC 0
-
 # endif
 
-# define BUFFER_SIZE 1024
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
 
 void					*ft_memset(void *s, int c, size_t n);
 void					ft_bzero(void *s, size_t n);
@@ -51,6 +54,7 @@ char					*ft_substr(char const *s,
 char					*ft_strjoin(char const *s1, char const *s2);
 char					*ft_strtrim(char const *s, char const *set);
 char					**ft_split(char const *s, char c);
+void					*free_split(char **str);
 char					*ft_itoa(int n);
 char					*ft_strmapi(char const *s,
 							char (*f)(unsigned int, char));
@@ -76,8 +80,6 @@ void					ft_lstadd_back(t_list **alst, t_list *new);
 void					ft_lstdelone(t_list **elem, void (*del)(void*));
 void					ft_lstclear(t_list **lst, void(*del)(void *));
 void					ft_lstiter(t_list *lst, void(*f)(void *));
-t_list					*ft_lstmap(t_list *lst, void *(*f)(void*),
-							void (*del)(void*));
 
 int						get_next_line(int fd, char **line);
 
@@ -93,5 +95,7 @@ void					ft_clearallocs(t_list **lst, void (*del)(void*));
 void					exit_gracefully(t_list **arr_ptr,
 							int error, int exit_code);
 void					*ft_malloc_err(size_t size);
+
+int						get_next_line(int fd, char **line);
 
 #endif

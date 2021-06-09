@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/10 16:10:59 by axaidan           #+#    #+#             */
-/*   Updated: 2021/06/08 00:14:50 by hsaadaou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
 static int	overlaps(void *dest, const void *src, size_t n)
@@ -26,7 +14,7 @@ static int	overlaps(void *dest, const void *src, size_t n)
 	return (0);
 }
 
-void		*ft_memmove(void *dest, const void *src, size_t n)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
 	size_t	i;
 
