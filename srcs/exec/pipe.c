@@ -25,13 +25,15 @@ int wait_all_pids(int *pids, int cmd_count)
 	i = 0;
 	while (i < cmd_count)
 	{
-		if (waitpid(pids[i++], &return_code, 0) == -1)
+		if (pids[i] == -1)
+			i++;
+		else if (waitpid(pids[i++], &return_code, 0) == -1)
 			return (display_err_ret_err("waitpid", strerror(errno), 125 + errno));
 	}
 	return (return_code);
 }
 
-int add_child_proc(char **cmd, int *in_out_tbc, char **envp)
+int add_child_proc(char **cmd, int *in_out_tbc, char **envp, t_list *redirs)
 {
 	int     pid;
 
@@ -40,16 +42,19 @@ int add_child_proc(char **cmd, int *in_out_tbc, char **envp)
 		return (display_err_ret_err("fork", strerror(errno), 125 + errno));
 	else if (pid == 0)
 	{
+		perform_pipeline_redirections(redirs, in_out_tbc);
 		if (in_out_tbc[TBC] >= 0)
 			close(in_out_tbc[TBC]);
 		dup2(in_out_tbc[IN], STDIN_FILENO);
 		dup2(in_out_tbc[OUT], STDOUT_FILENO);
+		if (cmd == NULL || cmd[0] == NULL)
+			exit(0);
 		if (execve(cmd[0], cmd, envp) == -1) 
 		{   
 			display_err_ret_err(cmd[0], strerror(errno), 125 + errno);
 			exit(errno);
-		}   
-	}   
+		}
+	}
 	return (pid);
 }
 
@@ -83,8 +88,9 @@ int	pipeline_execution(t_cmd_and_redir *cmds, t_list *env_list,
 		}
 		assign_in_out_tbc(cmd_count, p.i, p.in_out_tbc, p.pipe_fds);
 		p.cmd = token_list_to_array(cmds[p.i].cmd);
-		search_bin(p.cmd, env_list); // MOVE
-		p.pids[p.i] = add_child_proc(p.cmd, p.in_out_tbc, p.envp);
+		if (p.cmd && p.cmd[0])
+			search_bin(p.cmd, env_list); // MOVE
+		p.pids[p.i] = add_child_proc(p.cmd, p.in_out_tbc, p.envp, cmds[p.i].redirs);
 		close(p.in_out_tbc[IN]);
 		if (p.i < cmd_count - 1)
 			close(p.pipe_fds[1]);
@@ -113,7 +119,7 @@ int execute_pipeline(t_list *pipeline, t_list *env_list)
 	expand_pipeline(splitted_pipeline, cmd_count, env_list);
 //	/*DBG*/display_splitted_pipeline(splitted_pipeline, cmd_count);
 	ret_exec = pipeline_execution(splitted_pipeline, env_list, cmd_count);
-	free_splitted_pipeline(splitted_pipeline, cmd_count);
+//	free_splitted_pipeline(splitted_pipeline, cmd_count); // TO DO
 	ft_free_ptr((void **)&splitted_pipeline);
 	return (ret_exec);
 }

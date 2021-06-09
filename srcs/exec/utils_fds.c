@@ -2,6 +2,8 @@
 
 int	init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list)
 {
+	int		i;
+
 	p->i = 0;
 	p->in_out_tbc[IN] = STDIN_FILENO;
 	p->cmd = NULL;
@@ -9,6 +11,9 @@ int	init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list)
 	p->pids = ft_alloc(sizeof(int) * cmd_count);
 	backup_std(p->old_fds);
 	// PROTECT
+	i = 0;
+	while (i < cmd_count)
+		p->pids[i++] = -1;
 	return (1);
 }
 

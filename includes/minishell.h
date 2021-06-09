@@ -322,4 +322,7 @@ int				init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list);
 void			expand_pipeline(t_cmd_and_redir *pipeline, int cmd_count,
 				t_list *env_list);
 
+/*	FILE - pipeline_redirs.c */
+int				perform_pipeline_redirections(t_list *redirs, int *in_out_tbc);
+
 #endif
