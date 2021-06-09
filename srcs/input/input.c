@@ -5,8 +5,10 @@ char	read_key(void)
 	int		bytes_read;
 	char	c;
 
-	while ((bytes_read = read(STDIN_FILENO, &c, 1)) != 1)
+	bytes_read = 0;
+	while (bytes_read != 1)
 	{
+		bytes_read = read(STDIN_FILENO, &c, 1);
 		if (bytes_read == -1 && errno != EAGAIN)
 		{
 			ft_putstr_fd("error -- read(2)\n", STDERR_FILENO);
