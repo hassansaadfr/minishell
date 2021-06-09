@@ -294,4 +294,9 @@ int			count_pipes(t_list *pipeline);
 /*	FILE - pipe.c */
 int			execute_pipeline(t_list *pipeline, t_list *env_list);
 
+/*	FILE - utils_fds.c */
+int			backup_std(int *old_fds);
+int			restore_fds(int *old_fds);
+int			init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list);
+
 #endif

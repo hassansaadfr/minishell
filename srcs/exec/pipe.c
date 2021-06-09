@@ -70,44 +70,31 @@ void    assign_in_out_tbc(int cmd_count, int i, int *in_out_tbc, int *fds)
 int	pipeline_execution(t_cmd_and_redir *cmds, t_list *env_list,
 		int cmd_count)
 {
-	int		i;
-	int		in_out_tbc[3];
-	int		pipe_fds[2];
-	int		old_fds[2];
-	int		*pids;
-	int		return_code;
+	t_pipe	p;
 	int		error = -1;
-	char	**cmd;
-	char	**envp;
 
-	old_fds[IN] = dup(STDIN_FILENO);
-	old_fds[OUT] = dup(STDOUT_FILENO);
-	in_out_tbc[IN] = STDIN_FILENO;
-	envp = list_to_array(env_list);
-	pids = ft_alloc(sizeof(int) * cmd_count);
-	i = 0;
-	while (i < cmd_count)
+	init_pipe_struct(&p, cmd_count, env_list);
+	while (p.i < cmd_count)
 	{
-		if (i < cmd_count - 1)
+		if (p.i < cmd_count - 1)
 		{
-			if (pipe(pipe_fds) == -1)
+			if (pipe(p.pipe_fds) == -1)
 				return (error);
 		}
-		assign_in_out_tbc(cmd_count, i, in_out_tbc, pipe_fds);
-		cmd = token_list_to_array(cmds[i].cmd);
-		search_bin(cmd, env_list);
-		pids[i] = add_child_proc(cmd, in_out_tbc, envp);
-		close(in_out_tbc[IN]);
-		if (i < cmd_count - 1)
-			close(pipe_fds[1]);
-		in_out_tbc[IN] = pipe_fds[0];
-		i++;
+		assign_in_out_tbc(cmd_count, p.i, p.in_out_tbc, p.pipe_fds);
+		p.cmd = token_list_to_array(cmds[p.i].cmd);
+		search_bin(p.cmd, env_list);
+		p.pids[p.i] = add_child_proc(p.cmd, p.in_out_tbc, p.envp);
+		close(p.in_out_tbc[IN]);
+		if (p.i < cmd_count - 1)
+			close(p.pipe_fds[1]);
+		p.in_out_tbc[IN] = p.pipe_fds[0];
+		p.i++;
 	}
-	close(pipe_fds[0]);
-	return_code = wait_all_pids(pids, cmd_count);
-	dup2(old_fds[IN], STDIN_FILENO);
-	dup2(old_fds[OUT], STDOUT_FILENO);
-	return (return_code);
+	close(p.pipe_fds[0]);
+	p.return_code = wait_all_pids(p.pids, cmd_count);
+	restore_fds(p.old_fds);
+	return (p.return_code);
 }
 
 int execute_pipeline(t_list *pipeline, t_list *env_list)
@@ -120,10 +107,10 @@ int execute_pipeline(t_list *pipeline, t_list *env_list)
 	cmd_count = count_pipes(pipeline) + 1;
 	splitted_pipeline = ft_alloc(sizeof(t_cmd_and_redir) * (cmd_count + 1));
 	init_splitted_pipeline(splitted_pipeline, cmd_count);
-	/*DBG*/printf("cmd_count = %d\n", cmd_count);
-	/*DBG*/display_tokens(pipeline);
+//	/*DBG*/printf("cmd_count = %d\n", cmd_count);
+//	/*DBG*/display_tokens(pipeline);
 	split_pipeline(pipeline, splitted_pipeline);
-	/*DBG*/display_splitted_pipeline(splitted_pipeline, cmd_count);
+//	/*DBG*/display_splitted_pipeline(splitted_pipeline, cmd_count);
 	pipeline_execution(splitted_pipeline, env_list, cmd_count);
 	ft_free_ptr((void **)&splitted_pipeline);
 	return (ret_exec);

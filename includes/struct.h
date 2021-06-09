@@ -71,14 +71,14 @@ typedef struct			s_token
 
 typedef struct			s_expand
 {
-    int     key_len;
-    char    *beginning;
-    char    *expansion;
-    char    *remaining;
-    char    *new_arg;
-    char    tmp_c;
-    char    *tmp_new_arg;
-    char    *tmp_remaining;
+	int     key_len;
+	char    *beginning;
+	char    *expansion;
+	char    *remaining;
+	char    *new_arg;
+	char    tmp_c;
+	char    *tmp_new_arg;
+	char    *tmp_remaining;
 }						t_expand;
 
 typedef struct			s_redir_status
@@ -115,5 +115,17 @@ typedef struct			s_cmd_and_redir
 	t_list	*cmd;
 	t_list	*redirs;
 }						t_cmd_and_redir;
+
+typedef struct			s_pipe
+{
+	int		i;
+	int     in_out_tbc[3];
+	int     pipe_fds[2];
+	int     old_fds[2];
+	int     *pids;
+	int     return_code;
+	char    **cmd;
+	char    **envp;
+}						t_pipe;
 
 #endif
