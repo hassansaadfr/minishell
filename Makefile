@@ -2,9 +2,11 @@ NAME			=	minishell
 
 TEST_NAME		=	minishell_test
 
-SRCS			=	system/main.c \
+SRCS			=	main.c \
+					system/minishell_entry.c \
 					system/signals.c \
-					debug.c \
+					debug/debug.c \
+					debug/utils.c \
 					env/parse_env.c \
 					env/utils_env.c \
 					env/utils_mem_env.c \
@@ -52,7 +54,7 @@ TEST_SRCS		=	execution/path_type_parser.c \
 					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c \
 					exit_test_messages.c \
 					exit_test_codes.c \
-					signal_tests.c
+					#signal_tests.c
 					#parsing/parsing_basic.c \
 					#parsing/parsing_basic_pipe.c \
 					#parsing/parsing_basic_redir_sup.c \
@@ -68,7 +70,7 @@ TEST_SRCS		=	execution/path_type_parser.c \
 
 OBJS			=	${addprefix srcs/,${SRCS:.c=.o}}
 TEST_OBJS		=	${addprefix tests/,${TEST_SRCS:.c=.o}}
-NO_MAIN			=	$(filter-out srcs/system/main.o,$(OBJS))
+NO_MAIN			=	$(filter-out srcs/main.o,$(OBJS))
 
 LD_FLAGS		=	-L libft
 

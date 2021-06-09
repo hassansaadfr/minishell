@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-void	disable_raw_mode(t_termios orig_termios)
+void	disable_raw_mode(struct termios orig_termios)
 {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
 }
 
-t_termios	enable_raw_mode(void)
+struct termios	enable_raw_mode(void)
 {
-	t_termios	new_termios;
-	t_termios	orig_termios;
+	struct termios	new_termios;
+	struct termios	orig_termios;
 
 	tcgetattr(STDIN_FILENO, &orig_termios);
 	new_termios = orig_termios;

@@ -4,15 +4,13 @@
 
 # include "libft.h"
 
-typedef struct termios	t_termios;
-
-typedef struct			s_env
+typedef struct s_env
 {
 	char	*name;
 	char	*value;
 }						t_env;
 
-typedef struct			s_input
+typedef struct s_input
 {
 	char	*buffer;
 	char	*backup;
@@ -21,7 +19,7 @@ typedef struct			s_input
 	int		factor;
 }						t_input;
 
-typedef struct			s_global
+typedef struct s_global
 {
 	t_list	*env_list;
 	pid_t	pid;
@@ -53,7 +51,7 @@ enum					e_state
 	DLR_DQ
 };
 
-typedef struct			s_parse
+typedef struct s_parse
 {
 	t_list			*tokens;
 	char			*buffer_start;
@@ -63,25 +61,25 @@ typedef struct			s_parse
 	enum e_state	state;
 }						t_parse;
 
-typedef struct			s_token
+typedef struct s_token
 {
 	int		type;
 	char	*arg;
 }						t_token;
 
-typedef struct			s_expand
+typedef struct s_expand
 {
-	int     key_len;
-	char    *beginning;
-	char    *expansion;
-	char    *remaining;
-	char    *new_arg;
-	char    tmp_c;
-	char    *tmp_new_arg;
-	char    *tmp_remaining;
+	int		key_len;
+	char	*beginning;
+	char	*expansion;
+	char	*remaining;
+	char	*new_arg;
+	char	tmp_c;
+	char	*tmp_new_arg;
+	char	*tmp_remaining;
 }						t_expand;
 
-typedef struct			s_redir_status
+typedef struct s_redir_status
 {
 	int		fd_stdin;
 	int		fd_stdout;
@@ -110,22 +108,30 @@ enum					e_pid
 	ERROR_FORK
 };
 
-typedef struct			s_cmd_and_redir
+typedef struct s_cmd_and_redir
 {
 	t_list	*cmd;
 	t_list	*redirs;
 }						t_cmd_and_redir;
 
-typedef struct			s_pipe
+typedef struct s_pipe
 {
 	int		i;
-	int     in_out_tbc[3];
-	int     pipe_fds[2];
-	int     old_fds[2];
-	int     *pids;
-	int     return_code;
-	char    **cmd;
-	char    **envp;
+	int		in_out_tbc[3];
+	int		pipe_fds[2];
+	int		old_fds[2];
+	int		*pids;
+	int		return_code;
+	char	**cmd;
+	char	**envp;
 }						t_pipe;
+typedef struct s_msh
+{
+	int				stop;
+	t_list			*history;
+	t_input			buff;
+	struct termios	orig_termios;
+	t_list			*tokens;
+}						t_msh;
 
 #endif

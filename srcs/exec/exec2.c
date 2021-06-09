@@ -51,14 +51,17 @@ int	execute_simple_cmd(t_list *tokens, t_list *env_list)
 {
 	t_list	*redirs;
 	char	**cmds;
+	int		ret;
 
+	ret = 0;
 	cmds = NULL;
 	redirs = isolate_redirs(&tokens);
 	if (tokens)
 		tokens = expand_args(&tokens, env_list);
 	if (redirs)
 		redirs = expand_redirs(&redirs, env_list);
-	return (perform_execution(redirs, tokens, env_list));
+	ret = perform_execution(redirs, tokens, env_list);
+	return (ret);
 }
 
 int	executing(t_list *tokens, t_list *env_list, t_list *history)

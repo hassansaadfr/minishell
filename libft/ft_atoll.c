@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atoll.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/24 18:23:29 by hsaadaou          #+#    #+#             */
-/*   Updated: 2021/05/24 19:02:20 by hsaadaou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
-static void		is_overflow(long long n, long long sign, int *overflow)
+static void	is_overflow(long long n, long long sign, int *overflow)
 {
 	if (n < 0 && sign == 1)
 		*overflow = 1;
@@ -20,15 +8,15 @@ static void		is_overflow(long long n, long long sign, int *overflow)
 		*overflow = 1;
 }
 
-long long		ft_atoll(const char *nptr, int *overflow)
+long long	ft_atoll(const char *nptr, int *overflow)
 {
 	long long int	n;
 	size_t			i;
 	long long int	sign;
 
 	i = 0;
-	while (nptr[i] == ' ' || nptr[i] == '\t' || nptr[i] == '\n' ||
-			nptr[i] == '\r' || nptr[i] == '\v' || nptr[i] == '\f')
+	while (nptr[i] == ' ' || nptr[i] == '\t' || nptr[i] == '\n'
+		|| nptr[i] == '\r' || nptr[i] == '\v' || nptr[i] == '\f')
 		i++;
 	sign = 1;
 	if (nptr[i] == '+' || nptr[i] == '-')

@@ -23,6 +23,9 @@ char	**token_list_to_array(t_list *token_list)
 
 void	init_redirs(t_list *redirs, t_redir_status	*backup)
 {
+	backup->status = 0;
+	if (redirs == NULL)
+		return ;
 	errno = 0;
 	backup->fd_stdin = -1;
 	backup->fd_stdout = -1;
@@ -63,9 +66,7 @@ int	perform_execution(t_list *redirs, t_list *tokens, t_list *env_list)
 
 	ret_exec = 1;
 	cmds = NULL;
-	backup.status = 0;
-	if (redirs)
-		init_redirs(redirs, &backup);
+	init_redirs(redirs, &backup);
 	if (tokens && backup.status == 0)
 	{
 		cmds = token_list_to_array(tokens);
