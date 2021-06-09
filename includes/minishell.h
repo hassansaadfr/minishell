@@ -44,7 +44,8 @@ void			display_splitted_cmd(t_list *cmd, int debug_i, char *type);
 char			*enum_to_str(int type);
 void			print_token_str(char *arg);
 void			display_token_to_be_splitted(t_token *token, char **arg_split);
-void			display_splitted_pipeline(t_cmd_and_redir *splitted_pipeline, int cmd_count);
+void			display_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
+					int cmd_count);
 
 /*
  **	FILE - prompt.c
@@ -303,8 +304,10 @@ int				minishell_non_tty(t_list *env_list);
 
 /*	FILE - utils_pipeline.c */
 int				is_pipeline(t_list *indpdt_cmd);
-void			split_pipeline(t_list *pipeline, t_cmd_and_redir *splitted_pipeline);
-void			init_splitted_pipeline(t_cmd_and_redir *splitted_pipeline, int cmd_count);
+void			split_pipeline(t_list *pipeline,
+					t_cmd_and_redir *splitted_pipeline);
+void			init_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
+					int cmd_count);
 int				count_pipes(t_list *pipeline);
 
 /*	FILE - pipe.c */
