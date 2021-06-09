@@ -13,12 +13,12 @@
 # include <fcntl.h>
 
 # ifndef DEBUG_MALLOC
-
 #  define DEBUG_MALLOC 0
-
 # endif
 
-# define BUFFER_SIZE 1024
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
 
 void					*ft_memset(void *s, int c, size_t n);
 void					ft_bzero(void *s, size_t n);

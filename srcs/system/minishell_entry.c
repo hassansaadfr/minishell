@@ -8,8 +8,7 @@ int	minishell(t_list *env_list)
 		return (minishell_non_tty(env_list));
 }
 
-int	minishell_init(struct termios *orig_termios,
-			t_list *env_list)
+int	minishell_init(struct termios *orig_termios, t_list *env_list)
 {
 	*orig_termios = enable_raw_mode();
 	if (init_termcaps(env_list) == 0)
