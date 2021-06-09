@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int			unset(char *argv, t_list *env_list)
+int	unset(char *argv, t_list *env_list)
 {
 	int		out;
 
@@ -11,7 +11,7 @@ int			unset(char *argv, t_list *env_list)
 	return (out);
 }
 
-int			builtin_unset(char **argv, t_list *env_list)
+int	builtin_unset(char **argv, t_list *env_list)
 {
 	int		out;
 	int		i;

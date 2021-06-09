@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		contains_esc_or_neg_chars(char *str)
+int	contains_esc_or_neg_chars(char *str)
 {
 	int		i;
 
@@ -41,27 +41,13 @@ void	reformat(t_list *list)
 	while (list)
 	{
 		token = list->content;
-		if (contains_esc_or_neg_chars(token->arg))	
+		if (contains_esc_or_neg_chars(token->arg))
 			remove_quoting_chars(token->arg);
 		list = list->next;
 	}
 }
 
-void	display_token(t_list *tokens)
-{
-	t_list *tmp;
-	t_token *tok;
-
-	tmp = tokens;
-	while (tmp)
-	{
-		tok = tmp->content;
-		printf("token : %s\n", tok->arg);
-		tmp = tmp->next;
-	}
-}
-
-int		execute_simple_cmd(t_list *tokens, t_list *env_list)
+int	execute_simple_cmd(t_list *tokens, t_list *env_list)
 {
 	t_list	*redirs;
 	char	**cmds;
@@ -75,12 +61,12 @@ int		execute_simple_cmd(t_list *tokens, t_list *env_list)
 	return (perform_execution(redirs, tokens, env_list));
 }
 
-int		executing(t_list *tokens, t_list *env_list, t_list *history)
+int	executing(t_list *tokens, t_list *env_list, t_list *history)
 {
-	(void)history;
 	t_list	*indpdt_cmd;
 	int		ret_exec;
 
+	(void)history;
 	indpdt_cmd = NULL;
 	ret_exec = 0;
 	while (tokens)

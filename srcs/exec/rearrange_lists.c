@@ -24,30 +24,29 @@ void	ft_lstdeltoken(t_list **elem, void (*del)(void *))
 	if (del)
 	{
 		del(tmp->content);
-		ft_free_ptr((void**)&tmp);
+		ft_free_ptr((void **)&tmp);
 	}
 }
 
-
 void	del_and_change_list(t_list **redirs, t_list **to_rm)
 {
-    (*to_rm)->next = NULL;
-    (*to_rm)->previous = NULL;
-    ft_lstadd_back(redirs, *to_rm);
+	(*to_rm)->next = NULL;
+	(*to_rm)->previous = NULL;
+	ft_lstadd_back(redirs, *to_rm);
 }
 
 void	del_smc_node(t_list *tmp)
 {
-    tmp->previous = NULL;
-    tmp->next = NULL;
-    ft_lstdeltoken(&tmp, free_token);
+	tmp->previous = NULL;
+	tmp->next = NULL;
+	ft_lstdeltoken(&tmp, free_token);
 }
 
 t_list	*isolate_redirs(t_list **args)
 {
-	t_list  *redirs;
-	t_list  *tmp;
-	t_list  *to_rm;
+	t_list	*redirs;
+	t_list	*tmp;
+	t_list	*to_rm;
 
 	redirs = NULL;
 	while (*args && is_redir_or_fd(*args))
@@ -72,14 +71,14 @@ t_list	*isolate_redirs(t_list **args)
 
 t_list	*isolate_indpdt_cmd(t_list **tokens)
 {
-	t_list  *cmd;
-	t_list  *tmp;
+	t_list	*cmd;
+	t_list	*tmp;
 
 	cmd = *tokens;
 	tmp = *tokens;
 	while (tmp)
 	{
-		if (((t_token*)tmp->content)->type == S_COLON)
+		if (((t_token *)tmp->content)->type == S_COLON)
 		{
 			tmp->previous->next = NULL;
 			cmd = *tokens;

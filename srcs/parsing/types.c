@@ -1,17 +1,17 @@
 #include "minishell.h"
 
-int		is_redir(enum e_types type)
+int	is_redir(enum e_types type)
 {
 	return (type == REDIR_INF || type == REDIR_SUP || type == REDIR_DSUP);
 }
 
-int		is_redir_or_fd(t_list *node)
+int	is_redir_or_fd(t_list *node)
 {
-	return (is_redir(((t_token*)node->content)->type)
-			|| ((t_token*)node->content)->type == FD);
+	return (is_redir(((t_token *)node->content)->type)
+		|| ((t_token *)node->content)->type == FD);
 }
 
-int		check_exclusions(enum e_types type, t_token *last_token)
+int	check_exclusions(enum e_types type, t_token *last_token)
 {
 	if (type == S_COLON)
 		return (smc_exclusions(last_token));
@@ -22,7 +22,7 @@ int		check_exclusions(enum e_types type, t_token *last_token)
 	return (type);
 }
 
-int		find_token_type(t_parse *p, size_t token_len, t_token *last_token)
+int	find_token_type(t_parse *p, size_t token_len, t_token *last_token)
 {
 	if (ft_strncmp(p->buffer_start, ";", token_len) == 0)
 		return (S_COLON);
@@ -40,7 +40,7 @@ int		find_token_type(t_parse *p, size_t token_len, t_token *last_token)
 		return (ARG);
 }
 
-int		typing(t_parse *p)
+int	typing(t_parse *p)
 {
 	enum e_types	type;
 	t_token			*last_token;

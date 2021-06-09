@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void		signal_handling_register(void)
+void	signal_handling_register(void)
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, sigquit_handler);
@@ -48,8 +48,8 @@ static int	minishell_tty(t_list *env_list)
 		orig_termios = enable_raw_mode();
 	}
 	disable_raw_mode(orig_termios);
-	ft_free_ptr((void**)&buff.buffer);
-	ft_free_ptr((void**)&buff.backup);
+	ft_free_ptr((void **)&buff.buffer);
+	ft_free_ptr((void **)&buff.backup);
 	return (stop);
 }
 
@@ -57,8 +57,7 @@ static int	minishell_non_tty(t_list *env_list)
 {
 	int		ret_gnl;
 	char	*line;
-	// char	***cmds;
-	t_list		*tokens;
+	t_list	*tokens;
 
 	line = NULL;
 	ret_gnl = 1;
@@ -70,15 +69,13 @@ static int	minishell_non_tty(t_list *env_list)
 		{
 			tokens = parsing(line);
 			executing(tokens, env_list, NULL);
-			// cmds = parse(line);
-			// execution(cmds, env_list, NULL);
 		}
-		ft_free_ptr((void**)&line);
+		ft_free_ptr((void **)&line);
 	}
 	return (0);
 }
 
-int			minishell(t_list *env_list)
+int	minishell(t_list *env_list)
 {
 	if (isatty(STDIN_FILENO))
 		return (minishell_tty(env_list));
@@ -86,7 +83,7 @@ int			minishell(t_list *env_list)
 		return (minishell_non_tty(env_list));
 }
 
-int			main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;

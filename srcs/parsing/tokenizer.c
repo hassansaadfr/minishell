@@ -22,7 +22,7 @@ t_list	*alloc_token_node(t_parse *p, int type)
 	return (new_node);
 }
 
-int		add_to_tokens_list(t_parse *p)
+int	add_to_tokens_list(t_parse *p)
 {
 	t_list				*new_node;
 	enum e_types		type;
@@ -41,7 +41,7 @@ int		add_to_tokens_list(t_parse *p)
 	return (1);
 }
 
-int		split_into_tokens(t_parse *p, char **line)
+int	split_into_tokens(t_parse *p, char **line)
 {
 	int	ret_add;
 

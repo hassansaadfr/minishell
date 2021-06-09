@@ -6,8 +6,8 @@
 
 static void	escaping_err_msg(t_parse *p)
 {
-	ft_putstr_fd("minishell - ESCAPING syntax error because of unterminated "
-			, STDERR_FILENO);
+	ft_putstr_fd("minishell - ESCAPING syntax error because of unterminated ",
+		STDERR_FILENO);
 	if (p->state == D_QUOTE)
 		ft_putendl_fd("' \" '", STDERR_FILENO);
 	else if (p->state == B_SLASH)
@@ -20,7 +20,7 @@ static void	escaping_err_msg(t_parse *p)
 static void	typing_err_msg(t_parse *p, int ret_tokenizing)
 {
 	ft_putstr_fd("minishell - TYPE syntax error near unexpected symbol ",
-			STDERR_FILENO);
+		STDERR_FILENO);
 	if (ret_tokenizing == -NEWLINE)
 		ft_putendl_fd("\" newline \"", STDERR_FILENO);
 	else if (ret_tokenizing == -'>' && p->buffer_start[1] == '>')
@@ -34,7 +34,7 @@ static void	typing_err_msg(t_parse *p, int ret_tokenizing)
 	ft_lstclear(&p->tokens, free_token);
 }
 
-t_list		*check_parsing_errors(t_parse *p, int ret_tokenizing)
+t_list	*check_parsing_errors(t_parse *p, int ret_tokenizing)
 {
 	if (p->line_len == 0)
 	{
@@ -45,6 +45,6 @@ t_list		*check_parsing_errors(t_parse *p, int ret_tokenizing)
 		escaping_err_msg(p);
 	else if (ret_tokenizing < 0)
 		typing_err_msg(p, ret_tokenizing);
-	ft_free_ptr((void**)&p->buffer_start);
+	ft_free_ptr((void **)&p->buffer_start);
 	return (p->tokens);
 }

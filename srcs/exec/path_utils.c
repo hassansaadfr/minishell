@@ -15,7 +15,7 @@ t_path	get_path_type(char *str)
 	return (type);
 }
 
-static char		*create_full_path(char *bin_path, char *cmd)
+static char	*create_full_path(char *bin_path, char *cmd)
 {
 	char	*tmp;
 	char	*s;
@@ -23,11 +23,11 @@ static char		*create_full_path(char *bin_path, char *cmd)
 	s = ft_strjoin(bin_path, "/");
 	tmp = s;
 	s = ft_strjoin(s, cmd);
-	ft_free_ptr((void**)&tmp);
+	ft_free_ptr((void **)&tmp);
 	return (s);
 }
 
-static char		*which_bin_fld(char *bin, char **bin_paths)
+static char	*which_bin_fld(char *bin, char **bin_paths)
 {
 	char			*path;
 	int				i;
@@ -42,7 +42,7 @@ static char		*which_bin_fld(char *bin, char **bin_paths)
 		path = create_full_path(bin_paths[i], bin);
 		ret_stat = stat(path, &stat_buff);
 		if (ret_stat)
-			ft_free_ptr((void**)&path);
+			ft_free_ptr((void **)&path);
 		i++;
 	}
 	if (ret_stat == 0)
@@ -51,7 +51,7 @@ static char		*which_bin_fld(char *bin, char **bin_paths)
 		return (NULL);
 }
 
-static char		*find_bin_in_path(char *bin, t_list *env_list)
+static char	*find_bin_in_path(char *bin, t_list *env_list)
 {
 	char			*path;
 	char			*path_var_env;
@@ -68,7 +68,7 @@ static char		*find_bin_in_path(char *bin, t_list *env_list)
 	return (path);
 }
 
-char			*get_binary_path(char *cmd, t_list *env_list)
+char	*get_binary_path(char *cmd, t_list *env_list)
 {
 	char				*path;
 	t_path				path_type;

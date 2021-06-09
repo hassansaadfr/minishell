@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_list		*get_env(t_list *env_list, char *name)
+t_list	*get_env(t_list *env_list, char *name)
 {
 	t_list	*tmp;
 	int		i;
@@ -17,18 +17,19 @@ t_list		*get_env(t_list *env_list, char *name)
 	while (tmp)
 	{
 		len = ft_strlen(parsed_name) + 1;
-		if (ft_strncmp(((t_env*)tmp->content)->name, parsed_name, len + 1) == 0)
+		if (ft_strncmp(((t_env *)tmp->content)->name,
+				parsed_name, len + 1) == 0)
 		{
-			ft_free_ptr((void**)&parsed_name);
+			ft_free_ptr((void **)&parsed_name);
 			return (tmp);
 		}
 		tmp = tmp->next;
 	}
-	ft_free_ptr((void**)&parsed_name);
+	ft_free_ptr((void **)&parsed_name);
 	return (NULL);
 }
 
-int			new_env(t_list *env_list, char *new_env)
+int	new_env(t_list *env_list, char *new_env)
 {
 	t_list	*tmp;
 	int		out;
@@ -46,17 +47,17 @@ int			new_env(t_list *env_list, char *new_env)
 		env_node = init_env_node(new_env);
 		if (!env_node)
 		{
-			ft_free_ptr((void**)&parsed_name);
+			ft_free_ptr((void **)&parsed_name);
 			return (0);
 		}
 		ft_lstadd_back(&env_list, env_node);
 		out = 1;
 	}
-	ft_free_ptr((void**)&parsed_name);
+	ft_free_ptr((void **)&parsed_name);
 	return (out);
 }
 
-int			edit_env(t_list *env_list, char *env)
+int	edit_env(t_list *env_list, char *env)
 {
 	t_list	*tmp;
 	t_env	*env_node;
@@ -70,14 +71,14 @@ int			edit_env(t_list *env_list, char *env)
 	{
 		env_node = tmp->content;
 		if (env_node->value)
-			ft_free_ptr((void**)&env_node->value);
+			ft_free_ptr((void **)&env_node->value);
 		env_node->value = parse_env_value(env);
 		return (1);
 	}
 	return (0);
 }
 
-int			delete_env(t_list *env_list, char *name)
+int	delete_env(t_list *env_list, char *name)
 {
 	t_list	*tmp;
 	int		out;
@@ -94,16 +95,16 @@ int			delete_env(t_list *env_list, char *name)
 		tmp = get_env(env_list, env_name);
 	if (tmp)
 	{
-		ft_free_ptr((void**)&((t_env*)tmp->content)->name);
-		ft_free_ptr((void**)&((t_env*)tmp->content)->value);
-		ft_free_ptr((void**)&env_name);
+		ft_free_ptr((void **)&((t_env *)tmp->content)->name);
+		ft_free_ptr((void **)&((t_env *)tmp->content)->value);
+		ft_free_ptr((void **)&env_name);
 		ft_lstdelone(&tmp, free_env_node);
 		out = 0;
 	}
 	return (out);
 }
 
-char		*get_env_value(t_list *env_list, char *name)
+char	*get_env_value(t_list *env_list, char *name)
 {
 	char	*value;
 	t_list	*tmp;

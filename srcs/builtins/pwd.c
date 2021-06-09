@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int			builtin_pwd(char **argv, t_list *env_list)
+int	builtin_pwd(char **argv, t_list *env_list)
 {
 	char	buff[PATH_MAX];
 

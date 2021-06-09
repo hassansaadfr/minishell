@@ -13,14 +13,14 @@ static t_env	**tlist_to_arr_of_tenv(t_list *env_list)
 	out[size] = NULL;
 	while (env_list)
 	{
-		out[i] = ((t_env*)env_list->content);
+		out[i] = ((t_env *)env_list->content);
 		i++;
 		env_list = env_list->next;
 	}
 	return (out);
 }
 
-static void		sort(t_env **array, int start, int end)
+static void	sort(t_env **array, int start, int end)
 {
 	int		i;
 	int		j;
@@ -44,7 +44,7 @@ static void		sort(t_env **array, int start, int end)
 	}
 }
 
-static void		print_env_list(t_list *env_list)
+static void	print_env_list(t_list *env_list)
 {
 	t_env	**env_arr;
 	int		i;
@@ -70,10 +70,10 @@ static void		print_env_list(t_list *env_list)
 		}
 		i++;
 	}
-	ft_free_ptr((void**)&env_arr);
+	ft_free_ptr((void **)&env_arr);
 }
 
-int				builtin_export(char **argv, t_list *env_list)
+int	builtin_export(char **argv, t_list *env_list)
 {
 	char	*env;
 	int		done;
@@ -92,7 +92,7 @@ int				builtin_export(char **argv, t_list *env_list)
 				done = new_env(env_list, env);
 				if (!done)
 					done = edit_env(env_list, env);
-				ft_free_ptr((void**)&env);
+				ft_free_ptr((void **)&env);
 			}
 			argv++;
 		}

@@ -6,7 +6,7 @@
 /*   By: hsaadaou <hsaadaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 15:49:30 by axaidan           #+#    #+#             */
-/*   Updated: 2021/05/19 14:29:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/08 00:08:37 by hsaadaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 		previous = current;
 		current = current->next;
 		(*del)(previous->content);
-		ft_free_ptr((void**)&previous);
+		ft_free_ptr((void **)&previous);
 	}
 	*lst = NULL;
 }

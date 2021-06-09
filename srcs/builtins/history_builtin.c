@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		builtin_history(char **argv, t_list *env_list, t_list *history)
+int	builtin_history(char **argv, t_list *env_list, t_list *history)
 {
 	int			i;
 	int			size;

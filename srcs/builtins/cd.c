@@ -13,7 +13,7 @@ static int	update_pwd(t_list *env_list)
 		done = new_env(env_list, final_path);
 		if (!done)
 			done = edit_env(env_list, final_path);
-		ft_free_ptr((void**)&final_path);
+		ft_free_ptr((void **)&final_path);
 		return (done);
 	}
 	return (0);
@@ -29,7 +29,7 @@ static int	set_old_pwd(char *old_pwd, t_list *env_list)
 	if (!joined || errno != 0)
 		return (1);
 	edit_env(env_list, joined);
-	ft_free_ptr((void**)&joined);
+	ft_free_ptr((void **)&joined);
 	return (0);
 }
 
@@ -41,7 +41,7 @@ static char	*get_path_env(t_list *env_list, char *name)
 	path = NULL;
 	tmp = get_env(env_list, name);
 	if (tmp)
-		path = ((t_env*)(tmp->content))->value;
+		path = ((t_env *)(tmp->content))->value;
 	else
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
@@ -68,7 +68,7 @@ static char	*get_path(t_list *env_list, char **argv)
 	return (path);
 }
 
-int			builtin_cd(char **argv, t_list *env_list)
+int	builtin_cd(char **argv, t_list *env_list)
 {
 	int		ret;
 	char	old_pwd[PATH_MAX];

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int			init_buff_and_history(t_input *buff, t_list **history)
+int	init_buff_and_history(t_input *buff, t_list **history)
 {
 	buff->buffer = ft_alloc(INPUT_MAX);
 	if (buff->buffer == NULL)
@@ -9,7 +9,7 @@ int			init_buff_and_history(t_input *buff, t_list **history)
 	buff->backup = ft_alloc(INPUT_MAX);
 	if (buff->backup == NULL)
 	{
-		ft_free_ptr((void**)&buff->buffer);
+		ft_free_ptr((void **)&buff->buffer);
 		return (1);
 	}
 	ft_bzero(buff->backup, INPUT_MAX);
@@ -30,11 +30,11 @@ static char	*get_env_term(t_list *env_list)
 	term_type = NULL;
 	tmp = get_env(env_list, "TERM");
 	if (tmp)
-		term_type = ((t_env*)tmp->content)->value;
+		term_type = ((t_env *)tmp->content)->value;
 	return (term_type);
 }
 
-int			init_termcaps(t_list *env_list)
+int	init_termcaps(t_list *env_list)
 {
 	int		ret_tgetent;
 	char	*term_type;
@@ -61,7 +61,7 @@ int			init_termcaps(t_list *env_list)
 	return (1);
 }
 
-size_t		init_parse_struct(t_parse *p, char *line)
+size_t	init_parse_struct(t_parse *p, char *line)
 {
 	size_t	line_len;
 
@@ -75,7 +75,7 @@ size_t		init_parse_struct(t_parse *p, char *line)
 	return (line_len);
 }
 
-void		init_expand_struct(t_expand *exp, t_token *token)
+void	init_expand_struct(t_expand *exp, t_token *token)
 {
 	exp->key_len = 0;
 	exp->beginning = token->arg;
@@ -85,5 +85,4 @@ void		init_expand_struct(t_expand *exp, t_token *token)
 	exp->tmp_c = '\0';
 	exp->tmp_new_arg = NULL;
 	exp->tmp_remaining = NULL;
-
 }

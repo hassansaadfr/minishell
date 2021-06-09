@@ -63,9 +63,9 @@ int	perform_redirections(t_list *redirs)
 		if (node->type == REDIR_SUP)
 			ret_redir = perform_sup_redir((t_token *)redirs->next->content);
 		else if (node->type == REDIR_DSUP)
-			ret_redir =  perform_dsup_redir((t_token *)redirs->next->content);
+			ret_redir = perform_dsup_redir((t_token *)redirs->next->content);
 		else if (node->type == REDIR_INF)
-			ret_redir =  perform_inf_redir((t_token *)redirs->next->content);
+			ret_redir = perform_inf_redir((t_token *)redirs->next->content);
 		if (ret_redir != 0)
 			return (ret_redir);
 		redirs = redirs->next;

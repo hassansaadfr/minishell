@@ -11,7 +11,7 @@ void	prompt(void)
 	env_val = NULL;
 	tmp = get_env(g_global.env_list, "PWD");
 	if (tmp)
-		env_val = ((t_env*)tmp->content)->value;
+		env_val = ((t_env *)tmp->content)->value;
 	if (isatty(0))
 	{
 		ft_putstr_fd(env_val, STDERR_FILENO);

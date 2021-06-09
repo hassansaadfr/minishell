@@ -14,7 +14,7 @@ void	display_history(t_list *hist)
 	}
 }
 
-int		add_to_history(t_input *buff, t_list **history)
+int	add_to_history(t_input *buff, t_list **history)
 {
 	char	*line;
 	t_list	*new_node;
@@ -72,7 +72,7 @@ void	change_input_str(int arrow, t_input *buff, t_list *history)
 	pwd_val = NULL;
 	tmp = get_env(g_global.env_list, "PWD");
 	if (tmp)
-		pwd_val = ((t_env*)tmp->content)->value;
+		pwd_val = ((t_env *)tmp->content)->value;
 	exec_termcap("dl");
 	ft_putstr_fd(pwd_val, STDERR_FILENO);
 	write(STDERR_FILENO, "$> ", 3);
