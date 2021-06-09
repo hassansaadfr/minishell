@@ -110,5 +110,10 @@ enum					e_pid
 	ERROR_FORK
 };
 
+typedef struct			s_cmd_and_redir
+{
+	t_list	*cmd;
+	t_list	*redirs;
+}						t_cmd_and_redir;
 
 #endif

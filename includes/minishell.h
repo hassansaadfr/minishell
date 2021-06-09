@@ -44,6 +44,7 @@ void		display_splitted_cmd(t_list *cmd, int debug_i, char *type);
 char		*enum_to_str(int type);
 void		print_token_str(char *arg);
 void		display_token_to_be_splitted(t_token *token, char **arg_split);
+void		display_splitted_pipeline(t_cmd_and_redir *splitted_pipeline, int cmd_count);
 
 /*
  **	FILE - prompt.c
@@ -274,15 +275,20 @@ void		prepare_concat(char **dollar_pos, char **new_arg, char **remaining,
 char		*dup_expansion_value(char *key_pos, t_list *env_list);
 void		quoting_to_neg(char **expansion);
 
-/*
-**	FILE - path_utils.c
-*/
+/*	FILE - path_utils.c */
 char		*get_binary_path(char *cmd, t_list *env_list);
 
-/*
-**	FILE - errors.c
-*/
+/*	FILE - errors.c */
 void		print_err(char *binary, char *arg, char *err);
 void		print_err_with_quote(char *binary, char *arg, char *err);
+
+/*	FILE - utils_pipeline.c */
+int			is_pipeline(t_list *indpdt_cmd);
+void		split_pipeline(t_list *pipeline, t_cmd_and_redir *splitted_pipeline);
+void		init_splitted_pipeline(t_cmd_and_redir *splitted_pipeline, int cmd_count);
+int			count_pipes(t_list *pipeline);
+
+/*	FILE - pipe.c */
+int			execute_pipeline(t_list *pipeline, t_list *env_list);
 
 #endif
