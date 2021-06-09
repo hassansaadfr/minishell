@@ -318,4 +318,8 @@ int				backup_std(int *old_fds);
 int				restore_fds(int *old_fds);
 int				init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list);
 
+/*	FILE - expand_pipeline.c */
+void			expand_pipeline(t_cmd_and_redir *pipeline, int cmd_count,
+				t_list *env_list);
+
 #endif

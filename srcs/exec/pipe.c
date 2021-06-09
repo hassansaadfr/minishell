@@ -83,7 +83,7 @@ int	pipeline_execution(t_cmd_and_redir *cmds, t_list *env_list,
 		}
 		assign_in_out_tbc(cmd_count, p.i, p.in_out_tbc, p.pipe_fds);
 		p.cmd = token_list_to_array(cmds[p.i].cmd);
-		search_bin(p.cmd, env_list);
+		search_bin(p.cmd, env_list); // MOVE
 		p.pids[p.i] = add_child_proc(p.cmd, p.in_out_tbc, p.envp);
 		close(p.in_out_tbc[IN]);
 		if (p.i < cmd_count - 1)
@@ -110,8 +110,10 @@ int execute_pipeline(t_list *pipeline, t_list *env_list)
 //	/*DBG*/printf("cmd_count = %d\n", cmd_count);
 //	/*DBG*/display_tokens(pipeline);
 	split_pipeline(pipeline, splitted_pipeline);
+	expand_pipeline(splitted_pipeline, cmd_count, env_list);
 //	/*DBG*/display_splitted_pipeline(splitted_pipeline, cmd_count);
-	pipeline_execution(splitted_pipeline, env_list, cmd_count);
+	ret_exec = pipeline_execution(splitted_pipeline, env_list, cmd_count);
+	free_splitted_pipeline(splitted_pipeline, cmd_count);
 	ft_free_ptr((void **)&splitted_pipeline);
 	return (ret_exec);
 }
