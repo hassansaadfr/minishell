@@ -48,12 +48,18 @@ int	split_into_tokens(t_parse *p, char **line)
 	ret_add = 1;
 	while ((size_t)(*line - p->line_start) < p->line_len)
 	{
+		if ((**line == '\\' && p->state == NORMAL)
+		 || (**line == '\'' && p->state == NORMAL)
+		 || (d_quote_conditions(p, line)))
+		 	quoting_wrapper(p, line);
+	/*
 		if (**line == '\\' && p->state == NORMAL)
 			backslash(p, line);
 		else if (**line == '\'' && p->state == NORMAL)
 			s_quote(p, line);
 		else if (d_quote_conditions(p, line))
 			d_quote(p, line);
+	*/
 		else if (p->state == DLR_DQ)
 			dollar_in_d_quote(p, line);
 		else if ((**line == ' ' || **line == '\0') && p->state == NORMAL)

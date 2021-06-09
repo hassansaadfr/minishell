@@ -106,6 +106,8 @@ int			perform_redirections(t_list *redirs);
 ** FILE perform_execution.c
 */
 int 		perform_execution(t_list *redirs, t_list *tokens, t_list *env_list);
+char		**token_list_to_array(t_list *token_list);
+int			search_bin(char **cmd, t_list *env_list);
 
 /*
 **	FILE - utils_mem_env.c
@@ -200,6 +202,7 @@ void		backslash(t_parse *p, char **line);
 void		s_quote(t_parse *p, char **line);
 void		d_quote(t_parse *p, char **line);
 void		dollar_in_d_quote(t_parse *p, char **line);
+void		quoting_wrapper(t_parse *p, char **line);
 
 /*
 **	FILE - utils_d_quote.c

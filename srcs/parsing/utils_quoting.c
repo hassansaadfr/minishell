@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+void	quoting_wrapper(t_parse *p, char **line)
+{
+	if (**line == '\\' && p->state == NORMAL)
+		backslash(p, line);
+	else if (**line == '\'' && p->state == NORMAL)
+		s_quote(p, line);
+	else if (d_quote_conditions(p, line))
+		d_quote(p, line);
+}
+
 void	backslash(t_parse *p, char **line)
 {
 	p->state = B_SLASH;

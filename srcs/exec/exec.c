@@ -55,7 +55,7 @@ static int	can_exec(char *path)
 	}
 }
 
-static int	search_bin(char **cmd, t_list *env_list)
+int	search_bin(char **cmd, t_list *env_list)
 {
 	char	*path;
 	char	*lang;
