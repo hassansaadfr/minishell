@@ -12,8 +12,7 @@ static int	perform_sup_redir(t_token *node, int out)
 		print_err(node->arg, NULL, strerror(errno));
 		return (1);
 	}
-//	dup2(fd_file, STDOUT_FILENO);
-	dup2(fd_file, out);
+	dup2(fd_file, out); // PROTECT
 	close(fd_file);
 	return (0);
 }
@@ -30,8 +29,7 @@ static int	perform_dsup_redir(t_token *node, int out)
 		print_err(node->arg, NULL, strerror(errno));
 		return (1);
 	}
-//	dup2(fd_file, STDOUT_FILENO);
-	dup2(fd_file, out);
+	dup2(fd_file, out); // PROTECT
 	close(fd_file);
 	return (0);
 }
@@ -48,8 +46,7 @@ static int	perform_inf_redir(t_token *node, int in)
 		print_err(node->arg, NULL, strerror(errno));
 		return (1);
 	}
-//	dup2(fd_file, STDIN_FILENO);
-	dup2(fd_file, in);
+	dup2(fd_file, in); // PROTECT
 	close(fd_file);
 	return (0);
 }

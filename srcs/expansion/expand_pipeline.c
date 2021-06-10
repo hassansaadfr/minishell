@@ -8,7 +8,7 @@ void	expand_pipeline(t_cmd_and_redir *pipeline, int cmd_count, t_list *env_list)
 	while (i < cmd_count)
 	{
 		pipeline[i].cmd = expand_args(&pipeline[i].cmd, env_list);
-		pipeline[i].redirs = expand_args(&pipeline[i].redirs, env_list);
+		pipeline[i].redirs = expand_redirs(&pipeline[i].redirs, env_list);
 		i++;
 	}
 }
