@@ -156,7 +156,7 @@ void			init_expand_struct(t_expand *exp, t_token *token);
 /*
 **	FILE - utils_input.c
 */
-int				is_ctrl_keys(char c, int *stop, t_input *buff, t_list *history);
+int				is_ctrl_keys(char c, t_input *buff, t_list *history);
 int				arrow_value(void);
 char			ctrl_value(char c);
 int				not_empty(char *buffer);
@@ -175,13 +175,13 @@ void			clear_line(t_input *buff);
 char			read_key(void);
 int				process_key(t_input *buff);
 int				expand_buffers(t_input *buff);
-int				write_buffer(int *stop, t_input *buff, t_list *history);
+void			write_buffer(t_input *buff, t_list *history);
 
 /*
 **	FILE - history.c
 */
 void			display_history(t_list *hist);
-int				add_to_history(t_input *buff, t_list **history);
+void			add_to_history(t_input *buff, t_list **history);
 void			exec_up_arrow(t_input *buff, t_list *history);
 void			exec_down_arrow(t_input *buff);
 void			change_input_str(int arrow, t_input *buff, t_list *history);

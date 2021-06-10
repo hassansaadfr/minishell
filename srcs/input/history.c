@@ -14,7 +14,7 @@ void	display_history(t_list *hist)
 	}
 }
 
-int	add_to_history(t_input *buff, t_list **history)
+void	add_to_history(t_input *buff, t_list **history)
 {
 	char	*line;
 	t_list	*new_node;
@@ -22,12 +22,9 @@ int	add_to_history(t_input *buff, t_list **history)
 	if (not_empty(buff->buffer))
 	{
 		line = ft_strdup(buff->buffer);
-		if (line == NULL)
-			return (1);
 		new_node = ft_lstnew(line);
 		ft_lstadd_front(history, new_node);
 	}
-	return (0);
 }
 
 void	exec_up_arrow(t_input *buff, t_list *history)

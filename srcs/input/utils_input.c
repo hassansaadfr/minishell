@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-int	is_ctrl_keys(char c, int *stop, t_input *buff, t_list *history)
+int	is_ctrl_keys(char c, t_input *buff, t_list *history)
 {
 	if (c == ctrl_value('d') && buff->i == 0)
-		*stop = 1;
+		ft_exit_free(g_global.last_return);
 	else if (c == ctrl_value('u'))
 		clear_line(buff);
 	else if (c == ctrl_value('h'))
