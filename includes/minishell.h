@@ -33,7 +33,6 @@ char			***parse(char *cmd);
 ** FILE - utils.c
 */
 int				get_strarr_size(char **arr);
-int				handle_errno(int err, char *binary, char *arg);
 
 /*
 **	FILE - debug.c
