@@ -46,6 +46,8 @@ static int	can_exec(char *path)
 
 	errno = 0;
 	ret_stat = stat(path, &stat_buff);
+	if (!S_ISREG(stat_buff.st_mode))
+		return (126);
 	if ((stat_buff.st_mode & S_IXOTH) == 1)
 		return (ret_stat);
 	else
@@ -61,6 +63,7 @@ int	search_bin(char **cmd, t_list *env_list)
 	char	*lang;
 
 	lang = NULL;
+	path = NULL;
 	path = get_binary_path(cmd[0], env_list);
 	if (path == NULL)
 	{
@@ -72,11 +75,7 @@ int	search_bin(char **cmd, t_list *env_list)
 		return (-1);
 	}
 	else
-	{
-		ft_free_ptr((void **)&cmd[0]);
-		cmd[0] = path;
-		return (can_exec(path));
-	}
+		return (can_exec(cmd[0]));
 }
 
 int	execution(char **cmds, t_list *env_list, t_list *history)
