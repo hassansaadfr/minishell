@@ -51,10 +51,7 @@ void	write_buffer(t_input *buff, t_list *history)
 	{
 		c = process_key(buff);
 		if (buff->i == (INPUT_MAX * buff->factor) - 1)
-		{
-			if (expand_buffers(buff))
-				return (1);
-		}
+			expand_buffers(buff);
 		if (ft_isprint(c))
 		{
 			buff->buffer[buff->i++] = c;

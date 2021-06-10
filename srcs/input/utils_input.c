@@ -4,6 +4,8 @@ int	is_ctrl_keys(char c, t_input *buff, t_list *history)
 {
 	if (c == ctrl_value('d') && buff->i == 0)
 		ft_exit_free(g_global.last_return);
+	if (c == ctrl_value('d') && buff->i > 0)
+		write(1, "\a", STDOUT_FILENO);
 	else if (c == ctrl_value('u'))
 		clear_line(buff);
 	else if (c == ctrl_value('h'))
