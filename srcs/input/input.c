@@ -42,7 +42,7 @@ int	expand_buffers(t_input *buff)
 	return (0);
 }
 
-void	write_buffer(t_input *buff, t_list *history)
+void	write_buffer(t_input *buff, t_list *history, struct termios termios)
 {
 	int		c;
 
@@ -59,7 +59,7 @@ void	write_buffer(t_input *buff, t_list *history)
 		}
 		else if (c == UP_ARROW || c == DN_ARROW)
 			change_input_str(c, buff, history);
-		else if (is_ctrl_keys(c, buff, history))
+		else if (is_ctrl_keys(c, buff, history, termios))
 			;
 	}
 	write(STDIN_FILENO, "\n", 2);

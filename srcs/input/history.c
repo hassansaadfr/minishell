@@ -4,13 +4,17 @@ void	display_history(t_list *hist)
 {
 	int		i;
 
-	printf("\n");
-	i = 0;
-	while (hist)
+	if (DEBUG == 1)
 	{
-		printf("%d\tcur: %p\t\"%10.10s\"\tprv: %p\tnxt: %p\n", i++, hist,
-			hist->content, hist->previous, hist->next);
-		hist = hist->next;
+		printf("\n");
+		i = 0;
+		while (hist)
+		{
+			printf("%d\tcur: %p\t\"%10.10s\"\tprv: %p\tnxt: %p\n", i++, hist,
+				hist->content, hist->previous, hist->next);
+			hist = hist->next;
+		}
+		prompt();
 	}
 }
 

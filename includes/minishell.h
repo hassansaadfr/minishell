@@ -156,7 +156,8 @@ void			init_expand_struct(t_expand *exp, t_token *token);
 /*
 **	FILE - utils_input.c
 */
-int				is_ctrl_keys(char c, t_input *buff, t_list *history);
+int				is_ctrl_keys(char c, t_input *buff, t_list *history,
+					struct termios orig_termios);
 int				arrow_value(void);
 char			ctrl_value(char c);
 int				not_empty(char *buffer);
@@ -175,7 +176,8 @@ void			clear_line(t_input *buff);
 char			read_key(void);
 int				process_key(t_input *buff);
 int				expand_buffers(t_input *buff);
-void			write_buffer(t_input *buff, t_list *history);
+void			write_buffer(t_input *buff, t_list *history,
+					struct termios orig_termios);
 
 /*
 **	FILE - history.c
