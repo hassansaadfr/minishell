@@ -42,6 +42,7 @@ int add_child_proc(char **cmd, int *in_out_tbc, char **envp, t_list *redirs)
 		return (display_err_ret_err("fork", strerror(errno), 125 + errno));
 	else if (pid == 0)
 	{
+	// USE HERE A MODIFIED VERSION OF execution() -- exec.c
 		perform_pipeline_redirections(redirs, in_out_tbc);	// PROTECT
 		if (in_out_tbc[TBC] >= 0)
 			close(in_out_tbc[TBC]);
@@ -110,11 +111,8 @@ int execute_pipeline(t_list *pipeline, t_list *env_list)
 	cmd_count = count_pipes(pipeline) + 1;
 	splitted_pipeline = ft_alloc(sizeof(t_cmd_and_redir) * (cmd_count + 1));
 	init_splitted_pipeline(splitted_pipeline, cmd_count);
-//	/*DBG*/printf("cmd_count = %d\n", cmd_count);
-//	/*DBG*/display_tokens(pipeline);
 	split_pipeline(pipeline, splitted_pipeline);
 	expand_pipeline(splitted_pipeline, cmd_count, env_list);
-//	/*DBG*/display_splitted_pipeline(splitted_pipeline, cmd_count);
 	ret_exec = pipeline_execution(splitted_pipeline, env_list, cmd_count);
 //	free_splitted_pipeline(splitted_pipeline, cmd_count); // TO DO
 	ft_free_ptr((void **)&splitted_pipeline);

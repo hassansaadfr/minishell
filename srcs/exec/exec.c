@@ -100,7 +100,10 @@ int	execution(char **cmds, t_list *env_list, t_list *history)
 				return (return_value);
 		}
 		else if (can_exec > 125)
+		{
+			return_value = can_exec;
 			print_err(NULL, cmds[0], strerror(can_exec - 125));
+		}
 		return (return_value);
 	}
 }
