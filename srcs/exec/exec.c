@@ -46,6 +46,8 @@ static int	can_exec(char *path)
 
 	errno = 0;
 	ret_stat = stat(path, &stat_buff);
+	if (ret_stat == -1)
+		return (127);
 	if (!S_ISREG(stat_buff.st_mode))
 		return (126);
 	if ((stat_buff.st_mode & S_IXOTH) == 1)
@@ -72,7 +74,7 @@ int	search_bin(char **cmd, t_list *env_list)
 			print_err(NULL, cmd[0], COMMAND_NOT_FOUND_FR);
 		else
 			print_err(NULL, cmd[0], COMMAND_NOT_FOUND_EN);
-		return (-1);
+		return (127);
 	}
 	else
 	{
@@ -86,7 +88,9 @@ int	execution(char **cmds, t_list *env_list, t_list *history)
 {
 	int		can_exec;
 	int		return_value;
+	char	*arg;
 
+	arg = ft_strdup(*cmds);
 	return_value = 0;
 	if (is_builtin(cmds))
 		return (exec_from_builtins(cmds, env_list, history));
@@ -97,13 +101,14 @@ int	execution(char **cmds, t_list *env_list, t_list *history)
 		{
 			return_value = exec_bin(cmds[0], cmds, env_list);
 			if (return_value >= 125)
-				return (return_value);
+				ft_free_ptr((void **)&arg);
 		}
 		else if (can_exec > 125)
 		{
 			return_value = can_exec;
-			print_err(NULL, cmds[0], strerror(can_exec - 125));
+			print_err(NULL, arg, strerror(can_exec - 125));
 		}
+		ft_free_ptr((void **)&arg);
 		return (return_value);
 	}
 }
