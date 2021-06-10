@@ -75,7 +75,7 @@ int	search_bin(char **cmd, t_list *env_list)
 	{
 		ft_free_ptr((void **)&cmd[0]);
 		cmd[0] = path;
-		return (can_exec(path));
+		return (can_exec(cmd[0]));
 	}
 }
 
