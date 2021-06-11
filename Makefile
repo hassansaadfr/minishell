@@ -5,7 +5,7 @@ TEST_NAME		=	minishell_test
 SRCS			=	main.c \
 					system/minishell_entry.c \
 					system/signals.c \
-					system/init_shlvl.c \
+					system/init_shlvl_path_env.c \
 					debug/debug.c \
 					debug/utils.c \
 					env/parse_env.c \

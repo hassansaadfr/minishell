@@ -84,6 +84,6 @@ char	*get_binary_path(char *cmd, t_list *env_list)
 			path = create_full_path(pwd, cmd);
 	}
 	else
-		path = cmd;
+		return (ft_strdup(cmd));
 	return (path);
 }
