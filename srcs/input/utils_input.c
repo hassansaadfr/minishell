@@ -1,17 +1,24 @@
 #include "minishell.h"
 
-int	is_ctrl_keys(char c, int *stop, t_input *buff, t_list *history)
+static void	exit_ctrld(struct termios orig_termios)
+{
+	write(STDOUT_FILENO, "exit\n", 5);
+	disable_raw_mode(orig_termios);
+	ft_exit_free(g_global.last_return);
+}
+
+int	is_ctrl_keys(char c, t_input *buff, t_list *history,
+struct termios orig_termios)
 {
 	if (c == ctrl_value('d') && buff->i == 0)
-		*stop = 1;
+		exit_ctrld(orig_termios);
+	if (c == ctrl_value('d') && buff->i > 0)
+		write(1, "\a", STDOUT_FILENO);
 	else if (c == ctrl_value('u'))
 		clear_line(buff);
 	else if (c == ctrl_value('h'))
-	{
 		display_history(history);
-		prompt();
-	}
-	else if (c == ctrl_value('s'))
+	else if (c == ctrl_value('s') && DEBUG == 1)
 	{
 		printf("history size = %d\n", ft_lstsize(history));
 		prompt();

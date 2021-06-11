@@ -42,19 +42,16 @@ int	expand_buffers(t_input *buff)
 	return (0);
 }
 
-int	write_buffer(int *stop, t_input *buff, t_list *history)
+void	write_buffer(t_input *buff, t_list *history, struct termios termios)
 {
 	int		c;
 
 	c = '\0';
-	while (c != ENTER && *stop == 0)
+	while (c != ENTER)
 	{
 		c = process_key(buff);
 		if (buff->i == (INPUT_MAX * buff->factor) - 1)
-		{
-			if (expand_buffers(buff))
-				return (1);
-		}
+			expand_buffers(buff);
 		if (ft_isprint(c))
 		{
 			buff->buffer[buff->i++] = c;
@@ -62,9 +59,8 @@ int	write_buffer(int *stop, t_input *buff, t_list *history)
 		}
 		else if (c == UP_ARROW || c == DN_ARROW)
 			change_input_str(c, buff, history);
-		else if (is_ctrl_keys(c, stop, buff, history))
+		else if (is_ctrl_keys(c, buff, history, termios))
 			;
 	}
 	write(STDIN_FILENO, "\n", 2);
-	return (*stop);
 }

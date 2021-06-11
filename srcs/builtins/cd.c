@@ -93,6 +93,6 @@ int	builtin_cd(char **argv, t_list *env_list)
 		}
 		return (0);
 	}
-	handle_errno(errno, "cd", argv[1]);
-	return (1);
+	print_err("cd", argv[1], strerror(errno));
+	return (ret);
 }

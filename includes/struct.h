@@ -127,7 +127,6 @@ typedef struct s_pipe
 }						t_pipe;
 typedef struct s_msh
 {
-	int				stop;
 	t_list			*history;
 	t_input			buff;
 	struct termios	orig_termios;
