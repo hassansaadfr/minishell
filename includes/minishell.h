@@ -43,6 +43,8 @@ void			display_splitted_cmd(t_list *cmd, int debug_i, char *type);
 char			*enum_to_str(int type);
 void			print_token_str(char *arg);
 void			display_token_to_be_splitted(t_token *token, char **arg_split);
+void			display_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
+					int cmd_count);
 
 /*
  **	FILE - prompt.c
@@ -63,13 +65,12 @@ int				builtin_pwd(char **argv, t_list *env_list);
 int				builtin_unset(char **argv, t_list *env_list);
 int				builtin_history(char **argv, t_list *env_list, t_list *history);
 
-/*
-**	FILE - utils_mem.c
-*/
+/*	FILE - utils_mem.c */
 void			free_cmds(char ***cmds);
 void			free_env(t_list **env_list);
 void			*ft_realloc(void *old_ptr, size_t old_size, size_t new_size);
 void			free_token(void *content);
+void			free_splitted_pipeline(t_cmd_and_redir *splitted_pipeline, int cmd_count);
 
 /*
 **	FILE - utils_env.c
@@ -102,6 +103,8 @@ int				perform_redirections(t_list *redirs);
 /*
 ** FILE perform_execution.c
 */
+char			**token_list_to_array(t_list *token_list);
+int				search_bin(char **cmd, t_list *env_list);
 int				perform_execution(t_list *redirs, t_list *tokens,
 					t_list *env_list);
 
@@ -298,5 +301,31 @@ int				minishell_init(struct termios *orig_termios,
 					t_list *env_list);
 int				minishell_tty(t_list *env_list);
 int				minishell_non_tty(t_list *env_list);
+
+/*	FILE - utils_pipeline.c */
+int				is_pipeline(t_list *indpdt_cmd);
+void			split_pipeline(t_list *pipeline,
+					t_cmd_and_redir *splitted_pipeline);
+void			init_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
+					int cmd_count);
+int				count_pipes(t_list *pipeline);
+
+/*	FILE - pipe.c */
+int				execute_pipeline(t_list *pipeline, t_list *env_list);
+
+/*	FILE - utils_fds.c */
+int				backup_std(int *old_fds);
+int				restore_fds(int *old_fds);
+int				init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list);
+
+/*	FILE - expand_pipeline.c */
+void			expand_pipeline(t_cmd_and_redir *pipeline, int cmd_count,
+				t_list *env_list);
+
+/*	FILE - pipeline_redirs.c */
+int				perform_pipeline_redirections(t_list *redirs, int *in_out_tbc);
+
+/*	FILE - exec_for_pipeline.c */
+int 			one_pipe_exec(char **cmds, t_list *env_list, t_list *history);
 
 #endif

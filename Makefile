@@ -43,9 +43,15 @@ SRCS			=	main.c \
 					exec/rearrange_lists.c \
 					exec/redirections.c \
 					exec/perform_execution.c \
+					exec/utils_pipeline.c \
+					exec/pipe.c \
+					exec/utils_fds.c \
+					exec/pipeline_redirs.c \
+					exec/exec_for_pipeline.c \
 					expansion/expansion2.c \
 					expansion/utils_concat.c \
-					expansion/utils_expansion.c
+					expansion/utils_expansion.c \
+					expansion/expand_pipeline.c
 
 TEST_SRCS		=	execution/path_type_parser.c \
 					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c \

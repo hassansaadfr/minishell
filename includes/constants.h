@@ -7,6 +7,13 @@
 # define DELETE 127
 # define ESCAPE 27
 
+# define IN 0
+# define OUT 1
+# define TBC 2
+
+# define TRUE 1
+# define FALSE 0
+
 # define UP_ARROW 12938712
 # define DN_ARROW 1290837
 

@@ -14,6 +14,7 @@ void	print_err_with_quote(char *binary, char *arg, char *err)
 	ft_free_ptr((void **)&with_quote);
 }
 
+/* 	TENTATIVE FIX 'line 1:' if (!isatty(STDIN_FILENO) && g_global.pid != 0) */
 void	print_err(char *binary, char *arg, char *err)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
