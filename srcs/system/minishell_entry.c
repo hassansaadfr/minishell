@@ -27,15 +27,14 @@ int	minishell_tty(t_list *env_list)
 	if (minishell_init(&msh.orig_termios, env_list) == 1)
 		return (-1);
 	init_buff_and_history(&msh.buff, &msh.history);
-	msh.stop = 0;
-	while (msh.stop == 0)
+	while (1)
 	{
 		prompt();
 		msh.tokens = NULL;
-		msh.stop = write_buffer(&msh.stop, &msh.buff, msh.history);
-		if (msh.stop == 0 && not_empty(msh.buff.buffer))
+		write_buffer(&msh.buff, msh.history, msh.orig_termios);
+		if (not_empty(msh.buff.buffer))
 		{
-			msh.stop = add_to_history(&msh.buff, &msh.history);
+			add_to_history(&msh.buff, &msh.history);
 			msh.tokens = parsing(msh.buff.buffer);
 		}
 		disable_raw_mode(msh.orig_termios);
@@ -46,7 +45,7 @@ int	minishell_tty(t_list *env_list)
 	disable_raw_mode(msh.orig_termios);
 	ft_free_ptr((void **)&msh.buff.buffer);
 	ft_free_ptr((void **)&msh.buff.backup);
-	return (msh.stop);
+	return (0);
 }
 
 int	minishell_non_tty(t_list *env_list)
