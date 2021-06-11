@@ -62,20 +62,11 @@ static int	can_exec(char *path)
 int	search_bin(char **cmd, t_list *env_list)
 {
 	char	*path;
-	char	*lang;
 
-	lang = NULL;
 	path = NULL;
 	path = get_binary_path(cmd[0], env_list);
 	if (path == NULL)
-	{
-		lang = get_env_value(env_list, "LANG");
-		if (lang && ft_strncmp(lang, "fr_FR", 4) == 0)
-			print_err(NULL, cmd[0], COMMAND_NOT_FOUND_FR);
-		else
-			print_err(NULL, cmd[0], COMMAND_NOT_FOUND_EN);
 		return (127);
-	}
 	else
 	{
 		ft_free_ptr((void **)&cmd[0]);

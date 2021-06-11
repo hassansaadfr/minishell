@@ -38,7 +38,7 @@ int one_pipe_exec(char **cmds, t_list *env_list, t_list *history)
 			print_err(NULL, arg, strerror(can_exec - 125));
 		}   
 		ft_free_ptr((void **)&arg);
-		return (return_value);
+		ft_exit_free(return_value);
 	}   
 	return (return_value);
 }

@@ -81,6 +81,7 @@ int	pipeline_execution(t_cmd_and_redir *cmds, t_list *env_list,
 		int cmd_count)
 {
 	t_pipe	p;
+	int		error;
 
 	error = -1;
 	init_pipe_struct(&p, cmd_count, env_list);
