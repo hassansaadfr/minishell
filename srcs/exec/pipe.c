@@ -114,7 +114,7 @@ int execute_pipeline(t_list *pipeline, t_list *env_list)
 	split_pipeline(pipeline, splitted_pipeline);
 	expand_pipeline(splitted_pipeline, cmd_count, env_list);
 	ret_exec = pipeline_execution(splitted_pipeline, env_list, cmd_count);
-//	free_splitted_pipeline(splitted_pipeline, cmd_count); // TO DO
+	free_splitted_pipeline(splitted_pipeline, cmd_count);
 	ft_free_ptr((void **)&splitted_pipeline);
 	return (ret_exec);
 }
