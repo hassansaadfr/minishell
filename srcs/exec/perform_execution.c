@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char	**token_list_to_array(t_list *token_list)
+char	**token_list_to_array(t_list *token_list)
 {
 	int		size;
 	char	**array;
