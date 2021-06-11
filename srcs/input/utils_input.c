@@ -2,6 +2,7 @@
 
 static void	exit_ctrld(struct termios orig_termios)
 {
+	write(STDOUT_FILENO, "exit\n", 5);
 	disable_raw_mode(orig_termios);
 	ft_exit_free(g_global.last_return);
 }

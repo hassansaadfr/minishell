@@ -31,7 +31,7 @@ int	minishell_tty(t_list *env_list)
 	{
 		prompt();
 		msh.tokens = NULL;
-		write_buffer(&msh.buff, msh.history, &msh.orig_termios);
+		write_buffer(&msh.buff, msh.history, msh.orig_termios);
 		if (not_empty(msh.buff.buffer))
 		{
 			add_to_history(&msh.buff, &msh.history);
