@@ -31,10 +31,10 @@ int	minishell_tty(t_list *env_list)
 	{
 		prompt();
 		msh.tokens = NULL;
-		write_buffer(&msh.buff, msh.history);
+		write_buffer(&msh.buff, msh.history, &msh.orig_termios);
 		if (not_empty(msh.buff.buffer))
 		{
-			add_to_history(&msh.buff, &msh.history, &msh.orig_termios);
+			add_to_history(&msh.buff, &msh.history);
 			msh.tokens = parsing(msh.buff.buffer);
 		}
 		disable_raw_mode(msh.orig_termios);
