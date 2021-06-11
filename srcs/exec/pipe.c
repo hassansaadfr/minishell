@@ -1,14 +1,9 @@
 #include "minishell.h"
 
-int	is_empty(char *buff)
-{
-	return (*buff == '\0');
-}
-
 int	display_err_ret_err(char *problem_pos, char *err_msg, int err)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	if (problem_pos && is_empty(problem_pos) == FALSE)
+	if (problem_pos && not_empty(problem_pos) == TRUE)
 	{
 		ft_putstr_fd(problem_pos, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
@@ -17,11 +12,11 @@ int	display_err_ret_err(char *problem_pos, char *err_msg, int err)
 	return (err);
 }
 
-int wait_all_pids(int *pids, int cmd_count)
+int	wait_all_pids(int *pids, int cmd_count)
 {
-	int     i;
-	int     return_code;
-	int		ret;
+	int	i;
+	int	return_code;
+	int	ret;
 
 	i = 0;
 	while (i < cmd_count)
@@ -38,37 +33,37 @@ int wait_all_pids(int *pids, int cmd_count)
 	return (return_code);
 }
 
-//int add_child_proc(char **cmd, int *in_out_tbc, char **envp, t_list *redirs)
-int add_child_proc(t_list *cmd_list, int *in_out_tbc, t_list *env_list, t_list *redirs)
+/*	PROTECT - perform_pipeline_redirections() */
+/*	PROTECT - dup2() */
+/*	PROTECT - dup2() */
+/*	MODIF - one_pipe_exec() was an execve(cmd[0], cmd, envp) BEFORE */
+
+int	add_child_proc(t_list *cmd_list, int *in_out_tbc, t_list *env_list,
+		t_list *redirs)
 {
-	int     pid;
+	int		pid;
 	char	**cmd;
 
 	pid = fork();
-	if (pid == -1) 
+	if (pid == -1)
 		return (display_err_ret_err("fork", strerror(errno), 125 + errno));
 	else if (pid == 0)
 	{
-	// USE HERE A MODIFIED VERSION OF execution() -- exec.c
-		perform_pipeline_redirections(redirs, in_out_tbc);	// PROTECT
+		perform_pipeline_redirections(redirs, in_out_tbc);
 		if (in_out_tbc[TBC] >= 0)
 			close(in_out_tbc[TBC]);
-		dup2(in_out_tbc[IN], STDIN_FILENO); 				// PROTECT
-		dup2(in_out_tbc[OUT], STDOUT_FILENO);				// PROTECT
+		dup2(in_out_tbc[IN], STDIN_FILENO);
+		dup2(in_out_tbc[OUT], STDOUT_FILENO);
 		cmd = token_list_to_array(cmd_list);
 		if (cmd == NULL || cmd[0] == NULL)
 			exit(0);
 		if (cmd && cmd[0])
 			one_pipe_exec(cmd, env_list, NULL);
-		/*
-		if (execve(cmd[0], cmd, envp) == -1) 
-			ft_exit_free(125 + errno);
-		*/
 	}
 	return (pid);
 }
 
-void    assign_in_out_tbc(int cmd_count, int i, int *in_out_tbc, int *fds)
+void	assign_in_out_tbc(int cmd_count, int i, int *in_out_tbc, int *fds)
 {
 	if (i < cmd_count - 1)
 	{
@@ -76,18 +71,18 @@ void    assign_in_out_tbc(int cmd_count, int i, int *in_out_tbc, int *fds)
 		in_out_tbc[TBC] = fds[0];
 	}
 	else
-	{   
+	{
 		in_out_tbc[OUT] = STDOUT_FILENO;
-		in_out_tbc[TBC] = -1; 
-	}   
+		in_out_tbc[TBC] = -1;
+	}
 }
 
 int	pipeline_execution(t_cmd_and_redir *cmds, t_list *env_list,
 		int cmd_count)
 {
 	t_pipe	p;
-	int		error = -1;
 
+	error = -1;
 	init_pipe_struct(&p, cmd_count, env_list);
 	while (p.i < cmd_count)
 	{
@@ -97,13 +92,8 @@ int	pipeline_execution(t_cmd_and_redir *cmds, t_list *env_list,
 				return (error);
 		}
 		assign_in_out_tbc(cmd_count, p.i, p.in_out_tbc, p.pipe_fds);
-		/*
-		p.cmd = token_list_to_array(cmds[p.i].cmd); // PASS IN CHILD
-		if (p.cmd && p.cmd[0])						// PASS IN CHILD
-			search_bin(p.cmd, env_list);			// PASS IN CHILD
-		*/
-//		p.pids[p.i] = add_child_proc(p.cmd, p.in_out_tbc, p.envp, cmds[p.i].redirs);
-		p.pids[p.i] = add_child_proc(cmds[p.i].cmd, p.in_out_tbc, env_list, cmds[p.i].redirs);
+		p.pids[p.i] = add_child_proc(cmds[p.i].cmd,
+				p.in_out_tbc, env_list, cmds[p.i].redirs);
 		close(p.in_out_tbc[IN]);
 		if (p.i < cmd_count - 1)
 			close(p.pipe_fds[1]);
@@ -116,11 +106,11 @@ int	pipeline_execution(t_cmd_and_redir *cmds, t_list *env_list,
 	return (p.return_code);
 }
 
-int execute_pipeline(t_list *pipeline, t_list *env_list)
+int	execute_pipeline(t_list *pipeline, t_list *env_list)
 {
-	int             cmd_count;
+	int				cmd_count;
 	int				ret_exec;
-	t_cmd_and_redir *splitted_pipeline;
+	t_cmd_and_redir	*splitted_pipeline;
 
 	ret_exec = 0;
 	cmd_count = count_pipes(pipeline) + 1;
