@@ -94,5 +94,5 @@ int	builtin_cd(char **argv, t_list *env_list)
 		return (0);
 	}
 	handle_errno(errno, "cd", argv[1]);
-	return (ret);
+	return (1);
 }

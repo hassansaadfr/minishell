@@ -324,4 +324,7 @@ void			expand_pipeline(t_cmd_and_redir *pipeline, int cmd_count,
 /*	FILE - pipeline_redirs.c */
 int				perform_pipeline_redirections(t_list *redirs, int *in_out_tbc);
 
+/*	FILE - exec_for_pipeline.c */
+int 			one_pipe_exec(char **cmds, t_list *env_list, t_list *history);
+
 #endif

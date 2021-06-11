@@ -47,6 +47,7 @@ SRCS			=	main.c \
 					exec/pipe.c \
 					exec/utils_fds.c \
 					exec/pipeline_redirs.c \
+					exec/exec_for_pipeline.c \
 					expansion/expansion2.c \
 					expansion/utils_concat.c \
 					expansion/utils_expansion.c \

@@ -76,9 +76,9 @@ int	executing(t_list *tokens, t_list *env_list, t_list *history)
 	{
 		indpdt_cmd = isolate_indpdt_cmd(&tokens);
 		if (is_pipeline(indpdt_cmd))
-			ret_exec = execute_pipeline(indpdt_cmd, env_list);
+			g_global.last_return = execute_pipeline(indpdt_cmd, env_list);
 		else
-			ret_exec = execute_simple_cmd(indpdt_cmd, env_list);
+			g_global.last_return = execute_simple_cmd(indpdt_cmd, env_list);
 	}
-	return (ret_exec);
+	return (g_global.last_return);
 }

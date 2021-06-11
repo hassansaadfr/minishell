@@ -21,21 +21,28 @@ int wait_all_pids(int *pids, int cmd_count)
 {
 	int     i;
 	int     return_code;
+	int		ret;
 
 	i = 0;
 	while (i < cmd_count)
 	{
 		if (pids[i] == -1)
 			i++;
-		else if (waitpid(pids[i++], &return_code, 0) == -1)
-			display_err_ret_err("waitpid", strerror(errno), 125 + errno);
+		else
+		{
+			ret = waitpid(pids[i++], &return_code, 0);
+			if (WIFEXITED(return_code))
+				return_code = WEXITSTATUS(return_code);
+		}
 	}
 	return (return_code);
 }
 
-int add_child_proc(char **cmd, int *in_out_tbc, char **envp, t_list *redirs)
+//int add_child_proc(char **cmd, int *in_out_tbc, char **envp, t_list *redirs)
+int add_child_proc(t_list *cmd_list, int *in_out_tbc, t_list *env_list, t_list *redirs)
 {
 	int     pid;
+	char	**cmd;
 
 	pid = fork();
 	if (pid == -1) 
@@ -48,10 +55,15 @@ int add_child_proc(char **cmd, int *in_out_tbc, char **envp, t_list *redirs)
 			close(in_out_tbc[TBC]);
 		dup2(in_out_tbc[IN], STDIN_FILENO); 				// PROTECT
 		dup2(in_out_tbc[OUT], STDOUT_FILENO);				// PROTECT
+		cmd = token_list_to_array(cmd_list);
 		if (cmd == NULL || cmd[0] == NULL)
 			exit(0);
+		if (cmd && cmd[0])
+			one_pipe_exec(cmd, env_list, NULL);
+		/*
 		if (execve(cmd[0], cmd, envp) == -1) 
 			ft_exit_free(125 + errno);
+		*/
 	}
 	return (pid);
 }
@@ -85,10 +97,13 @@ int	pipeline_execution(t_cmd_and_redir *cmds, t_list *env_list,
 				return (error);
 		}
 		assign_in_out_tbc(cmd_count, p.i, p.in_out_tbc, p.pipe_fds);
+		/*
 		p.cmd = token_list_to_array(cmds[p.i].cmd); // PASS IN CHILD
 		if (p.cmd && p.cmd[0])						// PASS IN CHILD
 			search_bin(p.cmd, env_list);			// PASS IN CHILD
-		p.pids[p.i] = add_child_proc(p.cmd, p.in_out_tbc, p.envp, cmds[p.i].redirs);
+		*/
+//		p.pids[p.i] = add_child_proc(p.cmd, p.in_out_tbc, p.envp, cmds[p.i].redirs);
+		p.pids[p.i] = add_child_proc(cmds[p.i].cmd, p.in_out_tbc, env_list, cmds[p.i].redirs);
 		close(p.in_out_tbc[IN]);
 		if (p.i < cmd_count - 1)
 			close(p.pipe_fds[1]);
