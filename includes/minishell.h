@@ -66,13 +66,12 @@ int				builtin_pwd(char **argv, t_list *env_list);
 int				builtin_unset(char **argv, t_list *env_list);
 int				builtin_history(char **argv, t_list *env_list, t_list *history);
 
-/*
-**	FILE - utils_mem.c
-*/
+/*	FILE - utils_mem.c */
 void			free_cmds(char ***cmds);
 void			free_env(t_list **env_list);
 void			*ft_realloc(void *old_ptr, size_t old_size, size_t new_size);
 void			free_token(void *content);
+void			free_splitted_pipeline(t_cmd_and_redir *splitted_pipeline, int cmd_count);
 
 /*
 **	FILE - utils_env.c
