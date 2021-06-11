@@ -298,4 +298,10 @@ int				minishell_init(struct termios *orig_termios,
 int				minishell_tty(t_list *env_list);
 int				minishell_non_tty(t_list *env_list);
 
+
+
+
+void		init_path_and_shlvl(t_list **env_list);
+
+
 #endif
