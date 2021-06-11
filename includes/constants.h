@@ -30,4 +30,6 @@
 
 # define INVALID_IDENTIFIER_FR "identifiant non valable"
 
+# define AMBIGUOUS_REDIRECT "redirection ambiguë"
+
 #endif

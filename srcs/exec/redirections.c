@@ -4,6 +4,11 @@ static int	perform_sup_redir(t_token *node)
 {
 	int		fd_file;
 
+	if (ft_strlen(node->arg) == 0)
+	{
+		print_err(NULL, NULL, AMBIGUOUS_REDIRECT);
+		return (1);
+	}
 	errno = 0;
 	fd_file = -1;
 	fd_file = open(node->arg, O_CREAT | O_TRUNC | O_WRONLY, 0666);
@@ -21,6 +26,11 @@ static int	perform_dsup_redir(t_token *node)
 {
 	int		fd_file;
 
+	if (ft_strlen(node->arg) == 0)
+	{
+		print_err(NULL, NULL, AMBIGUOUS_REDIRECT);
+		return (1);
+	}
 	errno = 0;
 	fd_file = -1;
 	fd_file = open(node->arg, O_CREAT | O_APPEND | O_WRONLY, 0666);
@@ -38,6 +48,11 @@ static int	perform_inf_redir(t_token *node)
 {
 	int		fd_file;
 
+	if (ft_strlen(node->arg) == 0)
+	{
+		print_err(NULL, NULL, AMBIGUOUS_REDIRECT);
+		return (1);
+	}
 	errno = 0;
 	fd_file = -1;
 	fd_file = open(node->arg, O_RDONLY);
