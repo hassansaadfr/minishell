@@ -81,15 +81,43 @@ char	*init_path(t_list *env_list)
 	return (NULL);
 }
 
+static char	*get_pwd(t_list *env_list)
+{
+	char	buff[PATH_MAX];
+	char	*env_value;
+
+	env_value = NULL;
+	env_value = get_env_value(env_list, "PWD");
+	if (env_value == NULL)
+	{
+		getcwd(buff, PATH_MAX);
+		return (ft_strjoin("PWD=", buff));
+	}
+	return (NULL);
+}
+
 void	init_path_and_shlvl(t_list **env_list)
 {
 	t_list	*sh_lvl;
 	char	*path;
+	char	*pwd;
+	char	*old_pwd;
 
+	old_pwd = NULL;
+	pwd = NULL;
+	sh_lvl = NULL;
 	sh_lvl = init_shlvl(*env_list);
 	if (sh_lvl)
 		ft_lstadd_back(env_list, sh_lvl);
 	path = init_path(*env_list);
 	if (path)
 		ft_lstadd_back(env_list, init_env_node(init_path(*env_list)));
+	old_pwd = get_env_value(*env_list, "OLDPWD");
+	if (old_pwd == NULL)
+		ft_lstadd_back(env_list, init_env_node(ft_strdup("OLDPWD")));
+	pwd = get_pwd(*env_list);
+	if (pwd != NULL)
+	{
+		ft_lstadd_back(env_list, init_env_node(pwd));
+	}
 }
