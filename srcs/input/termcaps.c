@@ -9,12 +9,15 @@ int	put_termcap(int c)
 	return (1);
 }
 
-void	exec_termcap(char *termcap_name)
+int	exec_termcap(char *termcap_name)
 {
 	char	*termcap_value;
+	int		ret;
 
+	ret = 0;
 	termcap_value = tgetstr(termcap_name, NULL);
-	tputs(termcap_value, 1, put_termcap);
+	ret = tputs(termcap_value, 1, put_termcap);
+	return (ret);
 }
 
 void	delete_char(t_input *buff)
