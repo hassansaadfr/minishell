@@ -54,7 +54,6 @@ int	process_key(t_input *buff)
 			exec_termcap("sc");
 			exec_termcap("do");
 			exec_termcap("cr");
-
 		}
 		ft_free_ptr((void **)&path);
 	}
