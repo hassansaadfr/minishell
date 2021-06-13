@@ -28,6 +28,7 @@ SRCS			=	main.c \
 					input/termcaps.c \
 					input/input.c \
 					input/history.c \
+					input/cursor_utils.c \
 					parsing/old_parse.c \
 					parsing/tokenizer.c \
 					parsing/utils_quoting.c \

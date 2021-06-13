@@ -14,6 +14,7 @@ struct termios	enable_raw_mode(void)
 	new_termios = orig_termios;
 	new_termios.c_lflag &= ~(ICANON | ECHO | ISIG);
 	new_termios.c_iflag &= ~(IXON);
+	new_termios.c_oflag &= ~(OPOST);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &new_termios);
 	return (orig_termios);
 }

@@ -14,6 +14,7 @@
 # include <signal.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <sys/ioctl.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -327,5 +328,9 @@ int				perform_pipeline_redirections(t_list *redirs, int *in_out_tbc);
 
 /*	FILE - exec_for_pipeline.c */
 int 			one_pipe_exec(char **cmds, t_list *env_list, t_list *history);
+
+/*	FILE - cursor_utils.c */
+int				get_cursor_pos(int *y, int *x);
+int				get_line_width(void);
 
 #endif
