@@ -72,9 +72,10 @@ void	change_input_str(int arrow, t_input *buff, t_list *history)
 	int				x;
 	int				y;
 
+	ioctl(0, TIOCGWINSZ, &w);
 	pwd_val = NULL;
 	pwd_val = get_env_value(g_global.env_list, "PWD");
-	exec_termcap("dl");
+	erase_input(buff, w, pwd_val);
 	ft_putstr_fd(pwd_val, STDERR_FILENO);
 	write(STDERR_FILENO, "$> ", 3);
 	if (arrow == UP_ARROW && history)
@@ -82,13 +83,13 @@ void	change_input_str(int arrow, t_input *buff, t_list *history)
 	else if (arrow == DN_ARROW && buff->pos != NULL)
 		exec_down_arrow(buff);
 	ft_putstr_fd(buff->buffer, 1);
-	ioctl(0, TIOCGWINSZ, &w);
 	get_cursor_pos(&y, &x);
-	if (x > w.ws_col)
+	if (x >= w.ws_col)
 	{
-		x = 0;
+		x = 0;						
 		exec_termcap("do");
 		exec_termcap("cr");
 	}
 	buff->i = ft_strlen(buff->buffer);
+	ft_free_ptr((void **)&pwd_val);
 }

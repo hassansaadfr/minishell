@@ -333,5 +333,7 @@ int 			one_pipe_exec(char **cmds, t_list *env_list, t_list *history);
 /*	FILE - cursor_utils.c */
 int				get_cursor_pos(int *y, int *x);
 int				get_line_width(void);
+void			erase_input(t_input *buff, struct winsize w,
+					char *pwd_val);
 
 #endif
