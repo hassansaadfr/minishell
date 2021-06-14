@@ -174,13 +174,14 @@ void			delete_char(t_input *buff);
 void			clear_line(t_input *buff);
 
 /*
-**	FILE - buffer.c
+**	FILE - input.c
 */
 char			read_key(void);
 int				process_key(t_input *buff);
 int				expand_buffers(t_input *buff);
 void			write_buffer(t_input *buff, t_list *history,
 					struct termios orig_termios);
+void			move_cursor(int side);
 
 /*
 **	FILE - history.c

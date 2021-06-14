@@ -75,3 +75,33 @@ int	get_line_width(void)
 	ioctl(0, TIOCGWINSZ, &w);
 	return (w.ws_col);
 }
+
+void	move_cursor(int side)
+{
+	int				x;
+	int				y;
+	struct winsize	w;
+
+	get_cursor_pos(&y, &x);
+	ioctl(0, TIOCGWINSZ, &w);
+	if (side == RIGHT)
+	{
+		if (x == w.ws_col)
+		{
+			exec_termcap("sc");
+			exec_termcap("do");
+			exec_termcap("cr");
+		}
+	}
+	else if (side == LEFT)
+	{
+		if (x == 1)
+		{
+			exec_termcap("rc");
+			exec_termcap("ce");
+			get_cursor_pos(&y, &x);
+			if (w.ws_row == y)
+				exec_termcap("up");
+		}
+	}
+}

@@ -14,6 +14,9 @@
 # define TRUE 1
 # define FALSE 0
 
+# define LEFT 0
+# define RIGHT 1
+
 # define UP_ARROW 12938712
 # define DN_ARROW 1290837
 

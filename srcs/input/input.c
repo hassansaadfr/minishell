@@ -21,41 +21,19 @@ char	read_key(void)
 int	process_key(t_input *buff)
 {
 	char	c;
-	int		x;
-	int		y;
-	int		len;
-	char	*path;
-	int		total;
 
-	total = buff->i + 4;
 	c = read_key();
 	if (c == ESCAPE)
 		return (arrow_value());
 	else if (c == DELETE)
 	{
-		get_cursor_pos(&y, &x);
 		delete_char(buff);
-		if (x == 1)
-		{
-			exec_termcap("rc");
-			exec_termcap("ce");
-		}
+		move_cursor(LEFT);
 	}
 	else if (ft_isprint(c))
 	{
-		path = get_env_value(g_global.env_list, "PATH");
-		if (path)
-			total += ft_strlen(path);
-		len = get_line_width();
-		get_cursor_pos(&y, &x);
 		write(STDIN_FILENO, &c, 1);
-		if (x == len)
-		{
-			exec_termcap("sc");
-			exec_termcap("do");
-			exec_termcap("cr");
-		}
-		ft_free_ptr((void **)&path);
+		move_cursor(RIGHT);
 	}
 	return (c);
 }

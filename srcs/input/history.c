@@ -67,13 +67,12 @@ void	exec_down_arrow(t_input *buff)
 
 void	change_input_str(int arrow, t_input *buff, t_list *history)
 {
-	t_list	*tmp;
 	char	*pwd_val;
+	int		i;
 
+	i = 0;
 	pwd_val = NULL;
-	tmp = get_env(g_global.env_list, "PWD");
-	if (tmp)
-		pwd_val = ((t_env *)tmp->content)->value;
+	pwd_val = get_env_value(g_global.env_list, "PWD");
 	exec_termcap("dl");
 	ft_putstr_fd(pwd_val, STDERR_FILENO);
 	write(STDERR_FILENO, "$> ", 3);
@@ -81,6 +80,11 @@ void	change_input_str(int arrow, t_input *buff, t_list *history)
 		exec_up_arrow(buff, history);
 	else if (arrow == DN_ARROW && buff->pos != NULL)
 		exec_down_arrow(buff);
-	ft_putstr_fd(buff->buffer, 1);
+	while (buff->buffer[i])
+	{
+		write(STDIN_FILENO, &buff->buffer[i++], 1);
+		move_cursor(RIGHT);
+	}
+	// ft_putstr_fd(buff->buffer, 1); // should write characters by characters and save cursor position when newline
 	buff->i = ft_strlen(buff->buffer);
 }
