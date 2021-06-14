@@ -1,0 +1,2 @@
+PWD=/home/hassan/code/minishell/42TESTERS-MINISHELL
+SHLVL=1

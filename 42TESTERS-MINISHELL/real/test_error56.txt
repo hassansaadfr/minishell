@@ -1,0 +1,1 @@
+bash: ligne 1: echolala : commande introuvable

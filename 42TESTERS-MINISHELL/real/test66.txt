@@ -1,0 +1,3 @@
+declare -x OLDPWD
+declare -x PWD="/home/hassan/code/minishell/42TESTERS-MINISHELL"
+declare -x SHLVL="1"

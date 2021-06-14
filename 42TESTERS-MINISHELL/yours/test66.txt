@@ -1,0 +1,4 @@
+declare -x OLDPWD
+declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+declare -x PWD="/home/hassan/code/minishell/42TESTERS-MINISHELL"
+declare -x SHLVL="1"

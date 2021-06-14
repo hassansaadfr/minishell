@@ -58,7 +58,7 @@ static void	print_env_list(t_list *env_list)
 	{
 		if (ft_strcmp("_", env_arr[i]->name) != 0)
 		{
-			ft_putstr_fd("export ", STDOUT_FILENO);
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
 			ft_putstr_fd(env_arr[i]->name, STDOUT_FILENO);
 			if (env_arr[i]->value != NULL)
 			{

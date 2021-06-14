@@ -1,0 +1,2 @@
+bash: ligne 1: erreur de syntaxe près du symbole inattendu « | »
+bash: ligne 1: `echo coucou | echo lala | |echo $?'

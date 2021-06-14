@@ -49,7 +49,12 @@ int	main(int argc, char **argv, char **envp)
 	g_global.env_list = init_env(envp);
 	init_path_and_shlvl(&g_global.env_list);
 	if (argc > 1)
-		g_global.last_return = exec_script(g_global.env_list, argv[1]);
+	{
+		if (argc >= 2)
+			g_global.last_return = exec_script(g_global.env_list, argv[2]);
+		else
+			g_global.last_return = exec_script(g_global.env_list, argv[1]);
+	}
 	else
 		minishell(g_global.env_list);
 	close(STDIN_FILENO);

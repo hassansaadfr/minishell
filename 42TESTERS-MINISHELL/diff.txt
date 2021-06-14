@@ -1,0 +1,53 @@
+Test 48 : ENV RECEIVED IN BASH
+echo "echo export | bash" | ./minishell | LC_ALL=C sort
+
+47c47
+< declare -x SHLVL="3"
+---
+> declare -x SHLVL="4"
+74c74
+< declare -x _="/usr/bin/bash"
+---
+> declare -x _="./minishell"
+
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+
+Test 65 : ENV (NO ENV)
+echo "env" | env -i ./minishell | grep -v ^_= | LC_ALL=C sort
+
+0a1
+> PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+
+Test 66 : EXPORT (NO ARG && NO ENV)
+echo "export" | env -i ./minishell | grep -v ^"declare -x _=" | LC_ALL=C sort
+
+1a2
+> declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+
+Test 78 : ; && $_
+echo "echo coucou; echo \$_" | ./minishell
+
+2c2
+< coucou
+---
+> ./minishell
+
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+
+Test 84 : PWD ENV (UNSET)
+echo "unset PWD; cd ..; env | grep ^PWD=" | ./minishell
+
+0a1
+> PWD=/home/hassan/code/minishell
+
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+
