@@ -21,7 +21,7 @@ void	delete_char(t_input *buff)
 {
 	if (buff->i >= 1)
 	{
-		exec_termcap("le");
+		move_cursor_back();
 		exec_termcap("dc");
 		buff->buffer[--buff->i] = '\0';
 	}
@@ -29,7 +29,14 @@ void	delete_char(t_input *buff)
 
 void	clear_line(t_input *buff)
 {
-	exec_termcap("dl");
+	struct winsize	w;
+	char			*pwd_val;
+
+	ioctl(0, TIOCGWINSZ, &w);
+	pwd_val = get_env_value(g_global.env_list, "PWD");
+	erase_input(buff, w, pwd_val);
+	ft_putstr_fd(pwd_val, STDERR_FILENO);
+    write(STDERR_FILENO, "$> ", 3);
 	buff->i = 0;
-	prompt();
+	ft_free_ptr((void **)&pwd_val);
 }

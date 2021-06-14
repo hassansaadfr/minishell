@@ -26,9 +26,13 @@ int	process_key(t_input *buff)
 	if (c == ESCAPE)
 		return (arrow_value());
 	else if (c == DELETE)
+	{
 		delete_char(buff);
+	}
 	else if (ft_isprint(c))
+	{
 		write(STDIN_FILENO, &c, 1);
+	}
 	return (c);
 }
 
