@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+static int	open_file(char *path)
+{
+	int	fd;
+
+	fd = 0;
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+	{
+		print_err(path, NULL, strerror(errno));
+		ft_exit_free(126);
+	}
+	return (fd);
+}
+
 static int	minishell_exec_script(t_list *env_list, char *path)
 {
 	int		ret_gnl;
@@ -7,12 +21,7 @@ static int	minishell_exec_script(t_list *env_list, char *path)
 	t_list	*tokens;
 	int		fd;
 
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-	{
-		print_err(path, NULL, strerror(errno));
-		ft_exit_free(126);
-	}
+	fd = open_file(path);
 	line = NULL;
 	ret_gnl = 1;
 	signal_handling_register();
