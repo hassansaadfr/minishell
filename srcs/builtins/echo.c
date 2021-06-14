@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+int	new_line_arg(char *arg)
+{
+	int	i;
+
+	i = 0;
+	if (arg == NULL || arg[0] != '-')
+		return (1);
+	i++;
+	while (arg[i] == 'n')
+		i++;
+	if (arg[i] == '\0')
+		return (0);
+	return (1);
+}
+
 int	builtin_echo(char **argv, t_list *env_list)
 {
 	int		i;
@@ -10,7 +25,7 @@ int	builtin_echo(char **argv, t_list *env_list)
 	nl = 0;
 	(void)env_list;
 	argv++;
-	while (*argv && ft_strncmp(argv[0], "-n", 3) == 0)
+	while (new_line_arg(argv[0]) == 0)
 	{
 		nl = 1;
 		argv++;

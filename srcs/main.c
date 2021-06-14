@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1)
 	{
 		if (argc >= 2)
-			g_global.last_return = exec_script(g_global.env_list, argv[2]);
+			g_global.last_return = exec_script(g_global.env_list, argv[2]); // TESTING
 		else
 			g_global.last_return = exec_script(g_global.env_list, argv[1]);
 	}

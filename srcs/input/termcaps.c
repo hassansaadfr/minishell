@@ -38,5 +38,4 @@ void	clear_line(t_input *buff)
 	ft_putstr_fd(pwd_val, STDERR_FILENO);
     write(STDERR_FILENO, "$> ", 3);
 	buff->i = 0;
-	ft_free_ptr((void **)&pwd_val);
 }

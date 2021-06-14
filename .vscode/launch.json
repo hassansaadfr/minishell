@@ -18,7 +18,7 @@
 			"program": "${workspaceFolder}/minishell",
 			"preLaunchTask": "Build",
 			"initCommands": [
-				"settings set target.inherit-env false", // See the note below.
+				"settings set target.inherit-env true", // See the note below.
 			],
 			"env": {"TERM": "xterm-256color"}
 		}

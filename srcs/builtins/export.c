@@ -77,6 +77,7 @@ int	builtin_export(char **argv, t_list *env_list)
 {
 	char	*env;
 	int		done;
+	char	*env_name;
 
 	done = 0;
 	if (get_strarr_size(argv) == 1)
@@ -86,15 +87,17 @@ int	builtin_export(char **argv, t_list *env_list)
 		argv++;
 		while (*argv)
 		{
-			if (is_valid_env_name(*argv, "export") == 0)
+			env_name = parse_env_name(*argv);
+			done = is_valid_env_name(env_name, "export");
+			if (done == 0)
 			{
 				env = ft_strdup(*argv);
-				done = new_env(env_list, env);
-				if (!done)
+				if (new_env(env_list, env) == 0)
 					done = edit_env(env_list, env);
 				ft_free_ptr((void **)&env);
 			}
 			argv++;
+			ft_free_ptr((void **)&env_name);
 		}
 	}
 	return (done);

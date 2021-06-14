@@ -1,11 +1,11 @@
 Test 48 : ENV RECEIVED IN BASH
 echo "echo export | bash" | ./minishell | LC_ALL=C sort
 
-47c47
+48c48
 < declare -x SHLVL="3"
 ---
 > declare -x SHLVL="4"
-74c74
+75c75
 < declare -x _="/usr/bin/bash"
 ---
 > declare -x _="./minishell"
@@ -27,6 +27,26 @@ echo "export" | env -i ./minishell | grep -v ^"declare -x _=" | LC_ALL=C sort
 
 1a2
 > declare -x PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+
+Test 76 : COMMANDS FROM ARGV[1]
+./minishell srcs/cmds.txt
+
+1,2d0
+< abc def ghi
+< jkl
+
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+
+Test 77 : COMMANDS FROM ARGV[1] (EXTRA ARGUMENTS)
+./minishell srcs/cmds.txt bada lala
+
+1,2d0
+< abc def ghi
+< jkl
 
 <<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
 <<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>

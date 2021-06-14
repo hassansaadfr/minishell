@@ -32,6 +32,7 @@ static void	typing_err_msg(t_parse *p, int ret_tokenizing)
 		ft_putendl_fd("'", STDERR_FILENO);
 	}
 	ft_lstclear(&p->tokens, free_token);
+	g_global.last_return = 2;
 }
 
 t_list	*check_parsing_errors(t_parse *p, int ret_tokenizing)
