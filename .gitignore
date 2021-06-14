@@ -6,7 +6,6 @@ minishell_test
 */*.o
 *.log
 .*.swp
-.vscode
 *.a
 a.out
 42TESTERS-MINISHELL/

@@ -71,7 +71,8 @@ void			free_cmds(char ***cmds);
 void			free_env(t_list **env_list);
 void			*ft_realloc(void *old_ptr, size_t old_size, size_t new_size);
 void			free_token(void *content);
-void			free_splitted_pipeline(t_cmd_and_redir *splitted_pipeline, int cmd_count);
+void			free_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
+					int cmd_count);
 
 /*
 **	FILE - utils_env.c
@@ -322,13 +323,18 @@ int				init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list);
 
 /*	FILE - expand_pipeline.c */
 void			expand_pipeline(t_cmd_and_redir *pipeline, int cmd_count,
-				t_list *env_list);
+					t_list *env_list);
 
 /*	FILE - pipeline_redirs.c */
 int				perform_pipeline_redirections(t_list *redirs, int *in_out_tbc);
 
 /*	FILE - exec_for_pipeline.c */
-int 			one_pipe_exec(char **cmds, t_list *env_list, t_list *history);
+int				one_pipe_exec(char **cmds, t_list *env_list, t_list *history);
+
+/*
+** FILE - init-shlvl_and_path.c
+*/
+void			init_path_and_shlvl(t_list **env_list);
 
 /*	FILE - cursor_utils.c */
 int				get_cursor_pos(int *y, int *x);
