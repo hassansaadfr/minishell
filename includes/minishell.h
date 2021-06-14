@@ -14,6 +14,7 @@
 # include <signal.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <sys/ioctl.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -174,13 +175,14 @@ void			delete_char(t_input *buff);
 void			clear_line(t_input *buff);
 
 /*
-**	FILE - buffer.c
+**	FILE - input.c
 */
 char			read_key(void);
 int				process_key(t_input *buff);
 int				expand_buffers(t_input *buff);
 void			write_buffer(t_input *buff, t_list *history,
 					struct termios orig_termios);
+void			move_cursor_back(void);
 
 /*
 **	FILE - history.c
@@ -333,5 +335,11 @@ int				one_pipe_exec(char **cmds, t_list *env_list, t_list *history);
 ** FILE - init-shlvl_and_path.c
 */
 void			init_path_and_shlvl(t_list **env_list);
+
+/*	FILE - cursor_utils.c */
+int				get_cursor_pos(int *y, int *x);
+int				get_line_width(void);
+void			erase_input(t_input *buff, struct winsize w,
+					char *pwd_val);
 
 #endif

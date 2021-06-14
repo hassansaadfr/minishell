@@ -46,7 +46,8 @@ void	*ft_realloc(void *old_ptr, size_t old_size, size_t new_size)
 	return (new_ptr);
 }
 
-void	free_splitted_pipeline(t_cmd_and_redir *splitted_pipeline, int cmd_count)
+void	free_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
+		int cmd_count)
 {
 	int	i;
 

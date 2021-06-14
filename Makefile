@@ -29,6 +29,8 @@ SRCS			=	main.c \
 					input/termcaps.c \
 					input/input.c \
 					input/history.c \
+					input/cursor_utils.c \
+					input/move_cursor.c \
 					parsing/old_parse.c \
 					parsing/tokenizer.c \
 					parsing/utils_quoting.c \
@@ -88,8 +90,9 @@ CRITERIONFLAGS	=	-lcriterion
 
 .c.o			:
 					@${CC} ${CFLAGS} ${HEAD} -c $< -o ${<:.c=.o}
+					printf "$(GREEN)█"
 
-$(NAME)			:	${OBJS}
+$(NAME)			:	compile ${OBJS} done
 					make -C libft
 					@${CC} ${CFLAGS} ${LD_FLAGS} ${OBJS} -o ${NAME} -lft -lncurses
 
@@ -114,7 +117,6 @@ $(TEST_NAME)	:	$(NO_MAIN) ${TEST_OBJS} ${NAME}
 					@ rm $(TEST_OBJS) $(NO_MAIN)
 					@clear
 
-
 clean			:
 					make clean -C libft
 					@rm -rf ${OBJS}
@@ -126,3 +128,15 @@ fclean			:	clean
 re				:	fclean all
 
 .PHONY			:	all clean fclean re
+
+.SILENT:
+
+BLUE	= \033[1;34m
+GREEN	= \033[1;32m
+YELLOW	= \033[1;33m
+DEFAULT = \033[0m
+
+compile	:
+			echo "\n$(YELLOW)[X] Compiling $(BLUE)Minishell$(DEFAULT)\n"
+done	:
+			echo "$(GREEN) => 100%$(DEFAULT)\n"
