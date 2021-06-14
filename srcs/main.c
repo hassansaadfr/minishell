@@ -14,7 +14,7 @@ static int	open_file(char *path)
 	return (fd);
 }
 
-static int	minishell_exec_script(t_list *env_list, char *path)
+static int	exec_script(t_list *env_list, char *path)
 {
 	int		ret_gnl;
 	char	*line;
@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	g_global.env_list = init_env(envp);
 	if (argc > 1)
-		g_global.last_return = g_global.env_list, argv[1];
+		g_global.last_return = exec_script(g_global.env_list, argv[1]);
 	else
 		minishell(g_global.env_list);
 	close(STDIN_FILENO);
