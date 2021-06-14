@@ -4,7 +4,7 @@ static int	open_file(char *path)
 {
 	int	fd;
 
-	fd = 0;
+	fd = -1;
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 	{
