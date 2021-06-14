@@ -21,7 +21,7 @@ void	delete_char(t_input *buff)
 {
 	if (buff->i >= 1)
 	{
-		exec_termcap("le");
+		move_cursor_back();
 		exec_termcap("dc");
 		buff->buffer[--buff->i] = '\0';
 	}

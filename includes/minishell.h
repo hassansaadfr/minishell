@@ -181,7 +181,7 @@ int				process_key(t_input *buff);
 int				expand_buffers(t_input *buff);
 void			write_buffer(t_input *buff, t_list *history,
 					struct termios orig_termios);
-void			move_cursor(int side);
+void			move_cursor_back(void);
 
 /*
 **	FILE - history.c

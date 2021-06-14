@@ -28,12 +28,10 @@ int	process_key(t_input *buff)
 	else if (c == DELETE)
 	{
 		delete_char(buff);
-		move_cursor(LEFT);
 	}
 	else if (ft_isprint(c))
 	{
 		write(STDIN_FILENO, &c, 1);
-		move_cursor(RIGHT);
 	}
 	return (c);
 }

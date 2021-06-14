@@ -67,10 +67,11 @@ void	exec_down_arrow(t_input *buff)
 
 void	change_input_str(int arrow, t_input *buff, t_list *history)
 {
-	char	*pwd_val;
-	int		i;
+	char			*pwd_val;
+	struct winsize	w;
+	int				x;
+	int				y;
 
-	i = 0;
 	pwd_val = NULL;
 	pwd_val = get_env_value(g_global.env_list, "PWD");
 	exec_termcap("dl");
@@ -80,11 +81,14 @@ void	change_input_str(int arrow, t_input *buff, t_list *history)
 		exec_up_arrow(buff, history);
 	else if (arrow == DN_ARROW && buff->pos != NULL)
 		exec_down_arrow(buff);
-	while (buff->buffer[i])
+	ft_putstr_fd(buff->buffer, 1);
+	ioctl(0, TIOCGWINSZ, &w);
+	get_cursor_pos(&y, &x);
+	if (x > w.ws_col)
 	{
-		write(STDIN_FILENO, &buff->buffer[i++], 1);
-		move_cursor(RIGHT);
+		x = 0;
+		exec_termcap("do");
+		exec_termcap("cr");
 	}
-	// ft_putstr_fd(buff->buffer, 1); // should write characters by characters and save cursor position when newline
 	buff->i = ft_strlen(buff->buffer);
 }
