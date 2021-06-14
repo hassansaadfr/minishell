@@ -16,7 +16,7 @@ static int	get_shlvl_value(char *value_env)
 		if (!ft_isdigit(tmp[j++]))
 			return (1);
 	value = ft_atoi(tmp);
-	if (value == 999)
+	if (value >= 999)
 	{
 		ft_putstr_fd("minishell: avertissement : ", STDERR_FILENO);
 		ft_putstr_fd("niveau de shell trop élevé (1000), ", STDERR_FILENO);
