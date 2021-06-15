@@ -67,17 +67,12 @@ void	exec_down_arrow(t_input *buff)
 
 void	change_input_str(int arrow, t_input *buff, t_list *history)
 {
-//	char			*pwd_val;
 	struct winsize	w;
 	int				x;
 	int				y;
 
 	ioctl(0, TIOCGWINSZ, &w);
-//	pwd_val = NULL;
-//	pwd_val = get_env_value(g_global.env_list, "PWD");
-	erase_input(buff, w/*, pwd_val*/);
-//	ft_putstr_fd(pwd_val, STDERR_FILENO);
-//	write(STDERR_FILENO, "$> ", 3);
+	erase_input(buff, w);
 	print_prompt();
 	if (arrow == UP_ARROW && history)
 		exec_up_arrow(buff, history);
@@ -92,5 +87,4 @@ void	change_input_str(int arrow, t_input *buff, t_list *history)
 		exec_termcap("cr");
 	}
 	buff->i = ft_strlen(buff->buffer);
-//	ft_free_ptr((void **)&pwd_val);
 }

@@ -342,6 +342,5 @@ int				get_cursor_pos(int *y, int *x);
 int				get_line_width(void);
 void			erase_input(t_input *buff, struct winsize w);
 void			print_prompt(void);
-//					char *pwd_val);
 
 #endif

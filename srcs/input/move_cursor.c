@@ -2,18 +2,9 @@
 
 static void	move_cursor_up_right(void)
 {
-//	int		pwd_len;
 	int		i;
-//	char	*pwd_var;
 
 	i = 0;
-//	pwd_len = 3;
-//	pwd_var = NULL;
-//	pwd_var = get_env_value(g_global.env_list, "PWD");
-//	if (pwd_var != NULL)
-//		pwd_len = ft_strlen(pwd_var);
-//	pwd_len += 3;
-//	pwd_len += g_global.buff->i;
 	exec_termcap("up");
 	while (i < PROMPT_LEN + g_global.buff->i)
 	{
