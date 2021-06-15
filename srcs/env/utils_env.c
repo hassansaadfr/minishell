@@ -45,11 +45,6 @@ int	new_env(t_list *env_list, char *new_env)
 	if (!tmp)
 	{
 		env_node = init_env_node(new_env);
-		if (!env_node)
-		{
-			ft_free_ptr((void **)&parsed_name);
-			return (0);
-		}
 		ft_lstadd_back(&env_list, env_node);
 		out = 1;
 	}

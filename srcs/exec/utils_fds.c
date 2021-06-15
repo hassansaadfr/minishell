@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+int	process_is_parent(void)
+{
+	if (g_global.pid > 0)
+		return (PARENT_PID);
+	else if (g_global.pid == 0)
+		return (CHILD_PID);
+	else
+		return (ERROR_FORK);
+}
+
 int	init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list)
 {
 	int		i;
