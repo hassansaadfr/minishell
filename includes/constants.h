@@ -7,6 +7,8 @@
 # define DELETE 127
 # define ESCAPE 27
 
+# define PROMPT_LEN 7
+
 # define IN 0
 # define OUT 1
 # define TBC 2

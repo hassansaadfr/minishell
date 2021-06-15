@@ -1,5 +1,10 @@
 #include "minishell.h"
 
+void	print_prompt(void)
+{
+	ft_putstr_fd("msh_$> ", STDERR_FILENO);
+}
+
 void	prompt(void)
 {
 	char	*env_val;
@@ -13,8 +18,11 @@ void	prompt(void)
 	if (tmp)
 		env_val = ((t_env *)tmp->content)->value;
 	if (isatty(0))
+		print_prompt();
+	/*
 	{
 		ft_putstr_fd(env_val, STDERR_FILENO);
 		ft_putstr_fd("$> ", STDERR_FILENO);
 	}
+	*/
 }

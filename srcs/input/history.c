@@ -67,22 +67,23 @@ void	exec_down_arrow(t_input *buff)
 
 void	change_input_str(int arrow, t_input *buff, t_list *history)
 {
-	char			*pwd_val;
+//	char			*pwd_val;
 	struct winsize	w;
 	int				x;
 	int				y;
 
 	ioctl(0, TIOCGWINSZ, &w);
-	pwd_val = NULL;
-	pwd_val = get_env_value(g_global.env_list, "PWD");
-	erase_input(buff, w, pwd_val);
-	ft_putstr_fd(pwd_val, STDERR_FILENO);
-	write(STDERR_FILENO, "$> ", 3);
+//	pwd_val = NULL;
+//	pwd_val = get_env_value(g_global.env_list, "PWD");
+	erase_input(buff, w/*, pwd_val*/);
+//	ft_putstr_fd(pwd_val, STDERR_FILENO);
+//	write(STDERR_FILENO, "$> ", 3);
+	print_prompt();
 	if (arrow == UP_ARROW && history)
 		exec_up_arrow(buff, history);
 	else if (arrow == DN_ARROW && buff->pos != NULL)
 		exec_down_arrow(buff);
-	ft_putstr_fd(buff->buffer, 1);
+	ft_putstr_fd(buff->buffer, STDOUT_FILENO);
 	get_cursor_pos(&y, &x);
 	if (x >= w.ws_col)
 	{
@@ -91,5 +92,5 @@ void	change_input_str(int arrow, t_input *buff, t_list *history)
 		exec_termcap("cr");
 	}
 	buff->i = ft_strlen(buff->buffer);
-	ft_free_ptr((void **)&pwd_val);
+//	ft_free_ptr((void **)&pwd_val);
 }

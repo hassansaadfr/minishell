@@ -66,15 +66,16 @@ int	get_cursor_pos(int *y, int *x)
 	return (0);
 }
 
-void	erase_input(t_input *buff, struct winsize w,
-		char *pwd_val)
+void	erase_input(t_input *buff, struct winsize w
+		/*char *pwd_val*/)
 {
-	size_t	pwd_len;
+//	size_t	pwd_len;
 
-	pwd_len = 0;
-	if (pwd_val != NULL)
-		pwd_len = ft_strlen(pwd_val);
-	while (pwd_len + buff->i > w.ws_col)
+//	pwd_len = 0;
+//	if (pwd_val != NULL)
+//		pwd_len = ft_strlen(pwd_val);
+//	while (pwd_len + buff->i > w.ws_col)
+	while (PROMPT_LEN + buff->i > w.ws_col)
 	{
 		exec_termcap("dl");
 		exec_termcap("up");
