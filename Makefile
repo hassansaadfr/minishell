@@ -46,11 +46,11 @@ SRCS			=	main.c \
 					exec/rearrange_lists.c \
 					exec/redirections.c \
 					exec/perform_execution.c \
-					exec/utils_pipeline.c \
-					exec/pipe.c \
-					exec/utils_fds.c \
-					exec/pipeline_redirs.c \
-					exec/exec_for_pipeline.c \
+					pipes/utils_pipeline.c \
+					pipes/pipe.c \
+					pipes/utils_fds.c \
+					pipes/pipeline_redirs.c \
+					pipes/exec_for_pipeline.c \
 					expansion/expansion2.c \
 					expansion/utils_concat.c \
 					expansion/utils_expansion.c \

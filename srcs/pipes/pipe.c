@@ -77,10 +77,10 @@ void	assign_in_out_tbc(int cmd_count, int i, int *in_out_tbc, int *fds)
 	}
 }
 
-int	pipeline_execution(t_cmd_and_redir *cmds, t_list *env_list,
+int	pipeline_execution(t_pipeline *cmds, t_list *env_list,
 		int cmd_count)
 {
-	t_pipe	p;
+	t_fds	p;
 	int		error;
 
 	error = -1;
@@ -111,16 +111,16 @@ int	execute_pipeline(t_list *pipeline, t_list *env_list)
 {
 	int				cmd_count;
 	int				ret_exec;
-	t_cmd_and_redir	*splitted_pipeline;
+	t_pipeline		*pipes_arr;
 
 	ret_exec = 0;
 	cmd_count = count_pipes(pipeline) + 1;
-	splitted_pipeline = ft_alloc(sizeof(t_cmd_and_redir) * (cmd_count + 1));
-	init_splitted_pipeline(splitted_pipeline, cmd_count);
-	split_pipeline(pipeline, splitted_pipeline);
-	expand_pipeline(splitted_pipeline, cmd_count, env_list);
-	ret_exec = pipeline_execution(splitted_pipeline, env_list, cmd_count);
-	free_splitted_pipeline(splitted_pipeline, cmd_count);
-	ft_free_ptr((void **)&splitted_pipeline);
+	pipes_arr = ft_alloc(sizeof(t_pipeline) * (cmd_count + 1));
+	init_splitted_pipeline(pipes_arr, cmd_count);
+	split_pipeline(pipeline, pipes_arr);
+	expand_pipeline(pipes_arr, cmd_count, env_list);
+	ret_exec = pipeline_execution(pipes_arr, env_list, cmd_count);
+	free_splitted_pipeline(pipes_arr, cmd_count);
+	ft_free_ptr((void **)&pipes_arr);
 	return (ret_exec);
 }

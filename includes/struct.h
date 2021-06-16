@@ -108,13 +108,13 @@ enum					e_pid
 	ERROR_FORK
 };
 
-typedef struct s_cmd_and_redir
+typedef struct s_pipeline
 {
 	t_list	*cmd;
 	t_list	*redirs;
-}						t_cmd_and_redir;
+}						t_pipeline;
 
-typedef struct s_pipe
+typedef struct s_fds
 {
 	int		i;
 	int		in_out_tbc[3];
@@ -124,7 +124,8 @@ typedef struct s_pipe
 	int		return_code;
 	char	**cmd;
 	char	**envp;
-}						t_pipe;
+}						t_fds;
+
 typedef struct s_msh
 {
 	t_list			*history;

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list)
+int	init_pipe_struct(t_fds *p, int cmd_count, t_list *env_list)
 {
 	int		i;
 
