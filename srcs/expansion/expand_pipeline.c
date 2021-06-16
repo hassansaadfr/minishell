@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	expand_pipeline(t_cmd_and_redir *pipeline, int cmd_count, t_list *env_list)
+void	expand_pipeline(t_pipeline *pipeline, int cmd_count, t_list *env_list)
 {
 	int	i;
 
