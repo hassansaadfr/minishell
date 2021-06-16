@@ -45,10 +45,6 @@ int	backup_std(int *old_fds)
 	return (0);
 }
 
-/*
-**	TODO Protect all dup here
-*/
-
 int	restore_fds(int *old_fds)
 {
 	dup2(old_fds[IN], STDIN_FILENO);
