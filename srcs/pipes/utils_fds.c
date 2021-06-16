@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list)
+int	init_pipe_struct(t_fds *p, int cmd_count, t_list *env_list)
 {
 	int		i;
 
@@ -9,21 +9,32 @@ int	init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list)
 	p->cmd = NULL;
 	p->envp = list_to_array(env_list);
 	p->pids = ft_alloc(sizeof(int) * cmd_count);
-	backup_std(p->old_fds);
-	// PROTECT
+	if (backup_std(p->old_fds) != 0)
+	{
+		ft_free_ptr((void **)&p->pids);
+		return (1);
+	}
 	i = 0;
 	while (i < cmd_count)
 		p->pids[i++] = -1;
-	return (1);
+	return (0);
 }
 
 int	backup_std(int *old_fds)
 {
+	errno = 0;
+
 	old_fds[IN] = dup(STDIN_FILENO);
-	// PROTECT
+	if (old_fds[IN] == -1)
+		return (display_err_ret_err("dup", strerror(errno), 1));
 	old_fds[OUT] = dup(STDOUT_FILENO);
-	// PROTECT
-	return (1);
+	if (old_fds[OUT] == -1)
+		if (old_fds[OUT] == -1)
+	{
+		close(old_fds[IN]);
+		return (display_err_ret_err("dup", strerror(errno), 1));
+	}
+	return (0);
 }
 
 int	restore_fds(int *old_fds)
@@ -36,5 +47,5 @@ int	restore_fds(int *old_fds)
 	// PROTECT
 	close(old_fds[OUT]);
 	// PROTECT
-	return (1);
+	return (0);
 }

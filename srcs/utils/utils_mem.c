@@ -46,7 +46,7 @@ void	*ft_realloc(void *old_ptr, size_t old_size, size_t new_size)
 	return (new_ptr);
 }
 
-void	free_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
+void	free_splitted_pipeline(t_pipeline *pipes_arr,
 		int cmd_count)
 {
 	int	i;
@@ -54,10 +54,10 @@ void	free_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
 	i = 0;
 	while (i < cmd_count)
 	{
-		if (splitted_pipeline[i].cmd)
-			ft_lstclear(&splitted_pipeline[i].cmd, free_token);
-		if (splitted_pipeline[i].redirs)
-			ft_lstclear(&splitted_pipeline[i].redirs, free_token);
+		if (pipes_arr[i].cmd)
+			ft_lstclear(&pipes_arr[i].cmd, free_token);
+		if (pipes_arr[i].redirs)
+			ft_lstclear(&pipes_arr[i].redirs, free_token);
 		i++;
 	}
 }

@@ -25,33 +25,33 @@ int	count_pipes(t_list *pipeline)
 	return (count);
 }
 
-void	init_splitted_pipeline(t_cmd_and_redir *splitted_pipeline, int count)
+void	init_splitted_pipeline(t_pipeline *pipes_arr, int count)
 {
 	int	i;
 
 	i = 0;
 	while (i < count + 1)
 	{
-		splitted_pipeline[i].cmd = NULL;
-		splitted_pipeline[i].redirs = NULL;
+		pipes_arr[i].cmd = NULL;
+		pipes_arr[i].redirs = NULL;
 		i++;
 	}
 }
 
-void	assign_in_struct_array(t_list *to_add, 
-		t_cmd_and_redir *splitted_pipeline, int *i)
+void	assign_in_struct_array(t_list *to_add, t_pipeline *pipes_arr,
+		int *i)
 {
 	to_add->next = NULL;
 	to_add->previous = NULL;
 	if (token_is(ARG, to_add->content))
-		ft_lstadd_back(&splitted_pipeline[*i].cmd, to_add);
+		ft_lstadd_back(&pipes_arr[*i].cmd, to_add);
 	else if (is_redir_or_fd(to_add))
-		ft_lstadd_back(&splitted_pipeline[*i].redirs, to_add);
+		ft_lstadd_back(&pipes_arr[*i].redirs, to_add);
 	else if (token_is(PIPE, to_add->content))
 		(*i)++;
 }
 
-void	split_pipeline(t_list *pipeline, t_cmd_and_redir *splitted_pipeline)
+void	split_pipeline(t_list *pipeline, t_pipeline *pipes_arr)
 {
 	t_list	*to_add;
 	int		i;
@@ -61,6 +61,6 @@ void	split_pipeline(t_list *pipeline, t_cmd_and_redir *splitted_pipeline)
 	{
 		to_add = pipeline;
 		pipeline = pipeline->next;
-		assign_in_struct_array(to_add, splitted_pipeline, &i); 
+		assign_in_struct_array(to_add, pipes_arr, &i); 
 	}
 }

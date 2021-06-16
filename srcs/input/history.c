@@ -91,5 +91,4 @@ void	change_input_str(int arrow, t_input *buff, t_list *history)
 		exec_termcap("cr");
 	}
 	buff->i = ft_strlen(buff->buffer);
-	ft_free_ptr((void **)&pwd_val);
 }

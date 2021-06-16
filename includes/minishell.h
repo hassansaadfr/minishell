@@ -44,7 +44,7 @@ void			display_splitted_cmd(t_list *cmd, int debug_i, char *type);
 char			*enum_to_str(int type);
 void			print_token_str(char *arg);
 void			display_token_to_be_splitted(t_token *token, char **arg_split);
-void			display_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
+void			display_splitted_pipeline(t_pipeline *splitted_pipeline,
 					int cmd_count);
 
 /*
@@ -71,7 +71,7 @@ void			free_cmds(char ***cmds);
 void			free_env(t_list **env_list);
 void			*ft_realloc(void *old_ptr, size_t old_size, size_t new_size);
 void			free_token(void *content);
-void			free_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
+void			free_splitted_pipeline(t_pipeline *splitted_pipeline,
 					int cmd_count);
 
 /*
@@ -308,21 +308,22 @@ int				minishell_non_tty(t_list *env_list);
 /*	FILE - utils_pipeline.c */
 int				is_pipeline(t_list *indpdt_cmd);
 void			split_pipeline(t_list *pipeline,
-					t_cmd_and_redir *splitted_pipeline);
-void			init_splitted_pipeline(t_cmd_and_redir *splitted_pipeline,
+					t_pipeline *splitted_pipeline);
+void			init_splitted_pipeline(t_pipeline *splitted_pipeline,
 					int cmd_count);
 int				count_pipes(t_list *pipeline);
 
 /*	FILE - pipe.c */
 int				execute_pipeline(t_list *pipeline, t_list *env_list);
+int				display_err_ret_err(char *problem_pos, char *err_msg, int err);
 
 /*	FILE - utils_fds.c */
 int				backup_std(int *old_fds);
 int				restore_fds(int *old_fds);
-int				init_pipe_struct(t_pipe *p, int cmd_count, t_list *env_list);
+int				init_pipe_struct(t_fds *p, int cmd_count, t_list *env_list);
 
 /*	FILE - expand_pipeline.c */
-void			expand_pipeline(t_cmd_and_redir *pipeline, int cmd_count,
+void			expand_pipeline(t_pipeline *pipeline, int cmd_count,
 					t_list *env_list);
 
 /*	FILE - pipeline_redirs.c */
