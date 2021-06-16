@@ -35,7 +35,7 @@ static int	exec_bin(char *path, char **args, t_list *env_list)
 			ft_exit_free(125 + errno);
 	}
 	else
-		printf("ERROR - fork\n");
+		return (display_err_ret_err("fork", strerror(errno), 254));
 	return (exec_ret);
 }
 

@@ -29,6 +29,7 @@ int	backup_std(int *old_fds)
 		return (display_err_ret_err("dup", strerror(errno), 1));
 	old_fds[OUT] = dup(STDOUT_FILENO);
 	if (old_fds[OUT] == -1)
+		if (old_fds[OUT] == -1)
 	{
 		close(old_fds[IN]);
 		return (display_err_ret_err("dup", strerror(errno), 1));
