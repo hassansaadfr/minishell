@@ -315,6 +315,7 @@ int				count_pipes(t_list *pipeline);
 
 /*	FILE - pipe.c */
 int				execute_pipeline(t_list *pipeline, t_list *env_list);
+int				display_err_ret_err(char *problem_pos, char *err_msg, int err);
 
 /*	FILE - utils_fds.c */
 int				backup_std(int *old_fds);
