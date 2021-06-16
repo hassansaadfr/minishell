@@ -13,25 +13,25 @@ static int	exec_bin(char *path, char **args, t_list *env_list)
 	return (exec_ret);
 }
 
-int one_pipe_exec(char **cmds, t_list *env_list, t_list *history)
+int	one_pipe_exec(char **cmds, t_list *env_list, t_list *history)
 {
-	int     can_exec;
-	int     return_value;
-	char    *arg;
+	int		can_exec;
+	int		return_value;
+	char	*arg;
 
 	arg = ft_strdup(*cmds);
 	return_value = 0;
 	if (is_builtin(cmds))
 		ft_exit_free((exec_from_builtins(cmds, env_list, history)));
 	else
-	{   
+	{
 		can_exec = search_bin(cmds, env_list);
 		if (can_exec == 0)
-		{   
+		{
 			return_value = exec_bin(cmds[0], cmds, env_list);
 			if (return_value >= 125)
 				ft_free_ptr((void **)&arg);
-		}   
+		}
 		else if (can_exec > 125)
 		{
 			return_value = can_exec;
@@ -39,6 +39,6 @@ int one_pipe_exec(char **cmds, t_list *env_list, t_list *history)
 		}
 		ft_free_ptr((void **)&arg);
 		ft_exit_free(return_value);
-	}   
+	}
 	return (return_value);
 }
