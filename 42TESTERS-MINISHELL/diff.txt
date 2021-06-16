@@ -1,11 +1,11 @@
 Test 48 : ENV RECEIVED IN BASH
 echo "echo export | bash" | ./minishell | LC_ALL=C sort
 
-48c48
+38c38
 < declare -x SHLVL="3"
 ---
 > declare -x SHLVL="4"
-75c75
+60c60
 < declare -x _="/usr/bin/bash"
 ---
 > declare -x _="./minishell"
