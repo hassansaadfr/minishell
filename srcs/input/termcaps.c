@@ -36,6 +36,6 @@ void	clear_line(t_input *buff)
 	pwd_val = get_env_value(g_global.env_list, "PWD");
 	erase_input(buff, w, pwd_val);
 	ft_putstr_fd(pwd_val, STDERR_FILENO);
-    write(STDERR_FILENO, "$> ", 3);
+	write(STDERR_FILENO, "$> ", 3);
 	buff->i = 0;
 }

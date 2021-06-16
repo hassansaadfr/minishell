@@ -1,17 +1,5 @@
 #include "minishell.h"
 
-int	display_err_ret_err(char *problem_pos, char *err_msg, int err)
-{
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	if (problem_pos && not_empty(problem_pos) == TRUE)
-	{
-		ft_putstr_fd(problem_pos, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-	}
-	ft_putendl_fd(err_msg, STDERR_FILENO);
-	return (err);
-}
-
 int	wait_all_pids(int *pids, int cmd_count)
 {
 	int	i;
@@ -54,7 +42,7 @@ int	add_child_proc(t_pipeline one_pipe, int *in_out_tbc, t_list *env_list)
 
 	pid = fork();
 	if (pid == -1)
-		return (display_err_ret_err("fork", strerror(errno), 125 + errno));
+		return (return_err_msg("fork", strerror(errno), 125 + errno));
 	else if (pid == 0)
 	{
 		errno = 0;
@@ -63,9 +51,9 @@ int	add_child_proc(t_pipeline one_pipe, int *in_out_tbc, t_list *env_list)
 		if (in_out_tbc[TBC] >= 0)
 			close(in_out_tbc[TBC]);
 		if (dup2(in_out_tbc[IN], STDIN_FILENO) == -1)
-			ft_exit_free(display_err_ret_err("dup2", strerror(errno), errno + 125));
+			ft_exit_free(return_err_msg("dup2", strerror(errno), errno + 125));
 		if (dup2(in_out_tbc[OUT], STDOUT_FILENO) == -1)
-			ft_exit_free(display_err_ret_err("dup2", strerror(errno), errno + 125));
+			ft_exit_free(return_err_msg("dup2", strerror(errno), errno + 125));
 		cmd = token_list_to_array(one_pipe.cmd);
 		if (cmd == NULL || cmd[0] == NULL)
 			exit(0);
@@ -75,9 +63,8 @@ int	add_child_proc(t_pipeline one_pipe, int *in_out_tbc, t_list *env_list)
 	return (pid);
 }
 
-int	pipeline_execution(t_pipeline *cmds, t_list *env_list, int cmd_count, int *error)
+int	pipeline_execution(t_pipeline *cmds, t_list *env_list, int cmd_count)
 {
-	(void)error;
 	t_fds	p;
 
 	if (init_pipe_struct(&p, cmd_count, env_list) != 0)
@@ -85,17 +72,13 @@ int	pipeline_execution(t_pipeline *cmds, t_list *env_list, int cmd_count, int *e
 	while (p.i < cmd_count)
 	{
 		errno = 0;
-		if (p.i < cmd_count - 1)
+		if (p.i < cmd_count - 1 && pipe(p.pipe_fds) == -1)
 		{
-			if (pipe(p.pipe_fds) == -1)
-			{
-				close(p.old_fds[IN]);
-				close(p.old_fds[OUT]);
-				return (display_err_ret_err("pipe", strerror(errno), 1));
-			}
+			restore_fds(p.old_fds);
+			return (return_err_msg("pipe", strerror(errno), 1));
 		}
 		assign_in_out_tbc(cmd_count, p.i, p.in_out_tbc, p.pipe_fds);
-		p.pids[p.i] = add_child_proc(cmds[p.i], p.in_out_tbc, env_list);//PRTCT
+		p.pids[p.i] = add_child_proc(cmds[p.i], p.in_out_tbc, env_list);
 		close(p.in_out_tbc[IN]);
 		if (p.i < cmd_count - 1)
 			close(p.pipe_fds[1]);
@@ -122,7 +105,7 @@ int	execute_pipeline(t_list *pipeline, t_list *env_list)
 	split_pipeline(pipeline, pipes_arr);
 	expand_pipeline(pipes_arr, cmd_count, env_list);
 	error = 0;
-	ret_exec = pipeline_execution(pipes_arr, env_list, cmd_count, &error);//PROT
+	ret_exec = pipeline_execution(pipes_arr, env_list, cmd_count);
 	free_splitted_pipeline(pipes_arr, cmd_count);
 	ft_free_ptr((void **)&pipes_arr);
 	return (ret_exec);

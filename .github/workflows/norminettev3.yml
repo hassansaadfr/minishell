@@ -10,4 +10,4 @@ jobs:
     - uses: alexandregv/norminette-action@v3
       with:
         # Remove headers check
-        flags: '-R CheckTopCommentHeader includes/ srcs/'
+        flags: 'includes/ srcs/ libft/'

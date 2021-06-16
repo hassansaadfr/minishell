@@ -25,7 +25,7 @@ static int	exec_bin(char *path, char **args, t_list *env_list)
 			ft_exit_free(125 + errno);
 	}
 	else
-		return (display_err_ret_err("fork", strerror(errno), 254));
+		return (return_err_msg("fork", strerror(errno), 254));
 	return (exec_ret);
 }
 

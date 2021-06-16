@@ -43,6 +43,11 @@ void			display_tokens(t_list *tokens);
 void			display_splitted_cmd(t_list *cmd, int debug_i, char *type);
 char			*enum_to_str(int type);
 void			print_token_str(char *arg);
+
+/*
+**	FILE - debug2.c
+*/
+
 void			display_token_to_be_splitted(t_token *token, char **arg_split);
 void			display_splitted_pipeline(t_pipeline *splitted_pipeline,
 					int cmd_count);
@@ -295,6 +300,7 @@ char			*get_binary_path(char *cmd, t_list *env_list);
 */
 void			print_err(char *binary, char *arg, char *err);
 void			print_err_with_quote(char *binary, char *arg, char *err);
+int				return_err_msg(char *problem_pos, char *err_msg, int err);
 
 /*
 **	FILE - minishell_entry.c

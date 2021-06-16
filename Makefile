@@ -7,6 +7,7 @@ SRCS			=	main.c \
 					system/signals.c \
 					system/init_shlvl_path_env.c \
 					debug/debug.c \
+					debug/debug2.c \
 					debug/utils.c \
 					env/parse_env.c \
 					env/utils_env.c \

@@ -1,3 +1,0 @@
-coucou
-/home/hassan
-HOME=/home/hassan

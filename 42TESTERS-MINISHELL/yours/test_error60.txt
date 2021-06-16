@@ -1,1 +1,0 @@
-minishell - TYPE syntax error near unexpected symbol '|'
