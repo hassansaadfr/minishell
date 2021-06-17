@@ -1,5 +1,23 @@
 #include "minishell.h"
 
+static int	handle_returned_signal(int status, int pid, char *path)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status) == TRUE)
+	{
+		if (WTERMSIG(status) == 11)
+		{
+			ft_putstr_fd("[1]\t", STDERR_FILENO);
+			ft_putstr_fd(ft_itoa(pid), STDERR_FILENO);
+			ft_putstr_fd(" segmentation fault (core dumped)  ", STDERR_FILENO);
+			ft_putendl_fd(path, STDERR_FILENO);
+			return (139);
+		}
+	}
+	return (-1);
+}
+
 static int	exec_bin(char *path, char **args, t_list *env_list)
 {
 	int		ret;
@@ -15,7 +33,7 @@ static int	exec_bin(char *path, char **args, t_list *env_list)
 	{
 		ret = waitpid(0, &status, 0);
 		g_global.pid = 0;
-		exec_ret = WEXITSTATUS(status);
+		exec_ret = handle_returned_signal(status, ret, path);
 	}
 	else if (process_is_parent() == CHILD_PID)
 	{
