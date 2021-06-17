@@ -30,12 +30,9 @@ void	delete_char(t_input *buff)
 void	clear_line(t_input *buff)
 {
 	struct winsize	w;
-	char			*pwd_val;
 
 	ioctl(0, TIOCGWINSZ, &w);
-	pwd_val = get_env_value(g_global.env_list, "PWD");
-	erase_input(buff, w, pwd_val);
-	ft_putstr_fd(pwd_val, STDERR_FILENO);
-	write(STDERR_FILENO, "$> ", 3);
+	erase_input(buff, w);
+	print_prompt();
 	buff->i = 0;
 }

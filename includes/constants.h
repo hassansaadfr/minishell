@@ -2,6 +2,8 @@
 
 # define CONSTANTS_H
 
+# define PROMPT_LEN 7
+
 # define INPUT_MAX 4096
 # define ENTER '\n'
 # define DELETE 127
