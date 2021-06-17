@@ -58,7 +58,7 @@ static void	print_env_list(t_list *env_list)
 	{
 		if (ft_strcmp("_", env_arr[i]->name) != 0)
 		{
-			ft_putstr_fd("export ", STDOUT_FILENO);
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
 			ft_putstr_fd(env_arr[i]->name, STDOUT_FILENO);
 			if (env_arr[i]->value != NULL)
 			{
@@ -73,12 +73,35 @@ static void	print_env_list(t_list *env_list)
 	ft_free_ptr((void **)&env_arr);
 }
 
+int	can_export(char *name)
+{
+	int		out;
+	char	*env_name;
+
+	env_name = NULL;
+	out = 0;
+	if (name[0] == '-')
+	{
+		out = 2;
+		print_err_with_quote("export", name, INVALID_IDENTIFIER_FR);
+	}
+	else
+	{
+		env_name = parse_env_name(name);
+		if (env_name == NULL)
+			out = 1;
+		else
+			out = is_valid_env_name(env_name, "export");
+	}
+	ft_free_ptr((void **)&env_name);
+	return (out);
+}
+
 int	builtin_export(char **argv, t_list *env_list)
 {
-	char	*env;
-	int		done;
+	int		out;
 
-	done = 0;
+	out = 0;
 	if (get_strarr_size(argv) == 1)
 		print_env_list(env_list);
 	else
@@ -86,16 +109,14 @@ int	builtin_export(char **argv, t_list *env_list)
 		argv++;
 		while (*argv)
 		{
-			if (is_valid_env_name(*argv, "export") == 0)
+			out = can_export(*argv);
+			if (out == 0)
 			{
-				env = ft_strdup(*argv);
-				done = new_env(env_list, env);
-				if (!done)
-					done = edit_env(env_list, env);
-				ft_free_ptr((void **)&env);
+				if (new_env(env_list, *argv) == 0)
+					out = edit_env(env_list, *argv);
 			}
 			argv++;
 		}
 	}
-	return (done);
+	return (out);
 }

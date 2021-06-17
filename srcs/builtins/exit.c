@@ -1,26 +1,46 @@
 #include "minishell.h"
 
-static int	is_numeric(char *arg)
+// static int	is_numeric(char *arg)
+// {
+// 	int		i;
+// 	char	*str;
+// 	int		out;
+
+// 	out = -1;
+// 	i = 0;
+// 	str = ft_strtrim(arg, " \t\n\r\v\f");
+// 	if (str[i] == '-' || str[i] == '+')
+// 		i++;
+// 	if (!str[i])
+// 		out = 0;
+// 	if (out == -1 && str[i] == '-')
+// 		out = 1;
+// 	while (out == -1 && ft_isdigit(str[i]))
+// 		i++;
+// 	if (out == -1 && str[i])
+// 		out = 0;
+// 	ft_free_ptr((void **)&str);
+// 	return (out);
+// }
+
+static int	code_is_valid(char *arg)
 {
 	int		i;
-	char	*str;
-	int		out;
 
-	out = -1;
 	i = 0;
-	str = ft_strtrim(arg, " \t\n\r\v\f");
-	if (str[i] == '-' || str[i] == '+')
+	if (arg == NULL)
+		return (0);
+	if (arg[i] == '-' || arg[i] == '+')
 		i++;
-	if (!str[i])
-		out = 0;
-	if (out == -1 && str[i] == '-')
-		out = 1;
-	while (out == -1 && ft_isdigit(str[i]))
+	if (arg[i] == '\0')
+		return (2);
+	while (arg[i])
+	{
+		if (!ft_isdigit(arg[i]))
+			return (2);
 		i++;
-	if (out == -1 && str[i])
-		out = 0;
-	ft_free_ptr((void **)&str);
-	return (out);
+	}
+	return (0);
 }
 
 static char	*get_err_msg(t_list *env_list, int msg)
@@ -75,7 +95,7 @@ int	builtin_exit(char **argv, t_list *env_list)
 		ft_putendl_fd("exit", STDERR_FILENO);
 	if (!*argv)
 		ft_exit_free(0);
-	if (!is_numeric(*argv))
+	if (code_is_valid(*argv) == 2)
 	{
 		print_err("exit", *argv, get_err_msg(env_list, ARG_NUMERIC));
 		ft_exit_free(2);

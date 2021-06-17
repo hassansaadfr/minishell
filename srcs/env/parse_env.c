@@ -87,27 +87,24 @@ char	*parse_env_value(char *env)
 int	is_valid_env_name(char *name, char *binary)
 {
 	int		i;
-	char	*var_name;
+	int		out;
 
-	var_name = NULL;
-	var_name = parse_env_name(name);
-	if (var_name == NULL)
-	{
-		print_err_with_quote(binary, name, INVALID_IDENTIFIER_FR);
-		return (1);
-	}
 	i = 0;
-	while (var_name[i])
+	out = 1;
+	if (ft_isalpha(name[0]) || name[0] == '_')
+		out = 0;
+	i++;
+	while (out == 0 && name[i])
 	{
-		if (ft_isalnum(var_name[i]) || var_name[i] == '_')
+		if (ft_isalnum(name[i]) || name[i] == '_')
 			i++;
 		else
 		{
-			if (isatty(STDIN_FILENO))
-				print_err_with_quote(binary, var_name, INVALID_IDENTIFIER_FR);
-			return (1);
+			out = 1;
+			break ;
 		}
 	}
-	ft_free_ptr((void **)&var_name);
-	return (0);
+	if (out != 0 && isatty(STDIN_FILENO))
+		print_err_with_quote(binary, name, INVALID_IDENTIFIER_FR);
+	return (out);
 }

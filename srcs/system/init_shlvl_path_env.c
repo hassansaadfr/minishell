@@ -117,7 +117,5 @@ void	init_path_and_shlvl(t_list **env_list)
 		ft_lstadd_back(env_list, init_env_node(ft_strdup("OLDPWD")));
 	pwd = get_pwd(*env_list);
 	if (pwd != NULL)
-	{
 		ft_lstadd_back(env_list, init_env_node(pwd));
-	}
 }

@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-int	process_is_parent(void)
-{
-	if (g_global.pid > 0)
-		return (PARENT_PID);
-	else if (g_global.pid == 0)
-		return (CHILD_PID);
-	else
-		return (ERROR_FORK);
-}
-
 static int	exec_bin(char *path, char **args, t_list *env_list)
 {
 	int		ret;
@@ -35,7 +25,7 @@ static int	exec_bin(char *path, char **args, t_list *env_list)
 			ft_exit_free(125 + errno);
 	}
 	else
-		return (display_err_ret_err("fork", strerror(errno), 254));
+		return (return_err_msg("fork", strerror(errno), 254));
 	return (exec_ret);
 }
 
@@ -63,6 +53,15 @@ int	search_bin(char **cmd, t_list *env_list)
 {
 	char	*path;
 
+	if (ft_strcmp(cmd[0], ".") == 0)
+	{
+		print_err(NULL, NULL, "nom de fichier nécessaire en argument");
+		return (2);
+	}
+	if (ft_strcmp(cmd[0], "..") == 0)
+	{
+		return (127);
+	}
 	path = NULL;
 	path = get_binary_path(cmd[0], env_list);
 	if (path == NULL)
@@ -89,15 +88,12 @@ int	execution(char **cmds, t_list *env_list, t_list *history)
 	{
 		can_exec = search_bin(cmds, env_list);
 		if (can_exec == 0)
-		{
 			return_value = exec_bin(cmds[0], cmds, env_list);
-			if (return_value >= 125)
-				ft_free_ptr((void **)&arg);
-		}
-		else if (can_exec > 125)
+		else
 		{
 			return_value = can_exec;
-			print_err(NULL, arg, strerror(can_exec - 125));
+			if (can_exec > 125)
+				print_err(NULL, arg, strerror(can_exec - 125));
 		}
 		ft_free_ptr((void **)&arg);
 		return (return_value);

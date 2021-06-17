@@ -7,6 +7,7 @@ SRCS			=	main.c \
 					system/signals.c \
 					system/init_shlvl_path_env.c \
 					debug/debug.c \
+					debug/debug2.c \
 					debug/utils.c \
 					env/parse_env.c \
 					env/utils_env.c \
@@ -31,7 +32,6 @@ SRCS			=	main.c \
 					input/history.c \
 					input/cursor_utils.c \
 					input/move_cursor.c \
-					parsing/old_parse.c \
 					parsing/tokenizer.c \
 					parsing/utils_quoting.c \
 					parsing/types.c \
@@ -57,7 +57,7 @@ SRCS			=	main.c \
 					expansion/expand_pipeline.c
 
 TEST_SRCS		=	execution/path_type_parser.c \
-					env_utils_test.c unset_test.c utils_test.c cd_test.c echo_test.c \
+					env_utils_test.c utils_test.c cd_test.c echo_test.c \
 					exit_test_messages.c \
 					exit_test_codes.c \
 					#signal_tests.c

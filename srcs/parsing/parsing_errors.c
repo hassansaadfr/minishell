@@ -1,9 +1,5 @@
 #include "minishell.h"
 
-/*
-** SYNTAX ERRORS SETS LAST RETURN TO 2
-*/
-
 static void	escaping_err_msg(t_parse *p)
 {
 	ft_putstr_fd("minishell - ESCAPING syntax error because of unterminated ",
@@ -23,7 +19,7 @@ static void	typing_err_msg(t_parse *p, int ret_tokenizing)
 		STDERR_FILENO);
 	if (ret_tokenizing == -NEWLINE)
 		ft_putendl_fd("\" newline \"", STDERR_FILENO);
-	else if (ret_tokenizing == -'>' && p->buffer_start[1] == '>')
+	else if (ret_tokenizing == - '>' && p->buffer_start[1] == '>')
 		ft_putendl_fd("\'>>\'", STDERR_FILENO);
 	else
 	{
@@ -32,6 +28,7 @@ static void	typing_err_msg(t_parse *p, int ret_tokenizing)
 		ft_putendl_fd("'", STDERR_FILENO);
 	}
 	ft_lstclear(&p->tokens, free_token);
+	g_global.last_return = 2;
 }
 
 t_list	*check_parsing_errors(t_parse *p, int ret_tokenizing)

@@ -61,6 +61,6 @@ void	split_pipeline(t_list *pipeline, t_pipeline *pipes_arr)
 	{
 		to_add = pipeline;
 		pipeline = pipeline->next;
-		assign_in_struct_array(to_add, pipes_arr, &i); 
+		assign_in_struct_array(to_add, pipes_arr, &i);
 	}
 }

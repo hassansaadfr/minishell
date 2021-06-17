@@ -86,7 +86,7 @@ void	change_input_str(int arrow, t_input *buff, t_list *history)
 	get_cursor_pos(&y, &x);
 	if (x >= w.ws_col)
 	{
-		x = 0;						
+		x = 0;
 		exec_termcap("do");
 		exec_termcap("cr");
 	}
