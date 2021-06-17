@@ -56,6 +56,7 @@ void			display_splitted_pipeline(t_pipeline *splitted_pipeline,
  **	FILE - prompt.c
  */
 void			prompt(void);
+void			print_prompt(void);
 
 /*
 **	BUILTINS
@@ -346,7 +347,6 @@ void			init_path_and_shlvl(t_list **env_list);
 /*	FILE - cursor_utils.c */
 int				get_cursor_pos(int *y, int *x);
 int				get_line_width(void);
-void			erase_input(t_input *buff, struct winsize w,
-					char *pwd_val);
+void			erase_input(t_input *buff, struct winsize w);
 
 #endif
