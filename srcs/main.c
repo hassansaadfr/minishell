@@ -44,14 +44,15 @@ static int	exec_script(t_list *env_list, char *path)
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
-	g_global.env_list = init_env(envp);
-	init_path_and_shlvl(&g_global.env_list);
+	t_list	*env_list;
+
+	env_list = NULL;
+	env_list = init_env(envp);
+	init_path_and_shlvl(&env_list);
 	if (argc > 1)
-		g_global.last_return = exec_script(g_global.env_list, argv[1]);
+		g_global.last_return = exec_script(env_list, argv[1]);
 	else
-		minishell(g_global.env_list);
+		minishell(env_list);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
