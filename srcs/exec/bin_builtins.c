@@ -18,6 +18,7 @@ int	exec_from_builtins(char **argv, t_list *env_list, t_list *history)
 		return (builtin_cd(argv, env_list));
 	if (ft_strcmp(*argv, "env") == 0)
 		return (env(env_list));
+	edit_underscore_var(env_list, argv[get_strarr_size(argv) - 1]);
 	return (0);
 }
 
@@ -40,4 +41,9 @@ int	is_builtin(char **argv)
 	if (ft_strcmp(*argv, "history") == 0)
 		return (1);
 	return (0);
+}
+
+void	edit_underscore_var(t_list *env_list, char *last_arg)
+{
+	edit_env(env_list, ft_strjoin("_=", last_arg));
 }

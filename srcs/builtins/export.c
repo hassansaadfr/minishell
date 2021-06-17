@@ -116,11 +116,9 @@ int	builtin_export(char **argv, t_list *env_list)
 			if (out == 0)
 			{
 				if (should_concat(*argv) == 0)
-				{
 					concat_env(*argv, env_list);
-				}
 				else if (new_env(env_list, *argv) == 0)
-					out = edit_env(env_list, *argv);
+					edit_env(env_list, *argv);
 			}
 			argv++;
 		}

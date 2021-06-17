@@ -136,6 +136,7 @@ void			free_env_node(void *ptr);
 int				is_builtin(char **cmd);
 int				exec_from_builtins(char **cmd, t_list *env_list,
 					t_list	*history);
+void			edit_underscore_var(t_list *env_list, char *last_arg);
 
 /*
 **	FILE - bin_paths.c

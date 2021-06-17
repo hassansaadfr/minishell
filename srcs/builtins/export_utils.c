@@ -11,6 +11,8 @@ int	should_concat(char *name)
 	if (name == NULL)
 		return (out);
 	equal_pos = ft_strchr(name, '=');
+	if (equal_pos == NULL)
+		return (1);
 	*equal_pos = '\0';
 	len = ft_strlen(name);
 	if (name[len - 1] == '+')
@@ -56,7 +58,8 @@ int	concat_env(char *env_var, t_list *env_list)
 	if (env_node != NULL)
 	{
 		val = ((t_env *)env_node->content)->value;
-		val = ft_strjoin(val, ft_strchr(env_var, '=') + 1);
+		((t_env *)env_node->content)->value = ft_strjoin(val,
+				ft_strchr(env_var, '=') + 1);
 		ft_free_ptr((void **)&parsed_name);
 		ft_free_ptr((void **)&val);
 		return (0);
