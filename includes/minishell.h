@@ -71,6 +71,14 @@ int				builtin_pwd(char **argv, t_list *env_list);
 int				builtin_unset(char **argv, t_list *env_list);
 int				builtin_history(char **argv, t_list *env_list, t_list *history);
 
+/*
+**	FILE - export_utils.c
+*/
+
+int				should_concat(char *name);
+char			*parse_env_name_concat(char *env);
+int				concat_env(char *env_var, t_list *env_list);
+
 /*	FILE - utils_mem.c */
 void			free_cmds(char ***cmds);
 void			free_env(t_list **env_list);

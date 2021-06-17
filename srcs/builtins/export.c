@@ -87,7 +87,10 @@ int	can_export(char *name)
 	}
 	else
 	{
-		env_name = parse_env_name(name);
+		if (should_concat(name) == 0)
+			env_name = parse_env_name_concat(name);
+		else
+			env_name = parse_env_name(name);
 		if (env_name == NULL)
 			out = 1;
 		else
@@ -112,7 +115,11 @@ int	builtin_export(char **argv, t_list *env_list)
 			out = can_export(*argv);
 			if (out == 0)
 			{
-				if (new_env(env_list, *argv) == 0)
+				if (should_concat(*argv) == 0)
+				{
+					concat_env(*argv, env_list);
+				}
+				else if (new_env(env_list, *argv) == 0)
 					out = edit_env(env_list, *argv);
 			}
 			argv++;
