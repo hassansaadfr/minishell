@@ -20,8 +20,7 @@ int	exec_from_builtins(char **argv, t_list *env_list, t_list *history)
 		out = builtin_cd(argv, env_list);
 	if (ft_strcmp(*argv, "env") == 0)
 		out = env(env_list);
-	if (out == 0)
-		edit_underscore_var(env_list, argv[get_strarr_size(argv) - 1]);
+	edit_underscore_var(env_list, argv[get_strarr_size(argv) - 1]);
 	return (out);
 }
 
