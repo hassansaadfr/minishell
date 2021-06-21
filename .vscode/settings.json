@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"*.c": "c",
-		"*.ts": "typescript",
-		"minishell.h": "c",
-		"libft.h": "c",
-		"get_next_line.h": "c"
-	}
-}

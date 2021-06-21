@@ -1,8 +1,0 @@
-name: criterion
-on: [pull_request]
-jobs:
-  criterion_job:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: hassansaadfr/criterion-action@master

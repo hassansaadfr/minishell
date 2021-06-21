@@ -1,3 +1,0 @@
-ls bon\ jour
-ls \h\e\l\l\o
-ls cmd arg1 arg2 gros\ arg
