@@ -15,6 +15,7 @@ static int	perform_sup_redir(t_token *node)
 	if (errno != 0)
 	{
 		print_err(node->arg, NULL, strerror(errno));
+		errno = 0;
 		return (1);
 	}
 	dup2(fd_file, STDOUT_FILENO);
@@ -37,6 +38,7 @@ static int	perform_dsup_redir(t_token *node)
 	if (errno != 0)
 	{
 		print_err(node->arg, NULL, strerror(errno));
+		errno = 0;
 		return (1);
 	}
 	dup2(fd_file, STDOUT_FILENO);
@@ -59,6 +61,7 @@ static int	perform_inf_redir(t_token *node)
 	if (errno != 0)
 	{
 		print_err(node->arg, NULL, strerror(errno));
+		errno = 0;
 		return (1);
 	}
 	dup2(fd_file, STDIN_FILENO);

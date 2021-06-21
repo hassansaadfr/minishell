@@ -8,11 +8,11 @@ static int	perform_sup_redir(t_token *node, int out)
 	fd_file = -1;
 	fd_file = open(node->arg, O_CREAT | O_TRUNC | O_WRONLY, 0666);
 	if (fd_file == -1)
-		return (errno);
+		return (return_err_msg(node->arg, strerror(errno), errno));
 	if (dup2(fd_file, out) == -1)
 	{
 		close(fd_file);
-		return (errno);
+		return (return_err_msg(NULL, strerror(errno), errno));
 	}
 	close(fd_file);
 	return (0);
@@ -26,11 +26,11 @@ static int	perform_dsup_redir(t_token *node, int out)
 	fd_file = -1;
 	fd_file = open(node->arg, O_CREAT | O_APPEND | O_WRONLY, 0666);
 	if (fd_file == -1)
-		return (errno);
+		return (return_err_msg(node->arg, strerror(errno), errno));
 	if (dup2(fd_file, out) == -1)
 	{
 		close(fd_file);
-		return (errno);
+		return (return_err_msg(NULL, strerror(errno), errno));
 	}
 	close(fd_file);
 	return (0);
@@ -44,11 +44,11 @@ static int	perform_inf_redir(t_token *node, int in)
 	fd_file = -1;
 	fd_file = open(node->arg, O_RDONLY);
 	if (fd_file == -1)
-		return (errno);
+		return (return_err_msg(node->arg, strerror(errno), errno));
 	if (dup2(fd_file, in) == -1)
 	{
 		close(fd_file);
-		return (errno);
+		return (return_err_msg(NULL, strerror(errno), errno));
 	}
 	close(fd_file);
 	return (0);
@@ -70,7 +70,7 @@ int	perform_pipeline_redirections(t_list *r, int *in_out_tbc)
 		else if (node->type == REDIR_INF)
 			ret_redir = perform_inf_redir(r->next->content, in_out_tbc[IN]);
 		if (ret_redir != 0)
-			return (return_err_msg("redirection", strerror(ret_redir), errno));
+			return (ret_redir);
 		r = r->next;
 	}
 	return (0);
