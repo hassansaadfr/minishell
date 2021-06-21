@@ -72,6 +72,14 @@ int				builtin_pwd(char **argv, t_list *env_list);
 int				builtin_unset(char **argv, t_list *env_list);
 int				builtin_history(char **argv, t_list *env_list, t_list *history);
 
+/*
+**	FILE - export_utils.c
+*/
+
+int				should_concat(char *name);
+char			*parse_env_name_concat(char *env);
+int				concat_env(char *env_var, t_list *env_list);
+
 /*	FILE - utils_mem.c */
 void			free_cmds(char ***cmds);
 void			free_env(t_list **env_list);
@@ -129,6 +137,7 @@ void			free_env_node(void *ptr);
 int				is_builtin(char **cmd);
 int				exec_from_builtins(char **cmd, t_list *env_list,
 					t_list	*history);
+void			edit_underscore_var(t_list *env_list, char *last_arg);
 
 /*
 **	FILE - bin_paths.c

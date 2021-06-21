@@ -87,6 +87,7 @@ int	execution(char **cmds, t_list *env_list, t_list *history)
 	else
 	{
 		can_exec = search_bin(cmds, env_list);
+		edit_underscore_var(env_list, cmds[get_strarr_size(cmds) - 1]);
 		if (can_exec == 0)
 			return_value = exec_bin(cmds[0], cmds, env_list);
 		else
