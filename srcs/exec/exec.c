@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+static int	handle_returned_signal(int status, int pid, char *path)
+{
+	int	sig;
+
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status) == TRUE)
+	{
+		sig = WTERMSIG(status);
+		if (sig == 0)
+			return (0);
+		print_sig_err(pid, sig, path);
+		return (128 + sig);
+	}
+	return (-1);
+}
+
 static int	exec_bin(char *path, char **args, t_list *env_list)
 {
 	int		ret;
@@ -15,7 +32,7 @@ static int	exec_bin(char *path, char **args, t_list *env_list)
 	{
 		ret = waitpid(0, &status, 0);
 		g_global.pid = 0;
-		exec_ret = WEXITSTATUS(status);
+		exec_ret = handle_returned_signal(status, ret, path);
 	}
 	else if (process_is_parent() == CHILD_PID)
 	{
