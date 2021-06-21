@@ -36,5 +36,4 @@
 
 # define SEGV_MSG "Erreur de segmentation (core dumped)"
 
-
 #endif

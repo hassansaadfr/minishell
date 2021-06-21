@@ -6,6 +6,7 @@ SRCS			=	main.c \
 					system/minishell_entry.c \
 					system/signals.c \
 					system/init_shlvl_path_env.c \
+					system/sig_err_msgs.c \
 					debug/debug.c \
 					debug/debug2.c \
 					debug/utils.c \

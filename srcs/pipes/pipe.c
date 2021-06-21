@@ -1,22 +1,30 @@
 #include "minishell.h"
 
-int	wait_all_pids(int *pids, int cmd_count)
+int	wait_all_pids(int *pids, int cmd_count, t_pipeline *cmds)
 {
-	int	i;
-	int	return_code;
-	int	ret;
+	int		i;
+	int		return_code;
+	int		ret;
+	int		sig;
+	t_token	*token;
 
 	i = 0;
 	while (i < cmd_count)
 	{
-		if (pids[i] == -1)
-			i++;
-		else
+		if (pids[i] != -1)
 		{
-			ret = waitpid(pids[i++], &return_code, 0);
+			ret = waitpid(pids[i], &return_code, 0);
 			if (WIFEXITED(return_code))
 				return_code = WEXITSTATUS(return_code);
+			else if (WIFSIGNALED(return_code))
+			{
+				token = cmds[i].cmd->content;
+				sig = WTERMSIG(return_code);
+				print_sig_err(pids[i], sig, token->arg);
+				return_code = 128 + sig;
+			}
 		}
+		i++;
 	}
 	return (return_code);
 }
@@ -86,7 +94,7 @@ int	pipeline_execution(t_pipeline *cmds, t_list *env_list, int cmd_count)
 		p.i++;
 	}
 	close(p.pipe_fds[0]);
-	p.return_code = wait_all_pids(p.pids, cmd_count);
+	p.return_code = wait_all_pids(p.pids, cmd_count, cmds);
 	restore_fds(p.old_fds);
 	return (p.return_code);
 }

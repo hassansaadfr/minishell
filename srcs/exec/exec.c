@@ -2,6 +2,8 @@
 
 static int	handle_returned_signal(int status, int pid, char *path)
 {
+	int	sig;
+
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status) == TRUE)

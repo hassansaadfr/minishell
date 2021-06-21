@@ -339,14 +339,15 @@ int				perform_pipeline_redirections(t_list *redirs, int *in_out_tbc);
 /*	FILE - exec_for_pipeline.c */
 int				one_pipe_exec(char **cmds, t_list *env_list, t_list *history);
 
-/*
-** FILE - init-shlvl_and_path.c
-*/
+/*	FILE - init-shlvl_and_path.c */
 void			init_path_and_shlvl(t_list **env_list);
 
 /*	FILE - cursor_utils.c */
 int				get_cursor_pos(int *y, int *x);
 int				get_line_width(void);
 void			erase_input(t_input *buff, struct winsize w);
+
+/*	FILE - sig_err_msgs.c */
+void			print_sig_err(int pid, int sig, char *bin);
 
 #endif
