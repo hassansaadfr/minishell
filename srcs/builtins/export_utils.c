@@ -49,7 +49,6 @@ int	concat_env(char *env_var, t_list *env_list)
 	char	*parsed_name;
 	char	*val;
 
-	val = NULL;
 	parsed_name = parse_env_name_concat(env_var);
 	if (parsed_name == NULL)
 		return (1);
