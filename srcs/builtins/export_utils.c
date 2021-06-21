@@ -50,7 +50,6 @@ int	concat_env(char *env_var, t_list *env_list)
 	char	*val;
 
 	val = NULL;
-	parsed_name = NULL;
 	parsed_name = parse_env_name_concat(env_var);
 	if (parsed_name == NULL)
 		return (1);
@@ -58,6 +57,8 @@ int	concat_env(char *env_var, t_list *env_list)
 	if (env_node != NULL)
 	{
 		val = ((t_env *)env_node->content)->value;
+		if (val == NULL)
+			val = "";
 		((t_env *)env_node->content)->value = ft_strjoin(val,
 				ft_strchr(env_var, '=') + 1);
 		ft_free_ptr((void **)&parsed_name);
