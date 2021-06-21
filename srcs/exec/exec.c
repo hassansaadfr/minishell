@@ -8,14 +8,11 @@ static int	handle_returned_signal(int status, int pid, char *path)
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status) == TRUE)
 	{
-		if (WTERMSIG(status) == 11)
-		{
-			ft_putstr_fd("[1]\t", STDERR_FILENO);
-			ft_putstr_fd(ft_itoa(pid), STDERR_FILENO);
-			ft_putstr_fd(" segmentation fault (core dumped)  ", STDERR_FILENO);
-			ft_putendl_fd(path, STDERR_FILENO);
-			return (139);
-		}
+		sig = WTERMSIG(status);
+		if (sig == 0)
+			return (0);
+		print_sig_err(pid, sig, path);
+		return (128 + sig);
 	}
 	return (-1);
 }

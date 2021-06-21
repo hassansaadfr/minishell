@@ -8,6 +8,7 @@ void	signal_handling_register(void)
 
 void	sigint_handler(int signal_value)
 {
+	g_global.last_return = 130;
 	if (process_is_parent() == PARENT_PID)
 	{
 		kill(g_global.pid, signal_value);

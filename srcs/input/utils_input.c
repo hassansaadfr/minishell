@@ -26,6 +26,7 @@ struct termios orig_termios)
 	else if (c == ctrl_value('c'))
 	{
 		ft_putstr_fd("^C\n", STDERR_FILENO);
+		g_global.last_return = 130;
 		prompt();
 	}
 	else
