@@ -58,7 +58,8 @@ static void	restore_fd(t_redir_status *backup)
 	}
 }
 
-int	perform_execution(t_list *redirs, t_list *tokens, t_list *env_list, t_list *history)
+int	perform_execution(t_list *redirs, t_list *tokens, t_list *env_list,
+	t_list *history)
 {
 	int				ret_exec;
 	char			**cmds;
