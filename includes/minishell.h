@@ -122,7 +122,7 @@ int				perform_redirections(t_list *redirs);
 char			**token_list_to_array(t_list *token_list);
 int				search_bin(char **cmd, t_list *env_list);
 int				perform_execution(t_list *redirs, t_list *tokens,
-					t_list *env_list);
+					t_list *env_list, t_list *history);
 
 /*
 **	FILE - utils_mem_env.c
@@ -330,7 +330,8 @@ void			init_splitted_pipeline(t_pipeline *splitted_pipeline,
 int				count_pipes(t_list *pipeline);
 
 /*	FILE - pipe.c */
-int				execute_pipeline(t_list *pipeline, t_list *env_list);
+int				execute_pipeline(t_list *pipeline, t_list *env_list,
+					t_list *history);
 int				display_err_ret_err(char *problem_pos, char *err_msg, int err);
 
 /*	FILE - utils_fds.c */

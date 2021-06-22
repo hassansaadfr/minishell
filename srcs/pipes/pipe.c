@@ -43,7 +43,8 @@ void	assign_in_out_tbc(int cmd_count, int i, int *in_out_tbc, int *fds)
 	}
 }
 
-int	add_child_proc(t_pipeline one_pipe, int *in_out_tbc, t_list *env_list)
+int	add_child_proc(t_pipeline one_pipe, int *in_out_tbc, t_list *env_list,
+	t_list *hist)
 {
 	int		pid;
 	char	**cmd;
@@ -66,12 +67,13 @@ int	add_child_proc(t_pipeline one_pipe, int *in_out_tbc, t_list *env_list)
 		if (cmd == NULL || cmd[0] == NULL)
 			exit(0);
 		if (cmd && cmd[0])
-			one_pipe_exec(cmd, env_list, NULL);
+			one_pipe_exec(cmd, env_list, hist);
 	}
 	return (pid);
 }
 
-int	pipeline_execution(t_pipeline *cmds, t_list *env_list, int cmd_count)
+int	pipeline_execution(t_pipeline *cmds, t_list *env_list, int cmd_count,
+	t_list *hist)
 {
 	t_fds	p;
 
@@ -86,7 +88,7 @@ int	pipeline_execution(t_pipeline *cmds, t_list *env_list, int cmd_count)
 			return (return_err_msg("pipe", strerror(errno), 1));
 		}
 		assign_in_out_tbc(cmd_count, p.i, p.in_out_tbc, p.pipe_fds);
-		p.pids[p.i] = add_child_proc(cmds[p.i], p.in_out_tbc, env_list);
+		p.pids[p.i] = add_child_proc(cmds[p.i], p.in_out_tbc, env_list, hist);
 		close(p.in_out_tbc[IN]);
 		if (p.i < cmd_count - 1)
 			close(p.pipe_fds[1]);
@@ -99,7 +101,7 @@ int	pipeline_execution(t_pipeline *cmds, t_list *env_list, int cmd_count)
 	return (p.return_code);
 }
 
-int	execute_pipeline(t_list *pipeline, t_list *env_list)
+int	execute_pipeline(t_list *pipeline, t_list *env_list, t_list *history)
 {
 	int				cmd_count;
 	int				ret_exec;
@@ -113,7 +115,7 @@ int	execute_pipeline(t_list *pipeline, t_list *env_list)
 	split_pipeline(pipeline, pipes_arr);
 	expand_pipeline(pipes_arr, cmd_count, env_list);
 	error = 0;
-	ret_exec = pipeline_execution(pipes_arr, env_list, cmd_count);
+	ret_exec = pipeline_execution(pipes_arr, env_list, cmd_count, history);
 	free_splitted_pipeline(pipes_arr, cmd_count);
 	ft_free_ptr((void **)&pipes_arr);
 	return (ret_exec);

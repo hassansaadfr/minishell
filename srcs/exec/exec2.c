@@ -47,7 +47,7 @@ void	reformat(t_list *list)
 	}
 }
 
-int	execute_simple_cmd(t_list *tokens, t_list *env_list)
+int	execute_simple_cmd(t_list *tokens, t_list *env_list, t_list *history)
 {
 	t_list	*redirs;
 	char	**cmds;
@@ -60,7 +60,7 @@ int	execute_simple_cmd(t_list *tokens, t_list *env_list)
 		tokens = expand_args(&tokens, env_list);
 	if (redirs)
 		redirs = expand_redirs(&redirs, env_list);
-	ret = perform_execution(redirs, tokens, env_list);
+	ret = perform_execution(redirs, tokens, env_list, history);
 	return (ret);
 }
 
@@ -69,16 +69,15 @@ int	executing(t_list *tokens, t_list *env_list, t_list *history)
 	t_list	*indpdt_cmd;
 	int		ret_exec;
 
-	(void)history;
 	indpdt_cmd = NULL;
 	ret_exec = 0;
 	while (tokens)
 	{
 		indpdt_cmd = isolate_indpdt_cmd(&tokens);
 		if (is_pipeline(indpdt_cmd))
-			g_global.last_return = execute_pipeline(indpdt_cmd, env_list);
+			g_global.last_return = execute_pipeline(indpdt_cmd, env_list, history);
 		else
-			g_global.last_return = execute_simple_cmd(indpdt_cmd, env_list);
+			g_global.last_return = execute_simple_cmd(indpdt_cmd, env_list, history);
 	}
 	return (g_global.last_return);
 }

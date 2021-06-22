@@ -1,28 +1,5 @@
 #include "minishell.h"
 
-// static int	is_numeric(char *arg)
-// {
-// 	int		i;
-// 	char	*str;
-// 	int		out;
-
-// 	out = -1;
-// 	i = 0;
-// 	str = ft_strtrim(arg, " \t\n\r\v\f");
-// 	if (str[i] == '-' || str[i] == '+')
-// 		i++;
-// 	if (!str[i])
-// 		out = 0;
-// 	if (out == -1 && str[i] == '-')
-// 		out = 1;
-// 	while (out == -1 && ft_isdigit(str[i]))
-// 		i++;
-// 	if (out == -1 && str[i])
-// 		out = 0;
-// 	ft_free_ptr((void **)&str);
-// 	return (out);
-// }
-
 static int	code_is_valid(char *arg)
 {
 	int		i;
@@ -94,7 +71,7 @@ int	builtin_exit(char **argv, t_list *env_list)
 	if (isatty(STDIN_FILENO))
 		ft_putendl_fd("exit", STDERR_FILENO);
 	if (!*argv)
-		ft_exit_free(0);
+		ft_exit_free(g_global.last_return);
 	if (code_is_valid(*argv) == 2)
 	{
 		print_err("exit", *argv, get_err_msg(env_list, ARG_NUMERIC));

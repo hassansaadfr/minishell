@@ -58,7 +58,7 @@ static void	restore_fd(t_redir_status *backup)
 	}
 }
 
-int	perform_execution(t_list *redirs, t_list *tokens, t_list *env_list)
+int	perform_execution(t_list *redirs, t_list *tokens, t_list *env_list, t_list *history)
 {
 	int				ret_exec;
 	char			**cmds;
@@ -72,7 +72,7 @@ int	perform_execution(t_list *redirs, t_list *tokens, t_list *env_list)
 		cmds = token_list_to_array(tokens);
 		if (cmds)
 		{
-			ret_exec = execution(cmds, env_list, NULL);
+			ret_exec = execution(cmds, env_list, history);
 			free_split(cmds);
 		}
 	}
