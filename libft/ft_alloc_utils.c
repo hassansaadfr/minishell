@@ -48,7 +48,7 @@ void	*ft_alloc_mem(size_t size, int done, void **addr, int exit_code)
 		return (ft_free(&pointers, addr));
 	ptr = ft_malloc_err(size);
 	if (ptr == NULL)
-		exit_gracefully(&pointers, errno, 0);
+		exit_gracefully(&pointers, ENOMEM, 0);
 	else
 		ft_lstadd_back(&pointers, ft_lstnew_alloc(ptr, &pointers));
 	return (ptr);
